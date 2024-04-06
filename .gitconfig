@@ -1,0 +1,19 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = Alexander Bays
+	email = bays@956mb.com
+[push]
+	default = current
+[init]
+	defaultBranch = master
+[sendpack]
+	sideband = false
+[http]
+	lowSpeedLimit = 1000
+	lowSpeedTime = 20
+	postBuffer = 524288000
+	sslBackend = openssl

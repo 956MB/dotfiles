@@ -1,0 +1,102 @@
+#!/bin/zsh
+
+# Usage check
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 [--code | --text | --all] <repo-root-directory1> [<repo-root-directory2>] ..."
+    exit 1
+fi
+
+# File type argument
+FILE_TYPE_ARG="$1"
+shift # Remove the file type argument so only directories remain
+
+# Define function to append patterns to find command based on argument
+append_patterns() {
+    case "$1" in
+    --code)
+        echo "-name \"*.rs\" -o \
+-name \"*.cs\" -o \
+-name \"*.go\" -o \
+-name \"*.lua\" -o \
+-name \"*.vim\" -o \
+-name \"*.nvim\" -o \
+-name \"*.rb\" -o \
+-name \"*.sh\" -o \
+-name \"*.pl\" -o \
+-name \"*.c\" -o \
+-name \"*.h\" -o \
+-name \"*.cc\" -o \
+-name \"*.cpp\" -o \
+-name \"*.hpp\" -o \
+-name \"*.gem\" -o \
+-name \"*.swift\" -o \
+-name \"*.makefile\" -o \
+-name \"*.bat\" -o \
+-name \"*.js\" -o \
+-name \"*.jsx\" -o \
+-name \"*.ts\" -o \
+-name \"*.tsx\" -o \
+-name \"*.css\" -o \
+-name \"*.html\" -o \
+-name \"*.fnl\" -o \
+-name \"*.py\""
+        ;;
+    --text)
+        echo "-name \"*.gitignore\" -o \
+-name \"*.gitattributes\" -o \
+-name \"*.sql\" -o \
+-name \"*.csv\" -o \
+-name \"*.toml\" -o \
+-name \"*.json\" -o \
+-name \"*.yaml\" -o \
+-name \"*.yml\" -o \
+-name \"*.ini\" -o \
+-name \"*.txt\" -o \
+-name \"*.md\" -o \
+-name \"*.xml\" -o \
+-name \"*.rst\" -o \
+-name \"*.dockerfile\" -o \
+-name \"*.mdx\""
+        ;;
+    --all)
+        # Combine code and text patterns
+        append_patterns --code
+        echo "-o"
+        append_patterns --text
+        ;;
+    esac
+}
+
+# Loop through each directory
+for REPO_DIR in "$@"; do
+    REPO_NAME=$(basename "$REPO_DIR")
+    OUTPUT_FILE="${REPO_NAME}_${FILE_TYPE_ARG#--}_stringified.txt"
+
+    # Directory existence check
+    if [ ! -d "$REPO_DIR" ]; then
+        echo "Directory does not exist: $REPO_DIR"
+        continue
+    fi
+
+    # Reset the output file
+    >"$OUTPUT_FILE"
+
+    # Construct and execute the find command
+    FIND_CMD="find \"$REPO_DIR\" \\( $(append_patterns $FILE_TYPE_ARG) \\) -type f"
+    while IFS= read -r file; do
+        # Write file path relative to repo directory
+        echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
+
+        # Begin file content marker
+        echo "BEGIN FILE CONTENT" >>"$OUTPUT_FILE"
+
+        # Append file content
+        cat "$file" >>"$OUTPUT_FILE"
+
+        # End file content marker
+        echo "END FILE CONTENT" >>"$OUTPUT_FILE"
+        echo "" >>"$OUTPUT_FILE" # Separator for readability
+    done < <(eval $FIND_CMD)
+
+    echo "Repository $REPO_DIR has been stringified to $OUTPUT_FILE"
+done

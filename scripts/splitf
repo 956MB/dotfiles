@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+# Initialize variables
+num_parts=0
+file_to_split=""
+
+# Parse arguments
+for arg in "$@"; do
+    if [[ $arg == --parts=* ]]; then
+        num_parts="${arg#*=}"
+    else
+        file_to_split="$arg"
+    fi
+done
+
+# Validate inputs
+if [[ -z "$file_to_split" ]] || [[ "$num_parts" -eq 0 ]]; then
+    echo "Usage: $0 --parts=NUMBER FILE"
+    exit 1
+fi
+
+# Check if file exists
+if [ ! -f "$file_to_split" ]; then
+    echo "File does not exist: $file_to_split"
+    exit 2
+fi
+
+# Calculate the size of the original file in bytes
+file_size=$(wc -c <"$file_to_split" | tr -d ' ')
+
+# Calculate the size of each part
+part_size=$(((file_size + num_parts - 1) / num_parts))
+
+# Split the file name and extension
+filename="${file_to_split%.*}"
+extension="${file_to_split##*.}"
+
+# Split the file into parts of calculated size
+prefix="${filename}_"
+split -b "$part_size" -a 1 -d "$file_to_split" "$prefix"
+
+# Rename files to move part numbers before the extension and start numbering from 1
+a=1
+for file in "${prefix}"*; do
+    if [[ "$file" != *"."* ]]; then
+        new_name="${filename}_${a}.${extension}"
+    else
+        new_name="${filename}_${a}${file#$filename}"
+    fi
+    mv "$file" "$new_name"
+    ((a++))
+done
+
+echo "File $file_to_split has been split into $num_parts parts."

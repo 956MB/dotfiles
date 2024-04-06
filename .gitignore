@@ -1,0 +1,8 @@
+ssh/id_ed25519.pub
+ssh/id_ed25519
+ssh/known_hosts
+ssh/known_hosts.old
+
+.DS_Store
+
+zsh/plugins/*

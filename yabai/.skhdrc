@@ -1,0 +1,51 @@
+# Focus navigation:
+#
+shift + alt - left : yabai -m window --focus prev
+shift + alt - right : yabai -m window --focus next
+
+# Navigate spaces left/right instantly
+#
+cmd + shift + [: yabai -m space --focus prev        # move left
+cmd + shift + ]: yabai -m space --focus next        # move right
+
+# Window swap:
+#
+ctrl + shift - left : yabai -m window --swap prev
+ctrl + shift - right : yabai -m window --swap next
+
+
+# Expand panes:
+#
+ctrl + alt - left : yabai -m window --resize left:-50:0
+ctrl + alt - right : yabai -m window --resize right:50:0
+ctrl + alt - up : yabai -m window --resize top:0:-50
+ctrl + alt - down : yabai -m window --resize bottom:0:50
+
+# Sets
+#
+ctrl + shift - 0 : yabai -m window --set reset_border_color
+ctrl + shift - 1 : yabai -m window --set set_border_red
+ctrl + shift - 2 : yabai -m window --set set_border_orange
+ctrl + shift - 3 : yabai -m window --set set_border_yellow
+ctrl + shift - 4 : yabai -m window --set set_border_green
+ctrl + shift - 5 : yabai -m window --set set_border_blue
+ctrl + shift - 6 : yabai -m window --set set_border_pink
+ctrl + shift - 7 : yabai -m window --set set_border_purple
+ctrl + shift - 8 : yabai -m window --set set_border_white
+
+# Cycles
+#
+ctrl + shift - u : yabai -m window --cycle cycle_border_color
+
+# Toggles:
+#
+ctrl + shift - b : yabai -m window --toggle border
+ctrl + shift - a : yabai -m window --toggle all_border
+ctrl + shift - l : yabai -m window --toggle float
+ctrl + shift - s : yabai -m window --toggle sticky
+ctrl + shift - r : yabai -m window --toggle border_randomize
+ctrl + shift - h : yabai -m window --toggle border_show_state
+ctrl + shift - t : yabai -m window --toggle border_tiled_only
+ctrl + shift - f : yabai -m window --toggle border_float_only
+ctrl + shift - g : yabai -m space --toggle padding;\
+                   yabai -m space --toggle gap
