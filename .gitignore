@@ -6,3 +6,4 @@ ssh/known_hosts.old
 .DS_Store
 
 zsh/plugins/*
+lazygit/state.yml

@@ -10,6 +10,7 @@ local opt = vim.opt
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 
+opt.swapfile = false
 opt.list = false
 
 opt.number = true

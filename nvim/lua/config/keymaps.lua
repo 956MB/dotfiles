@@ -1,14 +1,9 @@
 local utils = require 'config.utils'
 
 local function map(mode, lhs, rhs, opts)
-    local keys = require('lazy.core.handler').handlers.keys
-    -- -@cast keys LazyKeysHandler
-    -- do not create the keymap if a lazy keys handler exists
-    if not keys.active[keys.parse({ lhs, mode = mode }).id] then
-        opts = opts or {}
-        opts.silent = opts.silent ~= false
-        vim.keymap.set(mode, lhs, rhs, opts)
-    end
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 -- [[ Basic Keymaps ]]
@@ -38,9 +33,9 @@ map('n', '<C-i>', '<C-o>', { desc = 'Jump forward' })
 map('n', 'h', '0', { desc = 'Beginning of line' })
 map('n', 'l', '$', { desc = 'End of line' })
 
--- Map Ctrl + s to escape from insert mode and write ":w"
+-- Ctrl+s to save
 map('i', '<C-s>', '<ESC>:w<CR>', { desc = '[S]ave' })
-map('n', '<C-s>', ':w<CR>', { desc = '[S]save' })
+map('n', '<C-s>', ':w<CR>', { desc = '[S]ave' })
 
 -- Remap tab and shift+tab for indenting
 map('n', '<Tab>', ':><CR>', { desc = '[T]ab forward (4, Normal)' })
@@ -60,35 +55,16 @@ map('i', '<C-Right>', '<C-o>w', { desc = 'Subword navigate right (insert mode)' 
 -- Source the Neovim configuration file
 map('n', '<leader>rr', ':luafile $HOME/dotfiles/nvim/init.lua<CR>', { desc = 'Reload Neovim configuration' })
 
--- Map the Up key to move the cursor to the beginning of the line on the first line (Normal mode)
-map('n', '<Up>', function()
-    vim.cmd 'normal! k' -- Move up one line
-    vim.cmd 'lua require("config.utils").move_cursor_to_line_edge()'
-end, { desc = 'Up & beginning of line' })
-
--- Map the Down key to move the cursor to the end of the line on the last line (Normal mode)
-map('n', '<Down>', function()
-    vim.cmd 'normal! j' -- Move down one line
-    vim.cmd 'lua require("config.utils").move_cursor_to_line_edge()'
-end, { desc = 'Down & end of line' })
-
--- Map the Up key to move the cursor to the beginning of the line on the first line (Insert mode)
-map('i', '<Up>', function()
-    vim.cmd 'normal! <C-o>k' -- Move up one line (with <C-o> to temporary enter Normal mode)
-    vim.cmd 'lua require("config.utils").move_cursor_to_line_edge()'
-    vim.cmd 'startinsert' -- Return to Insert mode
-end, { desc = 'Up & beginning of line' })
-
--- Map the Down key to move the cursor to the end of the line on the last line (Insert mode)
-map('i', '<Down>', function()
-    vim.cmd 'normal! <C-o>j' -- Move down one line (with <C-o> to temporary enter Normal mode)
-    vim.cmd 'lua require("config.utils").move_cursor_to_line_edge()'
-    vim.cmd 'startinsert' -- Return to Insert mode
-end, { desc = 'Down & end of line' })
-
 -- Write Quit
-map('n', '<leader>wq', ':wq<CR>', { desc = 'Write [Q]uit All' })
-map('n', '<leader>qq', ':qq<CR>', { desc = 'Write [Q]uit All' })
+map('n', '<leader>wq', function()
+    utils.close_neo_tree() -- Close Neo-tree first
+    vim.cmd 'wq' -- Then write and quit
+end, { desc = '[W]rite and [Q]uit' })
+
+map('n', '<leader>qq', function()
+    utils.close_neo_tree() -- Close Neo-tree first
+    vim.cmd 'qa' -- Then quit all
+end, { desc = '[Q]uit All' })
 
 -- Undo/Redo: 'u' >> 'ctrl+z', 'ctrl+r' >> 'shift+ctrl+z'
 map('n', 'u', '<Nop>')
@@ -105,10 +81,6 @@ map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic messa
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })

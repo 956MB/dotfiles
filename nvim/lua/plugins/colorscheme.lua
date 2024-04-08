@@ -1,12 +1,14 @@
+-- Fix bugged git change symbol
+local function override_highlights()
+    vim.api.nvim_set_hl(0, 'GitSignsChange', { bg = 'none', fg = '#E48256' })
+end
+
 return {
-    { -- color scheme
+    { -- Color scheme
         'ntk148v/habamax.nvim',
-        -- 'nyoom-engineering/oxocarbon.nvim',
-        -- 'loctvl842/monokai-pro.nvim',
-        -- config = function()
-        --     require('habamax').setup {
-        --         transparent_background = true,
-        --     }
-        -- end,
+        priority = 1000,
+        config = function()
+            override_highlights() -- Call the highlight override function
+        end,
     },
 }

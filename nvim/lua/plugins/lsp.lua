@@ -151,7 +151,7 @@ return {
 
             local servers = {
                 rust_analyzer = {},
-                -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+                gopls = {},
                 tsserver = {},
                 sourcekit_lsp = {
                     root_dir = require('lspconfig').util.root_pattern(
@@ -189,6 +189,7 @@ return {
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
+                'gopls',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -201,6 +202,13 @@ return {
                     end,
                 },
             }
+        end,
+    },
+
+    {
+        'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
+        config = function()
+            require('toggle_lsp_diagnostics').init()
         end,
     },
 }

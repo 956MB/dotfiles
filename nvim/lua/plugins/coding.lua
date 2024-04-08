@@ -71,6 +71,18 @@ return {
         end,
     },
 
+    {
+        'Vonr/align.nvim',
+        branch = 'v2',
+        init = function()
+            vim.keymap.set('x', 'aa', function()
+                require('align').align_to_char {
+                    length = 1,
+                }
+            end, { noremap = true, silent = true })
+        end,
+    },
+
     { -- Multi cusor editing
         'smoka7/multicursors.nvim',
         event = 'VeryLazy',

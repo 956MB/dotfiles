@@ -68,4 +68,10 @@ function M.move_cursor_to_line_edge()
     end
 end
 
+function M.close_neo_tree()
+    if package.loaded['neo-tree'] then
+        require('neo-tree.command').execute { toggle = true }
+    end
+end
+
 return M
