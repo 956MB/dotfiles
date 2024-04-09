@@ -19,15 +19,18 @@ return {
     -- See `:help gitsigns` to understand what the configuration keys do
     { -- Adds git related signs to the gutter, as well as utilities for managing changes
         'lewis6991/gitsigns.nvim',
-        opts = {
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-        },
+        config = function()
+            require('gitsigns').setup {
+                signs = {
+                    add = { text = '+' },
+                    change = { text = '~' },
+                    delete = { text = '_' },
+                    topdelete = { text = '‾' },
+                    changedelete = { text = '~' },
+                },
+            }
+            require('scrollbar.handlers.gitsigns').setup()
+        end,
     },
 
     { -- Useful plugin to show you pending keybinds.
@@ -44,6 +47,14 @@ return {
                 ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
                 ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
             }
+        end,
+    },
+
+    {
+        'petertriho/nvim-scrollbar',
+        dependencies = { 'lewis6991/gitsigns.nvim' },
+        config = function()
+            require('scrollbar').setup()
         end,
     },
 

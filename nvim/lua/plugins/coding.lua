@@ -14,18 +14,21 @@ return {
         },
         opts = {
             notify_on_error = false,
-            -- format_on_save = function(bufnr)
-            --     -- Disable "format_on_save lsp_fallback" for languages that don't
-            --     -- have a well standardized coding style. You can add additional
-            --     -- languages here or re-enable it for the disabled ones.
-            --     local disable_filetypes = { c = true, cpp = true }
-            --     return {
-            --         timeout_ms = 500,
-            --         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-            --     }
-            -- end,
+            format_on_save = function(bufnr)
+                -- Disable "format_on_save lsp_fallback" for languages that don't
+                -- have a well standardized coding style. You can add additional
+                -- languages here or re-enable it for the disabled ones.
+                local disable_filetypes = { c = true, cpp = true }
+                return {
+                    timeout_ms = 500,
+                    lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+                }
+            end,
             formatters_by_ft = {
                 lua = { 'stylua' },
+                go = { 'goimports', 'gofmt' },
+                javascript = { { 'prettierd', 'prettier' } },
+                python = { 'isort', 'black' },
             },
         },
     },
@@ -81,6 +84,44 @@ return {
                 }
             end, { noremap = true, silent = true })
         end,
+    },
+
+    {
+        'folke/trouble.nvim',
+        branch = 'dev',
+        keys = {
+            {
+                '<leader>xx',
+                '<cmd>Trouble diagnostics toggle<cr>',
+                desc = 'Diagnostics (Trouble)',
+            },
+            {
+                '<leader>xX',
+                '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+                desc = 'Buffer Diagnostics (Trouble)',
+            },
+            {
+                '<leader>cs',
+                '<cmd>Trouble symbols toggle focus=false<cr>',
+                desc = 'Symbols (Trouble)',
+            },
+            {
+                '<leader>cl',
+                '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+                desc = 'LSP Definitions / references / ... (Trouble)',
+            },
+            {
+                '<leader>xL',
+                '<cmd>Trouble loclist toggle<cr>',
+                desc = 'Location List (Trouble)',
+            },
+            {
+                '<leader>xQ',
+                '<cmd>Trouble qflist toggle<cr>',
+                desc = 'Quickfix List (Trouble)',
+            },
+        },
+        opts = {},
     },
 
     { -- Multi cusor editing
