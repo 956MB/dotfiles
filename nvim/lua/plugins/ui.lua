@@ -6,11 +6,6 @@ return {
         end,
     },
 
-    { -- Disable noice Cmdline
-        'folke/noice.nvim',
-        enabled = false,
-    },
-
     { -- Lualine
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
