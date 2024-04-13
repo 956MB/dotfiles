@@ -8,9 +8,7 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Add these pluins later ]]
--- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
 -- https://github.com/dnlhc/glance.nvim
--- https://github.com/nvim-pack/nvim-spectre
 
 require('lazy').setup {
     spec = {

@@ -50,6 +50,11 @@ return {
         end,
     },
 
+    { -- Find and replace text
+        'nvim-pack/nvim-spectre',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+
     { -- Add a scrollbar to Neovim (With gitsigns)
         'petertriho/nvim-scrollbar',
         dependencies = { 'lewis6991/gitsigns.nvim' },

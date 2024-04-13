@@ -85,6 +85,9 @@ map('n', '<C-4>', function()
     harpoon:list():select(4)
 end, { desc = '[S]elect Harpoon (4)' })
 
+-- Spectre
+map('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', { desc = '[S]pectre Toggle' })
+
 -- Map left/right subword navigation to ctrl+left / ctrl+right
 map('n', '<C-Left>', 'b', { desc = 'Subword navigate left' })
 map('n', '<C-Right>', 'w', { desc = 'Subword navigate right' })
