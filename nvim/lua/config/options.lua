@@ -17,7 +17,7 @@ opt.number = true
 opt.relativenumber = true
 
 opt.mouse = 'a'
-
+opt.conceallevel = 2
 opt.showmode = false
 
 opt.clipboard = 'unnamedplus'

@@ -14,16 +14,16 @@ return {
         },
         opts = {
             notify_on_error = false,
-            format_on_save = function(bufnr)
-                -- Disable "format_on_save lsp_fallback" for languages that don't
-                -- have a well standardized coding style. You can add additional
-                -- languages here or re-enable it for the disabled ones.
-                local disable_filetypes = { c = true, cpp = true }
-                return {
-                    timeout_ms = 500,
-                    lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-                }
-            end,
+            -- format_on_save = function(bufnr)
+            --     -- Disable "format_on_save lsp_fallback" for languages that don't
+            --     -- have a well standardized coding style. You can add additional
+            --     -- languages here or re-enable it for the disabled ones.
+            --     local disable_filetypes = { c = true, cpp = true }
+            --     return {
+            --         timeout_ms = 500,
+            --         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+            --     }
+            -- end,
             formatters_by_ft = {
                 lua = { 'stylua' },
                 go = { 'goimports', 'gofmt' },
@@ -31,6 +31,12 @@ return {
                 python = { 'isort', 'black' },
             },
         },
+    },
+
+    { -- Back/forward navigation
+        'ThePrimeagen/harpoon',
+        branch = 'harpoon2',
+        dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
     { -- Collection of various small independent plugins/modules
@@ -74,7 +80,7 @@ return {
         end,
     },
 
-    {
+    { -- Align text
         'Vonr/align.nvim',
         branch = 'v2',
         init = function()
@@ -86,7 +92,7 @@ return {
         end,
     },
 
-    {
+    { -- View diagnostics (errors, warnings, etc.)
         'folke/trouble.nvim',
         branch = 'dev',
         keys = {

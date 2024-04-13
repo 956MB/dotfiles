@@ -1,4 +1,7 @@
 local utils = require 'config.utils'
+local harpoon = require 'harpoon'
+
+harpoon:setup()
 
 local function map(mode, lhs, rhs, opts)
     opts = opts or {}
@@ -29,13 +32,9 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('n', '<C-o>', '<C-i>', { desc = 'Jump backward' })
 map('n', '<C-i>', '<C-o>', { desc = 'Jump forward' })
 
--- Remap jump to beginnging and end of line to < and >
-map('n', 'h', '0', { desc = 'Beginning of line' })
-map('n', 'l', '$', { desc = 'End of line' })
-
 -- Ctrl+s to save
 map('i', '<C-s>', '<ESC>:w<CR>', { desc = '[S]ave' })
-map('n', '<C-s>', ':w<CR>', { desc = '[S]ave' })
+map('n', '<C-s>', ':w<CR>', { desc = '[S]save' })
 
 -- Remap tab and shift+tab for indenting
 map('n', '<Tab>', ':><CR>', { desc = '[T]ab forward (4, Normal)' })
@@ -45,6 +44,49 @@ map('x', '<S-Tab>', '<gv', { desc = '[T]ab backward (4, Visual)' })
 
 -- Remap line delete to ctrl+x
 map('n', '<C-x>', 'dd', { desc = '[D]elete Line' })
+
+-- OIL
+map('n', '`', '<CMD>Oil<CR>', { desc = 'OIL' })
+
+-- Obsidian
+map('n', '<leader>oc', '<cmd>lua require("obsidian").util.toggle_checkbox()<CR>', { desc = '[O]bsidian toggle [c]heckbox' })
+map('n', '<leader>ot', '<cmd>ObsidianTemplate<CR>', { desc = 'Insert [O]bsidian [T]emplate' })
+map('n', '<leader>ob', '<cmd>ObsidianBacklinks<CR>', { desc = 'Show [O]bsidian [B]acklinks' })
+map('n', '<leader>oo', '<cmd>ObsidianOpen<CR>', { desc = '[O]pen in [O]bsidian App' })
+map('n', '<leader>os', '<cmd>ObsidianSearch<CR>', { desc = '[O]bsidian [S]earch' })
+map('n', '<leader>on', '<cmd>ObsidianNew<CR>', { desc = '[O]bsidian [N]ew Note' })
+map('n', '<leader>od', '<cmd>ObsidianDelete<CR>', { desc = '[O]bsidian [D]elete Note' })
+map('n', '<leader>op', '<cmd>ObsidianPreview<CR>', { desc = '[O]bsidian [P]review' })
+map('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<CR>', { desc = '[O]bsidian [Q]uick Switch' })
+map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = '[O]bsidian Show [L]inks' })
+
+-- Harpoon
+-- NOTE: Next/Previous broken? Or my kebinds just don't work? Fix later
+-- Toggle previous & next buffers stored within Harpoon list
+-- vim.keymap.set('n', '<C-S-L>', function()
+--     harpoon:list():prev()
+-- end, { desc = '[P]revious Harpoon Buffer' })
+-- vim.keymap.set('n', '<C-S-P>', function()
+--     harpoon:list():next()
+-- end, { desc = '[N]ext Harpoon Buffer' })
+vim.keymap.set('n', '<leader>a', function()
+    harpoon:list():add()
+end, { desc = '[A]dd [F]ile to Harpoon' })
+vim.keymap.set('n', '<C-e>', function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { desc = 'Toggle Harpoon [E]xplorer' })
+vim.keymap.set('n', '<C-1>', function()
+    harpoon:list():select(1)
+end, { desc = '[S]elect Harpoon (1)' })
+vim.keymap.set('n', '<C-2>', function()
+    harpoon:list():select(2)
+end, { desc = '[S]elect Harpoon (2)' })
+vim.keymap.set('n', '<C-3>', function()
+    harpoon:list():select(3)
+end, { desc = '[S]elect Harpoon (3)' })
+vim.keymap.set('n', '<C-4>', function()
+    harpoon:list():select(4)
+end, { desc = '[S]elect Harpoon (4)' })
 
 -- Map left/right subword navigation to ctrl+left / ctrl+right
 map('n', '<C-Left>', 'b', { desc = 'Subword navigate left' })
@@ -67,10 +109,9 @@ map('n', '<leader>qq', function()
 end, { desc = '[Q]uit All' })
 
 -- Undo/Redo: 'u' >> 'ctrl+z', 'ctrl+r' >> 'shift+ctrl+z'
-map('n', 'u', '<Nop>')
 map('n', '<C-Z>', ':undo<CR>', { desc = 'Undo (Normal)' })
 map('i', '<C-Z>', '<ESC>:undo<CR>a', { desc = 'Undo (Insert)' })
-map('n', '<C-R>', '<Nop>')
+map('n', 'r', ':redo<CR>', { desc = 'Redo (Normal)' })
 map('n', '<S-C-Z>', ':redo<CR>', { desc = 'Redo (Normal)' })
 map('i', '<S-C-Z>', '<ESC>:redo<CR>', { desc = 'Redo (Insert)' })
 map('n', '<leader>u', '<cmd>Telescope undo<cr>', { desc = 'Undo (Telescope)' })

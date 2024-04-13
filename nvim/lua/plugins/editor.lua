@@ -50,7 +50,7 @@ return {
         end,
     },
 
-    {
+    { -- Add a scrollbar to Neovim (With gitsigns)
         'petertriho/nvim-scrollbar',
         dependencies = { 'lewis6991/gitsigns.nvim' },
         config = function()

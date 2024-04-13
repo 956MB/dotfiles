@@ -1,4 +1,36 @@
 return {
+    { -- Fixing gx with OIL
+        'chrishrb/gx.nvim',
+        keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'v' } } },
+        cmd = { 'Browse' },
+        init = function()
+            vim.g.netrw_nogx = 1 -- disable netrw gx
+        end,
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+        },
+        config = true,
+        submodules = false,
+    },
+
+    { -- OIL
+        'stevearc/oil.nvim',
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons' },
+        },
+        config = function()
+            require('oil').setup {
+                default_file_explorer = true,
+                keymaps = {
+                    ['<BS>'] = 'actions.parent', -- changed to backspace
+                },
+                view_options = {
+                    show_hidden = true,
+                },
+            }
+        end,
+    },
+
     { -- IDE like file tree
         'nvim-neo-tree/neo-tree.nvim',
         keys = function()
