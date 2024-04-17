@@ -153,7 +153,8 @@ return {
                 rust_analyzer = {},
                 gopls = {},
                 tsserver = {},
-                sourcekit_lsp = {
+                sourcekit = {
+                    filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
                     root_dir = require('lspconfig').util.root_pattern(
                         'buildServer.json',
                         '*.xcodeproj',
@@ -163,11 +164,12 @@ return {
                         'Package.swift'
                     ),
                     cmd = {
-                        '/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
-                        -- '/usr/bin/sourcekit-lsp',
+                        -- '/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
+                        '/usr/bin/sourcekit-lsp',
                     },
-                    filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
-                    name = 'sourcekit-lsp',
+                    capabilities = {
+                        require('cmp_nvim_lsp').default_capabilities(),
+                    },
                 },
                 lua_ls = {
                     settings = {
