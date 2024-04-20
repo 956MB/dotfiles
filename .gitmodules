@@ -1,0 +1,3 @@
+[submodule "nvim/lua/plugins/custom/ncks.nvim"]
+	path = nvim/lua/plugins/custom/ncks.nvim
+	url = https://github.com/956MB/ncks.nvim

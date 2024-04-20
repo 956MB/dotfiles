@@ -5,7 +5,7 @@ end
 
 return {
     { -- Color scheme
-        'ntk148v/habamax.nvim',
+        'nt148v/habamax.nvim', -- nt148v/habamax.nvim, nyoom-engineering/oxocarbon.nvim
         priority = 1000,
         config = function()
             override_highlights() -- Call the highlight override function
