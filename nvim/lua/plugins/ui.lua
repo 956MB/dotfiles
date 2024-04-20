@@ -21,7 +21,7 @@ return {
         opts = function(_, opts)
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
-                    icon = '▎', -- this should be omitted if indicator style is not 'icon'
+                    icon = '┃', -- this should be omitted if indicator style is not 'icon'
                     style = 'icon',
                 },
             })

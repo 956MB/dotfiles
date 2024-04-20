@@ -14,7 +14,7 @@ gui:
         - green
         - bold
         inactiveBorderColor:
-        - white
+        - default  
         searchingActiveBorderColor:
         - cyan
         - bold
