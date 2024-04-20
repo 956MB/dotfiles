@@ -26,4 +26,52 @@ return {
             mappings = {},
         },
     },
+
+    { -- Nicknames
+        '956MB/ncks.nvim',
+        config = function()
+            local ncks = require 'ncks'
+            ncks.setup {}
+
+            local function toggle_telescope(ncks_contents)
+                local function handle_input(prompt_bufnr)
+                    local entry = require('telescope.actions.state').get_current_line()
+                    if entry and entry ~= '' then
+                        require('telescope.actions').close(prompt_bufnr)
+                        ncks.write_nck(entry)
+                    end
+                end
+
+                require('telescope.pickers')
+                    .new({
+                        prompt_title = ncks.config.prompt_title,
+                        results_title = ncks.config.location,
+                        finder = require('telescope.finders').new_table {
+                            results = ncks_contents,
+                            entry_maker = function(entry)
+                                return {
+                                    value = entry,
+                                    display = entry,
+                                    ordinal = entry,
+                                }
+                            end,
+                        },
+                        layout_config = ncks.config.layout_config,
+                        sorting_strategy = 'ascending',
+                        attach_mappings = function(prompt_bufnr, map)
+                            map('i', '<CR>', function()
+                                handle_input(prompt_bufnr)
+                            end)
+                            map('n', '<CR>', function() end)
+                            return true
+                        end,
+                    }, {})
+                    :find()
+            end
+
+            vim.keymap.set('n', '<leader>nn', function()
+                toggle_telescope(ncks.list())
+            end, { desc = 'Add [N]ew [N]ick (Telescope)' })
+        end,
+    },
 }

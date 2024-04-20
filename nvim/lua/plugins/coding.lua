@@ -59,6 +59,17 @@ return {
         end,
     },
 
+    { -- Indentation scope animation NONE
+        'echasnovski/mini.indentscope',
+        event = 'LazyFile',
+        opts = function(_, opts)
+            opts.draw = {
+                delay = 0,
+                animation = require('mini.indentscope').gen_animation.none(),
+            }
+        end,
+    },
+
     { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',

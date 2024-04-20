@@ -46,10 +46,17 @@ return {
                 return ' ' .. vim.g.xcodebuild_device_name
             end
 
+            -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
+            local insert_fix = require 'lualine.themes.github_dark_colorblind'
+            insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
+            insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
+            insert_fix.insert.b.fg = '#01B511' -- middle fg (2)
+            insert_fix.insert.c.fg = '#0B8F23' -- inner fg (3)
+
             lualine.setup {
                 options = {
                     icons_enabled = true,
-                    theme = 'auto',
+                    theme = insert_fix,
                     component_separators = { left = '', right = '' },
                     section_separators = { left = '', right = '' },
                     disabled_filetypes = {
@@ -66,9 +73,9 @@ return {
                     },
                 },
                 sections = {
-                    lualine_a = { 'mode' },
-                    lualine_b = { 'branch', 'diff', 'diagnostics' },
-                    lualine_c = { 'filename' },
+                    lualine_a = { 'mode' }, -- (1)
+                    lualine_b = { 'branch', 'diff', 'diagnostics' }, -- (2)
+                    lualine_c = { 'filename' }, -- (3)
                     lualine_x = {
                         { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
                         -- { "'󰙨 ' .. vim.g.xcodebuild_test_plan", color = { fg = "#a6e3a1", bg = "#161622" } },

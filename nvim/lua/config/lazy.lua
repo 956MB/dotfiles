@@ -24,7 +24,7 @@ require('lazy').setup {
         version = false, -- always use the latest git commit
         -- version = "*", -- try installing the latest stable version for plugins that support semver
     },
-    install = { colorscheme = { 'habamax' } }, -- habamax, oxocarbon
+    install = { colorscheme = { 'github_dark_colorblind' } }, -- habamax, oxocarbon, github_dark_colorblind
     checker = { enabled = false }, -- automatically check for plugin updates
 }
 

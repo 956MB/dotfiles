@@ -119,6 +119,12 @@ map('n', '<leader>xq', '<cmd>Telescope quickfix<cr>', { desc = 'Show QuickFix Li
 map('n', '<leader>xx', '<cmd>XcodebuildQuickfixLine<cr>', { desc = 'Quickfix Line' })
 map('n', '<leader>xa', '<cmd>XcodebuildCodeActions<cr>', { desc = 'Show Code Actions' })
 
+-- ncks.nvim
+map('n', '<leader>no', '<cmd>NcksOpen<cr>', { desc = '[O]pen [N]cks file' })
+map('n', '<leader>nl', '<cmd>NcksList<cr>', { desc = '[L]ist [N]cks files' })
+map('n', '<leader>nr', '<cmd>NcksRandom<cr>', { desc = 'Pick [R]andom [N]ick from file' })
+map('n', '<leader>ni', '<cmd>NcksInfo<cr>', { desc = 'Show [N]icks file [I]nfo' })
+
 -- Spectre
 map('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', { desc = '[S]pectre Toggle' })
 
