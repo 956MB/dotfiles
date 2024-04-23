@@ -35,8 +35,8 @@ return {
             local builtin = require 'telescope.builtin'
             local previewers = require 'telescope.previewers'
             local sorters = require 'telescope.sorters'
-            local harpoon = require 'harpoon'
 
+            local harpoon = require 'harpoon'
             harpoon:setup {}
 
             -- [[ Configure Telescope ]]

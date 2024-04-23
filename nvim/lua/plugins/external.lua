@@ -73,10 +73,9 @@ return {
             end
 
             vim.keymap.set('n', '<leader>nn', function()
-                local exist, contents = ncks.list()
-                if exist then
-                    toggle_telescope(contents)
-                end
+                ncks.exists(function(_)
+                    toggle_telescope(ncks.list())
+                end)
             end, { desc = 'Add [N]ew [N]ick (Telescope)' })
         end,
     },
