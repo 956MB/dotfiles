@@ -67,9 +67,7 @@ alias skstop='skhd --stop-service'
 
 #### Neovim Summary
 
-Neovim: [v0.9.5](https://github.com/neovim/neovim)
-LazyVim: [v10.22.0](https://github.com/LazyVim/LazyVim)
-Colorscheme: ['github_dark_colorblind'](https://github.com/projekt0n/github-nvim-theme)
+Neovim: [v0.9.5](https://github.com/neovim/neovim) · LazyVim: [v10.22.0](https://github.com/LazyVim/LazyVim) · Colorscheme: [github_dark_colorblind](https://github.com/projekt0n/github-nvim-theme)
 
 [nvim](./nvim/)
 
