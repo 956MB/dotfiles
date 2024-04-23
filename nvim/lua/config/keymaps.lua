@@ -123,6 +123,7 @@ map('n', '<leader>xa', '<cmd>XcodebuildCodeActions<cr>', { desc = 'Show Code Act
 map('n', '<leader>no', '<cmd>NcksOpen<cr>', { desc = '[O]pen [N]cks file' })
 map('n', '<leader>nl', '<cmd>NcksList<cr>', { desc = '[L]ist [N]cks files' })
 map('n', '<leader>nr', '<cmd>NcksRandom<cr>', { desc = 'Pick [R]andom [N]ick from file' })
+map('n', '<leader>nc', '<cmd>NcksCopyAll<cr>', { desc = '[C]opy all [N]icknames from file to clipboard' })
 map('n', '<leader>ni', '<cmd>NcksInfo<cr>', { desc = 'Show [N]icks file [I]nfo' })
 
 -- Spectre
