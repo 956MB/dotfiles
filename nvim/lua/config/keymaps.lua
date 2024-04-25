@@ -1,6 +1,7 @@
 local harpoon = require 'harpoon'
-
 harpoon:setup()
+
+local utils = require 'config.utils'
 
 local function map(mode, lhs, rhs, opts)
     opts = opts or {}
@@ -100,6 +101,18 @@ map('n', '<leader>6', '<cmd>BufferLineGoToBuffer 6<CR>', { desc = 'Go to buffer 
 map('n', '<leader>7', '<cmd>BufferLineGoToBuffer 7<CR>', { desc = 'Go to buffer 7' })
 map('n', '<leader>8', '<cmd>BufferLineGoToBuffer 8<CR>', { desc = 'Go to buffer 8' })
 map('n', '<leader>9', '<cmd>BufferLineGoToBuffer 9<CR>', { desc = 'Go to buffer 9' })
+
+-- Split navigation
+map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
+map('n', '<C-j>', '<C-w>k', { noremap = true, desc = 'Move focus to the split above' })
+map('n', '<C-k>', '<C-w>j', { noremap = true, desc = 'Move focus to the split below' })
+map('n', '<C-S-k>', '<C-w>l', { noremap = true, desc = 'Move focus to the split on the right' })
+vim.keymap.set('n', '<C-S-j>', function()
+    utils.scale_split '-1'
+end, { noremap = true, desc = 'Scale the current split by -1' })
+vim.keymap.set('n', '<C-S-k>', function()
+    utils.scale_split '+1'
+end, { noremap = true, desc = 'Scale the current split by +1' })
 
 -- Xcodebuild / sourcekit-lsp
 map('n', '<leader>X', '<cmd>XcodebuildPicker<cr>', { desc = 'Show Xcodebuild Actions' })

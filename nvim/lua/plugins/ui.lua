@@ -78,10 +78,9 @@ return {
                     lualine_c = { 'filename' }, -- (3)
                     lualine_x = {
                         { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
-                        -- { "'󰙨 ' .. vim.g.xcodebuild_test_plan", color = { fg = "#a6e3a1", bg = "#161622" } },
                         { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
                         'encoding',
-                        'fileformat',
+                        { 'fileformat', symbols = { unix = '' } },
                         'filetype',
                     },
                     lualine_y = { 'progress' },
@@ -103,29 +102,125 @@ return {
         end,
     },
 
+    { 'nvimdev/dashboard-nvim', optional = true, enabled = false },
+    { 'echasnovski/mini.starter', optional = true, enabled = false },
+    {
+        'folke/persistence.nvim',
+        opts = { autoload = false },
+    },
+
     { -- Dashboard
-        'nvimdev/dashboard-nvim',
-        opts = function(_, opts)
+        'goolord/alpha-nvim',
+        event = 'VimEnter',
+        enabled = true,
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        init = false,
+        opts = function()
+            local dashboard = require 'alpha.themes.dashboard'
+            local theta = require 'alpha.themes.theta'
+            local cdir = vim.fn.getcwd()
+			-- stylua: ignore
+			dashboard.section.buttons.val = {
+				{
+					type = 'group',
+					val = {
+						{
+							type = 'text',
+							val = 'Recent files',
+							opts = {
+								hl = 'SpecialComment',
+								shrink_margin = false,
+								position = 'center',
+							},
+						},
+						{ type = 'padding', val = 1 },
+						{
+							type = 'group',
+							val = function()
+								return { theta.mru(0, cdir, 5) }
+							end,
+							opts = { shrink_margin = false },
+						},
+					},
+				},
+				{ type = 'padding', val = 1 },
+				{ type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
+				{ type = 'padding', val = 1 },
+                {
+                    type = 'group',
+                    val = {
+                        dashboard.button('f', '󰱽 ' .. ' Find file',       '<cmd> Telescope find_files <CR>'),
+                        dashboard.button('g', '󱩾 ' .. ' Find text',       '<cmd> Telescope live_grep <CR>'),
+                        dashboard.button('n', ' ' .. ' New file',        '<cmd> ene <CR>'),
+                        dashboard.button('r', ' ' .. ' Recent files',    '<cmd> Telescope oldfiles <CR>'),
+                        dashboard.button('c', ' ' .. ' Config',          '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
+                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
+                        dashboard.button('u', ' ' .. ' Update plugins' , '<cmd> Lazy sync <CR>'),
+                        dashboard.button('l', '󰒲 ' .. ' Lazy',            '<cmd> Lazy <CR>'),
+                        dashboard.button('q', ' ' .. ' Quit',            '<cmd> qa <CR>'),
+                    },
+                },
+				{ type = 'padding', val = 1 },
+			}
+            for _, button in ipairs(dashboard.section.buttons.val) do
+                if button.on_press then
+                    button.opts.hl = 'AlphaButtons'
+                    button.opts.hl_shortcut = 'AlphaShortcut'
+                end
+            end
+
+            local banner = [[
+               .dP'                   db
+             dP'                   db    db
+                                            `Ybaaaaaad8'
+  `Yb    dP'  'Yb   `Yb.d88b d88b    'Yb      .dP'   88  `Yb.d888b  `Yb    dP'
+    Yb  dP     88    88'   8Y   8b    88      88     88   88'    8Y   Yb  dP
+     YbdP      88    88    8P   88    88      Y8    .88   88     8P    YbdP
+     .8P      .8P    88  ,dP  ,dP    .8P      `Y888P'88   88   ,dP     .8P
+   dP'  b            88                              88   88         dP'  b
+   Y.  ,P            88                              88   88         Y.  ,P
+    `""'            .8P                              Y8. .8P          `""'
+
+    ]]
+
             local neovim_version = 'v' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
             local lazyvim_version = 'v' .. require('lazy.core.config').version
 
-            local banner = [[
-             .dP'                   db                                      
-           dP'                   db    db                                   
-                                          `Ybaaaaaad8'                      
-`Yb    dP'  'Yb   `Yb.d88b d88b    'Yb      .dP'   88  `Yb.d888b  `Yb    dP'
-  Yb  dP     88    88'   8Y   8b    88      88     88   88'    8Y   Yb  dP  
-   YbdP      88    88    8P   88    88      Y8    .88   88     8P    YbdP   
-   .8P      .8P    88  ,dP  ,dP    .8P      `Y888P'88   88   ,dP     .8P    
- dP'  b            88                              88   88         dP'  b   
- Y.  ,P            88                              88   88         Y.  ,P   
-  `""'            .8P                              Y8. .8P          `""'    
+            local header = '\n\n\n\n\n\n' .. banner .. '\n' .. '                       Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
+            dashboard.section.header.val = vim.split(header, '\n')
 
-]]
-            local versions = 'Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
-            banner = banner .. '\n' .. versions .. '\n\n'
-            banner = string.rep('\n', 8) .. banner
-            opts.config.header = vim.split(banner, '\n')
+            dashboard.section.buttons.opts.hl = 'AlphaButtons'
+            dashboard.section.buttons.opts.spacing = 0
+            dashboard.section.footer.opts.hl = 'AlphaFooter'
+            return dashboard
+        end,
+
+        -- Credits: https://github.com/LazyVim/LazyVim
+        config = function(_, dashboard)
+            -- close Lazy and re-open when the dashboard is ready
+            if vim.o.filetype == 'lazy' then
+                vim.cmd.close()
+                vim.api.nvim_create_autocmd('User', {
+                    once = true,
+                    pattern = 'AlphaReady',
+                    callback = function()
+                        require('lazy').show()
+                    end,
+                })
+            end
+
+            require('alpha').setup(dashboard.opts)
+
+            vim.api.nvim_create_autocmd('User', {
+                once = true,
+                pattern = 'LazyVimStarted',
+                callback = function()
+                    local stats = require('lazy').stats()
+                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+                    dashboard.section.footer.val = '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms'
+                    pcall(vim.cmd.AlphaRedraw)
+                end,
+            })
         end,
     },
 }
