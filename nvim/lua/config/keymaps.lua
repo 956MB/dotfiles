@@ -92,25 +92,19 @@ map('n', '-', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Cycle buffers Prev (Left
 map('n', '=', '<cmd>BufferLineCycleNext<CR>', { desc = 'Cycle buffers Next (Right)' })
 map('n', '<C-->', '<cmd>BufferLineMovePrev<CR>', { desc = 'Move buffer Left' })
 map('n', '<C-=>', '<cmd>BufferLineMoveNext<CR>', { desc = 'Move buffer Right' })
-map('n', '<leader>1', '<cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Go to buffer 1' })
-map('n', '<leader>2', '<cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Go to buffer 2' })
-map('n', '<leader>3', '<cmd>BufferLineGoToBuffer 3<CR>', { desc = 'Go to buffer 3' })
-map('n', '<leader>4', '<cmd>BufferLineGoToBuffer 4<CR>', { desc = 'Go to buffer 4' })
-map('n', '<leader>5', '<cmd>BufferLineGoToBuffer 5<CR>', { desc = 'Go to buffer 5' })
-map('n', '<leader>6', '<cmd>BufferLineGoToBuffer 6<CR>', { desc = 'Go to buffer 6' })
-map('n', '<leader>7', '<cmd>BufferLineGoToBuffer 7<CR>', { desc = 'Go to buffer 7' })
-map('n', '<leader>8', '<cmd>BufferLineGoToBuffer 8<CR>', { desc = 'Go to buffer 8' })
-map('n', '<leader>9', '<cmd>BufferLineGoToBuffer 9<CR>', { desc = 'Go to buffer 9' })
+for i = 1, 9 do
+    map('n', '<leader>' .. i, '<cmd>BufferLineGoToBuffer ' .. i .. '<CR>', { desc = 'Go to buffer ' .. i })
+end
 
 -- Split navigation
 map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
 map('n', '<C-j>', '<C-w>k', { noremap = true, desc = 'Move focus to the split above' })
 map('n', '<C-k>', '<C-w>j', { noremap = true, desc = 'Move focus to the split below' })
 map('n', '<C-S-k>', '<C-w>l', { noremap = true, desc = 'Move focus to the split on the right' })
-vim.keymap.set('n', '<C-S-j>', function()
+vim.keymap.set('n', '<C-S-k>', function()
     utils.scale_split '-1'
 end, { noremap = true, desc = 'Scale the current split by -1' })
-vim.keymap.set('n', '<C-S-k>', function()
+vim.keymap.set('n', '<C-S-j>', function()
     utils.scale_split '+1'
 end, { noremap = true, desc = 'Scale the current split by +1' })
 

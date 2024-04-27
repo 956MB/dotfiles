@@ -26,6 +26,9 @@ return {
                 },
                 view_options = {
                     show_hidden = true,
+                    is_always_hidden = function(name, _)
+                        return name.match(name, '^%.DS_Store$')
+                    end,
                 },
             }
         end,

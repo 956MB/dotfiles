@@ -1,3 +1,6 @@
 [submodule "nvim/lua/plugins/custom/ncks.nvim"]
 	path = nvim/lua/plugins/custom/ncks.nvim
 	url = https://github.com/956MB/ncks.nvim
+[submodule "nvim/lua/plugins/custom/lazy.nvim"]
+	path = nvim/lua/plugins/custom/lazy.nvim
+	url = https://github.com/956MB/lazy.nvim/tree/summary-urls

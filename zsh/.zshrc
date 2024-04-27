@@ -33,6 +33,8 @@ FUNCNEST=100
     alias ls='ls -CF'
     alias cls='clear'
     alias oldtop="/usr/bin/top"
+    alias nf="neofetch"
+    alias of="onefetch"
     alias ep="echo $PATH"
     alias resh="source ~/.zshrc"
     alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'
