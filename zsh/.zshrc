@@ -34,7 +34,7 @@ FUNCNEST=100
     alias cls='clear'
     alias oldtop="/usr/bin/top"
     alias nf="neofetch"
-    alias of="onefetch"
+    alias of="onefetch --no-color-palette --include-hidden -E"
     alias ep="echo $PATH"
     alias resh="source ~/.zshrc"
     alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'
@@ -86,12 +86,25 @@ FUNCNEST=100
 		done;
 	}
 
- 	# Custom cd
- 	c() {
-        cd $1;
- 	  	ls;
- 	}
- 	#alias cd="c"
+ 	# git repository greeter
+    last_repository=
+    check_directory_for_new_repository() {
+        current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
+        
+        if [ "$current_repository" ] && \
+        [ "$current_repository" != "$last_repository" ]; then
+            of
+        fi
+        last_repository=$current_repository
+    }
+    cd() {
+        builtin cd "$@"
+        check_directory_for_new_repository
+    }
+
+    # optional, greet also when opening shell directly in repository directory
+    # adds time to startup
+    check_directory_for_new_repository
 
     # "grepr" search function
     grepr() {

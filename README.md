@@ -24,7 +24,8 @@ alias ls='ls -CF'
 alias cls='clear'
 alias oldtop="/usr/bin/top"
 alias nf="neofetch"
-alias of="onefetch"
+alias of="onefetch --no-color-palette --include-hidden -E"
+alias onefetch="onefetch --no-color-palette --include-hidden -E"
 alias ep="echo $PATH"
 alias resh="source ~/.zshrc"
 alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'
