@@ -172,6 +172,28 @@ Total: 86 plugins
     ○ tokyonight.nvim -- https://github.com/folke/tokyonight.nvim
 ```
 
+```python
+                 -- --                    Project: dotfiles (1 branch)
+         --                 -- @@@@       HEAD: c06ed41 (main, origin/main)
+      --      @@@@@@@@@@@     @@@@@@      Pending: 7+- 5+
+           @@@@@@@@@@@@@@@@@   @@@@       Created: 3 weeks ago
+  --     @@@@@@@@@@@@@@****@@@     --     Languages:                              
+ --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (96.2 %) ● Shell (1.3 %)
+      @@@@@@@@@@@@@@@@@****@@@@@@                    ● Python (1.2 %) ● BASH (0.9 %)
+--   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Zsh (0.4 %) 
+--   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 21
+     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: 14 hours ago
+--   @@@**@@@@@@**@@**@@@*****@@@@   --   URL: https://github.com/956MB/dotfiles.git
+--   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 21
+      @@*******@******@********@@         Churn (1): zsh/.zshrc 1
+ --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               README.md 1
+  --     @@@@@@@@@@@@@@@@@@@@@     --     Lines of code: 8994
+           @@@@@@@@@@@@@@@@@              Size: 1.51 MiB (51 files)
+      --      @@@@@@@@@@@      --         License: MIT
+         --                 --         
+                 -- --
+```
+
 ## License
 
 [MIT license](./LICENSE)
