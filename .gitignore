@@ -8,3 +8,4 @@ ssh/known_hosts.old
 zsh/plugins/*
 lazygit/state.yml
 nvim/backup.lua
+kitty/kitty-default.conf

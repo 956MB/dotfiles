@@ -28,7 +28,13 @@ return {
                 lua = { 'stylua' },
                 go = { 'goimports', 'gofmt' },
                 javascript = { { 'prettierd', 'prettier' } },
-                python = { 'isort', 'black' },
+                python = {
+                    {
+                        exe = 'black',
+                        args = { '--line-length', '88', '--fast', '-' },
+                        stdin = true,
+                    },
+                },
             },
         },
     },

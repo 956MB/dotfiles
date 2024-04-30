@@ -1,3 +1,42 @@
+local Util = require 'lazyvim.util'
+
+-- like lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6)
+---@param opts? {relative: "cwd"|"root", modified_hl: string?}
+local function lualine_pretty_path(opts)
+    opts = vim.tbl_extend('force', {
+        relative = 'cwd',
+        modified_hl = 'Constant',
+    }, opts or {})
+
+    return function(self)
+        local path = vim.fn.expand '%:p' --[[@as string]]
+
+        if path == '' then
+            return ''
+        end
+        local root = Util.root.get { normalize = true }
+        local cwd = Util.root.cwd()
+
+        if opts.relative == 'cwd' and path:find(cwd, 1, true) == 1 then
+            path = path:sub(#cwd + 2)
+        else
+            path = path:sub(#root + 2)
+        end
+
+        local sep = package.config:sub(1, 1)
+        local parts = vim.split(path, '[\\/]')
+        if #parts > 6 then
+            parts = { parts[1], parts[2], parts[3], parts[4], '…', parts[#parts - 1], parts[#parts] }
+        end
+
+        if opts.modified_hl and vim.bo.modified then
+            parts[#parts] = Util.lualine.format(self, parts[#parts], opts.modified_hl)
+        end
+
+        return table.concat(parts, sep)
+    end
+end
+
 return {
     { -- Icons
         'nvim-tree/nvim-web-devicons',
@@ -47,16 +86,17 @@ return {
             end
 
             -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
-            local insert_fix = require 'lualine.themes.github_dark_colorblind'
-            insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
-            insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
-            insert_fix.insert.b.fg = '#01B511' -- middle fg (2)
-            insert_fix.insert.c.fg = '#0B8F23' -- inner fg (3)
+            -- local insert_fix = require 'lualine.themes.github_dark_colorblind'
+            -- insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
+            -- insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
+            -- insert_fix.insert.b.fg = '#01B511' -- middle fg (2)
+            -- insert_fix.insert.c.fg = '#0B8F23' -- inner fg (3)
 
             lualine.setup {
                 options = {
                     icons_enabled = true,
-                    theme = insert_fix,
+                    -- theme = insert_fix,
+                    theme = 'auto',
                     component_separators = { left = '', right = '' },
                     section_separators = { left = '', right = '' },
                     disabled_filetypes = {
@@ -75,7 +115,8 @@ return {
                 sections = {
                     lualine_a = { 'mode' }, -- (1)
                     lualine_b = { 'branch', 'diff', 'diagnostics' }, -- (2)
-                    lualine_c = { 'filename' }, -- (3)
+                    -- lualine_c = { 'filename' }, -- (3)
+                    lualine_c = { lualine_pretty_path() }, -- (3)
                     lualine_x = {
                         { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
                         { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },

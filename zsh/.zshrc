@@ -93,7 +93,7 @@ FUNCNEST=100
         
         if [ "$current_repository" ] && \
         [ "$current_repository" != "$last_repository" ]; then
-            of
+            of; l
         fi
         last_repository=$current_repository
     }
