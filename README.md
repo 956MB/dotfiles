@@ -174,24 +174,25 @@ Total: 86 plugins
 
 ```python
                  -- --                    Project: dotfiles (1 branch)
-         --                 -- @@@@       HEAD: c06ed41 (main, origin/main)
-      --      @@@@@@@@@@@     @@@@@@      Pending: 7+- 5+
+         --                 -- @@@@       HEAD: bbab9fe (main, origin/main)
+      --      @@@@@@@@@@@     @@@@@@      Pending: 4+- 1+
            @@@@@@@@@@@@@@@@@   @@@@       Created: 3 weeks ago
   --     @@@@@@@@@@@@@@****@@@     --     Languages:                              
  --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (96.2 %) ● Shell (1.3 %)
       @@@@@@@@@@@@@@@@@****@@@@@@                    ● Python (1.2 %) ● BASH (0.9 %)
 --   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Zsh (0.4 %) 
---   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 21
-     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: 14 hours ago
+--   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 23
+     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: 15 seconds ago
 --   @@@**@@@@@@**@@**@@@*****@@@@   --   URL: https://github.com/956MB/dotfiles.git
---   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 21
-      @@*******@******@********@@         Churn (1): zsh/.zshrc 1
- --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               README.md 1
-  --     @@@@@@@@@@@@@@@@@@@@@     --     Lines of code: 8994
-           @@@@@@@@@@@@@@@@@              Size: 1.51 MiB (51 files)
-      --      @@@@@@@@@@@      --         License: MIT
-         --                 --         
-                 -- --
+--   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 23
+      @@*******@******@********@@         Churn (1): kitty/kitty.conf 1
+ --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               …/plugins/coding.lua 1
+  --     @@@@@@@@@@@@@@@@@@@@@     --                …/plugins/ui.lua 1
+           @@@@@@@@@@@@@@@@@              Lines of code: 9028
+      --      @@@@@@@@@@@      --         Size: 1.44 MiB (54 files)
+         --                 --            License: MIT
+                 -- --                 
+
 ```
 
 ## License
