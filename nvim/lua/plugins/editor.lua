@@ -29,7 +29,7 @@ return {
                     changedelete = { text = '~' },
                 },
             }
-            require('scrollbar.handlers.gitsigns').setup()
+            -- require('scrollbar.handlers.gitsigns').setup()
         end,
     },
 
@@ -55,13 +55,13 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
-    { -- Add a scrollbar to Neovim (With gitsigns)
-        'petertriho/nvim-scrollbar',
-        dependencies = { 'lewis6991/gitsigns.nvim' },
-        config = function()
-            require('scrollbar').setup()
-        end,
-    },
+    -- { -- Add a scrollbar to Neovim (With gitsigns)
+    --     'petertriho/nvim-scrollbar',
+    --     dependencies = { 'lewis6991/gitsigns.nvim' },
+    --     config = function()
+    --         require('scrollbar').setup()
+    --     end,
+    -- },
 
     { -- Highlight todo, notes, etc in comments
         'folke/todo-comments.nvim',

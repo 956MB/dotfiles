@@ -5,7 +5,7 @@ local Util = require 'lazyvim.util'
 local function lualine_pretty_path(opts)
     opts = vim.tbl_extend('force', {
         relative = 'cwd',
-        modified_hl = 'Constant',
+        modified_hl = 'Comment',
     }, opts or {})
 
     return function(self)
@@ -53,6 +53,43 @@ return {
         end,
     },
 
+    { -- Integrated terminal
+        'akinsho/toggleterm.nvim',
+        version = '*',
+        keys = {
+            {
+                '<C-\\>',
+                '<cmd>ToggleTerm<CR>',
+            },
+        },
+        config = function()
+            require('toggleterm').setup {
+                persist_mode = false,
+                direction = 'float',
+                float_opts = {
+                    title_pos = 'center',
+                },
+            }
+        end,
+    },
+
+    { -- ^^ Better than opening lazygit in a terminal with toggleterm (TermExec)
+        'kdheepak/lazygit.nvim',
+        cmd = {
+            'LazyGit',
+            'LazyGitConfig',
+            'LazyGitCurrentFile',
+            'LazyGitFilter',
+            'LazyGitFilterCurrentFile',
+        },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+        },
+        keys = {
+            { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+        },
+    },
+
     {
         'akinsho/bufferline.nvim',
         version = '*',
@@ -67,79 +104,50 @@ return {
         end,
     },
 
-    { -- Lualine
+    { -- Statusline
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            local lualine = require 'lualine'
-
-            local function xcodebuild_device()
-                if vim.g.xcodebuild_platform == 'macOS' then
-                    return ' macOS'
-                end
-
-                if vim.g.xcodebuild_os then
-                    return ' ' .. vim.g.xcodebuild_device_name .. ' (' .. vim.g.xcodebuild_os .. ')'
-                end
-
-                return ' ' .. vim.g.xcodebuild_device_name
-            end
-
-            -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
+        opts = function(_, opts)
+            -- -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
             -- local insert_fix = require 'lualine.themes.github_dark_colorblind'
             -- insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
             -- insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
             -- insert_fix.insert.b.fg = '#01B511' -- middle fg (2)
             -- insert_fix.insert.c.fg = '#0B8F23' -- inner fg (3)
+            local function xcodebuild_device()
+                if vim.g.xcodebuild_platform == 'macOS' then
+                    return ' macOS'
+                end
+                if vim.g.xcodebuild_os then
+                    return ' ' .. vim.g.xcodebuild_device_name .. ' (' .. vim.g.xcodebuild_os .. ')'
+                end
+                return ' ' .. vim.g.xcodebuild_device_name
+            end
 
-            lualine.setup {
-                options = {
-                    icons_enabled = true,
-                    -- theme = insert_fix,
-                    theme = 'auto',
-                    component_separators = { left = '', right = '' },
-                    section_separators = { left = '', right = '' },
-                    disabled_filetypes = {
-                        statusline = {},
-                        winbar = {},
-                    },
-                    ignore_focus = {},
-                    always_divide_middle = true,
-                    globalstatus = false,
-                    refresh = {
-                        statusline = 1000,
-                        tabline = 1000,
-                        winbar = 1000,
-                    },
-                },
-                sections = {
-                    lualine_a = { 'mode' }, -- (1)
-                    lualine_b = { 'branch', 'diff', 'diagnostics' }, -- (2)
-                    -- lualine_c = { 'filename' }, -- (3)
-                    lualine_c = { lualine_pretty_path() }, -- (3)
-                    lualine_x = {
-                        { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
-                        { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
-                        'encoding',
-                        { 'fileformat', symbols = { unix = '' } },
-                        'filetype',
-                    },
-                    lualine_y = { 'progress' },
-                    lualine_z = { 'location' },
-                },
-                inactive_sections = {
-                    lualine_a = {},
-                    lualine_b = {},
-                    lualine_c = { 'filename' },
-                    lualine_x = { 'location' },
-                    lualine_y = {},
-                    lualine_z = {},
-                },
-                tabline = {},
+            -- opts.options.theme = insert_fix
+            opts.options.disabled_filetypes = {
+                statusline = {},
                 winbar = {},
-                inactive_winbar = {},
-                extensions = { 'nvim-dap-ui', 'quickfix', 'trouble', 'nvim-tree', 'lazy', 'mason' },
             }
+            opts.sections.lualine_a = { 'mode' }
+            opts.sections.lualine_c[4] = { lualine_pretty_path() }
+            opts.sections.lualine_z = opts.sections.lualine_y
+            opts.sections.lualine_y = opts.sections.lualine_x
+            opts.sections.lualine_x = {
+                { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
+                { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
+                'encoding',
+                { 'g:metals_status' },
+            }
+            opts.tabline = {}
+            opts.winbar = {}
+            opts.inactive_winbar = {}
+            opts.extensions = { 'nvim-dap-ui', 'quickfix', 'trouble', 'nvim-tree', 'lazy', 'mason' }
+            opts.options.ignore_focus = {}
+            opts.options.always_divide_middle = true
+            opts.options.globalstatus = false
+            opts.options.component_separators = { left = '', right = '' }
+            opts.options.section_separators = { left = '', right = '' }
         end,
     },
 

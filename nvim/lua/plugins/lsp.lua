@@ -90,17 +90,20 @@ return {
     { -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
         dependencies = {
-            -- Automatically install LSPs and related tools to stdpath for Neovim
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-            -- Useful status updates for LSP.
             { 'j-hui/fidget.nvim', opts = {} },
 
-            -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-            -- used for completion, annotations and signatures of Neovim apis
-            { 'folke/neodev.nvim', opts = {} },
+            {
+                'folke/neodev.nvim',
+                config = function()
+                    require('neodev').setup {
+                        library = { plugins = { 'nvim-dap-ui' }, types = true },
+                    }
+                end,
+            },
         },
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {

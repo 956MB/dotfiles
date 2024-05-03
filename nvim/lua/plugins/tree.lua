@@ -21,6 +21,11 @@ return {
         config = function()
             require('oil').setup {
                 default_file_explorer = true,
+                delete_to_trash = true,
+                skip_confirm_for_simple_edits = true,
+                win_options = {
+                    wrap = true,
+                },
                 keymaps = {
                     ['<BS>'] = 'actions.parent', -- changed to backspace
                 },
@@ -36,16 +41,12 @@ return {
 
     { -- IDE like file tree
         'nvim-neo-tree/neo-tree.nvim',
+        dependencies = {
+            'kyazdani42/nvim-web-devicons',
+        },
         keys = {
             {
                 '<leader>E',
-                function()
-                    require('neo-tree.command').execute { dir = require('lazyvim.util').root.get() }
-                end,
-                desc = 'Explorer NeoTree (root dir)',
-            },
-            {
-                '<leader>e',
                 function()
                     require('neo-tree.command').execute { dir = vim.loop.cwd() }
                 end,

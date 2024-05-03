@@ -36,9 +36,6 @@ return {
             local previewers = require 'telescope.previewers'
             local sorters = require 'telescope.sorters'
 
-            local harpoon = require 'harpoon'
-            harpoon:setup {}
-
             -- [[ Configure Telescope ]]
             -- See `:help telescope` and `:help telescope.setup()`
             require('telescope').setup {
@@ -85,6 +82,11 @@ return {
                 width = 0.87,
                 height = 0.60,
                 preview_cutoff = 120,
+            }
+            local harpoon_layout = {
+                prompt_position = 'top',
+                width = 0.55,
+                height = 0.20,
             }
 
             map('<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -133,6 +135,8 @@ return {
                 })
             end, { desc = '[/] Fuzzily search in current buffer' })
 
+            local harpoon = require 'harpoon'
+            harpoon:setup {}
             -- Harpoon using Telescope UI
             local conf = require('telescope.config').values
             local function toggle_telescope(harpoon_files)
@@ -141,15 +145,38 @@ return {
                     table.insert(file_paths, item.value)
                 end
 
+                local make_finder = function()
+                    local paths = {}
+                    for _, item in ipairs(harpoon_files.items) do
+                        table.insert(paths, item.value)
+                    end
+
+                    return require('telescope.finders').new_table {
+                        results = paths,
+                    }
+                end
+
                 require('telescope.pickers')
                     .new({}, {
                         prompt_title = 'Harpoon',
                         finder = require('telescope.finders').new_table {
                             results = file_paths,
                         },
-                        previewer = conf.file_previewer {},
+                        -- previewer = conf.file_previewer {},
                         sorter = conf.generic_sorter {},
-                        layout_config = layout,
+                        layout_config = harpoon_layout,
+                        attach_mappings = function(prompt_buffer_number, map)
+                            map('i', '<C-d>', function()
+                                local state = require 'telescope.actions.state'
+                                local selected_entry = state.get_selected_entry()
+                                local current_picker = state.get_current_picker(prompt_buffer_number)
+
+                                harpoon:list():remove_at(selected_entry.index)
+                                current_picker:refresh(make_finder())
+                            end)
+
+                            return true
+                        end,
                     })
                     :find()
             end

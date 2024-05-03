@@ -4,8 +4,10 @@ ssh/known_hosts
 ssh/known_hosts.old
 
 .DS_Store
+.env.gpa
 
 zsh/plugins/*
 lazygit/state.yml
 nvim/backup.lua
 kitty/kitty-default.conf
+ART.md

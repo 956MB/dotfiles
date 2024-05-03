@@ -87,6 +87,7 @@ end, { desc = '[S]elect Harpoon (4)' })
 
 -- Bufferline
 map('n', '<C-w>', '<cmd>bd<CR>', { desc = '[D]elete Buffer (Tab)' })
+map('n', '<leader>co', '<cmd>BufferLineCloseOthers<CR>', { desc = '[C]lose all [O]ther open tabs' })
 map('n', '<leader>bp', '<cmd>BufferLineTogglePin<CR>', { desc = 'Toggle [B]uffer [P]in' })
 map('n', '-', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Cycle buffers Prev (Left)' })
 map('n', '=', '<cmd>BufferLineCycleNext<CR>', { desc = 'Cycle buffers Next (Right)' })
