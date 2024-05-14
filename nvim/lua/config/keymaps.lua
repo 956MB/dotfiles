@@ -12,6 +12,8 @@ end
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+map('n', '9', '$', { noremap = true, desc = 'Go to end of line' })
+
 -- Select all file contents with ctrl+a
 map('n', '<C-a>', 'ggVG', { desc = 'Select [A]ll' })
 
@@ -32,9 +34,14 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('n', '<C-o>', '<C-i>', { desc = 'Jump backward' })
 map('n', '<C-i>', '<C-o>', { desc = 'Jump forward' })
 
+-- Reload config (sigle file edit)
+map('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Reload File' })
+
 -- Ctrl+s to save
 map('i', '<C-s>', '<ESC>:w<CR>', { desc = '[S]ave' })
 map('n', '<C-s>', ':w<CR>', { desc = '[S]save' })
+-- map('i', '<leader>ww', '<ESC>:wa<CR>', { noremap = true, desc = '[S]ave [A]ll' })
+-- map('n', '<leader>ww', ':wa<CR>', { noremap = true, desc = '[S]ave [A]ll' })
 
 -- Remap tab and shift+tab for indenting
 map('n', '<Tab>', ':><CR>', { desc = '[T]ab forward (4, Normal)' })
@@ -46,7 +53,9 @@ map('x', '<S-Tab>', '<gv', { desc = '[T]ab backward (4, Visual)' })
 map('n', '<C-x>', 'dd', { desc = '[D]elete Line' })
 
 -- OIL
-map('n', '`', '<CMD>Oil<CR>', { desc = 'OIL' })
+map('n', '<C-`>', function()
+    require('oil').open()
+end, { desc = 'OIL' })
 
 -- Obsidian
 map('n', '<leader>oc', '<cmd>lua require("obsidian").util.toggle_checkbox()<CR>', { desc = '[O]bsidian toggle [c]heckbox' })
@@ -59,6 +68,13 @@ map('n', '<leader>od', '<cmd>ObsidianDelete<CR>', { desc = '[O]bsidian [D]elete 
 map('n', '<leader>op', '<cmd>ObsidianPreview<CR>', { desc = '[O]bsidian [P]review' })
 map('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<CR>', { desc = '[O]bsidian [Q]uick Switch' })
 map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = '[O]bsidian Show [L]inks' })
+
+-- Toggle Conceal and Spell (Markdown)
+map('n', '<leader>md', function()
+    utils.toggle_markdown_display()
+end, { desc = 'Toggle [M]arkdown [D]isplay' })
+-- Run MarkdownPreview
+map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', { desc = '[M]arkdown [P]review' })
 
 -- Harpoon
 -- NOTE: Next/Previous broken? Or my kebinds just don't work? Fix later
@@ -97,17 +113,20 @@ for i = 1, 9 do
     map('n', '<leader>' .. i, '<cmd>BufferLineGoToBuffer ' .. i .. '<CR>', { desc = 'Go to buffer ' .. i })
 end
 
--- Split navigation
-map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
+-- Split creation/navigation
 map('n', '<C-j>', '<C-w>k', { noremap = true, desc = 'Move focus to the split above' })
 map('n', '<C-k>', '<C-w>j', { noremap = true, desc = 'Move focus to the split below' })
+map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
 map('n', '<C-S-k>', '<C-w>l', { noremap = true, desc = 'Move focus to the split on the right' })
-vim.keymap.set('n', '<C-S-k>', function()
+vim.keymap.set('n', '<C-,>', function()
     utils.scale_split '-1'
 end, { noremap = true, desc = 'Scale the current split by -1' })
-vim.keymap.set('n', '<C-S-j>', function()
+vim.keymap.set('n', '<C-.>', function()
     utils.scale_split '+1'
 end, { noremap = true, desc = 'Scale the current split by +1' })
+map('n', '<leader>vs', ':vsplit<CR>', { noremap = true, silent = true })
+map('n', '<leader>hs', ':split<CR>', { noremap = true, silent = true })
+map('n', '<leader>dd', '<C-w>c', { noremap = true, silent = true })
 
 -- Xcodebuild / sourcekit-lsp
 map('n', '<leader>X', '<cmd>XcodebuildPicker<cr>', { desc = 'Show Xcodebuild Actions' })

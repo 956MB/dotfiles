@@ -63,6 +63,7 @@ return {
                     },
                 },
                 window = {
+                    position = 'right',
                     mappings = {
                         ['<cr>'] = 'open',
                         ['<esc>'] = 'revert_preview',

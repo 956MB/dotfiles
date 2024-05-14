@@ -25,6 +25,7 @@ return {
             --     }
             -- end,
             formatters_by_ft = {
+                css = { 'prettierd', 'prettier' },
                 lua = { 'stylua' },
                 go = { 'goimports', 'gofmt' },
                 javascript = { { 'prettierd', 'prettier' } },
@@ -148,10 +149,11 @@ return {
                 auto_open = false,
                 auto_close = false,
                 auto_preview = true,
+                focus = true,
                 auto_jump = {},
                 mode = 'quickfix',
                 severity = vim.diagnostic.severity.ERROR,
-                cycle_results = false,
+                cycle_results = true,
             }
 
             vim.api.nvim_create_autocmd('User', {

@@ -53,6 +53,7 @@ FUNCNEST=100
     alias gaaa='git add -A'
     alias gc='git commit'
     alias gcm='git commit -m'
+    alias gbr='git branch -M'
     alias gcr='git clone'
     alias gd='git diff'
     alias gi='git init'
@@ -90,7 +91,6 @@ FUNCNEST=100
     last_repository=
     check_directory_for_new_repository() {
         current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
-        
         if [ "$current_repository" ] && \
         [ "$current_repository" != "$last_repository" ]; then
             of; l
@@ -184,3 +184,6 @@ esac
 # pnpm end
 export PATH="/opt/homebrew/opt/kleopatra/bin:$PATH"
 export LAZYVIM_CONFIG_PATH="$HOME/dotfiles/nvim"
+
+eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"

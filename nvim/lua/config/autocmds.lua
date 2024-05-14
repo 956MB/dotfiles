@@ -9,16 +9,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- Set tab settings for all files
--- vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
---     pattern = '*',
---     callback = function()
---         vim.opt.tabstop = 4
---         vim.opt.softtabstop = 4
---         vim.opt.shiftwidth = 4
---         vim.opt.expandtab = true
---     end,
--- })
+vim.cmd [[
+    augroup DisableRelativeNumber
+        autocmd!
+        autocmd BufEnter * :set norelativenumber
+    augroup END
+]]
 
 -- Reload Neovim config when changes are made to the lua directory
 local config_path = vim.env.LAZYVIM_CONFIG_PATH or vim.fn.stdpath 'config'

@@ -11,4 +11,17 @@ function M.scale_split(direction)
     end
 end
 
+-- Function to toggle conceal level and spell checking (for Markdown files)
+function M.toggle_markdown_display()
+    local conceallevel = vim.wo.conceallevel
+    if conceallevel == 0 then
+        vim.wo.conceallevel = 2
+    else
+        vim.wo.conceallevel = 0
+    end
+
+    local spell = vim.wo.spell
+    vim.wo.spell = not spell
+end
+
 return M
