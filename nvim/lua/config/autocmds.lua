@@ -9,6 +9,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+-- Set the filetype of .db files to sqlite (prisma)
+vim.cmd [[autocmd BufRead,BufNewFile *.db set filetype=sqlite]]
+
+-- Force none relative line numbers
 vim.cmd [[
     augroup DisableRelativeNumber
         autocmd!

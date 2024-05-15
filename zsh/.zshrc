@@ -22,7 +22,9 @@ FUNCNEST=100
 
 # Aliases
     alias v='nvim' nv='nvim'
-    alias cd..='cd ..'
+    alias z-='z -'
+    alias cd..='z ..'
+    alias ..='z ..'
     alias l='ls -t'
     alias ll='ls -altrF'
     alias lsa='ls -hla'

@@ -70,6 +70,14 @@ return {
                 },
             }
 
+            -- `sql` filetype setup. 'tpope/vim-dadbod'
+            cmp.setup.filetype({ 'sql', 'mysql', 'plsql', 'sqlite' }, {
+                sources = {
+                    { name = 'vim-dadbod-completion' },
+                    { name = 'buffer' },
+                },
+            })
+
             -- `:` cmdline setup.
             cmp.setup.cmdline(':', {
                 mapping = cmp.mapping.preset.cmdline(),
