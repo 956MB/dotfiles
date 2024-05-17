@@ -41,6 +41,7 @@ FUNCNEST=100
     alias resh="source ~/.zshrc"
     alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'
     alias vlua='kitty @ launch --type=tab nvim --remote-silent ~/dotfiles/nvim'
+    alias zfq='zoxide query -l -s | less'
 
 # Yabai/skhd aliases
     alias ystart='yabai --start-service'

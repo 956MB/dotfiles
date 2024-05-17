@@ -20,6 +20,11 @@ vim.cmd [[
     augroup END
 ]]
 
+-- Turn off spell when opening markdown files
+vim.cmd [[
+    autocmd FileType markdown setlocal nospell
+]]
+
 -- Reload Neovim config when changes are made to the lua directory
 local config_path = vim.env.LAZYVIM_CONFIG_PATH or vim.fn.stdpath 'config'
 
