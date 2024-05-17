@@ -14,7 +14,8 @@ return {
     },
 
     { -- OIL
-        'stevearc/oil.nvim',
+        -- 'stevearc/oil.nvim',
+        dir = '~/dotfiles/nvim/lua/plugins/custom/oil.nvim',
         dependencies = {
             { 'nvim-tree/nvim-web-devicons' },
         },
@@ -23,10 +24,12 @@ return {
                 default_file_explorer = true,
                 delete_to_trash = true,
                 skip_confirm_for_simple_edits = true,
+                constrain_cursor = 'name',
                 win_options = {
                     wrap = true,
                 },
                 keymaps = {
+                    ['-'] = false,
                     ['<BS>'] = 'actions.parent', -- changed to backspace
                 },
                 view_options = {
