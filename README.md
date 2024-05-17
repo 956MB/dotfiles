@@ -182,6 +182,7 @@ Total: 96 plugins
     ○ noice.nvim -- https://github.com/folke/noice.nvim
     ○ nvim -- https://github.com/catppuccin/nvim
     ○ tokyonight.nvim -- https://github.com/folke/tokyonight.nvim```
+```
 
 ```python
                  -- --                    Project: dotfiles (1 branch)
