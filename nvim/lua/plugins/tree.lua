@@ -30,7 +30,7 @@ return {
                 },
                 keymaps = {
                     ['-'] = false,
-                    ['<BS>'] = 'actions.parent', -- changed to backspace
+                    ['<BS>'] = 'actions.parent',
                 },
                 view_options = {
                     show_hidden = true,
