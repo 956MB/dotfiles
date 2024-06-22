@@ -41,7 +41,11 @@ FUNCNEST=100
     alias resh="source ~/.zshrc"
     alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'
     alias vlua='kitty @ launch --type=tab nvim --remote-silent ~/dotfiles/nvim'
+    alias monkeytype='z ~/Dev/monkeytype-24.22.0/; pnpm dev-fe'
     alias zfq='zoxide query -l -s | less'
+
+# Command aliases
+    alias ftl='find . -type f -name "*.*" -exec basename {} \; | sed "s/.*\.//" | sort -u'
 
 # Yabai/skhd aliases
     alias ystart='yabai --start-service'
@@ -103,6 +107,16 @@ FUNCNEST=100
     cd() {
         builtin cd "$@"
         check_directory_for_new_repository
+    }
+
+    # Yazi 'yy' wrapper
+    function yy() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
     }
 
     # optional, greet also when opening shell directly in repository directory

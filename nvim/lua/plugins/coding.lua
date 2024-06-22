@@ -108,9 +108,10 @@ return {
         end,
     },
 
-    { -- View diagnostics (errors, warnings, etc.)
+    {
         'folke/trouble.nvim',
-        branch = 'dev',
+        branch = 'main',
+        cmd = 'Trouble',
         keys = {
             {
                 '<leader>xx',
@@ -143,7 +144,6 @@ return {
                 desc = 'Quickfix List (Trouble)',
             },
         },
-        opts = {},
         config = function()
             require('trouble').setup {
                 auto_open = false,

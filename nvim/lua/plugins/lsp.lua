@@ -164,24 +164,24 @@ return {
                 rust_analyzer = {},
                 gopls = {},
                 tsserver = {},
-                sourcekit = {
-                    filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
-                    root_dir = require('lspconfig').util.root_pattern(
-                        'buildServer.json',
-                        '*.xcodeproj',
-                        '*.xcworkspace',
-                        '.git',
-                        'compile_commands.json',
-                        'Package.swift'
-                    ),
-                    cmd = {
-                        -- '/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
-                        '/usr/bin/sourcekit-lsp',
-                    },
-                    capabilities = {
-                        require('cmp_nvim_lsp').default_capabilities(),
-                    },
-                },
+                -- sourcekit = {
+                --     filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
+                --     root_dir = require('lspconfig').util.root_pattern(
+                --         'buildServer.json',
+                --         '*.xcodeproj',
+                --         '*.xcworkspace',
+                --         '.git',
+                --         'compile_commands.json',
+                --         'Package.swift'
+                --     ),
+                --     cmd = {
+                --         -- '/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
+                --         '/usr/bin/sourcekit-lsp',
+                --     },
+                --     capabilities = {
+                --         require('cmp_nvim_lsp').default_capabilities(),
+                --     },
+                -- },
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -189,7 +189,7 @@ return {
                                 callSnippet = 'Replace',
                             },
                             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                            diagnostics = { disable = { 'missing-fields' } },
+                            diagnostics = { disable = { 'missing-fields' }, globals = { 'vim' } },
                         },
                     },
                 },

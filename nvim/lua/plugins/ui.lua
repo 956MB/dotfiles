@@ -48,8 +48,14 @@ return {
 
     { -- Notifications
         'rcarriga/nvim-notify',
-        keys = function()
-            return {}
+        config = function()
+            require('notify').setup {
+                filter = function(_, win)
+                    local bufnr = vim.api.nvim_win_get_buf(win)
+                    local buftype = vim.api.nvim_buf_get_option(bufnr, 'buftype')
+                    return buftype ~= 'help'
+                end,
+            }
         end,
     },
 
@@ -97,9 +103,17 @@ return {
         opts = function(_, opts)
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
-                    icon = '┃', -- this should be omitted if indicator style is not 'icon'
+                    icon = '┃ ', -- this should be omitted if indicator style is not 'icon'
                     style = 'icon',
                 },
+                always_show_bufferline = true,
+                hover = {
+                    enabled = true,
+                    delay = 0,
+                    reveal = { 'close' },
+                },
+                show_buffer_close_icons = true,
+                diagnostics = 'nvim_lsp',
             })
         end,
     },

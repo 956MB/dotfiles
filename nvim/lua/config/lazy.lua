@@ -7,10 +7,16 @@ local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if fork then
     lazypath = vim.fn.stdpath 'config' .. '/lua/plugins/custom/lazy.nvim'
 else
-    if not vim.loop.fs_stat(lazypath) then
-        local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-        vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-    end ---@diagnostic disable-next-line: undefined-field
+    if not (vim.uv or vim.loop).fs_stat(lazypath) then
+        vim.fn.system {
+            'git',
+            'clone',
+            '--filter=blob:none',
+            'https://github.com/956MB/lazy.nvim.git',
+            '--branch=summary-urls',
+            lazypath,
+        }
+    end
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -19,7 +25,6 @@ require('lazy').setup {
     spec = {
         { 'LazyVim/LazyVim', import = 'lazyvim.plugins' },
         { import = 'plugins' },
-        -- dir = '~/dotfiles/nvim/lua/plugins/custom/ncks.nvim',
     },
     ui = {
         urls = {
@@ -32,7 +37,15 @@ require('lazy').setup {
         lazy = false,
         version = false, -- always use the latest git commit
     },
-    install = { colorscheme = { 'github_dark' } }, -- habamax, oxocarbon, github_dark_colorblind
+    -- habamax
+    -- oxocarbon
+    -- github_dark_colorblind
+    -- gruvbox-baby
+    -- base16-default-dark
+    -- gruber-darker
+    -- poimandres
+    -- sobrio
+    install = { colorscheme = { 'sobrio' } },
     checker = { enabled = false }, -- automatically check for plugin updates
 }
 

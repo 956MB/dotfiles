@@ -16,23 +16,6 @@ return {
         },
     },
 
-    -- See `:help gitsigns` to understand what the configuration keys do
-    { -- Adds git related signs to the gutter, as well as utilities for managing changes
-        'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup {
-                signs = {
-                    add = { text = '+' },
-                    change = { text = '~' },
-                    delete = { text = '_' },
-                    topdelete = { text = '‾' },
-                    changedelete = { text = '~' },
-                },
-            }
-            -- require('scrollbar.handlers.gitsigns').setup()
-        end,
-    },
-
     { -- Useful plugin to show you pending keybinds.
         'folke/which-key.nvim',
         event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -55,21 +38,45 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
-    { -- Add a scrollbar to Neovim (With gitsigns)
-        'petertriho/nvim-scrollbar',
-        dependencies = { 'lewis6991/gitsigns.nvim' },
+    -- See `:help gitsigns` to understand what the configuration keys do
+    { -- Adds git related signs to the gutter, as well as utilities for managing changes
+        'lewis6991/gitsigns.nvim',
         config = function()
-            require('scrollbar').setup()
+            require('gitsigns').setup {
+                signs = {
+                    add = { text = '-' },
+                    change = { text = '-' },
+                    delete = { text = '-' },
+                    topdelete = { text = '-' },
+                    changedelete = { text = '-' },
+                },
+            }
+            require('scrollbar.handlers.gitsigns').setup()
         end,
     },
 
-    { -- Highlight todo, notes, etc in comments
-        'folke/todo-comments.nvim',
-        event = 'VimEnter',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = {
-            signs = false,
-        },
+    { -- Scrollbar (with gitsigns)
+        'petertriho/nvim-scrollbar',
+        dependencies = { 'lewis6991/gitsigns.nvim' },
+        config = function()
+            require('scrollbar').setup {
+                set_highlights = false,
+                marks = {
+                    Cursor = {
+                        text = '─',
+                    },
+                    GitAdd = {
+                        text = '-',
+                    },
+                    GitChange = {
+                        text = '-',
+                    },
+                    GitDelete = {
+                        text = '-',
+                    },
+                },
+            }
+        end,
     },
 
     { -- Toggle comment lines with Comment.nvim

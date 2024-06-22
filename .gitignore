@@ -11,3 +11,9 @@ lazygit/state.yml
 nvim/backup.lua
 kitty/kitty-default.conf
 ART.md
+
+nvim/lua/plugins/custom/gruber-better.nvim
+nvim/lua/plugins/custom/habamax.nvim
+nvim/lua/plugins/custom/oil.nvim
+nvim/lua/plugins/custom/sobrio
+nvim/lua/plugins/custom/todo-comments.nvim

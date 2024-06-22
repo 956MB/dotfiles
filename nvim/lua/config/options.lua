@@ -17,9 +17,11 @@ local opt = vim.opt
 opt.swapfile = false
 opt.list = false
 
+opt.wrap = true
 opt.number = true
 opt.relativenumber = false
 
+opt.mousemoveevent = true
 opt.mouse = 'a'
 opt.conceallevel = 2
 opt.showmode = false

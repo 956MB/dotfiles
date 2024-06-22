@@ -69,12 +69,25 @@ map('n', '<leader>op', '<cmd>ObsidianPreview<CR>', { desc = '[O]bsidian [P]revie
 map('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<CR>', { desc = '[O]bsidian [Q]uick Switch' })
 map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = '[O]bsidian Show [L]inks' })
 
+-- Toggle gitsigns
+map('n', '<leader>gs', '<cmd>lua require("gitsigns").toggle_signs()<CR>', { desc = 'Toggle [G]it[S]igns' })
+
 -- Toggle Conceal and Spell (Markdown)
 map('n', '<leader>md', function()
     utils.toggle_markdown_display()
 end, { desc = 'Toggle [M]arkdown [D]isplay' })
 -- Run MarkdownPreview
 map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', { desc = '[M]arkdown [P]review' })
+
+-- todo-comments.nvim and Trouble
+map('n', '<leader>td', '<cmd>TodoTrouble<cr>', { desc = 'Show [T]odo [D]iagnostic Comments' })
+map('n', '<leader>tm', '<cmd>TodoQuickFix keywords=MINE<cr>', { desc = 'Show [M]y [T]odo Comments' })
+map('n', ']t', function()
+    require('todo-comments').jump_next { keywords = { 'MINE' } }
+end, { desc = 'Next `MINE` todo comment' })
+map('n', '[t', function()
+    require('todo-comments').jump_prev { keywords = { 'MINE' } }
+end, { desc = 'Previous `MINE` todo comment' })
 
 -- Harpoon
 -- NOTE: Next/Previous broken? Or my kebinds just don't work? Fix later
@@ -118,10 +131,10 @@ map('n', '<C-j>', '<C-w>k', { noremap = true, desc = 'Move focus to the split ab
 map('n', '<C-k>', '<C-w>j', { noremap = true, desc = 'Move focus to the split below' })
 map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
 map('n', '<C-S-k>', '<C-w>l', { noremap = true, desc = 'Move focus to the split on the right' })
-vim.keymap.set('n', '<C-,>', function()
+map('n', '<C-,>', function()
     utils.scale_split '-1'
 end, { noremap = true, desc = 'Scale the current split by -1' })
-vim.keymap.set('n', '<C-.>', function()
+map('n', '<C-.>', function()
     utils.scale_split '+1'
 end, { noremap = true, desc = 'Scale the current split by +1' })
 map('n', '<leader>vs', ':vsplit<CR>', { noremap = true, silent = true })
@@ -167,15 +180,27 @@ map('i', '<C-Right>', '<C-o>w', { desc = 'Subword navigate right (insert mode)' 
 -- Source the Neovim configuration file
 map('n', '<leader>rr', ':luafile $HOME/dotfiles/nvim/init.lua<CR>', { desc = 'Reload Neovim configuration' })
 
+-- Lspmark.nvim
+map('n', 'p', function()
+    require('lspmark.bookmarks').paste_text()
+end, { desc = 'Lspmark [P]aste' })
+map('n', '<leader>tb', function()
+    require('lspmark.bookmarks').toggle_bookmark()
+end, { desc = 'Lspmark [T]oggle [B]ookmark' })
+map('n', '<leader>tl', ':Telescope lspmark<CR>', { desc = 'Toggle [L]spmark [T]elescope' })
+map('v', 'd', function()
+    require('lspmark.bookmarks').delete_visual_selection()
+end, { desc = 'Lspmark [D]elete visual selection' })
+map('n', 'dd', function()
+    require('lspmark.bookmarks').delete_line()
+end, { desc = 'Lspmark [D]elete line' })
+
 -- Write Quit
 map('n', '<leader>wq', function()
-    -- utils.close_neo_tree() -- Close Neo-tree first
-    vim.cmd 'wq' -- Then write and quit
+    vim.cmd 'wq'
 end, { desc = '[W]rite and [Q]uit' })
-
 map('n', '<leader>qq', function()
-    -- utils.close_neo_tree() -- Close Neo-tree first
-    vim.cmd 'qa' -- Then quit all
+    vim.cmd 'qa'
 end, { desc = '[Q]uit All' })
 
 -- Undo/Redo: 'u' >> 'ctrl+z', 'ctrl+r' >> 'shift+ctrl+z'
@@ -205,10 +230,10 @@ map('n', '`t', '<cmd>tabnew<cr>', { desc = 'New Tab' })
 map('n', '`w', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 
 -- Remap the 'next' and 'previous' tab keymaps to use the tab_loop function
-map('n', '`]', function()
-    vim.cmd 'lua require("config.utils").tab_loop("next")'
-end, { desc = 'Next Tab (loop around)' })
+-- map('n', '`]', function()
+--     vim.cmd 'lua require("config.utils").tab_loop("next")'
+-- end, { desc = 'Next Tab (loop around)' })
 
-map('n', '`[', function()
-    vim.cmd 'lua require("config.utils").tab_loop("prev")'
-end, { desc = 'Previous Tab (loop around)' })
+-- map('n', '`[', function()
+--     vim.cmd 'utils.tab_loop("prev")'
+-- end, { desc = 'Previous Tab (loop around)' })
