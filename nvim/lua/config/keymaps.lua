@@ -78,6 +78,8 @@ map('n', '<leader>md', function()
 end, { desc = 'Toggle [M]arkdown [D]isplay' })
 -- Run MarkdownPreview
 map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', { desc = '[M]arkdown [P]review' })
+-- Markdown Preview
+map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', { desc = '[M]arkdown [P]review' })
 
 -- todo-comments.nvim and Trouble
 map('n', '<leader>td', '<cmd>TodoTrouble<cr>', { desc = 'Show [T]odo [D]iagnostic Comments' })

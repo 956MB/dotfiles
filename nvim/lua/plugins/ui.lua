@@ -106,6 +106,7 @@ return {
                     icon = '┃ ', -- this should be omitted if indicator style is not 'icon'
                     style = 'icon',
                 },
+                buffer_close_icon = '󰅖',
                 always_show_bufferline = true,
                 hover = {
                     enabled = true,
