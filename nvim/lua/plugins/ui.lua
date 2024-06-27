@@ -123,7 +123,7 @@ return {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = function(_, opts)
-            -- -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
+            -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
             -- local insert_fix = require 'lualine.themes.github_dark_colorblind'
             -- insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
             -- insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
@@ -141,7 +141,7 @@ return {
 
             -- opts.options.theme = insert_fix
             opts.options.disabled_filetypes = {
-                statusline = {},
+                statusline = { 'NvimTree' },
                 winbar = {},
             }
             opts.sections.lualine_a = { 'mode' }

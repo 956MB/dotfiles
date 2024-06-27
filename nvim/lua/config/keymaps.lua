@@ -52,6 +52,11 @@ map('x', '<S-Tab>', '<gv', { desc = '[T]ab backward (4, Visual)' })
 -- Remap line delete to ctrl+x
 map('n', '<C-x>', 'dd', { desc = '[D]elete Line' })
 
+-- [T]his [T]hing
+map('n', '<leader>[[', function()
+    utils.surround_and_capitalize()
+end, { desc = 'Surround and [T]his [T]hing' })
+
 -- OIL
 map('n', '<C-`>', function()
     require('oil').open()
@@ -115,6 +120,9 @@ end, { desc = '[S]elect Harpoon (3)' })
 map('n', '<C-4>', function()
     harpoon:list():select(4)
 end, { desc = '[S]elect Harpoon (4)' })
+
+-- nvim-tree
+map('n', '<leader>E', '<cmd>NvimTreeToggle<CR>', { desc = 'Explorer [N]vimTree' })
 
 -- Bufferline
 map('n', '<C-w>', '<cmd>bd<CR>', { desc = '[D]elete Buffer (Tab)' })

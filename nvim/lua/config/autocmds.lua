@@ -34,3 +34,25 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = config_path .. '/**/*', -- Watch for changes in any file under the config directory
     command = 'source ' .. config_path .. '/init.lua', -- Reload the init.lua file
 })
+
+function SetWindowPadding()
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_win_get_buf(win)
+    local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
+    local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
+
+    -- Only apply padding to normal buffers and nvim-tree
+    if buftype == '' or filetype == 'NvimTree' then
+        local width = vim.api.nvim_win_get_width(win)
+        if width > 1 then
+            vim.api.nvim_win_set_option(win, 'winbar', string.rep(' ', width))
+        end
+    else
+        vim.api.nvim_win_set_option(win, 'winbar', nil)
+    end
+end
+
+-- Apply padding when entering a window
+vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+    callback = SetWindowPadding,
+})

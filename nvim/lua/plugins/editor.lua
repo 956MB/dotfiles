@@ -56,6 +56,8 @@ return {
     },
 
     { -- Scrollbar (with gitsigns)
+        -- TODO: Add support in my own fork for show/hide of marks as well as the scrollbar itself
+        -- https://github.com/petertriho/nvim-scrollbar/issues/18
         'petertriho/nvim-scrollbar',
         dependencies = { 'lewis6991/gitsigns.nvim' },
         config = function()

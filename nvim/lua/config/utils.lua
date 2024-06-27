@@ -24,4 +24,10 @@ function M.toggle_markdown_display()
     vim.wo.spell = not spell
 end
 
+function M.surround_and_capitalize()
+    local word = vim.fn.expand '<cword>'
+    local modified = '[' .. word:sub(1, 1):upper() .. ']' .. word:sub(2)
+    vim.cmd('normal! ciw' .. modified)
+end
+
 return M

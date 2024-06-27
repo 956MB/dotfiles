@@ -13,82 +13,45 @@ return {
         submodules = false,
     },
 
-    { -- IDE like file tree
-        'nvim-neo-tree/neo-tree.nvim',
+    { -- File tree
+        'nvim-tree/nvim-tree.lua',
+        version = '*',
+        lazy = false,
         dependencies = {
-            'nvim-lua/plenary.nvim',
-            'kyazdani42/nvim-web-devicons',
-            'MunifTanjim/nui.nvim',
-        },
-        keys = {
-            {
-                '<leader>E',
-                function()
-                    require('neo-tree.command').execute { dir = vim.loop.cwd() }
-                end,
-                desc = 'Explorer NeoTree (cwd)',
-            },
+            'nvim-tree/nvim-web-devicons',
+            'antosha417/nvim-lsp-file-operations',
+            'echasnovski/mini.base16',
         },
         config = function()
-            require('neo-tree').setup {
-                source_selector = {
-                    winbar = true,
+            require('nvim-tree').setup {
+                view = {
+                    width = 40,
+                    side = 'right',
                 },
-                filesystem = {
-                    filtered_items = {
-                        never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-                            '.DS_Store',
-                        },
-                    },
-                    window = {
-                        position = 'right',
-                        mappings = {
-                            ['<cr>'] = 'open',
-                            ['<esc>'] = 'revert_preview',
-                            ['P'] = { 'toggle_preview', config = { use_float = true } },
-                            ['l'] = 'focus_preview',
-                            ['C'] = 'close_node',
-                            ['z'] = 'close_all_nodes',
-                            ['a'] = {
-                                'add',
-                                -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
-                                -- some commands may take optional config options, see `:h neo-tree-mappings` for details
-                                config = {
-                                    show_path = 'none', -- "none", "relative", "absolute"
-                                },
+                renderer = {
+                    root_folder_label = ':~:s?$?/..?',
+                    icons = {
+                        glyphs = {
+                            git = {
+                                unstaged = '~',
+                                staged = '+',
+                                unmerged = 'x',
+                                renamed = '>',
+                                untracked = '?',
+                                deleted = '-',
+                                ignored = '!',
                             },
-                            ['A'] = 'add_directory', -- also accepts the optional config.show_path option like "add". this also supports BASH style brace expansion.
-                            ['d'] = 'delete',
-                            ['r'] = 'rename',
-                            ['y'] = 'copy_to_clipboard',
-                            ['x'] = 'cut_to_clipboard',
-                            ['p'] = 'paste_from_clipboard',
-                            ['c'] = 'copy', -- takes text input for destination, also accepts the optional config.show_path option like "add":
-                            ['m'] = 'move', -- takes text input for destination, also accepts the optional config.show_path option like "add".
-                            ['q'] = 'close_window',
-                            ['R'] = 'refresh',
-                            ['?'] = 'show_help',
-                            ['['] = 'prev_source',
-                            [']'] = 'next_source',
-                            ['g.'] = 'toggle_hidden',
                         },
                     },
                 },
-                buffers = {
-                    window = {
-                        mappings = {
-                            ['['] = 'prev_source',
-                            [']'] = 'next_source',
-                        },
-                    },
+                filters = {
+                    custom = { '.DS_Store' },
+                    git_ignored = false,
                 },
-                git_status = {
-                    window = {
-                        mappings = {
-                            ['['] = 'prev_source',
-                            [']'] = 'next_source',
-                        },
-                    },
+                update_focused_file = {
+                    enable = true,
+                    update_root = true,
+                    ignore_list = {},
                 },
             }
         end,
