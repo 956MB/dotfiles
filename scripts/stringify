@@ -9,8 +9,8 @@ display_usage() {
     echo ""
     echo "Options:"
     echo "  <repo-root-directory>   Directory to stringify (default: current directory)"
-    echo "  -e, --exclude           File extensions to exclude (comma-separated, e.g., -e .git,.log)"
-    echo "  -i, --include           File extensions to include (comma-separated, e.g., -i .txt,.md)"
+    echo "  -e, --exclude           File extensions to exclude (comma-separated, e.g., -e git,log)"
+    echo "  -i, --include           File extensions to include (comma-separated, e.g., -i txt,md)"
     echo "  -n, --name              Custom name for the output file (default: <directory>_stringified.txt)"
     echo "  -h, --help              Display this help message"
 }
@@ -25,7 +25,7 @@ REPO_DIR="."
 append_patterns() {
     IFS=',' read -ra exts <<<"$1"
     for ext in "${exts[@]}"; do
-        echo "-not -name \"*.$ext\""
+        echo "-o -name \"*.$ext\""
     done
 }
 
@@ -43,6 +43,7 @@ include_patterns() {
 }
 
 FIND_CMD="find"
+DEFAULT_IGNORE="-name .git -o -name .svn -o -name .hg -o -name node_modules -o -name .DS_Store"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -89,11 +90,11 @@ fi
 >"$OUTPUT_FILE"
 
 if [[ -n $INCLUDE_PATTERNS ]]; then
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type f \\( ${INCLUDE_PATTERNS[*]} \\)"
+    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f \\( ${INCLUDE_PATTERNS[*]} \\) -print"
 elif [[ -n $EXCLUDE_PATTERNS ]]; then
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type f $EXCLUDE_PATTERNS"
+    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f ! \\( $EXCLUDE_PATTERNS \\) -print"
 else
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type f"
+    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f -print"
 fi
 
 echo "Find command: $FIND_CMD"
@@ -110,7 +111,7 @@ fi
 
 while IFS= read -r file; do
     echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
-    file_lines=$(awk 'END{print NR}' "$file")
+    file_lines=$(wc -l <"$file")
     awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
     echo "" >>"$OUTPUT_FILE"
     ((TOTAL_FILES++))
