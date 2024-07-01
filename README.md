@@ -184,25 +184,24 @@ Total: 89 plugins
 
 ```python
                  -- --                    Project: dotfiles (2 branches)
-         --                 -- @@@@       HEAD: 804523a (main)
+         --                 -- @@@@       HEAD: da83b9e (main)
       --      @@@@@@@@@@@     @@@@@@      Pending: 1+- 1+
            @@@@@@@@@@@@@@@@@   @@@@       Created: 2 months ago
   --     @@@@@@@@@@@@@@****@@@     --     Languages:                            
- --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (89.1 %) ● Shell (4.1 %)
-      @@@@@@@@@@@@@@@@@****@@@@@@                    ● BASH (3.5 %) ● Python (2.1 %)
---   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Zsh (1.2 %) 
---   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 40
-     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: a minute ago
+ --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (88.2 %) ● BASH (4.9 %)
+      @@@@@@@@@@@@@@@@@****@@@@@@                    ● Shell (3.9 %) ● Python (2.0 %)
+--   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Zsh (1.1 %) 
+--   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 49
+     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: 4 minutes ago
 --   @@@**@@@@@@**@@**@@@*****@@@@   --   URL: https://github.com/956MB/dotfiles.git
---   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 40
-      @@*******@******@********@@         Churn (2): …/config/keymaps.lua 1
- --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               …/plugins/ui.lua 1
-  --     @@@@@@@@@@@@@@@@@@@@@     --     Lines of code: 2888
-           @@@@@@@@@@@@@@@@@              Size: 1.47 MiB (60 files)
-      --      @@@@@@@@@@@      --         License: MIT
-         --                 --         
+--   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 49
+      @@*******@******@********@@         Churn (2): scripts/stringify 2
+ --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               …/config/autocmds.lua 1
+  --     @@@@@@@@@@@@@@@@@@@@@     --                …/plugins/lsp.lua 1
+           @@@@@@@@@@@@@@@@@              Lines of code: 3049
+      --      @@@@@@@@@@@      --         Size: 1.47 MiB (60 files)
+         --                 --            License: MIT
                  -- --                 
-
 ```
 
 ## License
