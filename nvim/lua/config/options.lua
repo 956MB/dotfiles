@@ -38,6 +38,9 @@ opt.signcolumn = 'yes'
 opt.updatetime = 250
 opt.timeoutlen = 300
 
+opt.exrc = true
+opt.secure = true
+
 opt.splitright = true
 opt.splitbelow = true
 
@@ -55,6 +58,8 @@ opt.shiftwidth = 4 -- Number of spaces inserted when indent
 opt.scroll = 5
 opt.scrolloff = 10
 opt.hlsearch = true
+
+opt.wrap = true
 
 -- -- Wrap cursor around lines
 opt.whichwrap:append '<,>,[,],h,l'

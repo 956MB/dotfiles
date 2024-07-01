@@ -52,10 +52,17 @@ return {
             require('notify').setup {
                 filter = function(_, win)
                     local bufnr = vim.api.nvim_win_get_buf(win)
-                    local buftype = vim.api.nvim_buf_get_option(bufnr, 'buftype')
+                    local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
                     return buftype ~= 'help'
                 end,
             }
+        end,
+    },
+
+    { -- Preview hex colors
+        'norcalli/nvim-colorizer.lua',
+        config = function()
+            require('colorizer').setup()
         end,
     },
 
@@ -65,17 +72,59 @@ return {
         keys = {
             {
                 '<C-\\>',
-                '<cmd>ToggleTerm<CR>',
+                '<cmd>ToggleTerm direction=float<CR>',
+                { desc = '[T]oggleTerm [F]loat' },
+            },
+            {
+                '<leader>tv',
+                '<cmd>ToggleTerm direction=vertical<CR>',
+                { desc = '[T]oggleTerm [V]ertical' },
+            },
+            {
+                '<leader>th',
+                '<cmd>ToggleTerm direction=horizontal<CR>',
+                { desc = '[T]oggleTerm [H]orizontal' },
             },
         },
         config = function()
+            local bg_color = vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
+
             require('toggleterm').setup {
-                persist_mode = false,
-                direction = 'float',
+                persist_mode = true,
+                size = function(term)
+                    if term.direction == 'horizontal' then
+                        return 20
+                    elseif term.direction == 'vertical' then
+                        return vim.o.columns * 0.4
+                    end
+                end,
+                highlights = {
+                    Normal = {
+                        guibg = bg_color,
+                    },
+                    NormalFloat = {
+                        guibg = bg_color,
+                    },
+                    FloatBorder = {
+                        guifg = bg_color,
+                        guibg = bg_color,
+                    },
+                },
                 float_opts = {
+                    border = 'curved',
                     title_pos = 'center',
                 },
+                on_open = function(term)
+                    vim.api.nvim_set_option_value('winhighlight', 'Normal:Normal', { win = term.window })
+                end,
             }
+
+            vim.api.nvim_create_autocmd('TermOpen', {
+                pattern = '*',
+                callback = function()
+                    vim.wo.winhighlight = 'Normal:Normal'
+                end,
+            })
         end,
     },
 
@@ -218,7 +267,8 @@ return {
                         dashboard.button('n', ' ' .. ' New file',        '<cmd> ene <CR>'),
                         dashboard.button('r', ' ' .. ' Recent files',    '<cmd> Telescope oldfiles <CR>'),
                         dashboard.button('c', ' ' .. ' Config',          '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
-                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
+                        -- dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
+                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd>lua require("persistence").load() vim.defer_fn(function() vim.cmd("doautocmd User SessionLoadPost") end, 10)<CR>'),
                         dashboard.button('u', ' ' .. ' Update plugins' , '<cmd> Lazy sync <CR>'),
                         dashboard.button('l', '󰒲 ' .. ' Lazy',            '<cmd> Lazy <CR>'),
                         dashboard.button('q', ' ' .. ' Quit',            '<cmd> qa <CR>'),
@@ -251,8 +301,8 @@ return {
             local lazyvim_version = 'v' .. require('lazy.core.config').version
 
             local header = '\n\n\n\n\n\n' .. banner .. '\n' .. '                       Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
-            dashboard.section.header.val = vim.split(header, '\n')
 
+            dashboard.section.header.val = vim.split(header, '\n')
             dashboard.section.buttons.opts.hl = 'AlphaButtons'
             dashboard.section.buttons.opts.spacing = 0
             dashboard.section.footer.opts.hl = 'AlphaFooter'

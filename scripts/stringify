@@ -3,15 +3,16 @@
 display_usage() {
     echo "This script stringifies the contents of a directory, including all files and their line numbers."
     echo ""
-    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name>"
+    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name> [-m]"
     echo ""
-    echo "Example: stringify gpui -i rs,toml -n gpui_rs"
+    echo "Example: stringify gpui -i rs,toml -n gpui_rs -m"
     echo ""
     echo "Options:"
     echo "  <repo-root-directory>   Directory to stringify (default: current directory)"
     echo "  -e, --exclude           File extensions to exclude (comma-separated, e.g., -e git,log)"
     echo "  -i, --include           File extensions to include (comma-separated, e.g., -i txt,md)"
     echo "  -n, --name              Custom name for the output file (default: <directory>_stringified.txt)"
+    echo "  -m, --minify            Minify the output, removing extra whitespace and replacing newlines with '\n'"
     echo "  -h, --help              Display this help message"
 }
 
@@ -21,6 +22,7 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 fi
 
 REPO_DIR="."
+MINIFY=false
 
 append_patterns() {
     IFS=',' read -ra exts <<<"$1"
@@ -42,8 +44,43 @@ include_patterns() {
     echo "${patterns[@]}"
 }
 
-FIND_CMD="find"
-DEFAULT_IGNORE="-name .git -o -name .svn -o -name .hg -o -name node_modules -o -name .DS_Store"
+DEFAULT_IGNORE=(
+    .git .github .svn .hg node_modules .DS_Store .vscode .idea
+    '*pycache*' .pytest_cache .cache .mypy_cache .tox .venv
+    .gitignore .gitattributes .gitmodules .gitkeep
+    .gitlab-ci.yml .travis.yml .editorconfig
+)
+
+IMAGE_EXTENSIONS=(gif png jpg jpeg webp avif)
+
+construct_find_cmd() {
+    local cmd="find \"$REPO_DIR\""
+
+    # Add directory ignores
+    cmd+=" \\( -name ${DEFAULT_IGNORE[0]}"
+    for ignore in "${DEFAULT_IGNORE[@]:1}"; do
+        cmd+=" -o -name $ignore"
+    done
+    cmd+=" \\) -prune"
+
+    # Add image file ignores
+    cmd+=" -o \\( -iname \"*.${IMAGE_EXTENSIONS[0]}\""
+    for ext in "${IMAGE_EXTENSIONS[@]:1}"; do
+        cmd+=" -o -iname \"*.$ext\""
+    done
+    cmd+=" \\) -prune"
+
+    # Add file type and print
+    if [[ -n $INCLUDE_PATTERNS ]]; then
+        cmd+=" -o -type f \\( ${INCLUDE_PATTERNS[*]} \\) -print"
+    elif [[ -n $EXCLUDE_PATTERNS ]]; then
+        cmd+=" -o -type f ! \\( $EXCLUDE_PATTERNS \\) -print"
+    else
+        cmd+=" -o -type f -print"
+    fi
+
+    echo "$cmd"
+}
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -60,6 +97,10 @@ while [[ "$#" -gt 0 ]]; do
     -n | --name)
         shift
         CUSTOM_OUTPUT_NAME="$1"
+        shift
+        ;;
+    -m | --minify)
+        MINIFY=true
         shift
         ;;
     *)
@@ -82,6 +123,11 @@ else
     OUTPUT_FILE="${REPO_NAME}_stringified.txt"
 fi
 
+# Add "_mini" to the output file name if minify is enabled
+if [ "$MINIFY" = true ]; then
+    OUTPUT_FILE="${OUTPUT_FILE%.*}_mini.txt"
+fi
+
 if [ ! -d "$REPO_DIR" ]; then
     echo "Directory does not exist: $REPO_DIR"
     exit 1
@@ -89,15 +135,9 @@ fi
 
 >"$OUTPUT_FILE"
 
-if [[ -n $INCLUDE_PATTERNS ]]; then
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f \\( ${INCLUDE_PATTERNS[*]} \\) -print"
-elif [[ -n $EXCLUDE_PATTERNS ]]; then
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f ! \\( $EXCLUDE_PATTERNS \\) -print"
-else
-    FIND_CMD="$FIND_CMD \"$REPO_DIR\" -type d \\( $DEFAULT_IGNORE \\) -prune -o -type f -print"
-fi
+FIND_CMD=$(construct_find_cmd)
 
-echo "Find command: $FIND_CMD"
+echo "Constructed find command: $FIND_CMD"
 
 if [[ -n $INCLUDE_PATTERNS ]]; then
     included_extensions=$(echo "$INCLUDE_PATTERNS" | sed 's/.*\*\.\(.*\)".*/\1/g' | tr '\n' ', ' | sed 's/, $//')
@@ -116,8 +156,27 @@ while IFS= read -r file; do
     echo "" >>"$OUTPUT_FILE"
     ((TOTAL_FILES++))
     ((TOTAL_LINES += file_lines))
-done < <(eval $FIND_CMD)
+done < <(eval "$FIND_CMD")
 
 echo "Total files: $TOTAL_FILES"
 echo "Total lines: $TOTAL_LINES"
 echo "Output file: $OUTPUT_FILE"
+
+if [ "$MINIFY" = true ]; then
+    echo "Minifying output..."
+    awk '
+    BEGIN { RS="FILE: "; ORS="" }
+    NR>1 {
+        gsub(/^[ \t]+|[ \t]+$/, "");  # Trim leading/trailing whitespace
+        gsub(/\n+/, "\\n");  # Replace newlines with \n
+        gsub(/[ \t]+/, " ");  # Replace multiple spaces/tabs with a single space
+        print "FILE: " $0 "\\n";
+    }
+    ' "$OUTPUT_FILE" >"${OUTPUT_FILE}.temp"
+    mv "${OUTPUT_FILE}.temp" "$OUTPUT_FILE"
+    echo "Minification complete."
+fi
+
+TOTAL_CHARS=$(wc -c <"$OUTPUT_FILE")
+
+echo "Total characters: $TOTAL_CHARS"

@@ -162,7 +162,31 @@ return {
 
             local servers = {
                 rust_analyzer = {},
-                gopls = {},
+                gopls = {
+                    settings = {
+                        gopls = {
+                            staticcheck = true,
+                            gofumpt = true,
+                            buildFlags = { '-tags=integration' },
+                            -- Disable the 'gc' check which includes the "main redeclared" error
+                            analyses = {
+                                unusedparams = true,
+                                shadow = false,
+                                gc = false,
+                            },
+                        },
+                    },
+                    handlers = {
+                        ['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
+                            local diagnostics = result.diagnostics
+                            local filtered_diagnostics = vim.tbl_filter(function(diagnostic)
+                                return not diagnostic.message:match 'main redeclared in this block'
+                            end, diagnostics)
+                            result.diagnostics = filtered_diagnostics
+                            vim.lsp.handlers['textDocument/publishDiagnostics'](_, result, ctx, config)
+                        end,
+                    },
+                },
                 tsserver = {},
                 -- sourcekit = {
                 --     filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
@@ -185,11 +209,28 @@ return {
                 lua_ls = {
                     settings = {
                         Lua = {
+                            runtime = {
+                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                                version = 'LuaJIT',
+                            },
+                            diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = { 'vim' },
+                                -- Keep your existing setting to disable 'missing-fields' warnings
+                                disable = { 'missing-fields' },
+                            },
+                            workspace = {
+                                -- Make the server aware of Neovim runtime files
+                                library = vim.api.nvim_get_runtime_file('', true),
+                                checkThirdParty = false,
+                            },
+                            -- Do not send telemetry data containing a randomized but unique identifier
+                            telemetry = {
+                                enable = false,
+                            },
                             completion = {
                                 callSnippet = 'Replace',
                             },
-                            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                            diagnostics = { disable = { 'missing-fields' }, globals = { 'vim' } },
                         },
                     },
                 },

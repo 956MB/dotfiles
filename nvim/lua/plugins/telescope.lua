@@ -165,8 +165,8 @@ return {
                         -- previewer = conf.file_previewer {},
                         sorter = conf.generic_sorter {},
                         layout_config = harpoon_layout,
-                        attach_mappings = function(prompt_buffer_number, map)
-                            map('i', '<C-d>', function()
+                        attach_mappings = function(prompt_buffer_number, m)
+                            m('i', '<C-d>', function()
                                 local state = require 'telescope.actions.state'
                                 local selected_entry = state.get_selected_entry()
                                 local current_picker = state.get_current_picker(prompt_buffer_number)

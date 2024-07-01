@@ -38,17 +38,26 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 function SetWindowPadding()
     local win = vim.api.nvim_get_current_win()
     local buf = vim.api.nvim_win_get_buf(win)
-    local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
-    local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = buf })
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = buf })
+
+    local is_toggleterm = false
+    pcall(function()
+        is_toggleterm = vim.api.nvim_buf_get_var(buf, 'toggle_number') ~= nil
+    end)
+    -- If the above check failed, try an alternative method
+    if not is_toggleterm then
+        is_toggleterm = filetype == 'toggleterm'
+    end
 
     -- Only apply padding to normal buffers and nvim-tree
-    if buftype == '' or filetype == 'NvimTree' then
+    if (buftype == '' or filetype == 'NvimTree') and not is_toggleterm then
         local width = vim.api.nvim_win_get_width(win)
         if width > 1 then
-            vim.api.nvim_win_set_option(win, 'winbar', string.rep(' ', width))
+            vim.api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })
         end
     else
-        vim.api.nvim_win_set_option(win, 'winbar', nil)
+        vim.api.nvim_set_option_value('winbar', nil, { win = win })
     end
 end
 
@@ -56,3 +65,40 @@ end
 vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
     callback = SetWindowPadding,
 })
+
+-- golings file save/watch nonsense work around
+vim.api.nvim_create_autocmd('BufWritePre', {
+    pattern = '*.go',
+    callback = function()
+        local file = vim.fn.expand '<afile>:p'
+        local is_exercise = string.match(file, 'exercises/.+/main%.go$')
+        local golings_in_path = vim.fn.executable 'golings' == 1
+
+        if golings_in_path or is_exercise then
+            -- Disable the 'writebackup' option temporarily
+            local old_writebackup = vim.o.writebackup
+            vim.o.writebackup = false
+
+            vim.cmd 'write!'
+            vim.o.writebackup = old_writebackup
+            vim.cmd 'edit!'
+        end
+    end,
+})
+
+-- Function to load local config
+local function load_local_config()
+    local local_config = vim.fn.getcwd() .. '/.nvim.lua'
+    if vim.fn.filereadable(local_config) == 1 then
+        dofile(local_config)
+    end
+end
+
+-- Create an autocommand to load the local config after changing directories
+vim.api.nvim_create_autocmd({ 'DirChanged' }, {
+    pattern = '*',
+    callback = load_local_config,
+})
+
+-- Load local config on startup
+load_local_config()

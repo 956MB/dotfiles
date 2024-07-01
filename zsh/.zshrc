@@ -1,6 +1,7 @@
 export PATH=~/.npm-global/bin:$PATH
 export PATH="/usr/bin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 export PATH="$PATH:$HOME/dotfiles/scripts"
 
 export CLICOLOR_FORCE=1
@@ -24,6 +25,7 @@ FUNCNEST=100
     alias v='nvim' nv='nvim'
     alias z-='z -'
     alias cd..='z ..'
+    alias z..='z ..'
     alias ..='z ..'
     alias l='ls -t'
     alias ll='ls -altrF'
