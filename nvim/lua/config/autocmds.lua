@@ -1,3 +1,24 @@
+-- Starting manualy works, i guess.
+local swift_lsp = vim.api.nvim_create_augroup('swift_lsp', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'swift' },
+    callback = function()
+        local root_dir = vim.fs.dirname(vim.fs.find({
+            'Package.swift',
+            '.git',
+        }, { upward = true })[1])
+        local client_id = vim.lsp.start {
+            name = 'sourcekit-lsp',
+            cmd = { 'sourcekit-lsp' },
+            root_dir = root_dir,
+        }
+        if client_id then
+            vim.lsp.buf_attach_client(0, client_id)
+        end
+    end,
+    group = swift_lsp,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
@@ -10,20 +31,30 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Set the filetype of .db files to sqlite (prisma)
-vim.cmd [[autocmd BufRead,BufNewFile *.db set filetype=sqlite]]
-
--- Force none relative line numbers
-vim.cmd [[
-    augroup DisableRelativeNumber
-        autocmd!
-        autocmd BufEnter * :set norelativenumber
-    augroup END
-]]
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    pattern = '*.db',
+    callback = function()
+        vim.bo.filetype = 'sqlite'
+    end,
+})
 
 -- Turn off spell when opening markdown files
-vim.cmd [[
-    autocmd FileType markdown setlocal nospell
-]]
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'markdown',
+    callback = function()
+        vim.wo.spell = false
+    end,
+})
+
+-- Merged BufEnter autocommands for disabling relative numbers and enabling wrap
+local buffer_settings = vim.api.nvim_create_augroup('BufferSettings', { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = buffer_settings,
+    callback = function()
+        vim.wo.relativenumber = false -- Disable relative line numbers
+        vim.wo.wrap = true -- Enable text wrapping
+    end,
+})
 
 -- Reload Neovim config when changes are made to the lua directory
 local config_path = vim.env.LAZYVIM_CONFIG_PATH or vim.fn.stdpath 'config'

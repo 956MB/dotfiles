@@ -49,8 +49,17 @@ map('n', '<S-Tab>', ':<<CR>', { desc = '[T]ab backward (4, Normal)' })
 map('x', '<Tab>', '>gv', { desc = '[T]ab forward (4, Visual)' })
 map('x', '<S-Tab>', '<gv', { desc = '[T]ab backward (4, Visual)' })
 
--- Remap line delete to ctrl+x
+-- Remap line delete to 'ctrl+x'
 map('n', '<C-x>', 'dd', { desc = '[D]elete Line' })
+map('v', '<C-x>', 'D', { desc = '[D]elete Lines' })
+
+-- Search selected text with '/'
+map('v', '/', function()
+    vim.cmd 'normal! y'
+    local escaped_text = vim.fn.escape(vim.fn.getreg '"', '/\\')
+    vim.fn.setreg('/', '\\V' .. escaped_text)
+    vim.cmd 'normal! n'
+end, { noremap = true, desc = 'Search selected text' })
 
 -- [T]his [T]hing
 map('n', '<leader>[[', function()

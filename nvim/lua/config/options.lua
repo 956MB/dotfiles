@@ -59,8 +59,6 @@ opt.scroll = 5
 opt.scrolloff = 10
 opt.hlsearch = true
 
-opt.wrap = true
-
 -- -- Wrap cursor around lines
 opt.whichwrap:append '<,>,[,],h,l'
 

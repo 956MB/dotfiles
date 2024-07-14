@@ -55,6 +55,7 @@ return {
                 },
                 -- sources for autocompletion
                 sources = cmp.config.sources {
+                    { name = 'cody' },
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' }, -- snippets
                     { name = 'buffer' }, -- text within current buffer
@@ -188,6 +189,44 @@ return {
                     },
                 },
                 tsserver = {},
+                tailwindcss = {
+                    -- Tailwindcss support for Rust (leptos/yew/dioxus/etc)
+                    filetypes = {
+                        'css',
+                        'scss',
+                        'sass',
+                        'postcss',
+                        'html',
+                        'javascript',
+                        'javascriptreact',
+                        'typescript',
+                        'typescriptreact',
+                        'svelte',
+                        'vue',
+                        'rust',
+                    },
+                    init_options = {
+                        -- There you can set languages to be considered as different ones by tailwind lsp I guess same as includeLanguages in VSCod
+                        userLanguages = {
+                            rust = 'html',
+                        },
+                    },
+                    experimental = {
+                        classRegex = {
+                            [[class="([^"]*)]],
+                            'class=\\s+"([^"]*)',
+                        },
+                    },
+                    -- Here If any of files from list will exist tailwind lsp will activate.
+                    root_dir = require('lspconfig').util.root_pattern(
+                        'tailwind.config.js',
+                        'tailwind.config.ts',
+                        'postcss.config.js',
+                        'postcss.config.ts',
+                        'windi.config.ts'
+                    ),
+                },
+                -- NOTE: This alone doesn't work. Starting `sourcekit-lsp` manually in autocmds.lua works, apparently.
                 -- sourcekit = {
                 --     filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
                 --     root_dir = require('lspconfig').util.root_pattern(
@@ -199,7 +238,7 @@ return {
                 --         'Package.swift'
                 --     ),
                 --     cmd = {
-                --         -- '/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
+                --         -- '~/Applications/Xcode-15.0.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
                 --         '/usr/bin/sourcekit-lsp',
                 --     },
                 --     capabilities = {

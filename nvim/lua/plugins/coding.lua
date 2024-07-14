@@ -15,12 +15,9 @@ return {
         opts = {
             notify_on_error = false,
             -- format_on_save = function(bufnr)
-            --     -- Disable "format_on_save lsp_fallback" for languages that don't
-            --     -- have a well standardized coding style. You can add additional
-            --     -- languages here or re-enable it for the disabled ones.
-            --     local disable_filetypes = { c = true, cpp = true }
+            --     local disable_filetypes = { c = true, cpp = true, js = true }
             --     return {
-            --         timeout_ms = 500,
+            --         timeout_ms = 499,
             --         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
             --     }
             -- end,
@@ -28,7 +25,7 @@ return {
                 css = { 'prettierd', 'prettier' },
                 lua = { 'stylua' },
                 go = { 'goimports', 'gofmt' },
-                javascript = { { 'prettierd', 'prettier' } },
+                -- javascript = { { 'prettierd', 'prettier' } },
                 python = {
                     {
                         exe = 'black',
@@ -64,6 +61,17 @@ return {
             -- - sr)'  - [S]urround [R]eplace [)] [']
             require('mini.surround').setup()
         end,
+    },
+
+    { -- Very buggy, return to this later
+        -- 'OXY2DEV/markview.nvim',
+        -- dependencies = {
+        --     'nvim-tree/nvim-web-devicons', -- Used by the code bloxks
+        -- },
+        --
+        -- config = function()
+        --     require('markview').setup()
+        -- end,
     },
 
     { -- Indentation scope animation NONE
@@ -193,6 +201,16 @@ return {
                 '<C-d>',
                 '<cmd>MCstart<cr>',
                 desc = 'Create a selection for selected text or word under the cursor',
+            },
+        },
+    },
+
+    { -- Sourcegraph Cody
+        'sourcegraph/sg.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        opts = {
+            chat = {
+                default_model = 'anthropic/claude-3-5-sonnet-20240620',
             },
         },
     },
