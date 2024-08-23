@@ -133,8 +133,13 @@ end, { desc = '[S]elect Harpoon (4)' })
 -- nvim-tree
 map('n', '<leader>E', '<cmd>NvimTreeToggle<CR>', { desc = 'Explorer [N]vimTree' })
 
+-- tiny-code-action
+map('n', '<leader>ct', function()
+    require('tiny-code-action').code_action()
+end, { desc = 'Code [A]ction (Tiny)' })
+
 -- Bufferline
-map('n', '<C-w>', '<cmd>bd<CR>', { desc = '[D]elete Buffer (Tab)' })
+map('n', '<C-w>', "<cmd>lua require('bufdelete').bufdelete()<CR>", { desc = '[D]elete Buffer (Tab)' })
 map('n', '<leader>co', '<cmd>BufferLineCloseOthers<CR>', { desc = '[C]lose all [O]ther open tabs' })
 map('n', '<leader>bp', '<cmd>BufferLineTogglePin<CR>', { desc = 'Toggle [B]uffer [P]in' })
 map('n', '-', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Cycle buffers Prev (Left)' })

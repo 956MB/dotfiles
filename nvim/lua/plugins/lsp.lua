@@ -47,8 +47,8 @@ return {
                 mapping = cmp.mapping.preset.insert {
                     ['<Up>'] = cmp.mapping.select_prev_item(), -- previous suggestion
                     ['<Down>'] = cmp.mapping.select_next_item(), -- next suggestion
-                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     ['<C-Space>'] = cmp.mapping.complete(), -- show completion suggestions
                     ['<C-e>'] = cmp.mapping.abort(), -- close completion window
                     ['<CR>'] = cmp.mapping.confirm { select = false },
@@ -93,6 +93,31 @@ return {
                     },
                 }),
             })
+        end,
+    },
+
+    {
+        'rachartier/tiny-code-action.nvim',
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope.nvim' },
+        },
+        event = 'LspAttach',
+        config = function()
+            require('tiny-code-action').setup {
+                telescope_opts = {
+                    layout_strategy = 'vertical',
+                    layout_config = {
+                        width = 0.7,
+                        height = 0.6,
+                        preview_cutoff = 1,
+                        preview_height = function(_, _, max_lines)
+                            local h = math.floor(max_lines * 0.5)
+                            return math.max(h, 10)
+                        end,
+                    },
+                },
+            }
         end,
     },
 
@@ -162,7 +187,24 @@ return {
             capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
             local servers = {
-                rust_analyzer = {},
+                rust_analyzer = {
+                    settings = {
+                        ['rust-analyzer'] = {
+                            checkOnSave = {
+                                command = 'clippy',
+                            },
+                            cargo = {
+                                allFeatures = true,
+                            },
+                            procMacro = {
+                                enable = true,
+                            },
+                            rustfmt = {
+                                extraArgs = { '--config', 'max_width=200' },
+                            },
+                        },
+                    },
+                },
                 gopls = {
                     settings = {
                         gopls = {

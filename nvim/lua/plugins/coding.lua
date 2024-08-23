@@ -22,6 +22,7 @@ return {
             --     }
             -- end,
             formatters_by_ft = {
+                rust = { 'rustfmt' },
                 css = { 'prettierd', 'prettier' },
                 lua = { 'stylua' },
                 go = { 'goimports', 'gofmt' },
@@ -63,15 +64,47 @@ return {
         end,
     },
 
-    { -- Very buggy, return to this later
-        -- 'OXY2DEV/markview.nvim',
-        -- dependencies = {
-        --     'nvim-tree/nvim-web-devicons', -- Used by the code bloxks
-        -- },
-        --
-        -- config = function()
-        --     require('markview').setup()
-        -- end,
+    -- { -- Markview
+    --     'OXY2DEV/markview.nvim',
+    --     lazy = false,
+    --     dependencies = {
+    --         'nvim-treesitter/nvim-treesitter',
+    --         'nvim-tree/nvim-web-devicons',
+    --     },
+    --
+    --     config = function()
+    --         require('markview').setup {
+    --             modes = { 'n', 'i', 'no', 'c' },
+    --             hybrid_modes = { 'i' },
+    --             callbacks = {
+    --                 on_enable = function(_, win)
+    --                     vim.wo[win].conceallevel = 2
+    --                     vim.wo[win].concealcursor = 'nc'
+    --                 end,
+    --             },
+    --         }
+    --     end,
+    -- },
+
+    { -- Neovide project explorer
+        'Rics-Dev/project-explorer.nvim',
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+        },
+        opts = {
+            paths = { '~/Dev/*' },
+            newProjectPath = '~/Dev/',
+            file_explorer = function(dir)
+                require('oil').open(dir)
+            end,
+        },
+        config = function(_, opts)
+            require('project_explorer').setup(opts)
+        end,
+        keys = {
+            { '<leader>fp', '<cmd>ProjectExplorer<cr>', desc = 'Project Explorer' },
+        },
+        lazy = false,
     },
 
     { -- Indentation scope animation NONE
@@ -205,15 +238,15 @@ return {
         },
     },
 
-    { -- Sourcegraph Cody
-        'sourcegraph/sg.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = {
-            chat = {
-                default_model = 'anthropic/claude-3-5-sonnet-20240620',
-            },
-        },
-    },
+    -- { -- Sourcegraph Cody
+    --     'sourcegraph/sg.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     opts = {
+    --         chat = {
+    --             default_model = 'anthropic/claude-3-5-sonnet-20240620',
+    --         },
+    --     },
+    -- },
 
     { -- Github Copliot
         'zbirenbaum/copilot.lua',

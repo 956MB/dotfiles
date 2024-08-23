@@ -45,10 +45,63 @@ include_patterns() {
 }
 
 DEFAULT_IGNORE=(
-    .git .github .svn .hg node_modules .DS_Store .vscode .idea
-    '*pycache*' .pytest_cache .cache .mypy_cache .tox .venv
+    # Version control
+    .git .github .svn .hg .bzr
+    # Package managers
+    node_modules bower_components jspm_packages
+    .npm .yarn .pnpm-store
+    # Build outputs and caches
+    build dist out .build .dist .out
+    .cache .tmp .temp target
+    '*pycache*' .pytest_cache .mypy_cache .tox
+    .gradle .maven
+    # IDE and editor files
+    .vscode .idea .vs
+    .project .settings .classpath
+    *.sublime-* *.swp .netrwhist
+    # OS generated files
+    .DS_Store Thumbs.db desktop.ini
+    # Env and config files
+    .env .env.* .envrc
+    config.* *.config
+    # Logs and databases
+    logs *.log npm-debug.log*
+    *.sqlite *.sqlite3 *.db
+    # Binary and media file directories
+    bin lib vendor
+    assets images img media static
+    fonts videos audio docs
+    # Backup files
+    *~ *.bak *.swp *.swo
+    # Compiled source
+    *.com *.class *.dll *.exe *.o *.so *.pyc *.pyo
+    # Compressed files
+    *.7z *.gz *.jar *.rar *.tar *.zip
+    # Other common ignore patterns
     .gitignore .gitattributes .gitmodules .gitkeep
-    .gitlab-ci.yml .travis.yml .editorconfig
+    .dockerignore Dockerfile* docker-compose*
+    .eslintignore .prettierignore
+    .gitlab-ci.yml .travis.yml .circleci
+    .editorconfig
+    # Additional patterns to match scc behavior
+    '*.min.js' '*.min.css'
+    'node_modules*' 'vendor*'
+    '.history' '.vscode'
+    '*.lock' 'package-lock.json' 'yarn.lock'
+    # Audio files
+    '*.mp3' '*.ogg' '*.wav' '*.flac' '*.aac' '*.m4a'
+    # Video files
+    '*.mp4' '*.avi' '*.mov' '*.wmv' '*.flv' '*.webm'
+    # Image files
+    '*.jpg' '*.jpeg' '*.png' '*.gif' '*.bmp' '*.tiff' '*.svg'
+    # Document files
+    '*.pdf' '*.doc' '*.docx' '*.xls' '*.xlsx' '*.ppt' '*.pptx'
+    # Archive files
+    '*.iso' '*.dmg'
+    # Font files
+    '*.ttf' '*.otf' '*.woff' '*.woff2' '*.eot'
+    # Binary files
+    '*.bin' '*.dat'
 )
 
 IMAGE_EXTENSIONS=(gif png jpg jpeg webp avif)
@@ -56,10 +109,17 @@ IMAGE_EXTENSIONS=(gif png jpg jpeg webp avif)
 construct_find_cmd() {
     local cmd="find \"$REPO_DIR\""
 
+    cmd+=" \\( -path '*/.*' -o -path '*/.*/*' \\) -prune -o"
+
     # Add directory ignores
     cmd+=" \\( -name ${DEFAULT_IGNORE[0]}"
     for ignore in "${DEFAULT_IGNORE[@]:1}"; do
-        cmd+=" -o -name $ignore"
+        if [[ $ignore == .* || $ignore == \** ]]; then
+            # For dot directories and wildcard patterns, use -path to match any level
+            cmd+=" -o -path \"*/$ignore\""
+        else
+            cmd+=" -o -name $ignore"
+        fi
     done
     cmd+=" \\) -prune"
 
@@ -140,7 +200,7 @@ FIND_CMD=$(construct_find_cmd)
 echo "Constructed find command: $FIND_CMD"
 
 if [[ -n $INCLUDE_PATTERNS ]]; then
-    included_extensions=$(echo "$INCLUDE_PATTERNS" | sed 's/.*\*\.\(.*\)".*/\1/g' | tr '\n' ', ' | sed 's/, $//')
+    included_extensions=$(echo "$INCLUDE_PATTERNS" | sed -E 's/-name "\*\.([^"]+)"/-name:\1/g' | sed 's/-o //g' | tr ' ' '\n' | grep '^-name:' | cut -d':' -f2 | tr '\n' ',' | sed 's/,$//')
     echo "Included file types: $included_extensions"
 fi
 
@@ -149,18 +209,24 @@ if [[ -n $EXCLUDE_PATTERNS ]]; then
     echo "Excluded file types: $excluded_extensions"
 fi
 
+is_binary() {
+    file --mime-encoding "$1" | grep -q binary
+}
+
 while IFS= read -r file; do
-    echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
-    file_lines=$(wc -l <"$file")
-    awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
-    echo "" >>"$OUTPUT_FILE"
-    ((TOTAL_FILES++))
-    ((TOTAL_LINES += file_lines))
+    if ! is_binary "$file"; then
+        echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
+        file_lines=$(wc -l <"$file")
+        awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
+        echo "" >>"$OUTPUT_FILE"
+        ((TOTAL_FILES++))
+        ((TOTAL_LINES += file_lines))
+    fi
 done < <(eval "$FIND_CMD")
 
+echo "Output file: $OUTPUT_FILE"
 echo "Total files: $TOTAL_FILES"
 echo "Total lines: $TOTAL_LINES"
-echo "Output file: $OUTPUT_FILE"
 
 if [ "$MINIFY" = true ]; then
     echo "Minifying output..."
@@ -178,5 +244,3 @@ if [ "$MINIFY" = true ]; then
 fi
 
 TOTAL_CHARS=$(wc -c <"$OUTPUT_FILE")
-
-echo "Total characters: $TOTAL_CHARS"

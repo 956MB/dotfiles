@@ -70,6 +70,7 @@ FUNCNEST=100
     alias gp='git pull'
     alias gpsh='git push'
     alias gss='git status'
+    alias gwho='git shortlog -s -n | head'
     alias gcnt='git ls-files | wc -l'
     alias lg='lazygit'
 

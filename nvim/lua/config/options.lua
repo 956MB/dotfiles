@@ -13,6 +13,7 @@ local opt = vim.opt
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
+opt.background = 'dark'
 
 opt.swapfile = false
 opt.list = false
@@ -25,6 +26,7 @@ opt.mousemoveevent = true
 opt.mouse = 'a'
 opt.conceallevel = 2
 opt.showmode = false
+opt.textwidth = 0
 
 opt.clipboard = 'unnamedplus'
 opt.breakindent = true
@@ -81,7 +83,8 @@ if vim.g.neovide then
         'i-ci-r-cr:ver25-Cursor/lCursor',
         'r:ver25-Cursor/lCursor',
     }, ',')
-
+    vim.o.guifont = 'JetBrainsMonoNL Nerd Font Mono:h13'
+    vim.o.linespace = 0
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_cursor_animation_length = 0
     vim.g.neovide_cursor_trail_size = 0

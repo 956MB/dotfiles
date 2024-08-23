@@ -21,15 +21,6 @@ return {
         event = 'VimEnter', -- Sets the loading event to 'VimEnter'
         config = function() -- This is the function that runs, AFTER loading
             require('which-key').setup()
-
-            -- Document existing key chains
-            require('which-key').register {
-                ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-                ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-                ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-                ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-                ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-            }
         end,
     },
 
@@ -43,11 +34,11 @@ return {
         config = function()
             require('gitsigns').setup {
                 signs = {
-                    add = { text = '-' },
-                    change = { text = '-' },
-                    delete = { text = '-' },
-                    topdelete = { text = '-' },
-                    changedelete = { text = '-' },
+                    add = { text = '│' },
+                    change = { text = '│' },
+                    delete = { text = '│' },
+                    topdelete = { text = '│' },
+                    changedelete = { text = '│' },
                 },
             }
             require('scrollbar.handlers.gitsigns').setup()
@@ -67,13 +58,41 @@ return {
                         text = '─',
                     },
                     GitAdd = {
-                        text = '-',
+                        text = '│',
                     },
                     GitChange = {
-                        text = '-',
+                        text = '│',
                     },
                     GitDelete = {
-                        text = '-',
+                        text = '│',
+                    },
+                    -- Warn = { highlight = 'DiagnosticVirtualTextWarn' },
+                    -- Info = { color = colors.info },
+                    -- Hint = { color = colors.hint },
+                    -- Misc = { color = colors.purple },
+                },
+            }
+        end,
+    },
+
+    {
+        'stevearc/quicker.nvim',
+        config = function()
+            require('quicker').setup {
+                keys = {
+                    {
+                        '>',
+                        function()
+                            require('quicker').expand { before = 2, after = 2, add_to_existing = true }
+                        end,
+                        desc = 'Expand quickfix context',
+                    },
+                    {
+                        '<',
+                        function()
+                            require('quicker').collapse()
+                        end,
+                        desc = 'Collapse quickfix context',
                     },
                 },
             }
