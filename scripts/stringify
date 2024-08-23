@@ -3,9 +3,10 @@
 display_usage() {
     echo "This script stringifies the contents of a directory, including all files and their line numbers."
     echo ""
-    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name> [-m]"
+    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name> [-m] [-sn <number>] [-ss <size>]"
     echo ""
-    echo "Example: stringify gpui -i rs,toml -n gpui_rs -m"
+    echo "Example: stringify gpui -i rs,toml -n gpui_rs -m -sn 5"
+    echo "(Stringify all contents in 'gpui/', includes only '.rs' and '.toml' files, names the output 'gpui_rs.md', minifies the output, and splits it into 5 files)"
     echo ""
     echo "Options:"
     echo "  <repo-root-directory>   Directory to stringify (default: current directory)"
@@ -13,6 +14,8 @@ display_usage() {
     echo "  -i, --include           File extensions to include (comma-separated, e.g., -i txt,md)"
     echo "  -n, --name              Custom name for the output file (default: <directory>_stringified.txt)"
     echo "  -m, --minify            Minify the output, removing extra whitespace and replacing newlines with '\n'"
+    echo "  -sn, --split-num        Split the output into a specific number of files"
+    echo "  -ss, --split-size       Split the output into files of a specific size (e.g., 500k, 1m)"
     echo "  -h, --help              Display this help message"
 }
 
@@ -23,6 +26,8 @@ fi
 
 REPO_DIR="."
 MINIFY=false
+SPLIT_NUM=""
+SPLIT_SIZE=""
 
 append_patterns() {
     IFS=',' read -ra exts <<<"$1"
@@ -44,66 +49,7 @@ include_patterns() {
     echo "${patterns[@]}"
 }
 
-DEFAULT_IGNORE=(
-    # Version control
-    .git .github .svn .hg .bzr
-    # Package managers
-    node_modules bower_components jspm_packages
-    .npm .yarn .pnpm-store
-    # Build outputs and caches
-    build dist out .build .dist .out
-    .cache .tmp .temp target
-    '*pycache*' .pytest_cache .mypy_cache .tox
-    .gradle .maven
-    # IDE and editor files
-    .vscode .idea .vs
-    .project .settings .classpath
-    *.sublime-* *.swp .netrwhist
-    # OS generated files
-    .DS_Store Thumbs.db desktop.ini
-    # Env and config files
-    .env .env.* .envrc
-    config.* *.config
-    # Logs and databases
-    logs *.log npm-debug.log*
-    *.sqlite *.sqlite3 *.db
-    # Binary and media file directories
-    bin lib vendor
-    assets images img media static
-    fonts videos audio docs
-    # Backup files
-    *~ *.bak *.swp *.swo
-    # Compiled source
-    *.com *.class *.dll *.exe *.o *.so *.pyc *.pyo
-    # Compressed files
-    *.7z *.gz *.jar *.rar *.tar *.zip
-    # Other common ignore patterns
-    .gitignore .gitattributes .gitmodules .gitkeep
-    .dockerignore Dockerfile* docker-compose*
-    .eslintignore .prettierignore
-    .gitlab-ci.yml .travis.yml .circleci
-    .editorconfig
-    # Additional patterns to match scc behavior
-    '*.min.js' '*.min.css'
-    'node_modules*' 'vendor*'
-    '.history' '.vscode'
-    '*.lock' 'package-lock.json' 'yarn.lock'
-    # Audio files
-    '*.mp3' '*.ogg' '*.wav' '*.flac' '*.aac' '*.m4a'
-    # Video files
-    '*.mp4' '*.avi' '*.mov' '*.wmv' '*.flv' '*.webm'
-    # Image files
-    '*.jpg' '*.jpeg' '*.png' '*.gif' '*.bmp' '*.tiff' '*.svg'
-    # Document files
-    '*.pdf' '*.doc' '*.docx' '*.xls' '*.xlsx' '*.ppt' '*.pptx'
-    # Archive files
-    '*.iso' '*.dmg'
-    # Font files
-    '*.ttf' '*.otf' '*.woff' '*.woff2' '*.eot'
-    # Binary files
-    '*.bin' '*.dat'
-)
-
+DEFAULT_IGNORE=(.git .github .svn .hg .bzr node_modules bower_components jspm_packages .npm .yarn .pnpm-store build dist out .build .dist .out .cache .tmp .temp target '*pycache*' .pytest_cache .mypy_cache .tox .gradle .maven .vscode .idea .vs .project .settings .classpath *.sublime-* *.swp .netrwhist .DS_Store Thumbs.db desktop.ini .env .env.* .envrc config.* *.config logs *.log npm-debug.log* *.sqlite *.sqlite3 *.db bin lib vendor assets images img media static fonts videos audio docs *~ *.bak *.swp *.swo *.com *.class *.dll *.exe *.o *.so *.pyc *.pyo *.7z *.gz *.jar *.rar *.tar *.zip .gitignore .gitattributes .gitmodules .gitkeep .dockerignore Dockerfile* docker-compose* .eslintignore .prettierignore .gitlab-ci.yml .travis.yml .circleci .editorconfig '*.min.js' '*.min.css' 'node_modules*' 'vendor*' '.history' '.vscode' '*.lock' 'package-lock.json' 'yarn.lock' '*.mp3' '*.ogg' '*.wav' '*.flac' '*.aac' '*.m4a' '*.mp4' '*.avi' '*.mov' '*.wmv' '*.flv' '*.webm' '*.jpg' '*.jpeg' '*.png' '*.gif' '*.bmp' '*.tiff' '*.svg' '*.pdf' '*.doc' '*.docx' '*.xls' '*.xlsx' '*.ppt' '*.pptx' '*.iso' '*.dmg' '*.ttf' '*.otf' '*.woff' '*.woff2' '*.eot' '*.bin' '*.dat')
 IMAGE_EXTENSIONS=(gif png jpg jpeg webp avif)
 
 construct_find_cmd() {
@@ -163,6 +109,16 @@ while [[ "$#" -gt 0 ]]; do
         MINIFY=true
         shift
         ;;
+    -sn | --split-num)
+        shift
+        SPLIT_NUM="$1"
+        shift
+        ;;
+    -ss | --split-size)
+        shift
+        SPLIT_SIZE="$1"
+        shift
+        ;;
     *)
         REPO_DIR="$1"
         shift
@@ -170,34 +126,18 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
-TOTAL_FILES=0
-TOTAL_LINES=0
-
 echo "Stringifying repository: $REPO_DIR"
 
 REPO_NAME=$(basename "$REPO_DIR")
-
-if [[ -n $CUSTOM_OUTPUT_NAME ]]; then
-    OUTPUT_FILE="${CUSTOM_OUTPUT_NAME}.txt"
-else
-    OUTPUT_FILE="${REPO_NAME}_stringified.txt"
-fi
-
-# Add "_mini" to the output file name if minify is enabled
-if [ "$MINIFY" = true ]; then
-    OUTPUT_FILE="${OUTPUT_FILE%.*}_mini.txt"
-fi
-
-if [ ! -d "$REPO_DIR" ]; then
+OUTPUT_FILE="${CUSTOM_OUTPUT_NAME:-${REPO_NAME}_stringified}.md"
+[[ "$MINIFY" = true ]] && OUTPUT_FILE="${OUTPUT_FILE%.*}_mini.md"
+[[ ! -d "$REPO_DIR" ]] && {
     echo "Directory does not exist: $REPO_DIR"
     exit 1
-fi
-
+}
 >"$OUTPUT_FILE"
 
 FIND_CMD=$(construct_find_cmd)
-
-echo "Constructed find command: $FIND_CMD"
 
 if [[ -n $INCLUDE_PATTERNS ]]; then
     included_extensions=$(echo "$INCLUDE_PATTERNS" | sed -E 's/-name "\*\.([^"]+)"/-name:\1/g' | sed 's/-o //g' | tr ' ' '\n' | grep '^-name:' | cut -d':' -f2 | tr '\n' ',' | sed 's/,$//')
@@ -209,38 +149,79 @@ if [[ -n $EXCLUDE_PATTERNS ]]; then
     echo "Excluded file types: $excluded_extensions"
 fi
 
-is_binary() {
-    file --mime-encoding "$1" | grep -q binary
+is_binary() { file --mime-encoding "$1" | grep -q binary; }
+
+language_specifier() {
+    local file="$1"
+    local filename=$(basename "$file")
+    local extension="${file##*.}"
+    case "$filename" in
+    .htaccess | apache.conf | apache2.conf) echo "apacheconf" ;; CMakeLists.txt) echo "cmake" ;; control) echo "control" ;; *.feature) echo "cucumber" ;; .gitignore) echo "gitignore" ;;
+    Makefile | makefile | GNUmakefile) echo "make" ;; SConstruct | SConscript) echo "python" ;; Rakefile) echo "rb" ;; sources.list) echo "sourceslist" ;; squid.conf) echo "squidconf" ;; .vimrc) echo "vim" ;;
+    *) case "$extension" in
+        abap) echo "abap" ;; adb | ads | ada) echo "ada" ;; ahk | ahkl) echo "ahk" ;; applescript) echo "applescript" ;; as) echo "as3" ;; asy) echo "asy" ;; sh | ksh | bash | ebuild | eclass) echo "bash" ;;
+        bat | cmd) echo "bat" ;; befunge) echo "befunge" ;; bmx) echo "blitzmax" ;; boo) echo "boo" ;; bf | b) echo "brainfuck" ;; c | h) echo "c" ;; cfm | cfml | cfc) echo "cfm" ;; tmpl | spt) echo "cheetah" ;;
+        cl | lisp | el) echo "cl" ;; clj | cljs) echo "clojure" ;; cmake) echo "cmake" ;; coffee) echo "coffeescript" ;; cpp | hpp | c++ | h++ | cc | hh | cxx | hxx | pde) echo "cpp" ;; cs) echo "csharp" ;; css) echo "css" ;;
+        pyx | pxd | pxi) echo "cython" ;; d | di) echo "d" ;; pas) echo "delphi" ;; diff | patch) echo "diff" ;; dpatch | darcspatch) echo "dpatch" ;; duel | jbst) echo "duel" ;; dylan | dyl) echo "dylan" ;;
+        erb) echo "erb" ;; erl-sh) echo "erl" ;; erl | hrl) echo "erlang" ;; evoque) echo "evoque" ;; factor) echo "factor" ;; flx | flxh) echo "felix" ;; f | f90) echo "fortran" ;; s | S) echo "gas" ;;
+        kid) echo "genshi" ;; vert | frag | geo) echo "glsl" ;; plot | plt) echo "gnuplot" ;; go) echo "go" ;; 1 | 2 | 3 | 4 | 5 | 6 | 7 | man) echo "groff" ;; haml) echo "haml" ;; hs | lhs) echo "haskell" ;;
+        html | htm | xhtml | xslt) echo "html" ;; hx) echo "hx" ;; hy | hyb) echo "hybris" ;; ini | cfg) echo "ini" ;; io) echo "io" ;; ik) echo "ioke" ;; weechatlog) echo "irc" ;; jade) echo "jade" ;;
+        java) echo "java" ;; js | mjs) echo "js" ;; jsp) echo "jsp" ;; ll) echo "llvm" ;; lgt) echo "logtalk" ;; lua | wlua) echo "lua" ;; mak) echo "make" ;; mao) echo "mako" ;; maql) echo "maql" ;;
+        mhtml | mc | mi) echo "mason" ;; md | markdown) echo "markdown" ;; mo) echo "modelica" ;; def | mod) echo "modula2" ;; moo) echo "moocode" ;; mu) echo "mupad" ;; mxml) echo "mxml" ;; myt) echo "myghty" ;;
+        asm | ASM) echo "nasm" ;; ns2) echo "newspeak" ;; objdump) echo "objdump" ;; m | mm) echo "objectivec" ;; j) echo "objectivej" ;; ml | mli | mll | mly) echo "ocaml" ;; ooc) echo "ooc" ;;
+        pl | pm | t) echo "perl" ;; php | php3 | php4 | php5 | phps) echo "php" ;; ps | eps) echo "postscript" ;; pot | po) echo "pot" ;; pov | inc) echo "pov" ;; prolog | pro) echo "prolog" ;; properties) echo "properties" ;;
+        proto) echo "protobuf" ;; py3tb) echo "py3tb" ;; pytb) echo "pytb" ;; py | pyw | sc | tac) echo "python" ;; R) echo "r" ;; rb | rbw | rake | gemspec | rbx | duby) echo "rb" ;; Rout) echo "rconsole" ;;
+        r | r3) echo "rebol" ;; cw) echo "redcode" ;; rhtml) echo "rhtml" ;; rst | rest) echo "rst" ;; sass) echo "sass" ;; scala) echo "scala" ;; scaml) echo "scaml" ;; scm | ss) echo "scheme" ;;
+        scss) echo "scss" ;; st) echo "smalltalk" ;; tpl) echo "smarty" ;; S) echo "splus" ;; sql) echo "sql" ;; sqlite3-console) echo "sqlite3" ;; ssp) echo "ssp" ;; tcl) echo "tcl" ;;
+        tcsh | csh) echo "tcsh" ;; tex | aux | toc) echo "tex" ;; txt) echo "text" ;; v | sv) echo "v" ;; vala | vapi) echo "vala" ;; vb | bas) echo "vbnet" ;; vm | fhtml) echo "velocity" ;; vim) echo "vim" ;;
+        xml | xsl | rss | xslt | xsd | wsdl) echo "xml" ;; xqy | xquery) echo "xquery" ;; yaml | yml) echo "yaml" ;; *) echo "plaintext" ;;
+        esac ;;
+    esac
 }
 
+TOTAL_FILES=0
+TOTAL_LINES=0
 while IFS= read -r file; do
     if ! is_binary "$file"; then
         echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
-        file_lines=$(wc -l <"$file")
+        echo '```'"$(language_specifier "$file")" >>"$OUTPUT_FILE"
         awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
-        echo "" >>"$OUTPUT_FILE"
+        echo '```' >>"$OUTPUT_FILE"
         ((TOTAL_FILES++))
-        ((TOTAL_LINES += file_lines))
+        ((TOTAL_LINES += $(wc -l <"$file")))
     fi
 done < <(eval "$FIND_CMD")
 
-echo "Output file: $OUTPUT_FILE"
+split_output() {
+    local input_file="$1"
+    local base_name="${input_file%.*}"
+    local extension="${input_file##*.}"
+
+    if [ -n "$SPLIT_NUM" ]; then
+        split -n "$SPLIT_NUM" "$input_file" "${base_name}_part_"
+    elif [ -n "$SPLIT_SIZE" ]; then
+        split -b "$SPLIT_SIZE" "$input_file" "${base_name}_part_"
+    else
+        return
+    fi
+
+    for file in "${base_name}_part_"*; do
+        mv "$file" "${file}.${extension}"
+    done
+
+    echo "Split complete. Output files: ${base_name}_part_*.$extension"
+}
+
+[[ -n "$SPLIT_NUM" || -n "$SPLIT_SIZE" ]] && split_output "$OUTPUT_FILE" || echo "Output file: $OUTPUT_FILE"
+
 echo "Total files: $TOTAL_FILES"
 echo "Total lines: $TOTAL_LINES"
 
-if [ "$MINIFY" = true ]; then
-    echo "Minifying output..."
-    awk '
-    BEGIN { RS="FILE: "; ORS="" }
-    NR>1 {
-        gsub(/^[ \t]+|[ \t]+$/, "");  # Trim leading/trailing whitespace
-        gsub(/\n+/, "\\n");  # Replace newlines with \n
-        gsub(/[ \t]+/, " ");  # Replace multiple spaces/tabs with a single space
-        print "FILE: " $0 "\\n";
-    }
-    ' "$OUTPUT_FILE" >"${OUTPUT_FILE}.temp"
+[[ "$MINIFY" = true ]] && {
+    awk 'BEGIN{RS="FILE: ";ORS=""}NR>1{gsub(/^[ \t]+|[ \t]+$/,"");gsub(/\n+/,"\\n");gsub(/[ \t]+/," ");print "FILE: "$0"\\n```\\n"}' "$OUTPUT_FILE" >"${OUTPUT_FILE}.temp"
     mv "${OUTPUT_FILE}.temp" "$OUTPUT_FILE"
     echo "Minification complete."
-fi
+}
 
 TOTAL_CHARS=$(wc -c <"$OUTPUT_FILE")
+echo "Total characters: $TOTAL_CHARS"

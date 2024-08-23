@@ -37,6 +37,9 @@ map('n', '<C-i>', '<C-o>', { desc = 'Jump forward' })
 -- Reload config (sigle file edit)
 map('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Reload File' })
 
+-- Copy all file contents to clipboard
+map('n', '<C-S-y>', ':%y+<CR>', { desc = 'Copy all to clipboard' })
+
 -- Ctrl+s to save
 map('i', '<C-s>', '<ESC>:w<CR>', { desc = '[S]ave' })
 map('n', '<C-s>', ':w<CR>', { desc = '[S]save' })
