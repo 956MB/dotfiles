@@ -123,12 +123,12 @@ return {
                 { desc = '[T]oggleTerm [F]loat' },
             },
             {
-                '<leader>tv',
+                '<leader>vt',
                 '<cmd>ToggleTerm direction=vertical<CR>',
                 { desc = '[T]oggleTerm [V]ertical' },
             },
             {
-                '<leader>th',
+                '<leader>ht',
                 '<cmd>ToggleTerm direction=horizontal<CR>',
                 { desc = '[T]oggleTerm [H]orizontal' },
             },
@@ -163,6 +163,27 @@ return {
                 },
                 on_open = function(term)
                     vim.api.nvim_set_option_value('winhighlight', 'Normal:Normal', { win = term.window })
+
+                    local opts = { buffer = term.bufnr }
+                    vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-W>k]], opts)
+                    vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-W>j]], opts)
+                    vim.keymap.set('t', '<C-S-j>', [[<C-\><C-n><C-W>h]], opts)
+                    vim.keymap.set('t', '<C-S-k>', [[<C-\><C-n><C-W>l]], opts)
+
+                    -- Resize terminal split works
+                    vim.keymap.set('t', '<C-,>', function()
+                        vim.cmd.stopinsert()
+                        utils.scale_split '-1'
+                        vim.cmd.startinsert()
+                    end, opts)
+                    vim.keymap.set('t', '<C-.>', function()
+                        vim.cmd.stopinsert()
+                        utils.scale_split '+1'
+                        vim.cmd.startinsert()
+                    end, opts)
+
+                    -- Enter insert mode when focusing terminal window
+                    vim.cmd 'autocmd BufEnter <buffer> startinsert'
                 end,
             }
 

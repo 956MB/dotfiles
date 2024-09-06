@@ -2,8 +2,6 @@ return {
     { 'fladson/vim-kitty' },
     { -- Color scheme
         'Mofiqul/vscode.nvim',
-        -- dir = '~/dotfiles/nvim/lua/plugins/custom/sobrio',
-        -- lazy = false,
         priority = 1000,
         config = function()
             local c = require('vscode.colors').get_colors()
@@ -16,6 +14,8 @@ return {
                     NormalNC = { fg = c.vscFront, bg = '#181818' },
                     NormalFloat = { bg = '#181818' },
                     SignColumn = { bg = '#181818' },
+                    Delimiter = { fg = '#444444', bg = '#181818' },
+                    QuickFixFilename = { bg = '#181818', fg = c.vscBlue },
                     LineNr = { fg = '#444444', bg = '#181818' },
                     CursorLineNr = { fg = '#AFAFAF', bg = '#181818' },
                     Whitespace = { fg = '#404040', bg = 'NONE' },

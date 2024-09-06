@@ -155,19 +155,25 @@ for i = 1, 9 do
 end
 
 -- Split creation/navigation
-map('n', '<C-j>', '<C-w>k', { noremap = true, desc = 'Move focus to the split above' })
-map('n', '<C-k>', '<C-w>j', { noremap = true, desc = 'Move focus to the split below' })
-map('n', '<C-S-j>', '<C-w>h', { noremap = true, desc = 'Move focus to the split on the left' })
-map('n', '<C-S-k>', '<C-w>l', { noremap = true, desc = 'Move focus to the split on the right' })
+map('n', '<C-j>', '<C-w>k', { desc = 'Move focus to the split above' })
+map('n', '<C-k>', '<C-w>j', { desc = 'Move focus to the split below' })
+map('n', '<C-S-j>', '<C-w>h', { desc = 'Move focus to the split on the left' })
+map('n', '<C-S-k>', '<C-w>l', { desc = 'Move focus to the split on the right' })
+--
+-- Workaround for `<A-j>`, `<A-k>`, `<A-h>`, `<A-l>` not working in kitty for some reason
+vim.api.nvim_set_keymap('n', '˚', '<C-w>J', { noremap = true, desc = 'Move split up' }) -- Alt+j
+vim.api.nvim_set_keymap('n', '∆', '<C-w>K', { noremap = true, desc = 'Move split down' }) -- Alt+k
+vim.api.nvim_set_keymap('n', '˙', '<C-w>H', { noremap = true, desc = 'Move split left' }) -- Alt+h
+vim.api.nvim_set_keymap('n', '¬', '<C-w>L', { noremap = true, desc = 'Move split right' }) -- Alt+l
 map('n', '<C-,>', function()
     utils.scale_split '-1'
-end, { noremap = true, desc = 'Scale the current split by -1' })
+end, { desc = 'Scale the current split by -1' })
 map('n', '<C-.>', function()
     utils.scale_split '+1'
-end, { noremap = true, desc = 'Scale the current split by +1' })
-map('n', '<leader>vs', ':vsplit<CR>', { noremap = true, silent = true })
-map('n', '<leader>hs', ':split<CR>', { noremap = true, silent = true })
-map('n', '<leader>dd', '<C-w>c', { noremap = true, silent = true })
+end, { desc = 'Scale the current split by +1' })
+map('n', '<leader>vs', ':vsplit<CR>', { silent = true })
+map('n', '<leader>hs', ':split<CR>', { silent = true })
+map('n', '<leader>dd', '<C-w>c', { silent = true })
 
 -- Xcodebuild / sourcekit-lsp
 map('n', '<leader>X', '<cmd>XcodebuildPicker<cr>', { desc = 'Show Xcodebuild Actions' })
