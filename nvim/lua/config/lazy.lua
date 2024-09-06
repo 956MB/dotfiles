@@ -2,6 +2,7 @@
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 
 local fork = true
+vim.env.PATH = vim.env.PATH .. ':' .. vim.fn.stdpath 'data' .. '/mason/bin'
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
 if fork then

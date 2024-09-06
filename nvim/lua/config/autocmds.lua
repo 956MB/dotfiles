@@ -1,4 +1,4 @@
--- Starting manualy works, i guess.
+-- Starting manually works, I guess.
 local swift_lsp = vim.api.nvim_create_augroup('swift_lsp', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { 'swift' },
@@ -19,40 +19,11 @@ vim.api.nvim_create_autocmd('FileType', {
     group = swift_lsp,
 })
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight when yanking (copying) text',
-    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
 -- Set the filetype of .db files to sqlite (prisma)
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     pattern = '*.db',
     callback = function()
         vim.bo.filetype = 'sqlite'
-    end,
-})
-
--- Turn off spell when opening markdown files
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'markdown',
-    callback = function()
-        vim.wo.spell = false
-    end,
-})
-
--- Merged BufEnter autocommands for disabling relative numbers and enabling wrap
-local buffer_settings = vim.api.nvim_create_augroup('BufferSettings', { clear = true })
-vim.api.nvim_create_autocmd('BufEnter', {
-    group = buffer_settings,
-    callback = function()
-        vim.wo.relativenumber = false -- Disable relative line numbers
-        vim.wo.wrap = true -- Enable text wrapping
     end,
 })
 
@@ -64,37 +35,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     group = 'ReloadConfig',
     pattern = config_path .. '/**/*', -- Watch for changes in any file under the config directory
     command = 'source ' .. config_path .. '/init.lua', -- Reload the init.lua file
-})
-
-function SetWindowPadding()
-    local win = vim.api.nvim_get_current_win()
-    local buf = vim.api.nvim_win_get_buf(win)
-    local buftype = vim.api.nvim_get_option_value('buftype', { buf = buf })
-    local filetype = vim.api.nvim_get_option_value('filetype', { buf = buf })
-
-    local is_toggleterm = false
-    pcall(function()
-        is_toggleterm = vim.api.nvim_buf_get_var(buf, 'toggle_number') ~= nil
-    end)
-    -- If the above check failed, try an alternative method
-    if not is_toggleterm then
-        is_toggleterm = filetype == 'toggleterm'
-    end
-
-    -- Only apply padding to normal buffers and nvim-tree
-    if (buftype == '' or filetype == 'NvimTree') and not is_toggleterm then
-        local width = vim.api.nvim_win_get_width(win)
-        if width > 1 then
-            vim.api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })
-        end
-    else
-        vim.api.nvim_set_option_value('winbar', nil, { win = win })
-    end
-end
-
--- Apply padding when entering a window
-vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
-    callback = SetWindowPadding,
 })
 
 -- golings file save/watch nonsense work around
@@ -133,3 +73,67 @@ vim.api.nvim_create_autocmd({ 'DirChanged' }, {
 
 -- Load local config on startup
 load_local_config()
+
+-- Deferred autocmds
+vim.defer_fn(function()
+    -- Highlight when yanking (copying) text
+    --  Try it with `yap` in normal mode
+    --  See `:help vim.highlight.on_yank()`
+    vim.api.nvim_create_autocmd('TextYankPost', {
+        desc = 'Highlight when yanking (copying) text',
+        group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+        callback = function()
+            vim.highlight.on_yank()
+        end,
+    })
+
+    -- Turn off spell when opening markdown files
+    vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'markdown',
+        callback = function()
+            vim.wo.spell = false
+        end,
+    })
+
+    -- Merged BufEnter autocommands for disabling relative numbers and enabling wrap
+    local buffer_settings = vim.api.nvim_create_augroup('BufferSettings', { clear = true })
+    vim.api.nvim_create_autocmd('BufEnter', {
+        group = buffer_settings,
+        callback = function()
+            vim.wo.relativenumber = false -- Disable relative line numbers
+            vim.wo.wrap = true -- Enable text wrapping
+        end,
+    })
+
+    -- Apply padding when entering a window
+    vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+        callback = SetWindowPadding,
+    })
+end, 0) -- 0 ms delay, but still deferred
+
+-- Window padding function
+function SetWindowPadding()
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_win_get_buf(win)
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = buf })
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = buf })
+
+    local is_toggleterm = false
+    pcall(function()
+        is_toggleterm = vim.api.nvim_buf_get_var(buf, 'toggle_number') ~= nil
+    end)
+    -- If the above check failed, try an alternative method
+    if not is_toggleterm then
+        is_toggleterm = filetype == 'toggleterm'
+    end
+
+    -- Only apply padding to normal buffers and nvim-tree
+    if (buftype == '' or filetype == 'NvimTree') and not is_toggleterm then
+        local width = vim.api.nvim_win_get_width(win)
+        if width > 1 then
+            vim.api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })
+        end
+    else
+        vim.api.nvim_set_option_value('winbar', nil, { win = win })
+    end
+end

@@ -15,8 +15,9 @@ return {
 
     { -- File tree
         'nvim-tree/nvim-tree.lua',
+        cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
         version = '*',
-        lazy = false,
+        -- lazy = false,
         dependencies = {
             'nvim-tree/nvim-web-devicons',
             'antosha417/nvim-lsp-file-operations',

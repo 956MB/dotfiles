@@ -9,7 +9,7 @@ return {
         config = function()
             require('go').setup()
         end,
-        event = { 'CmdlineEnter' },
+        -- event = { 'CmdlineEnter' },
         ft = { 'go', 'gomod' },
         build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
     },
@@ -125,14 +125,36 @@ return {
         end,
     },
 
+    { -- Mason
+        'williamboman/mason.nvim',
+        event = 'VeryLazy',
+        cmd = 'Mason',
+        dependencies = {
+            'williamboman/mason-lspconfig.nvim',
+            'WhoIsSethDaniel/mason-tool-installer.nvim',
+        },
+        config = function()
+            require('mason').setup()
+            require('mason-lspconfig').setup()
+            require('mason-tool-installer').setup {
+                ensure_installed = { 'lua-language-server', 'stylua' },
+            }
+        end,
+    },
+
     { -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
+        event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-            { 'j-hui/fidget.nvim', opts = {} },
+            {
+                'j-hui/fidget.nvim',
+                event = 'LspAttach',
+                opts = {},
+            },
 
             {
                 'folke/neodev.nvim',

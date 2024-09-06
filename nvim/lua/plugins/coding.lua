@@ -1,7 +1,8 @@
 return {
     { -- Autoformat
         'stevearc/conform.nvim',
-        lazy = false,
+        event = { 'BufWritePre' },
+        cmd = { 'ConformInfo' },
         keys = {
             {
                 '<leader>f',
@@ -99,6 +100,7 @@ return {
 
     { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
+        event = 'BufReadPost',
         build = ':TSUpdate',
         opts = {
             ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'vim', 'vimdoc' },

@@ -8,6 +8,21 @@ return {
             'MunifTanjim/nui.nvim',
             'nvim-tree/nvim-web-devicons',
         },
+        cmd = {
+            'XcodebuildPicker',
+            'XcodebuildBuild',
+            'XcodebuildRun',
+            'XcodebuildTest',
+            'XcodebuildClean',
+            'XcodebuildSetup',
+        },
+        event = {
+            'BufReadPost *.swift',
+            'BufReadPost *.m',
+            'BufReadPost *.h',
+            'BufReadPost *.cpp',
+            'BufReadPost *.c',
+        },
         config = function()
             require('xcodebuild').setup {
                 show_build_progress_bar = true,

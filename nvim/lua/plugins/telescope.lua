@@ -6,9 +6,10 @@ return {
 
     { -- Telescope (fuzzy finder, file picker, etc.)
         'nvim-telescope/telescope.nvim',
+        cmd = 'Telescope',
         -- 'custom/telescope.nvim',
         -- vim.fn.stdpath 'data' .. '/lazy/plugins/custom/telescope.nvim',
-        event = 'VimEnter',
+        -- event = 'VimEnter',
         -- branch = '0.1.x',
         dependencies = {
             'nvim-lua/plenary.nvim',
