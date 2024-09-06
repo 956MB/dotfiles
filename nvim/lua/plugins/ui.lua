@@ -1,4 +1,5 @@
 local Util = require 'lazyvim.util'
+local utils = require 'config.utils'
 
 -- like lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6)
 ---@param opts? {relative: "cwd"|"root", modified_hl: string?}
@@ -57,6 +58,15 @@ return {
                 end,
             }
         end,
+    },
+
+    { -- Cheatsheet
+        'sudormrfbin/cheatsheet.nvim',
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+            'nvim-lua/popup.nvim',
+            'nvim-lua/plenary.nvim',
+        },
     },
 
     {
@@ -177,8 +187,11 @@ return {
             'nvim-lua/plenary.nvim',
         },
         keys = {
-            { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+            { '<leader>lg', utils.open_lazygit_tab, desc = 'LazyGit in Buffer' },
         },
+        config = function()
+            vim.g.lazygit_floating_window_use_plenary = 0 -- Disable floating window
+        end,
     },
 
     {
@@ -192,7 +205,7 @@ return {
         opts = function(_, opts)
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
-                    icon = '┃ ', -- this should be omitted if indicator style is not 'icon'
+                    icon = '┃ ',
                     style = 'icon',
                 },
                 buffer_close_icon = '󰅖',
@@ -212,12 +225,6 @@ return {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = function(_, opts)
-            -- NOTE: Fixing github_dark_colorblind insert mode, something is override the green
-            -- local insert_fix = require 'lualine.themes.github_dark_colorblind'
-            -- insert_fix.insert.a.bg = '#10D01B' -- outer bg (1)
-            -- insert_fix.insert.b.bg = '#1B3B16' -- middle bg (2)
-            -- insert_fix.insert.b.fg = '#01B511' -- middle fg (2)
-            -- insert_fix.insert.c.fg = '#0B8F23' -- inner fg (3)
             local function xcodebuild_device()
                 if vim.g.xcodebuild_platform == 'macOS' then
                     return ' macOS'
@@ -228,7 +235,18 @@ return {
                 return ' ' .. vim.g.xcodebuild_device_name
             end
 
-            opts.options.theme = 'sobrio'
+            -- filename.ext \\\ line:col
+            local function inactive_statusline()
+                local width = vim.fn.winwidth(0)
+                local filename = vim.fn.expand '%:t'
+                local position = string.format('%d:%d', vim.fn.line '.', vim.fn.col '.')
+                local backslash_count = width - #filename - #position - 4
+                local backslashes = string.rep('\\', backslash_count)
+
+                return string.format('%s %s %s', filename, backslashes, position)
+            end
+
+            opts.options.theme = 'vscode'
             opts.options.disabled_filetypes = {
                 statusline = { 'NvimTree' },
                 winbar = {},
@@ -242,6 +260,14 @@ return {
                 { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
                 'encoding',
                 { 'g:metals_status' },
+            }
+            opts.inactive_sections = {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = { inactive_statusline },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {},
             }
             opts.tabline = {}
             opts.winbar = {}
@@ -272,50 +298,53 @@ return {
             local dashboard = require 'alpha.themes.dashboard'
             local theta = require 'alpha.themes.theta'
             local cdir = vim.fn.getcwd()
-			-- stylua: ignore
-			dashboard.section.buttons.val = {
-				{
-					type = 'group',
-					val = {
-						{
-							type = 'text',
-							val = 'Recent files',
-							opts = {
-								hl = 'SpecialComment',
-								shrink_margin = false,
-								position = 'center',
-							},
-						},
-						{ type = 'padding', val = 1 },
-						{
-							type = 'group',
-							val = function()
-								return { theta.mru(0, cdir, 5) }
-							end,
-							opts = { shrink_margin = false },
-						},
-					},
-				},
-				{ type = 'padding', val = 1 },
-				{ type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
-				{ type = 'padding', val = 1 },
+            dashboard.section.buttons.val = {
                 {
                     type = 'group',
                     val = {
-                        dashboard.button('f', '󰱽 ' .. ' Find file',       '<cmd> Telescope find_files <CR>'),
-                        dashboard.button('g', '󱩾 ' .. ' Find text',       '<cmd> Telescope live_grep <CR>'),
-                        dashboard.button('n', ' ' .. ' New file',        '<cmd> ene <CR>'),
-                        dashboard.button('r', ' ' .. ' Recent files',    '<cmd> Telescope oldfiles <CR>'),
-                        dashboard.button('c', ' ' .. ' Config',          '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
-                        -- dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
-                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd>lua require("persistence").load() vim.defer_fn(function() vim.cmd("doautocmd User SessionLoadPost") end, 10)<CR>'),
-                        dashboard.button('u', ' ' .. ' Update plugins' , '<cmd> Lazy sync <CR>'),
-                        dashboard.button('l', '󰒲 ' .. ' Lazy',            '<cmd> Lazy <CR>'),
-                        dashboard.button('q', ' ' .. ' Quit',            '<cmd> qa <CR>'),
+                        {
+                            type = 'text',
+                            val = 'Recent files',
+                            opts = {
+                                hl = 'SpecialComment',
+                                shrink_margin = false,
+                                position = 'center',
+                            },
+                        },
+                        { type = 'padding', val = 1 },
+                        {
+                            type = 'group',
+                            val = function()
+                                return { theta.mru(0, cdir, 5) }
+                            end,
+                            opts = { shrink_margin = false },
+                        },
                     },
                 },
-				{ type = 'padding', val = 1 },
-			}
+                { type = 'padding', val = 1 },
+                { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
+                { type = 'padding', val = 1 },
+                {
+                    type = 'group',
+                    val = {
+                        dashboard.button('f', '󰱽 ' .. ' Find file', '<cmd> Telescope find_files <CR>'),
+                        dashboard.button('g', '󱩾 ' .. ' Find text', '<cmd> Telescope live_grep <CR>'),
+                        dashboard.button('n', ' ' .. ' New file', '<cmd> ene <CR>'),
+                        dashboard.button('r', ' ' .. ' Recent files', '<cmd> Telescope oldfiles <CR>'),
+                        dashboard.button('c', ' ' .. ' Config', '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
+                        -- dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
+                        dashboard.button(
+                            's',
+                            '󰁯 ' .. ' Restore Session',
+                            '<cmd>lua require("persistence").load() vim.defer_fn(function() vim.cmd("doautocmd User SessionLoadPost") end, 10)<CR>'
+                        ),
+                        dashboard.button('u', ' ' .. ' Update plugins', '<cmd> Lazy sync <CR>'),
+                        dashboard.button('l', '󰒲 ' .. ' Lazy', '<cmd> Lazy <CR>'),
+                        dashboard.button('q', ' ' .. ' Quit', '<cmd> qa <CR>'),
+                    },
+                },
+                { type = 'padding', val = 1 },
+            }
             for _, button in ipairs(dashboard.section.buttons.val) do
                 if button.on_press then
                     button.opts.hl = 'AlphaButtons'

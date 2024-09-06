@@ -5,14 +5,7 @@ return {
     { -- Plugin: LazyVim
         'LazyVim/LazyVim',
         opts = {
-            -- habamax
-            -- oxocarbon
-            -- github_dark_colorblind
-            -- base16-default-dark
-            -- gruber-darker
-            -- poimandres
-            -- sobrio
-            colorscheme = 'sobrio',
+            colorscheme = 'vscode',
             defaults = {
                 autocmds = true, -- lazyvim.config.autocmds
                 keymaps = false, -- lazyvim.config.keymaps

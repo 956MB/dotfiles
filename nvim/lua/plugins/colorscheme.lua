@@ -1,30 +1,67 @@
--- Fix bugged git change symbol
-local function override_highlights()
-    -- vim.api.nvim_set_hl(0, 'GitSignsChange', { bg = 'none', fg = '#E48256' })
-
-    -- -- Override Comment highlight to a lighter color for better visibility
-    -- vim.api.nvim_set_hl(0, 'Comment', { fg = '#ff0000', bg = 'none', italic = true })
-    -- -- Override IndentBlanklineChar highlight to a different grey color
-    -- vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = '#505050', bg = 'none' })
-end
-
 return {
     { 'fladson/vim-kitty' },
-    -- ntk148v/habamax.nvim
-    -- nyoom-engineering/oxocarbon.nvim
-    -- projekt0n/github-nvim-theme
-    -- luisiacc/gruvbox-baby
-    -- bradcush/nvim-base16
-    -- blazkowolf/gruber-darker.nvim
-    -- olivercederborg/poimandres.nvim
-    -- elvessousa/sobrio
     { -- Color scheme
-        -- 'nyoom-engineering/oxocarbon.nvim',
-        dir = '~/dotfiles/nvim/lua/plugins/custom/sobrio',
+        'Mofiqul/vscode.nvim',
+        -- dir = '~/dotfiles/nvim/lua/plugins/custom/sobrio',
         -- lazy = false,
         priority = 1000,
         config = function()
-            override_highlights() -- Call the highlight override function
+            local c = require('vscode.colors').get_colors()
+            require('vscode').setup {
+                disable_nvimtree_bg = true,
+                group_overrides = {
+                    WinBar = { bg = '#181818', fg = '#181818' },
+                    WinBarNC = { bg = '#181818', fg = '#181818' },
+                    Normal = { fg = c.vscFront, bg = '#181818' },
+                    NormalNC = { fg = c.vscFront, bg = '#181818' },
+                    NormalFloat = { bg = '#181818' },
+                    SignColumn = { bg = '#181818' },
+                    LineNr = { fg = '#444444', bg = '#181818' },
+                    CursorLineNr = { fg = '#AFAFAF', bg = '#181818' },
+                    Whitespace = { fg = '#404040', bg = 'NONE' },
+                    MiniIndentscopeSymbol = { fg = '#707070', bg = 'NONE' },
+                    Comment = { fg = '#666666', bg = 'NONE' },
+                    SpecialComment = { fg = '#666666', bg = 'NONE' },
+                    ['@comment'] = { fg = '#666666', bg = 'NONE' },
+                    ScrollbarHandle = { bg = '#262626', fg = 'NONE' },
+                    ScrollbarCursorHandle = { bg = '#262626', fg = 'NONE' },
+                    ScrollbarWarn = { bg = 'NONE', fg = '#FFDF88' },
+                    ScrollbarError = { bg = 'NONE', fg = '#FFBDB7' },
+                    ScrollbarHint = { bg = 'NONE', fg = '#97DDFF' },
+                    ScrollbarWarnHandle = { bg = '#262626', fg = '#FFDF88' },
+                    ScrollbarErrorHandle = { bg = '#262626', fg = '#FFBDB7' },
+                    ScrollbarHintHandle = { bg = '#262626', fg = '#97DDFF' },
+                    ScrollbarGitAdd = { bg = 'NONE', fg = '#262626' },
+                    ScrollbarGitChange = { bg = 'NONE', fg = '#262626' },
+                    ScrollbarGitDelete = { bg = 'NONE', fg = '#262626' },
+                    ScrollbarGitAddHandle = { bg = '#262626', fg = '#262626' },
+                    ScrollbarGitChangeHandle = { bg = '#262626', fg = '#262626' },
+                    ScrollbarGitDeleteHandle = { bg = '#262626', fg = '#262626' },
+                    LazyGitFloat = { bg = 'NONE', fg = '#eaeaea' },
+                    LazyGitBorder = { bg = 'NONE', fg = '#666666' },
+                    GitSignsAdd = { bg = 'NONE', fg = '#2DA042' },
+                    GitSignsChange = { bg = 'NONE', fg = c.vscBlue },
+                    GitSignsDelete = { bg = 'NONE', fg = c.vscRed },
+                    NvimTreeRootFolder = { fg = c.vscFront, bg = 'NONE', bold = true },
+                    NvimTreeImageFile = { fg = c.vscViolet, bg = 'NONE' },
+                    NvimTreeEmptyFolderName = { fg = c.vscGray, bg = 'NONE' },
+                    NvimTreeFolderName = { fg = c.vscFront, bg = 'NONE' },
+                    NvimTreeSpecialFile = { fg = c.vscPink, bg = 'NONE', underline = true },
+                    NvimTreeNormal = { fg = c.vscFront, bg = '#181818' },
+                    NvimTreeCursorLine = { fg = 'NONE', bg = '#262626' },
+                    NvimTreeVertSplit = { fg = '#181818', bg = '#181818' },
+                    NvimTreeEndOfBuffer = { fg = '#181818' },
+                    NvimTreeOpenedFolderName = { fg = 'NONE', bg = '#181818' },
+                    NvimTreeGitRenamed = { fg = c.vscGitRenamed, bg = 'NONE' },
+                    NvimTreeGitIgnored = { fg = c.vscGitIgnored, bg = 'NONE' },
+                    NvimTreeGitDeleted = { fg = c.vscGitDeleted, bg = 'NONE' },
+                    NvimTreeGitStaged = { fg = c.vscGitStageModified, bg = 'NONE' },
+                    NvimTreeGitMerge = { fg = c.vscGitUntracked, bg = 'NONE' },
+                    NvimTreeGitDirty = { fg = c.vscGitModified, bg = 'NONE' },
+                    NvimTreeGitNew = { fg = c.vscGitAdded, bg = 'NONE' },
+                    BufferLineFill = { bg = '#0D0D0D' },
+                },
+            }
         end,
     },
 }

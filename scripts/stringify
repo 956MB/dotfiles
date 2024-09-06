@@ -192,6 +192,15 @@ while IFS= read -r file; do
     fi
 done < <(eval "$FIND_CMD")
 
+echo "Total files: $TOTAL_FILES"
+echo "Total lines: $TOTAL_LINES"
+
+[[ "$MINIFY" = true ]] && {
+    awk 'BEGIN{RS="FILE: ";ORS=""}NR>1{gsub(/^[ \t]+|[ \t]+$/,"");gsub(/\n+/,"\\n");gsub(/[ \t]+/," ");print "FILE: "$0"\\n```\\n"}' "$OUTPUT_FILE" >"${OUTPUT_FILE}.temp"
+    mv "${OUTPUT_FILE}.temp" "$OUTPUT_FILE"
+    echo "Minification complete."
+}
+
 split_output() {
     local input_file="$1"
     local base_name="${input_file%.*}"
@@ -213,15 +222,6 @@ split_output() {
 }
 
 [[ -n "$SPLIT_NUM" || -n "$SPLIT_SIZE" ]] && split_output "$OUTPUT_FILE" || echo "Output file: $OUTPUT_FILE"
-
-echo "Total files: $TOTAL_FILES"
-echo "Total lines: $TOTAL_LINES"
-
-[[ "$MINIFY" = true ]] && {
-    awk 'BEGIN{RS="FILE: ";ORS=""}NR>1{gsub(/^[ \t]+|[ \t]+$/,"");gsub(/\n+/,"\\n");gsub(/[ \t]+/," ");print "FILE: "$0"\\n```\\n"}' "$OUTPUT_FILE" >"${OUTPUT_FILE}.temp"
-    mv "${OUTPUT_FILE}.temp" "$OUTPUT_FILE"
-    echo "Minification complete."
-}
 
 TOTAL_CHARS=$(wc -c <"$OUTPUT_FILE")
 echo "Total characters: $TOTAL_CHARS"

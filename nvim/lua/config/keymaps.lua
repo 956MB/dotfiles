@@ -65,6 +65,7 @@ map('v', '/', function()
 end, { noremap = true, desc = 'Search selected text' })
 
 -- [T]his [T]hing
+-- wrap the first letter of word in brackets and capitalize it
 map('n', '<leader>[[', function()
     utils.surround_and_capitalize()
 end, { desc = 'Surround and [T]his [T]hing' })
@@ -207,21 +208,6 @@ map('i', '<C-Right>', '<C-o>w', { desc = 'Subword navigate right (insert mode)' 
 -- Source the Neovim configuration file
 map('n', '<leader>rr', ':luafile $HOME/dotfiles/nvim/init.lua<CR>', { desc = 'Reload Neovim configuration' })
 
--- Lspmark.nvim
-map('n', 'p', function()
-    require('lspmark.bookmarks').paste_text()
-end, { desc = 'Lspmark [P]aste' })
-map('n', '<leader>tb', function()
-    require('lspmark.bookmarks').toggle_bookmark()
-end, { desc = 'Lspmark [T]oggle [B]ookmark' })
-map('n', '<leader>tl', ':Telescope lspmark<CR>', { desc = 'Toggle [L]spmark [T]elescope' })
-map('v', 'd', function()
-    require('lspmark.bookmarks').delete_visual_selection()
-end, { desc = 'Lspmark [D]elete visual selection' })
-map('n', 'dd', function()
-    require('lspmark.bookmarks').delete_line()
-end, { desc = 'Lspmark [D]elete line' })
-
 -- Write Quit
 map('n', '<leader>wq', function()
     vim.cmd 'wq'
@@ -244,6 +230,12 @@ map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic messa
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- YankBank
+map('n', '<leader>y', '<cmd>YankBank<CR>', { desc = 'Open YankBank popup' })
+
+-- Cheatsheet
+map('n', '<leader>ch', '<cmd>:Cheatsheet<CR>', { desc = 'Show [C][h]eatsheet' })
+
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
@@ -256,11 +248,10 @@ end
 map('n', '`t', '<cmd>tabnew<cr>', { desc = 'New Tab' })
 map('n', '`w', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 
--- Remap the 'next' and 'previous' tab keymaps to use the tab_loop function
--- map('n', '`]', function()
---     vim.cmd 'lua require("config.utils").tab_loop("next")'
--- end, { desc = 'Next Tab (loop around)' })
+map('n', '<S-Down>', function()
+    utils.scroll_less_screen 'down'
+end, { desc = '[M]ove screen [D]own' })
 
--- map('n', '`[', function()
---     vim.cmd 'utils.tab_loop("prev")'
--- end, { desc = 'Previous Tab (loop around)' })
+map('n', '<S-Up>', function()
+    utils.scroll_less_screen 'up'
+end, { desc = '[M]ove screen [U]p' })

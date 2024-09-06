@@ -16,12 +16,18 @@ return {
         },
     },
 
-    { -- Useful plugin to show you pending keybinds.
+    { -- Shows available keybindings
         'folke/which-key.nvim',
-        event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-        config = function() -- This is the function that runs, AFTER loading
-            require('which-key').setup()
-        end,
+        event = 'VeryLazy',
+        keys = {
+            {
+                '<leader>?',
+                function()
+                    require('which-key').show { global = false }
+                end,
+                desc = 'Buffer Local Keymaps (which-key)',
+            },
+        },
     },
 
     { -- Find and replace text
@@ -34,11 +40,12 @@ return {
         config = function()
             require('gitsigns').setup {
                 signs = {
-                    add = { text = '│' },
-                    change = { text = '│' },
-                    delete = { text = '│' },
-                    topdelete = { text = '│' },
-                    changedelete = { text = '│' },
+                    -- ⁞, ⋮, ┆, ┊, ┋, ┇, ︙, │
+                    add = { text = '┊' },
+                    change = { text = '┊' },
+                    delete = { text = '┊' },
+                    topdelete = { text = '┊' },
+                    changedelete = { text = '┊' },
                 },
             }
             require('scrollbar.handlers.gitsigns').setup()
@@ -66,10 +73,6 @@ return {
                     GitDelete = {
                         text = '│',
                     },
-                    -- Warn = { highlight = 'DiagnosticVirtualTextWarn' },
-                    -- Info = { color = colors.info },
-                    -- Hint = { color = colors.hint },
-                    -- Misc = { color = colors.purple },
                 },
             }
         end,

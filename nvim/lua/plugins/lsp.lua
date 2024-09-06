@@ -36,6 +36,10 @@ return {
             require('luasnip.loaders.from_vscode').lazy_load()
 
             cmp.setup {
+                performance = {
+                    debounce = 0,
+                    throttle = 0,
+                },
                 completion = {
                     completeopt = 'menu,menuone,preview,noselect',
                 },

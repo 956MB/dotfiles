@@ -100,14 +100,14 @@ return {
         },
     },
 
-    { -- Bookmarks
-        -- 'tristone13th/lspmark.nvim',
-        dir = '~/dotfiles/nvim/lua/plugins/custom/lspmark.nvim',
-        config = function()
-            require('lspmark').setup()
-            require('telescope').load_extension 'lspmark'
-        end,
-    },
+    -- { -- Bookmarks
+    --     -- 'tristone13th/lspmark.nvim',
+    --     dir = '~/dotfiles/nvim/lua/plugins/custom/lspmark.nvim',
+    --     config = function()
+    --         require('lspmark').setup()
+    --         require('telescope').load_extension 'lspmark'
+    --     end,
+    -- },
 
     { -- Custom header
         dir = '~/dotfiles/nvim/lua/plugins/custom/head.nvim',

@@ -37,15 +37,7 @@ require('lazy').setup {
         lazy = false,
         version = false, -- always use the latest git commit
     },
-    -- habamax
-    -- oxocarbon
-    -- github_dark_colorblind
-    -- gruvbox-baby
-    -- base16-default-dark
-    -- gruber-darker
-    -- poimandres
-    -- sobrio
-    install = { colorscheme = { 'sobrio' } },
+    install = { colorscheme = { 'vscode' } },
     checker = { enabled = false }, -- automatically check for plugin updates
 }
 

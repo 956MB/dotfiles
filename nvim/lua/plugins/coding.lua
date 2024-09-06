@@ -64,28 +64,6 @@ return {
         end,
     },
 
-    -- { -- Markview
-    --     'OXY2DEV/markview.nvim',
-    --     lazy = false,
-    --     dependencies = {
-    --         'nvim-treesitter/nvim-treesitter',
-    --         'nvim-tree/nvim-web-devicons',
-    --     },
-    --
-    --     config = function()
-    --         require('markview').setup {
-    --             modes = { 'n', 'i', 'no', 'c' },
-    --             hybrid_modes = { 'i' },
-    --             callbacks = {
-    --                 on_enable = function(_, win)
-    --                     vim.wo[win].conceallevel = 2
-    --                     vim.wo[win].concealcursor = 'nc'
-    --                 end,
-    --             },
-    --         }
-    --     end,
-    -- },
-
     { -- Neovide project explorer
         'Rics-Dev/project-explorer.nvim',
         dependencies = {
@@ -111,6 +89,7 @@ return {
         'echasnovski/mini.indentscope',
         event = 'LazyFile',
         opts = function(_, opts)
+            opts.symbol = '│'
             opts.draw = {
                 delay = 0,
                 animation = require('mini.indentscope').gen_animation.none(),
@@ -237,16 +216,6 @@ return {
             },
         },
     },
-
-    -- { -- Sourcegraph Cody
-    --     'sourcegraph/sg.nvim',
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    --     opts = {
-    --         chat = {
-    --             default_model = 'anthropic/claude-3-5-sonnet-20240620',
-    --         },
-    --     },
-    -- },
 
     { -- Github Copliot
         'zbirenbaum/copilot.lua',
