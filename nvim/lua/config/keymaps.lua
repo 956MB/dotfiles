@@ -87,6 +87,10 @@ map('n', '<leader>op', '<cmd>ObsidianPreview<CR>', { desc = '[O]bsidian [P]revie
 map('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<CR>', { desc = '[O]bsidian [Q]uick Switch' })
 map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = '[O]bsidian Show [L]inks' })
 
+-- diffview (git diff)
+map('n', '<leader>do', ':DiffviewOpen<CR>', { desc = '[D]iffview [O]pen' })
+map('n', '<leader>dc', ':DiffviewClose<CR>', { desc = '[D]iffview [C]lose' })
+
 -- Toggle gitsigns
 map('n', '<leader>gs', '<cmd>lua require("gitsigns").toggle_signs()<CR>', { desc = 'Toggle [G]it[S]igns' })
 

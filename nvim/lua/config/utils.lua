@@ -35,7 +35,7 @@ end
 -- Scroll screen up/down less than full 100%
 function M.scroll_less_screen(direction)
     local win_height = vim.fn.winheight(0)
-    local scroll_amount = math.floor(win_height / 3)
+    local scroll_amount = math.floor(win_height / 4)
     if direction == 'down' then
         vim.cmd('normal! ' .. scroll_amount .. 'jzt')
     else
@@ -66,7 +66,7 @@ function M.open_lazygit_tab()
         end,
     })
 
-    api.nvim_buf_set_keymap(buf, 't', 'q', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
+    -- api.nvim_buf_set_keymap(buf, 't', 'q', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
 
     vim.cmd 'startinsert'
 end

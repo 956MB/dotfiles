@@ -127,8 +127,11 @@ function SetWindowPadding()
         is_toggleterm = filetype == 'toggleterm'
     end
 
-    -- Only apply padding to normal buffers and nvim-tree
-    if (buftype == '' or filetype == 'NvimTree') and not is_toggleterm then
+    -- diffview.nvim too
+    local is_diffview = string.match(vim.api.nvim_buf_get_name(buf), '^diffview:///')
+
+    -- Only apply padding to normal buffers, nvim-tree and diffview
+    if (buftype == '' or filetype == 'NvimTree' or is_diffview) and not is_toggleterm then
         local width = vim.api.nvim_win_get_width(win)
         if width > 1 then
             vim.api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })

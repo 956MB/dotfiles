@@ -51,10 +51,10 @@ return {
             pcall(require('telescope').load_extension, 'fzf')
             pcall(require('telescope').load_extension, 'ui-select')
 
-            local function map(lhs, rhs, opts)
+            local function map(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.silent = opts.silent ~= false
-                vim.keymap.set('n', lhs, rhs, opts)
+                vim.keymap.set(mode, lhs, rhs, opts)
             end
 
             local ignore_patterns = {
@@ -90,51 +90,84 @@ return {
                 height = 0.20,
             }
 
-            map('<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-            map('<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-            map('<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-            map('<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-            map('<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-            map('<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-            map('<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-            map('<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-            map('<C-b>', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'Open file browser (Normal Mode)' })
-            map('<C-g>', function()
-                builtin.live_grep {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }
-            end, { desc = '[S]earch by [G]rep' })
-            map('<C-p>', function()
-                builtin.find_files {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }
-            end, { desc = '[S]earch [F]iles' })
-            map('<C-t>', function()
-                builtin.buffers {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }
-            end, { desc = '[S]earch [T]abs (Buffers)' })
+            -- Send visual selection to Telescope func
+            local function telescope_visual(builtin_func, opts)
+                return function()
+                    local saved_reg = vim.fn.getreg 'v'
+                    vim.cmd 'noau normal! "vy"'
+                    local selection = vim.fn.getreg 'v'
+                    vim.fn.setreg('v', saved_reg)
+                    builtin_func(vim.tbl_extend('force', opts or {}, { default_text = selection }))
+                end
+            end
 
-            -- Slightly advanced example of overriding default behavior and theme
-            map('<C-f>', function()
-                -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-                builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                    previewer = true,
-                    selection_strategy = 'reset',
-                    sorting_strategy = 'ascending',
-                    file_sorter = sorters.get_fuzzy_file,
-                    file_ignore_patterns = ignore_patterns,
-                    generic_sorter = sorters.get_generic_fuzzy_sorter,
-                    file_previewer = previewers.vim_buffer_cat.new,
-                    grep_previewer = previewers.vim_buffer_vimgrep.new,
-                    qflist_previewer = previewers.vim_buffer_qflist.new,
-                    layout_strategy = 'horizontal',
+            local function create_picker(builtin_func, opts)
+                return function()
+                    if vim.fn.mode() == 'v' then
+                        telescope_visual(builtin_func, opts)()
+                    else
+                        builtin_func(opts)
+                    end
+                end
+            end
+
+            map({ 'n', 'v' }, '<leader>sh', create_picker(builtin.help_tags), { desc = '[S]earch [H]elp' })
+            map({ 'n', 'v' }, '<leader>sk', create_picker(builtin.keymaps), { desc = '[S]earch [K]eymaps' })
+            map({ 'n', 'v' }, '<leader>ss', create_picker(builtin.builtin), { desc = '[S]earch [S]elect Telescope' })
+            map({ 'n', 'v' }, '<leader>sw', create_picker(builtin.grep_string), { desc = '[S]earch current [W]ord' })
+            map({ 'n', 'v' }, '<leader>sd', create_picker(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
+            map({ 'n', 'v' }, '<leader>sr', create_picker(builtin.resume), { desc = '[S]earch [R]esume' })
+            map({ 'n', 'v' }, '<leader>s.', create_picker(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
+            map({ 'n', 'v' }, '<leader><leader>', create_picker(builtin.buffers), { desc = '[ ] Find existing buffers' })
+            map({ 'n', 'v' }, '<C-b>', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'Open file browser (Normal Mode)' })
+            map(
+                { 'n', 'v' },
+                '<C-g>',
+                create_picker(builtin.live_grep, {
                     layout_config = layout,
-                })
-            end, { desc = '[/] Fuzzily search in current buffer' })
+                    file_ignore_patterns = ignore_patterns,
+                }),
+                { desc = '[S]earch by [G]rep' }
+            )
+            map(
+                { 'n', 'v' },
+                '<C-p>',
+                create_picker(builtin.find_files, {
+                    layout_config = layout,
+                    file_ignore_patterns = ignore_patterns,
+                }),
+                { desc = '[S]earch [F]iles' }
+            )
+            map(
+                { 'n', 'v' },
+                '<C-t>',
+                create_picker(builtin.buffers, {
+                    layout_config = layout,
+                    file_ignore_patterns = ignore_patterns,
+                }),
+                { desc = '[S]earch [T]abs (Buffers)' }
+            )
+            map(
+                { 'n', 'v' },
+                '<C-f>',
+                create_picker(
+                    builtin.current_buffer_fuzzy_find,
+                    require('telescope.themes').get_dropdown {
+                        previewer = true,
+                        selection_strategy = 'reset',
+                        sorting_strategy = 'ascending',
+                        file_sorter = sorters.get_fuzzy_file,
+                        file_ignore_patterns = ignore_patterns,
+                        generic_sorter = sorters.get_generic_fuzzy_sorter,
+                        file_previewer = previewers.vim_buffer_cat.new,
+                        grep_previewer = previewers.vim_buffer_vimgrep.new,
+                        qflist_previewer = previewers.vim_buffer_qflist.new,
+                        layout_strategy = 'horizontal',
+                        layout_config = layout,
+                    }
+                ),
+                { desc = '[/] Fuzzily search in current buffer' }
+            )
 
             local harpoon = require 'harpoon'
             harpoon:setup {}
@@ -182,31 +215,21 @@ return {
                     :find()
             end
 
-            map('<C-e>', function()
+            map({ 'n', 'v' }, '<C-e>', function()
                 toggle_telescope(harpoon:list())
             end, { desc = 'Open Harpoon window' })
-
-            -- It's also possible to pass additional configuration options.
-            --  See `:help telescope.builtin.live_grep()` for information about particular keys
-            map('<leader>s/', function()
-                builtin.live_grep {
+            map(
+                { 'n', 'v' },
+                '<leader>s/',
+                create_picker(builtin.live_grep, {
                     grep_open_files = true,
                     prompt_title = 'Live Grep in Open Files',
-                }
-            end, { desc = '[S]earch [/] in Open Files' })
-
-            -- Shortcut for searching your Neovim configuration files
-            map('<leader>sn', function()
-                builtin.find_files { cwd = vim.fn.stdpath 'config' }
-            end, { desc = '[S]earch [N]eovim files' })
-
-            -- See `:help telescope.builtin`
-            map('<leader>?', require('telescope.builtin').oldfiles, {
-                desc = '[?] Find recently opened files',
-            })
-            map('<leader><space>', require('telescope.builtin').buffers, {
-                desc = '[ ] Find existing buffers',
-            })
+                }),
+                { desc = '[S]earch [/] in Open Files' }
+            )
+            map({ 'n', 'v' }, '<leader>sn', create_picker(builtin.find_files, { cwd = vim.fn.stdpath 'config' }), { desc = '[S]earch [N]eovim files' })
+            map({ 'n', 'v' }, '<leader>?', create_picker(builtin.oldfiles), { desc = '[?] Find recently opened files' })
+            map({ 'n', 'v' }, '<leader><space>', create_picker(builtin.buffers), { desc = '[ ] Find existing buffers' })
         end,
     },
 }
