@@ -225,7 +225,7 @@ return {
         end,
     },
 
-    {
+    { -- Something for deletnig tabs and buffers
         'famiu/bufdelete.nvim',
     },
 
