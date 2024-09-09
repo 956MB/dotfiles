@@ -8,6 +8,15 @@ return {
             local my_bg = '#181818'
             require('vscode').setup {
                 disable_nvimtree_bg = true,
+
+                color_overrides = {
+                    vscDiffRedDark = '#2B0D0D',
+                    vscDiffRedLight = '#400B0B',
+                    vscDiffRedLightLight = '#910101',
+                    vscDiffGreenDark = '#202317',
+                    vscDiffGreenLight = '#2B311C',
+                },
+
                 group_overrides = {
                     VertSplit = { fg = c.vscSplitDark, bg = my_bg },
                     WinBar = { bg = my_bg, fg = my_bg },
@@ -20,11 +29,13 @@ return {
                     QuickFixHeaderHard = { fg = '#444444', bg = my_bg },
                     QuickFixHeaderSoft = { fg = '#444444', bg = my_bg },
                     QuickFixFilename = { bg = my_bg, fg = c.vscBlue },
-                    -- QuickFixCursorLineNr = { bg = bg, fg = c.vscPink },
                     LineNr = { fg = '#444444', bg = my_bg },
                     CursorLineNr = { fg = '#AFAFAF', bg = my_bg },
                     Whitespace = { fg = '#404040', bg = 'NONE' },
                     MiniIndentscopeSymbol = { fg = '#707070', bg = 'NONE' },
+                    Keyword = { fg = c.vscPink, bg = 'NONE' },
+                    Directory = { fg = c.vscBlue, bg = c.vscBack },
+                    Special = { fg = c.vscYellowOrange, bg = 'NONE' },
                     Comment = { fg = '#666666', bg = 'NONE' },
                     SpecialComment = { fg = '#666666', bg = 'NONE' },
                     ['@comment'] = { fg = '#666666', bg = 'NONE' },
@@ -81,6 +92,21 @@ return {
                     DiffviewStatusModified = { fg = c.vscGitModified, bg = my_bg },
                     DiffviewStatusRenamed = { fg = c.vscGitRenamed, bg = my_bg },
                     DiffviewStatusDeleted = { fg = c.vscGitDeleted, bg = my_bg },
+                    OilDir = { fg = c.vscBlue, bg = 'NONE' }, -- links to Directory
+                    OilDirIcon = { fg = c.vscYellowOrange, bg = 'NONE' }, -- links to Special
+                    OilSocket = { fg = c.vscPink, bg = 'NONE' }, -- links to Keyword
+                    OilLink = { fg = c.vscPink, bg = 'NONE' }, -- links to Keyword
+                    OilLinkTarget = { fg = '#666666', bg = 'NONE' }, -- links to Comment
+                    OilFile = { fg = c.vscFront, bg = 'NONE' }, -- links to Normal
+                    OilCreate = { fg = c.vscGreen, bg = 'NONE' }, -- links to DiffAdd
+                    OilDelete = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
+                    OilMove = { fg = c.vscYellow, bg = 'NONE' }, -- links to DiffChange
+                    OilCopy = { fg = c.vscGreen, bg = 'NONE' }, -- links to DiffAdd
+                    OilChange = { fg = c.vscYellow, bg = 'NONE' }, -- links to DiffChange
+                    OilRestore = { fg = c.vscYellowOrange, bg = 'NONE' }, -- links to Special
+                    OilPurge = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
+                    OilTrash = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
+                    OilTrashSourcePath = { fg = '#666666', bg = 'NONE' }, -- links to Comment
                 },
             }
         end,
