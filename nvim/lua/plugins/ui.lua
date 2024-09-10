@@ -239,14 +239,13 @@ return {
                     icon = '┃ ',
                     style = 'icon',
                 },
-                buffer_close_icon = '󰅖',
+                show_buffer_close_icons = false,
                 always_show_bufferline = true,
                 hover = {
                     enabled = true,
                     delay = 0,
                     reveal = { 'close' },
                 },
-                show_buffer_close_icons = true,
                 diagnostics = 'nvim_lsp',
             })
         end,

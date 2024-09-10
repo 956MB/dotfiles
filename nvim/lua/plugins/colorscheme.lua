@@ -107,6 +107,7 @@ return {
                     OilPurge = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
                     OilTrash = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
                     OilTrashSourcePath = { fg = '#666666', bg = 'NONE' }, -- links to Comment
+                    BufferLineIndicatorSelected = { fg = '#606060', bg = 'NONE' },
                 },
             }
         end,
