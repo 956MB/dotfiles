@@ -90,6 +90,7 @@ map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', '[O]bsidian Show [L]inks')
 map('n', '<leader>do', ':DiffviewOpen<CR>', '[D]iffview [O]pen')
 map('n', '<leader>dc', ':DiffviewClose<CR>', '[D]iffview [C]lose')
 map('n', '<leader>dh', ':DiffviewFileHistory<CR>', '[D]iffview File [H]istory')
+map('n', '<leader>df', ':DiffviewToggleFiles<CR>', '[D]iffview Toggle [F]iles')
 
 -- Toggle gitsigns
 map('n', '<leader>gs', '<cmd>lua require("gitsigns").toggle_signs()<CR>', 'Toggle [G]it[S]igns')
