@@ -23,17 +23,9 @@ sixel_fraction  = 15
 ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]
 
-# TODO: Later
-# [opener]
-# open = [
-# 	{ run = 'opener "$@"', block = true, desc = "Open" },
-# ]
-
-[open]
-rules = [
-	{ name = "*/", use = [ "edit", "open", "reveal" ] },
-
-	{ mime = "*", use = [ "open" ] },
+[opener]
+text = [
+    { run = 'nvim', block = true },
 ]
 
 [tasks]

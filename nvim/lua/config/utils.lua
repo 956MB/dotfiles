@@ -21,8 +21,7 @@ function M.toggle_markdown_display()
         vim.wo.conceallevel = 0
     end
 
-    local spell = vim.wo.spell
-    vim.wo.spell = not spell
+    vim.wo.spell = false
 end
 
 -- Toggle relative line numbers

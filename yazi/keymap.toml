@@ -6,4 +6,8 @@ prepend_keymap = [
     { on = [ '<Backspace>' ], run = 'leave', desc = 'Leave the child directory' },
     # Remap Shift+Enter to act like Enter
     { on = [ '<S-Enter>' ], run = 'open', desc = 'Open file or enter directory' },
+    # Remap `Open Help` to '?'
+    { on = [ '?' ], run = 'help', desc = 'Open help' },
+    # Remap copy path to 'cp'
+    { on = [ "c", "p" ], run = "copy path", desc = "Copy the file path" },
 ]
