@@ -2,6 +2,7 @@ ssh/known_hosts
 ssh/known_hosts.old
 ssh/id_ed25519*
 ssh/sourcehut_2024*
+ssh/gitlab_com_ed25519*
 
 .DS_Store
 .env.gpa
@@ -18,3 +19,5 @@ nvim/lua/plugins/custom/oil.nvim
 nvim/lua/plugins/custom/sobrio
 nvim/lua/plugins/custom/todo-comments.nvim
 nvim/lua/plugins/custom/lspmark.nvim
+
+yazi/theme-*.toml

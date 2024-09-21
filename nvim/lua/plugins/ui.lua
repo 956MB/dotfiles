@@ -1,5 +1,5 @@
 local Util = require 'lazyvim.util'
-local utils = require 'config.utils'
+local cfg_utils = require 'config.utils'
 
 -- like lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6)
 ---@param opts? {relative: "cwd"|"root", modified_hl: string?}
@@ -41,9 +41,13 @@ end
 return {
     { -- Icons
         'nvim-tree/nvim-web-devicons',
-        enabled = true,
+        lazy = false,
+        priority = 1000,
         config = function()
-            require('nvim-web-devicons').setup()
+            require('nvim-web-devicons').setup {
+                color_icons = true,
+                default = true,
+            }
         end,
     },
 
@@ -134,8 +138,6 @@ return {
             },
         },
         config = function()
-            local bg_color = vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
-
             require('toggleterm').setup {
                 persist_mode = true,
                 size = function(term)
@@ -145,18 +147,6 @@ return {
                         return vim.o.columns * 0.4
                     end
                 end,
-                highlights = {
-                    Normal = {
-                        guibg = bg_color,
-                    },
-                    NormalFloat = {
-                        guibg = bg_color,
-                    },
-                    FloatBorder = {
-                        guifg = bg_color,
-                        guibg = bg_color,
-                    },
-                },
                 float_opts = {
                     border = 'curved',
                     title_pos = 'center',
@@ -173,12 +163,12 @@ return {
                     -- Resize terminal split works
                     vim.keymap.set('t', '<C-,>', function()
                         vim.cmd.stopinsert()
-                        utils.scale_split '-1'
+                        cfg_utils.scale_split '-1'
                         vim.cmd.startinsert()
                     end, opts)
                     vim.keymap.set('t', '<C-.>', function()
                         vim.cmd.stopinsert()
-                        utils.scale_split '+1'
+                        cfg_utils.scale_split '+1'
                         vim.cmd.startinsert()
                     end, opts)
 
@@ -186,13 +176,6 @@ return {
                     vim.cmd 'autocmd BufEnter <buffer> startinsert'
                 end,
             }
-
-            vim.api.nvim_create_autocmd('TermOpen', {
-                pattern = '*',
-                callback = function()
-                    vim.wo.winhighlight = 'Normal:Normal'
-                end,
-            })
         end,
     },
 
@@ -209,7 +192,7 @@ return {
             'nvim-lua/plenary.nvim',
         },
         keys = {
-            { '<leader>lg', utils.open_lazygit_tab, desc = 'LazyGit in Buffer' },
+            { '<leader>lg', cfg_utils.open_lazygit_tab, desc = 'LazyGit in Buffer' },
         },
         config = function()
             vim.g.lazygit_floating_window_use_plenary = 0 -- Disable floating window
@@ -240,7 +223,7 @@ return {
                     style = 'icon',
                 },
                 show_buffer_close_icons = false,
-                always_show_bufferline = true,
+                always_show_bufferline = false,
                 hover = {
                     enabled = true,
                     delay = 0,
@@ -275,14 +258,40 @@ return {
 
                 return string.format('%s %s %s', filename, backslashes, position)
             end
+            local function short(str)
+                local modes = {
+                    ['NORMAL'] = 'NOR',
+                    ['INSERT'] = 'INS',
+                    ['VISUAL'] = 'VIS',
+                    ['V-LINE'] = 'V-L',
+                    ['V-BLOCK'] = 'V-B',
+                    ['REPLACE'] = 'REP',
+                    ['COMMAND'] = 'CMD',
+                    ['TERMINAL'] = 'TER',
+                    ['EX'] = 'EX',
+                    ['SELECT'] = 'SEL',
+                    ['S-LINE'] = 'S-L',
+                    ['S-BLOCK'] = 'S-B',
+                    ['OPERATOR'] = 'OPE',
+                    ['MORE'] = 'MOR',
+                    ['CONFIRM'] = 'CON',
+                    ['SHELL'] = 'SHL',
+                    ['MULTICHAR'] = 'MCH',
+                    ['PROMPT'] = 'PRT',
+                    ['BLOCK'] = 'BLK',
+                    ['FUNCTION'] = 'FUN',
+                }
+                return modes[str] or str
+            end
 
             opts.options.theme = 'vscode'
             opts.options.disabled_filetypes = {
                 statusline = { 'NvimTree' },
                 winbar = {},
             }
-            opts.sections.lualine_a = { 'mode' }
+            opts.sections.lualine_a = { { 'mode', fmt = short } }
             opts.sections.lualine_c[4] = { lualine_pretty_path() }
+            -- middle
             opts.sections.lualine_z = opts.sections.lualine_y
             opts.sections.lualine_y = opts.sections.lualine_x
             opts.sections.lualine_x = {

@@ -16,6 +16,8 @@ local opt = vim.opt
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 opt.background = 'dark'
+opt.termguicolors = true
+vim.wo.spell = false
 
 opt.swapfile = false
 opt.list = false

@@ -5,7 +5,7 @@ autoload -U colors && colors
 setopt PROMPT_SUBST
 
 set_prompt() {
-    PS1="%{$fg_bold[yellow]%}${PWD/#$HOME/~}%{$reset_color%}"
+    PS1="%{$fg_bold[blue]%}${PWD/#$HOME/~}%{$reset_color%}"
 
 	# Status Code
 	PS1+='%(?.., %{$fg[red]%}%?%{$reset_color%})'

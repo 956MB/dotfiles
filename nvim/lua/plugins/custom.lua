@@ -100,6 +100,48 @@ return {
         },
     },
 
+    { -- Better quickfix window
+        -- 'stevearc/quicker.nvim',
+        dir = '~/dotfiles/nvim/lua/plugins/custom/quicker.nvim',
+        branch = 'QuickFixCursorLineNr',
+        event = 'FileType qf',
+        config = function()
+            require('quicker').setup {
+                highlight = {
+                    cursor_linenr = {
+                        show = true,
+                        debounce = 15,
+                    },
+                },
+                borders = {
+                    vert = '┊',
+                    strong_header = '┄',
+                    strong_cross = '┼',
+                    strong_end = '┤',
+                    soft_header = '┄',
+                    soft_cross = '┼',
+                    soft_end = '┤',
+                },
+                keys = {
+                    {
+                        '>',
+                        function()
+                            require('quicker').expand { before = 2, after = 2, add_to_existing = true }
+                        end,
+                        desc = 'Expand quickfix context',
+                    },
+                    {
+                        '<',
+                        function()
+                            require('quicker').collapse()
+                        end,
+                        desc = 'Collapse quickfix context',
+                    },
+                },
+            }
+        end,
+    },
+
     -- { -- Bookmarks
     --     -- 'tristone13th/lspmark.nvim',
     --     dir = '~/dotfiles/nvim/lua/plugins/custom/lspmark.nvim',

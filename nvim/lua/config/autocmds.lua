@@ -111,32 +111,28 @@ vim.defer_fn(function()
     })
 end, 0) -- 0 ms delay, but still deferred
 
--- Window padding function
+-- Window padding
 function SetWindowPadding()
-    local win = vim.api.nvim_get_current_win()
-    local buf = vim.api.nvim_win_get_buf(win)
-    local buftype = vim.api.nvim_get_option_value('buftype', { buf = buf })
-    local filetype = vim.api.nvim_get_option_value('filetype', { buf = buf })
+    local api = vim.api
+    local win = api.nvim_get_current_win()
+    local buf = api.nvim_win_get_buf(win)
+    local buftype = api.nvim_get_option_value('buftype', { buf = buf })
+    local filetype = api.nvim_get_option_value('filetype', { buf = buf })
 
-    local is_toggleterm = false
-    pcall(function()
-        is_toggleterm = vim.api.nvim_buf_get_var(buf, 'toggle_number') ~= nil
-    end)
-    -- If the above check failed, try an alternative method
-    if not is_toggleterm then
-        is_toggleterm = filetype == 'toggleterm'
-    end
-
-    -- diffview.nvim too
-    local is_diffview = string.match(vim.api.nvim_buf_get_name(buf), '^diffview:///')
+    -- toggleterm.nvim
+    local is_toggleterm = pcall(function()
+        return api.nvim_buf_get_var(buf, 'toggle_number') ~= nil
+    end) or filetype == 'toggleterm'
+    -- diffview.nvim
+    local is_diffview = string.match(api.nvim_buf_get_name(buf), '^diffview:///')
 
     -- Only apply padding to normal buffers, nvim-tree and diffview
     if (buftype == '' or filetype == 'NvimTree' or is_diffview) and not is_toggleterm then
-        local width = vim.api.nvim_win_get_width(win)
+        local width = api.nvim_win_get_width(win)
         if width > 1 then
-            vim.api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })
+            api.nvim_set_option_value('winbar', string.rep(' ', width), { win = win })
         end
     else
-        vim.api.nvim_set_option_value('winbar', nil, { win = win })
+        api.nvim_set_option_value('winbar', nil, { win = win })
     end
 end

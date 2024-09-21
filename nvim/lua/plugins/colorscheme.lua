@@ -1,21 +1,35 @@
 return {
-    { 'fladson/vim-kitty' },
+    { -- syntax highlighting for kitty.conf
+        'fladson/vim-kitty',
+    },
     { -- Color scheme
-        'Mofiqul/vscode.nvim',
+        -- 'Mofiqul/vscode.nvim',
+        dir = '~/dotfiles/nvim/lua/plugins/custom/vscode.nvim',
+        lazy = false,
         priority = 1000,
         config = function()
-            local c = require('vscode.colors').get_colors()
             local my_bg = '#181818'
-            require('vscode').setup {
+            local vscode = require 'vscode'
+            local c = require('vscode.colors').get_colors()
+
+            vscode.setup {
                 disable_nvimtree_bg = true,
 
                 color_overrides = {
+                    lualineBg = '#262626',
+                    lualineBg2 = '#262626',
                     vscDiffRedDark = '#2B0D0D',
                     vscDiffRedLight = '#400B0B',
                     vscDiffRedLightLight = '#910101',
                     vscDiffGreenDark = '#202317',
                     vscDiffGreenLight = '#2B311C',
                 },
+
+                -- lualine_overrides = {
+                --     normal = {
+                --         a = { fg = c.vscFront, bg = '#121212', gui = 'bold' },
+                --     },
+                -- },
 
                 group_overrides = {
                     VertSplit = { fg = c.vscSplitDark, bg = my_bg },
@@ -26,12 +40,18 @@ return {
                     NormalFloat = { bg = my_bg },
                     SignColumn = { bg = my_bg },
                     Delimiter = { fg = '#444444', bg = my_bg },
+
+                    -- quicker.nvim (quickfix)
                     QuickFixHeaderHard = { fg = '#444444', bg = my_bg },
                     QuickFixHeaderSoft = { fg = '#444444', bg = my_bg },
                     QuickFixFilename = { bg = my_bg, fg = c.vscBlue },
+
+                    -- Line numbers and whitespace
                     LineNr = { fg = '#444444', bg = my_bg },
                     CursorLineNr = { fg = '#AFAFAF', bg = my_bg },
                     Whitespace = { fg = '#404040', bg = 'NONE' },
+
+                    -- Syntax
                     MiniIndentscopeSymbol = { fg = '#707070', bg = 'NONE' },
                     Keyword = { fg = c.vscPink, bg = 'NONE' },
                     Directory = { fg = c.vscBlue, bg = c.vscBack },
@@ -39,6 +59,8 @@ return {
                     Comment = { fg = '#666666', bg = 'NONE' },
                     SpecialComment = { fg = '#666666', bg = 'NONE' },
                     ['@comment'] = { fg = '#666666', bg = 'NONE' },
+
+                    -- Scrollbar
                     ScrollbarHandle = { bg = '#262626', fg = 'NONE' },
                     ScrollbarCursorHandle = { bg = '#262626', fg = 'NONE' },
                     ScrollbarWarn = { bg = 'NONE', fg = '#FFDF88' },
@@ -53,11 +75,17 @@ return {
                     ScrollbarGitAddHandle = { bg = '#262626', fg = '#262626' },
                     ScrollbarGitChangeHandle = { bg = '#262626', fg = '#262626' },
                     ScrollbarGitDeleteHandle = { bg = '#262626', fg = '#262626' },
-                    LazyGitFloat = { bg = 'NONE', fg = '#eaeaea' },
-                    LazyGitBorder = { bg = 'NONE', fg = '#666666' },
+
+                    -- Lazygit
+                    LazyGitFloat = { bg = 'NONE', fg = '#808080' },
+                    LazyGitBorder = { bg = 'NONE', fg = '#808080' },
+
+                    -- Git signs
                     GitSignsAdd = { bg = 'NONE', fg = '#2DA042' },
                     GitSignsChange = { bg = 'NONE', fg = c.vscBlue },
                     GitSignsDelete = { bg = 'NONE', fg = c.vscRed },
+
+                    -- NvimTree
                     NvimTreeRootFolder = { fg = c.vscFront, bg = 'NONE', bold = true },
                     NvimTreeImageFile = { fg = c.vscViolet, bg = 'NONE' },
                     NvimTreeEmptyFolderName = { fg = c.vscGray, bg = 'NONE' },
@@ -75,7 +103,12 @@ return {
                     NvimTreeGitMerge = { fg = c.vscGitUntracked, bg = 'NONE' },
                     NvimTreeGitDirty = { fg = c.vscGitModified, bg = 'NONE' },
                     NvimTreeGitNew = { fg = c.vscGitAdded, bg = 'NONE' },
+
+                    -- BufferLine
                     BufferLineFill = { bg = '#0D0D0D' },
+                    BufferLineIndicatorSelected = { fg = '#606060', bg = 'NONE' },
+
+                    -- Diffview
                     DiffviewNormal = { fg = c.vscFront, bg = my_bg },
                     DiffviewCursorLine = { bg = c.vscCursorDarkDark },
                     DiffviewVertSplit = { fg = c.vscSplitDark, bg = my_bg },
@@ -92,6 +125,8 @@ return {
                     DiffviewStatusModified = { fg = c.vscGitModified, bg = my_bg },
                     DiffviewStatusRenamed = { fg = c.vscGitRenamed, bg = my_bg },
                     DiffviewStatusDeleted = { fg = c.vscGitDeleted, bg = my_bg },
+
+                    -- oil.nvim
                     OilDir = { fg = c.vscBlue, bg = 'NONE' }, -- links to Directory
                     OilDirIcon = { fg = c.vscYellowOrange, bg = 'NONE' }, -- links to Special
                     OilSocket = { fg = c.vscPink, bg = 'NONE' }, -- links to Keyword
@@ -107,7 +142,23 @@ return {
                     OilPurge = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
                     OilTrash = { fg = c.vscRed, bg = 'NONE' }, -- links to DiffDelete
                     OilTrashSourcePath = { fg = '#666666', bg = 'NONE' }, -- links to Comment
-                    BufferLineIndicatorSelected = { fg = '#606060', bg = 'NONE' },
+
+                    -- Notify
+                    NotifyERRORBorder = { fg = c.vscSplitDark },
+                    NotifyWARNBorder = { fg = c.vscSplitDark },
+                    NotifyINFOBorder = { fg = c.vscSplitDark },
+                    NotifyDEBUGBorder = { fg = c.vscSplitDark },
+                    NotifyTRACEBorder = { fg = c.vscSplitDark },
+                    NotifyERRORIcon = { fg = c.vscRed },
+                    NotifyWARNIcon = { fg = c.vscDarkYellow },
+                    NotifyINFOIcon = { fg = c.vscLightGreen },
+                    NotifyDEBUGIcon = { fg = c.vscGray },
+                    NotifyTRACEIcon = { fg = c.vscPink },
+                    NotifyERRORTitle = { fg = c.vscRed },
+                    NotifyWARNTitle = { fg = c.vscDarkYellow },
+                    NotifyINFOTitle = { fg = c.vscLightGreen },
+                    NotifyDEBUGTitle = { fg = c.vscGray },
+                    NotifyTRACETitle = { fg = c.vscPink },
                 },
             }
         end,

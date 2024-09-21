@@ -79,33 +79,6 @@ return {
         end,
     },
 
-    {
-        'stevearc/quicker.nvim',
-        config = function()
-            require('quicker').setup {
-                borders = {
-                    vert = '┊',
-                },
-                keys = {
-                    {
-                        '>',
-                        function()
-                            require('quicker').expand { before = 2, after = 2, add_to_existing = true }
-                        end,
-                        desc = 'Expand quickfix context',
-                    },
-                    {
-                        '<',
-                        function()
-                            require('quicker').collapse()
-                        end,
-                        desc = 'Collapse quickfix context',
-                    },
-                },
-            }
-        end,
-    },
-
     { -- Toggle comment lines with Comment.nvim
         'numToStr/Comment.nvim',
         config = function()

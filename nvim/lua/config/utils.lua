@@ -51,11 +51,11 @@ function M.open_lazygit_tab()
     local win = api.nvim_get_current_win()
     api.nvim_win_set_buf(win, buf)
     api.nvim_buf_set_name(buf, 'LazyGit')
-    api.nvim_buf_set_option(buf, 'buftype', 'nofile')
-    api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
-    api.nvim_win_set_option(win, 'number', false)
-    api.nvim_win_set_option(win, 'relativenumber', false)
-    api.nvim_win_set_option(win, 'signcolumn', 'no')
+    api.nvim_set_option_value('buftype', 'nofile', { buf = buf })
+    api.nvim_set_option_value('bufhidden', 'wipe', { buf = buf })
+    api.nvim_set_option_value('number', false, { win = win })
+    api.nvim_set_option_value('relativenumber', false, { win = win })
+    api.nvim_set_option_value('signcolumn', 'no', { win = win })
 
     local _ = vim.fn.termopen('lazygit', {
         on_exit = function(_)
@@ -64,8 +64,6 @@ function M.open_lazygit_tab()
             end)
         end,
     })
-
-    -- api.nvim_buf_set_keymap(buf, 't', 'q', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
 
     vim.cmd 'startinsert'
 end

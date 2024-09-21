@@ -171,9 +171,9 @@ language_specifier() {
         asm | ASM) echo "nasm" ;; ns2) echo "newspeak" ;; objdump) echo "objdump" ;; m | mm) echo "objectivec" ;; j) echo "objectivej" ;; ml | mli | mll | mly) echo "ocaml" ;; ooc) echo "ooc" ;;
         pl | pm | t) echo "perl" ;; php | php3 | php4 | php5 | phps) echo "php" ;; ps | eps) echo "postscript" ;; pot | po) echo "pot" ;; pov | inc) echo "pov" ;; prolog | pro) echo "prolog" ;; properties) echo "properties" ;;
         proto) echo "protobuf" ;; py3tb) echo "py3tb" ;; pytb) echo "pytb" ;; py | pyw | sc | tac) echo "python" ;; R) echo "r" ;; rb | rbw | rake | gemspec | rbx | duby) echo "rb" ;; Rout) echo "rconsole" ;;
-        r | r3) echo "rebol" ;; cw) echo "redcode" ;; rhtml) echo "rhtml" ;; rst | rest) echo "rst" ;; sass) echo "sass" ;; scala) echo "scala" ;; scaml) echo "scaml" ;; scm | ss) echo "scheme" ;;
+        r | r3) echo "rebol" ;; cw) echo "redcode" ;; rhtml) echo "rhtml" ;; rs) echo "rs" ;; rst | rest) echo "rst" ;; sass) echo "sass" ;; scala) echo "scala" ;; scaml) echo "scaml" ;; scm | ss) echo "scheme" ;;
         scss) echo "scss" ;; st) echo "smalltalk" ;; tpl) echo "smarty" ;; S) echo "splus" ;; sql) echo "sql" ;; sqlite3-console) echo "sqlite3" ;; ssp) echo "ssp" ;; tcl) echo "tcl" ;;
-        tcsh | csh) echo "tcsh" ;; tex | aux | toc) echo "tex" ;; txt) echo "text" ;; v | sv) echo "v" ;; vala | vapi) echo "vala" ;; vb | bas) echo "vbnet" ;; vm | fhtml) echo "velocity" ;; vim) echo "vim" ;;
+        tcsh | csh) echo "tcsh" ;; tex | aux | toc) echo "tex" ;; txt) echo "text" ;; toml) echo "ini" ;; v | sv) echo "v" ;; vala | vapi) echo "vala" ;; vb | bas) echo "vbnet" ;; vm | fhtml) echo "velocity" ;; vim) echo "vim" ;;
         xml | xsl | rss | xslt | xsd | wsdl) echo "xml" ;; xqy | xquery) echo "xquery" ;; yaml | yml) echo "yaml" ;; *) echo "plaintext" ;;
         esac ;;
     esac

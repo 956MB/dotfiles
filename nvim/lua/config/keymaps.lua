@@ -69,7 +69,7 @@ map('n', '<leader>[[', function()
     utils.surround_and_capitalize()
 end, 'Surround and [T]his [T]hing')
 
--- OIL
+-- OIL (oil.nvim)
 map('n', '<C-`>', function()
     require('oil').open()
 end, 'OIL')
@@ -100,7 +100,8 @@ map('n', '<leader>md', function()
     utils.toggle_markdown_display()
 end, 'Toggle [M]arkdown [D]isplay')
 -- Run MarkdownPreview
-map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', '[M]arkdown [P]review')
+-- map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', '[M]arkdown [P]review')
+map('n', '<leader>mp', '<cmd>LivePreview<CR>', '[M]arkdown [P]review')
 
 -- todo-comments.nvim and Trouble
 map('n', '<leader>td', '<cmd>TodoTrouble<cr>', 'Show [T]odo [D]iagnostic Comments')

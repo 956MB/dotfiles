@@ -21,13 +21,13 @@ return {
         end,
     },
 
-    { -- Yank history
-        'ptdewey/yankbank-nvim',
-        dependencies = 'kkharji/sqlite.lua',
-        config = function()
-            require('yankbank').setup {
-                persist_type = 'sqlite',
-            }
-        end,
-    },
+    -- { -- Yank history
+    --     'ptdewey/yankbank-nvim',
+    --     dependencies = 'kkharji/sqlite.lua',
+    --     config = function()
+    --         require('yankbank').setup {
+    --             persist_type = 'sqlite',
+    --         }
+    --     end,
+    -- },
 }
