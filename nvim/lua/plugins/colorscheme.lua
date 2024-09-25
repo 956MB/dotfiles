@@ -8,7 +8,8 @@ return {
         lazy = false,
         priority = 1000,
         config = function()
-            local my_bg = '#181818'
+            local bg1 = '#181818'
+            local bg2 = '#141414'
             local vscode = require 'vscode'
             local c = require('vscode.colors').get_colors()
 
@@ -32,23 +33,43 @@ return {
                 -- },
 
                 group_overrides = {
-                    VertSplit = { fg = c.vscSplitDark, bg = my_bg },
-                    WinBar = { bg = my_bg, fg = my_bg },
-                    WinBarNC = { bg = my_bg, fg = my_bg },
-                    Normal = { fg = c.vscFront, bg = my_bg },
-                    NormalNC = { fg = c.vscFront, bg = my_bg },
-                    NormalFloat = { bg = my_bg },
-                    SignColumn = { bg = my_bg },
-                    Delimiter = { fg = '#444444', bg = my_bg },
+                    VertSplit = { fg = c.vscSplitDark, bg = bg1 },
+                    WinBar = { bg = bg1, fg = bg1 },
+                    WinBarNC = { bg = bg1, fg = bg1 },
+                    Normal = { fg = c.vscFront, bg = bg1 },
+                    NormalNC = { fg = c.vscFront, bg = bg1 },
+                    NormalFloat = { bg = bg1 },
+                    SignColumn = { bg = bg1 },
+                    Delimiter = { fg = '#444444', bg = bg1 },
+
+                    -- Noice cmdline
+                    NoiceCmdlinePrompt = { fg = c.vscFront, bg = c.vscPink },
+                    NoiceCmdlineNormal = { fg = 'NONE', bg = bg2 },
+                    NoiceCmdlinePopupBorder = { fg = bg2, bg = bg2 },
+                    NoiceCmdlinePopupTitle = { fg = c.vscFront, bg = c.vscPink },
+
+                    -- Telescope
+                    TelescopeNormal = { fg = 'NONE', bg = bg2 },
+                    TelescopeBorder = { fg = bg2, bg = bg2 },
+                    TelescopePromptBorder = { fg = c.vscLeftMid, bg = c.vscLeftMid },
+                    TelescopePromptNormal = { fg = c.vscFront, bg = c.vscLeftMid },
+                    TelescopePromptCounter = { fg = c.vscPopupFront, bg = c.vscLeftMid },
+                    TelescopePromptPrefix = { fg = c.vscPink, bg = c.vscLeftMid },
+                    TelescopePromptTitle = { fg = c.vscBack, bg = c.vscMediumBlue, bold = true },
+                    TelescopeResultsBorder = { fg = bg2, bg = bg2 },
+                    TelescopePreviewBorder = { fg = bg2, bg = bg2 },
+                    TelescopeResultsTitle = { fg = bg2, bg = bg2, bold = true },
+                    TelescopePreviewTitle = { fg = c.vscBack, bg = c.vscBlueGreen, bold = true },
+                    TelescopeSelectionCaret = { fg = c.vscPopupFront, bg = 'NONE' },
 
                     -- quicker.nvim (quickfix)
-                    QuickFixHeaderHard = { fg = '#444444', bg = my_bg },
-                    QuickFixHeaderSoft = { fg = '#444444', bg = my_bg },
-                    QuickFixFilename = { bg = my_bg, fg = c.vscBlue },
+                    QuickFixHeaderHard = { fg = '#444444', bg = bg1 },
+                    QuickFixHeaderSoft = { fg = '#444444', bg = bg1 },
+                    QuickFixFilename = { bg = bg1, fg = c.vscBlue },
 
                     -- Line numbers and whitespace
-                    LineNr = { fg = '#444444', bg = my_bg },
-                    CursorLineNr = { fg = '#AFAFAF', bg = my_bg },
+                    LineNr = { fg = '#444444', bg = bg1 },
+                    CursorLineNr = { fg = '#AFAFAF', bg = bg1 },
                     Whitespace = { fg = '#404040', bg = 'NONE' },
 
                     -- Syntax
@@ -69,9 +90,9 @@ return {
                     ScrollbarWarnHandle = { bg = '#262626', fg = '#FFDF88' },
                     ScrollbarErrorHandle = { bg = '#262626', fg = '#FFBDB7' },
                     ScrollbarHintHandle = { bg = '#262626', fg = '#97DDFF' },
-                    ScrollbarGitAdd = { bg = 'NONE', fg = '#262626' },
-                    ScrollbarGitChange = { bg = 'NONE', fg = '#262626' },
-                    ScrollbarGitDelete = { bg = 'NONE', fg = '#262626' },
+                    ScrollbarGitAdd = { bg = 'NONE', fg = bg1 },
+                    ScrollbarGitChange = { bg = 'NONE', fg = bg1 },
+                    ScrollbarGitDelete = { bg = 'NONE', fg = bg1 },
                     ScrollbarGitAddHandle = { bg = '#262626', fg = '#262626' },
                     ScrollbarGitChangeHandle = { bg = '#262626', fg = '#262626' },
                     ScrollbarGitDeleteHandle = { bg = '#262626', fg = '#262626' },
@@ -91,11 +112,11 @@ return {
                     NvimTreeEmptyFolderName = { fg = c.vscGray, bg = 'NONE' },
                     NvimTreeFolderName = { fg = c.vscFront, bg = 'NONE' },
                     NvimTreeSpecialFile = { fg = c.vscPink, bg = 'NONE', underline = true },
-                    NvimTreeNormal = { fg = c.vscFront, bg = my_bg },
+                    NvimTreeNormal = { fg = c.vscFront, bg = bg1 },
                     NvimTreeCursorLine = { fg = 'NONE', bg = '#262626' },
-                    NvimTreeVertSplit = { fg = c.vscSplitDark, bg = my_bg },
-                    NvimTreeEndOfBuffer = { fg = my_bg },
-                    NvimTreeOpenedFolderName = { fg = 'NONE', bg = my_bg },
+                    NvimTreeVertSplit = { fg = c.vscSplitDark, bg = bg1 },
+                    NvimTreeEndOfBuffer = { fg = bg1 },
+                    NvimTreeOpenedFolderName = { fg = 'NONE', bg = bg1 },
                     NvimTreeGitRenamed = { fg = c.vscGitRenamed, bg = 'NONE' },
                     NvimTreeGitIgnored = { fg = c.vscGitIgnored, bg = 'NONE' },
                     NvimTreeGitDeleted = { fg = c.vscGitDeleted, bg = 'NONE' },
@@ -109,9 +130,9 @@ return {
                     BufferLineIndicatorSelected = { fg = '#606060', bg = 'NONE' },
 
                     -- Diffview
-                    DiffviewNormal = { fg = c.vscFront, bg = my_bg },
+                    DiffviewNormal = { fg = c.vscFront, bg = bg1 },
                     DiffviewCursorLine = { bg = c.vscCursorDarkDark },
-                    DiffviewVertSplit = { fg = c.vscSplitDark, bg = my_bg },
+                    DiffviewVertSplit = { fg = c.vscSplitDark, bg = bg1 },
                     DiffviewStatusLine = { fg = c.vscFront, bg = c.vscLeftDark },
                     DiffviewStatusLineNC = { fg = c.vscFrontDark, bg = c.vscLeftDark },
                     DiffviewFilePanelTitle = { fg = c.vscLightBlue, bg = 'NONE', bold = true },
@@ -120,11 +141,11 @@ return {
                     DiffviewFilePanelPath = { fg = c.vscFrontDark, bg = 'NONE' },
                     DiffviewFilePanelInsertions = { fg = c.vscGitAdded, bg = 'NONE' },
                     DiffviewFilePanelDeletions = { fg = c.vscGitDeleted, bg = 'NONE' },
-                    DiffviewStatusAdded = { fg = c.vscGitAdded, bg = my_bg },
-                    DiffviewStatusUntracked = { fg = c.vscGitAdded, bg = my_bg },
-                    DiffviewStatusModified = { fg = c.vscGitModified, bg = my_bg },
-                    DiffviewStatusRenamed = { fg = c.vscGitRenamed, bg = my_bg },
-                    DiffviewStatusDeleted = { fg = c.vscGitDeleted, bg = my_bg },
+                    DiffviewStatusAdded = { fg = c.vscGitAdded, bg = bg1 },
+                    DiffviewStatusUntracked = { fg = c.vscGitAdded, bg = bg1 },
+                    DiffviewStatusModified = { fg = c.vscGitModified, bg = bg1 },
+                    DiffviewStatusRenamed = { fg = c.vscGitRenamed, bg = bg1 },
+                    DiffviewStatusDeleted = { fg = c.vscGitDeleted, bg = bg1 },
 
                     -- oil.nvim
                     OilDir = { fg = c.vscBlue, bg = 'NONE' }, -- links to Directory

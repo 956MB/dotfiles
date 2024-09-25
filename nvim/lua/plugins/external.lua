@@ -1,26 +1,19 @@
 return {
-    -- { -- Markdown live preview
-    --     'iamcco/markdown-preview.nvim',
-    --     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    --     ft = { 'markdown' },
-    --     build = function()
-    --         vim.fn['mkdp#util#install']()
-    --     end,
-    -- },
-
-    {
-        'brianhuster/live-preview.nvim',
-        config = function()
-            require('live-preview').setup {
-                commands = {
-                    start = 'LivePreview',
-                    stop = 'StopPreview',
-                },
-                port = 5500,
-                browser = 'default',
-            }
+    { -- Markdown live preview
+        'iamcco/markdown-preview.nvim',
+        cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+        ft = { 'markdown' },
+        build = function()
+            vim.fn['mkdp#util#install']()
         end,
     },
+
+    -- { -- Markdown live preview (different)
+    --     'brianhuster/live-preview.nvim',
+    --     config = function()
+    --         require('live-preview').setup()
+    --     end,
+    -- },
 
     { -- Obsidian integration
         'epwalsh/obsidian.nvim',

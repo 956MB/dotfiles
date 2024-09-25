@@ -39,24 +39,6 @@ return {
 
             -- [[ Configure Telescope ]]
             -- See `:help telescope` and `:help telescope.setup()`
-            require('telescope').setup {
-                extensions = {
-                    ['ui-select'] = {
-                        require('telescope.themes').get_dropdown(),
-                    },
-                },
-            }
-
-            -- Enable Telescope extensions if they are installed
-            pcall(require('telescope').load_extension, 'fzf')
-            pcall(require('telescope').load_extension, 'ui-select')
-
-            local function map(mode, lhs, rhs, opts)
-                opts = opts or {}
-                opts.silent = opts.silent ~= false
-                vim.keymap.set(mode, lhs, rhs, opts)
-            end
-
             local ignore_patterns = {
                 'gtk/**/*',
                 './node_modules/*',
@@ -70,8 +52,7 @@ return {
                 'src-tauri/target/*',
                 'vendor/*',
             }
-
-            local layout = {
+            local main_layout = {
                 horizontal = {
                     preview_width = 0.55,
                     results_width = 0.8,
@@ -89,6 +70,30 @@ return {
                 width = 0.55,
                 height = 0.20,
             }
+
+            require('telescope').setup {
+                defaults = {
+                    file_ignore_patterns = ignore_patterns,
+                    prompt_prefix = '   ',
+                    selection_caret = '┃ ',
+                    layout_config = main_layout,
+                    extensions = {
+                        ['ui-select'] = {
+                            require('telescope.themes').get_dropdown(),
+                        },
+                    },
+                },
+            }
+
+            -- Enable Telescope extensions if they are installed
+            pcall(require('telescope').load_extension, 'fzf')
+            pcall(require('telescope').load_extension, 'ui-select')
+
+            local function map(mode, lhs, rhs, opts)
+                opts = opts or {}
+                opts.silent = opts.silent ~= false
+                vim.keymap.set(mode, lhs, rhs, opts)
+            end
 
             -- Send visual selection to Telescope func
             local function telescope_visual(builtin_func, opts)
@@ -118,56 +123,9 @@ return {
             map({ 'n', 'v' }, '<leader>sd', create_picker(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
             map({ 'n', 'v' }, '<leader>sr', create_picker(builtin.resume), { desc = '[S]earch [R]esume' })
             map({ 'n', 'v' }, '<leader>s.', create_picker(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
-            map({ 'n', 'v' }, '<leader><leader>', create_picker(builtin.buffers), { desc = '[ ] Find existing buffers' })
-            map({ 'n', 'v' }, '<C-b>', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'Open file browser (Normal Mode)' })
-            map(
-                { 'n', 'v' },
-                '<C-g>',
-                create_picker(builtin.live_grep, {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }),
-                { desc = '[S]earch by [G]rep' }
-            )
-            map(
-                { 'n', 'v' },
-                '<C-p>',
-                create_picker(builtin.find_files, {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }),
-                { desc = '[S]earch [F]iles' }
-            )
-            map(
-                { 'n', 'v' },
-                '<C-t>',
-                create_picker(builtin.buffers, {
-                    layout_config = layout,
-                    file_ignore_patterns = ignore_patterns,
-                }),
-                { desc = '[S]earch [T]abs (Buffers)' }
-            )
-            map(
-                { 'n', 'v' },
-                '<C-f>',
-                create_picker(
-                    builtin.current_buffer_fuzzy_find,
-                    require('telescope.themes').get_dropdown {
-                        previewer = true,
-                        selection_strategy = 'reset',
-                        sorting_strategy = 'ascending',
-                        file_sorter = sorters.get_fuzzy_file,
-                        file_ignore_patterns = ignore_patterns,
-                        generic_sorter = sorters.get_generic_fuzzy_sorter,
-                        file_previewer = previewers.vim_buffer_cat.new,
-                        grep_previewer = previewers.vim_buffer_vimgrep.new,
-                        qflist_previewer = previewers.vim_buffer_qflist.new,
-                        layout_strategy = 'horizontal',
-                        layout_config = layout,
-                    }
-                ),
-                { desc = '[/] Fuzzily search in current buffer' }
-            )
+            map({ 'n', 'v' }, '<C-g>', create_picker(builtin.live_grep), { desc = '[S]earch by [G]rep' })
+            map({ 'n', 'v' }, '<C-p>', create_picker(builtin.find_files), { desc = '[S]earch [F]iles' })
+            map({ 'n', 'v' }, '<C-t>', create_picker(builtin.buffers), { desc = '[S]earch [T]abs (Buffers)' })
 
             local harpoon = require 'harpoon'
             harpoon:setup {}

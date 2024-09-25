@@ -100,8 +100,8 @@ map('n', '<leader>md', function()
     utils.toggle_markdown_display()
 end, 'Toggle [M]arkdown [D]isplay')
 -- Run MarkdownPreview
--- map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', '[M]arkdown [P]review')
-map('n', '<leader>mp', '<cmd>LivePreview<CR>', '[M]arkdown [P]review')
+map('n', '<leader>mp', '<cmd>MarkdownPreview<CR>', '[M]arkdown [P]review')
+-- map('n', '<leader>mp', '<cmd>LivePreview<CR>', '[M]arkdown [P]review')
 
 -- todo-comments.nvim and Trouble
 map('n', '<leader>td', '<cmd>TodoTrouble<cr>', 'Show [T]odo [D]iagnostic Comments')
@@ -141,6 +141,8 @@ end, 'Code [A]ction (Tiny)')
 -- Bufferline
 map('n', '<C-w>', "<cmd>lua require('bufdelete').bufdelete()<CR>", '[D]elete Buffer (Tab)')
 map('n', '<leader>co', '<cmd>BufferLineCloseOthers<CR>', '[C]lose all [O]ther open tabs')
+map('n', '<leader>cl', '<cmd>BufferLineCloseLeft<CR>', '[C]lose open tabs to the [L]eft')
+map('n', '<leader>cr', '<cmd>BufferLineCloseRight<CR>', '[C]lose open tabs to the [R]ight')
 map('n', '<leader>bp', '<cmd>BufferLineTogglePin<CR>', 'Toggle [B]uffer [P]in')
 map('n', '-', '<cmd>BufferLineCyclePrev<CR>', 'Cycle buffers Prev (Left)')
 map('n', '=', '<cmd>BufferLineCycleNext<CR>', 'Cycle buffers Next (Right)')
@@ -192,8 +194,10 @@ map('n', '<leader>xx', '<cmd>XcodebuildQuickfixLine<cr>', 'Quickfix Line')
 map('n', '<leader>xa', '<cmd>XcodebuildCodeActions<cr>', 'Show Code Actions')
 
 -- ncks.nvim
+map('n', '<leader>nn', '<cmd>NcksNew<cr>', 'Add [N]ew [N]ickname')
 map('n', '<leader>no', '<cmd>NcksOpen<cr>', '[O]pen [N]cks file')
 map('n', '<leader>nl', '<cmd>NcksList<cr>', '[L]ist [N]cks files')
+map('n', '<leader>ns', '<cmd>NcksSearch<cr>', 'Search [N]cks file')
 map('n', '<leader>nr', '<cmd>NcksRandom<cr>', 'Pick [R]andom [N]ick from file')
 map('n', '<leader>nc', '<cmd>NcksCopyAll<cr>', '[C]opy all [N]icknames from file to clipboard')
 map('n', '<leader>ni', '<cmd>NcksInfo<cr>', 'Show [N]icks file [I]nfo')

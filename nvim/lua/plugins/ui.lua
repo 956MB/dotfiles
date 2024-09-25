@@ -73,7 +73,7 @@ return {
         },
     },
 
-    {
+    { -- Better cmdline
         'folke/noice.nvim',
         event = 'VeryLazy',
         dependencies = {
@@ -102,6 +102,13 @@ return {
                         postion = {
                             row = '50%',
                             col = '50%',
+                        },
+                        win_options = {
+                            winhighlight = {
+                                Normal = 'NoiceCmdlineNormal',
+                                FloatBorder = 'NoiceCmdlinePopupBorder',
+                                FloatTitle = 'NoiceCmdlinePopupTitle',
+                            },
                         },
                     },
                 },
