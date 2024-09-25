@@ -189,24 +189,24 @@ Neovim: [v0.9.5](https://github.com/neovim/neovim) · LazyVim: [v10.22.0](https:
 
 ```python
                  -- --                    Project: dotfiles (2 branches)
-         --                 -- @@@@       HEAD: da83b9e (main)
-      --      @@@@@@@@@@@     @@@@@@      Pending: 1+- 1+
-           @@@@@@@@@@@@@@@@@   @@@@       Created: 2 months ago
-  --     @@@@@@@@@@@@@@****@@@     --     Languages:                            
- --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (88.2 %) ● BASH (4.9 %)
-      @@@@@@@@@@@@@@@@@****@@@@@@                    ● Shell (3.9 %) ● Python (2.0 %)
---   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Zsh (1.1 %) 
---   @@@**@@@@@@**@@**@@******@@@@   --   Author: 100% Alexander Bays <bays@956mb.com> 49
-     @@@**@@@@@@**@@**@**@@@**@@@@        Last change: 4 minutes ago
---   @@@**@@@@@@**@@**@@@*****@@@@   --   URL: https://github.com/956MB/dotfiles.git
---   @@@**@@@@@@**@@**@***@@**@@@@   --   Commits: 49
-      @@*******@******@********@@         Churn (2): scripts/stringify 2
- --    @@@@@@@@@@@@@@@@@@@@@@@@@    --               …/config/autocmds.lua 1
-  --     @@@@@@@@@@@@@@@@@@@@@     --                …/plugins/lsp.lua 1
-           @@@@@@@@@@@@@@@@@              Lines of code: 3049
-      --      @@@@@@@@@@@      --         Size: 1.47 MiB (60 files)
-         --                 --            License: MIT
-                 -- --                 
+         --                 -- @@@@       HEAD: b7f01d5 (main)
+      --      @@@@@@@@@@@     @@@@@@      Pending: 2+
+           @@@@@@@@@@@@@@@@@   @@@@       Created: 5 months ago
+  --     @@@@@@@@@@@@@@****@@@     --     Languages:                                
+ --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (95.6 %) ● BASH (1.4 %)
+      @@@@@@@@@@@@@@@@@****@@@@@@                    ● Python (1.2 %) ● Shell (1.1 %)
+--   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Scheme (0.3 %) ● Zsh (0.2 %)
+--   @@@**@@@@@@**@@**@@******@@@@   --              ● Other (0.2 %) 
+     @@@**@@@@@@**@@**@**@@@**@@@@        Author: 100% Alexander Bays <bays@956mb.com> 66
+--   @@@**@@@@@@**@@**@@@*****@@@@   --   Last change: now
+--   @@@**@@@@@@**@@**@***@@**@@@@   --   URL: https://github.com/956MB/dotfiles.git
+      @@*******@******@********@@         Commits: 66
+ --    @@@@@@@@@@@@@@@@@@@@@@@@@    --    Churn (2): …/plugins/telescope.lua 1
+  --     @@@@@@@@@@@@@@@@@@@@@     --                …/plugins/colorscheme.lua 1
+           @@@@@@@@@@@@@@@@@                         …/plugins/ui.lua 1
+      --      @@@@@@@@@@@      --         Lines of code: 14434
+         --                 --            Size: 9.22 MiB (77 files)
+                 -- --                    License: MIT
 ```
 
 ## License
