@@ -64,6 +64,14 @@ alias gss='git status'                    # Show the working tree status
 alias gwho='git shortlog -s -n | head'    # Show top contributors
 alias gcnt='git ls-files | wc -l'         # Count number of files in the repository
 alias lg='lazygit'                        # Open Lazygit interface
+
+# GitHub Copilot CLI function aliases
+exp() {
+    gh copilot explain "$*"
+}
+sug() {
+    gh copilot suggest "$*"
+}
 ```
 
 ---
