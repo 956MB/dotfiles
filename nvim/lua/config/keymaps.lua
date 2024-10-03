@@ -55,6 +55,26 @@ map('x', '<S-Tab>', '<gv', '[T]ab backward (4, Visual)')
 map('n', '<C-x>', 'dd', '[D]elete Line')
 map('v', '<C-x>', 'D', '[D]elete Lines')
 
+-- Move view up/down/center
+map('n', '<C-m>', function()
+    local current_line = vim.fn.line '.'
+    local window_height = vim.fn.winheight(0)
+    local target_topline = current_line - math.floor(window_height / 2)
+    target_topline = math.max(1, target_topline)
+
+    vim.fn.winrestview { topline = target_topline }
+end, 'Center view without moving cursor')
+map('n', '<S-C-Up>', function()
+    local topline = vim.fn.winsaveview().topline
+    vim.fn.winrestview { topline = math.max(1, topline - 5) }
+end, 'Move view up slightly')
+map('n', '<S-C-Down>', function()
+    local topline = vim.fn.winsaveview().topline
+    local total_lines = vim.fn.line '$'
+    local window_height = vim.fn.winheight(0)
+    vim.fn.winrestview { topline = math.min(total_lines - window_height + 1, topline + 5) }
+end, 'Move view down slightly')
+
 -- Search selected text with '/'
 map('v', '/', function()
     vim.cmd 'normal! y'

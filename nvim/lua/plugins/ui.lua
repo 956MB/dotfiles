@@ -296,10 +296,12 @@ return {
                 statusline = { 'NvimTree' },
                 winbar = {},
             }
-            opts.sections.lualine_a = { { 'mode', fmt = short } }
+            opts.sections.lualine_a = { { 'mode', separator = { left = '', right = '' }, fmt = short } }
             opts.sections.lualine_c[4] = { lualine_pretty_path() }
-            -- middle
-            opts.sections.lualine_z = opts.sections.lualine_y
+            -- middle --
+            opts.sections.lualine_z = {
+                { 'location', separator = { left = '', right = '' } },
+            }
             opts.sections.lualine_y = opts.sections.lualine_x
             opts.sections.lualine_x = {
                 { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },

@@ -20,6 +20,7 @@ return {
     { -- OIL
         -- 'stevearc/oil.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/oil.nvim',
+        name = 'oil.nvim',
         dependencies = {
             { 'nvim-tree/nvim-web-devicons' },
         },
@@ -30,6 +31,7 @@ return {
                 skip_confirm_for_simple_edits = true,
                 constrain_cursor = 'name',
                 win_options = {
+                    signcolumn = 'yes:1',
                     wrap = true,
                 },
                 keymaps = {
@@ -45,24 +47,38 @@ return {
             }
         end,
     },
+    { -- Git status oil.nvim
+        'refractalize/oil-git-status.nvim',
+        dependencies = {
+            'oil.nvim',
+        },
+        config = function()
+            require('oil-git-status').setup {
+                show_ignored = false,
+            }
+        end,
+    },
 
     { -- Highlight todo, notes, etc in comments
         -- 'folke/todo-comments.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/todo-comments.nvim',
         event = 'VimEnter',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = {
-            signs = false,
-            keywords = {
-                MINE = { icon = ' ', color = 'mine' },
-            },
-            highlight = {
-                keyword = 'wide_fg',
-            },
-            colors = {
-                mine = { '#77DC78' },
-            },
-        },
+        config = function()
+            local c = require('vscode.colors').get_colors()
+            require('todo-comments').setup {
+                signs = false,
+                keywords = {
+                    MINE = { icon = ' ', color = 'mine' },
+                },
+                highlight = {
+                    keyword = 'wide_fg',
+                },
+                colors = {
+                    mine = { c.vscGreen },
+                },
+            }
+        end,
     },
 
     { -- Better quickfix window
