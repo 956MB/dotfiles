@@ -239,6 +239,31 @@ return {
                 diagnostics = 'nvim_lsp',
             })
         end,
+        config = function(_, opts)
+            local bufferline = require 'bufferline'
+            bufferline.setup(opts)
+
+            local bufferline_visible = true
+            _G.toggle_bufferline = function()
+                bufferline_visible = not bufferline_visible
+                if bufferline_visible then
+                    vim.opt.showtabline = 1 -- 0: never, 1: only multiple tabs, 2: always
+                    bufferline.setup(opts)
+                else
+                    vim.opt.showtabline = 0
+                end
+            end
+
+            vim.api.nvim_create_user_command('ToggleBufferline', 'lua _G.toggle_bufferline()', {})
+            vim.keymap.set('n', '<leader>tb', '<cmd>lua _G.toggle_bufferline()<CR>', { noremap = true, silent = true, desc = 'Toggle bufferline visibility' })
+        end,
+    },
+
+    { -- Cursor line highlight
+        'jake-stewart/force-cul.nvim',
+        config = function()
+            require('force-cul').setup()
+        end,
     },
 
     { -- Statusline

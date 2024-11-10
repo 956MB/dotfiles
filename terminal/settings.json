@@ -1,0 +1,100 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": [
+        {
+            "command": {
+                "action": "closeTab"
+            },
+            "keys": "alt+w"
+        },
+        {
+            "command": {
+                "action": "nextTab"
+            },
+            "keys": "alt+shift+right"
+        },
+        {
+            "command": {
+                "action": "prevTab"
+            },
+            "keys": "alt+shift+left"
+        },
+        {
+            "command": {
+                "action": "newTab"
+            },
+            "keys": "alt+t"
+        }
+    ],
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "initialCols": 140,
+    "initialRows": 70,
+    "profiles": {
+        "defaults": {
+            "scrollbarState": "hidden",
+            "colorScheme": "Kitty",
+            "font": {
+                "face": "JetBrainsMono Nerd Font",
+                "size": 9,
+                "weight": "semi-bold",
+                "features": {
+                    "liga": 1,
+                    "calt": 1
+                }
+            }
+        },
+        "list": [
+            {
+                "background": "#000000",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "historySize": 9001,
+                "name": "Windows PowerShell"
+            },
+            {
+                "background": "#000000",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "historySize": 9001,
+                "name": "cmd"
+            },
+            {
+                "guid": "{4ff56d04-d9cf-57ea-bae2-ad396374e7e3}",
+                "hidden": false,
+                "name": "Ubuntu-22.04",
+                "commandline": "wsl -d Ubuntu-22.04 --cd ~",
+                "startingDirectory": "\\\\wsl$\\Ubuntu-22.04\\home\\bays"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "name": "Kitty",
+            "background": "#181818",
+            "foreground": "#c7c7c7",
+            "selectionBackground": "#BFBFBF",
+            "cursorColor": "#FFFFFF",
+            "black": "#686868",
+            "red": "#FA2C3A",
+            "green": "#5B9B4C",
+            "yellow": "#DCDCAA",
+            "blue": "#3794FF",
+            "purple": "#C586C0",
+            "cyan": "#4EC9B0",
+            "white": "#c7c7c7",
+            "brightBlack": "#686868",
+            "brightRed": "#FA2C3A",
+            "brightGreen": "#5B9B4C",
+            "brightYellow": "#DCDCAA",
+            "brightBlue": "#3794FF",
+            "brightPurple": "#C586C0",
+            "brightCyan": "#4EC9B0",
+            "brightWhite": "#c7c7c7"
+        }
+    ],
+    "startOnUserLogin": true,
+    "themes": [],
+    "useAcrylicInTabRow": true,
+    "windowingBehavior": "useAnyExisting"
+}

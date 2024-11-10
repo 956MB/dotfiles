@@ -28,7 +28,7 @@ return {
             for _, mode in ipairs(modes) do
                 lualine_overrides[mode] = {
                     b = { fg = c.vscPink, bg = bg1 },
-                    c = { fg = c.vscFront, bg = bg1 },
+                    c = { bg = bg1 },
                 }
             end
 
@@ -40,7 +40,7 @@ return {
                 Normal = { fg = c.vscFront, bg = bg1 },
                 NormalNC = { fg = c.vscFront, bg = bg1 },
                 NormalFloat = { bg = bg1 },
-                SignColumn = { bg = bg1 },
+                -- SignColumn = { bg = bg1 },
                 Delimiter = { fg = '#444444', bg = bg1 },
 
                 -- Noice cmdline
@@ -70,7 +70,8 @@ return {
 
                 -- Line numbers and whitespace
                 LineNr = { fg = '#444444', bg = bg1 },
-                CursorLineNr = { fg = '#AFAFAF', bg = bg1 },
+                CursorLineNr = { fg = '#AFAFAF', bg = c.vscCursorDarkDark },
+                SignColumn = { fg = 'NONE', bg = 'NONE' },
                 Whitespace = { fg = '#404040', bg = 'NONE' },
 
                 -- Syntax
@@ -127,7 +128,7 @@ return {
                 NvimTreeGitNew = { fg = c.vscGitAdded, bg = 'NONE' },
 
                 -- BufferLine
-                BufferLineFill = { bg = '#0D0D0D' },
+                BufferLineFill = { bg = '#121212' },
                 BufferLineIndicatorSelected = { fg = '#606060', bg = 'NONE' },
 
                 -- Diffview
@@ -203,6 +204,9 @@ return {
                 NotifyINFOTitle = { fg = c.vscLightGreen },
                 NotifyDEBUGTitle = { fg = c.vscGray },
                 NotifyTRACETitle = { fg = c.vscPink },
+
+                -- nvim-ufo fold virtual text
+                UfoSuffixHighlight = { fg = c.vscFront, bg = c.vscFoldBackground },
             }
 
             vscode.setup {

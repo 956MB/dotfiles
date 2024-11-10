@@ -1,6 +1,3 @@
-local harpoon = require 'harpoon'
-harpoon:setup()
-
 local utils = require 'config.utils'
 
 local function map(mode, lhs, rhs, desc, opts)
@@ -27,6 +24,27 @@ map('n', '<A-Up>', ':move -2<CR>', 'Move line(s) Up, (Normal)')
 map('n', '<A-Down>', ':move +<CR>', 'Move line(s) Down, (Normal)')
 map('x', '<A-Up>', ":move '<-2<CR>gv", 'Move line(s) Up, (Visual)')
 map('x', '<A-Down>', ":move '>+<CR>gv", 'Move line(s) Down, (Visual)')
+
+-- ufo fold stuff
+map('n', 'zR', function()
+    require('ufo').openAllFolds()
+end, 'openAllFolds')
+map('n', 'zM', function()
+    require('ufo').closeAllFolds()
+end, 'closeAllFolds')
+map('n', 'K', function()
+    local winid = require('ufo').peekFoldedLinesUnderCursor()
+    if not winid then
+        vim.lsp.buf.hover()
+    end
+end)
+
+-- Create new lines above and below without moving the cursor
+map('n', '<leader>io', function()
+    local current_line = vim.fn.line '.'
+    vim.api.nvim_buf_set_lines(0, current_line - 1, current_line - 1, false, { '' })
+    vim.api.nvim_buf_set_lines(0, current_line + 1, current_line + 1, false, { '' })
+end, 'New lines above and below (stay)')
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -90,9 +108,15 @@ map('n', '<leader>[[', function()
 end, 'Surround and [T]his [T]hing')
 
 -- OIL (oil.nvim)
-map('n', '<C-`>', function()
-    require('oil').open()
-end, 'OIL')
+if vim.fn.has 'win32' == 1 or vim.fn.has 'wsl' == 1 then
+    map('n', '<C-e>', function()
+        require('oil').open()
+    end, 'OIL')
+else
+    map('n', '<C-`>', function()
+        require('oil').open()
+    end, 'OIL')
+end
 
 -- Obsidian
 map('n', '<leader>oc', '<cmd>lua require("obsidian").util.toggle_checkbox()<CR>', '[O]bsidian toggle [c]heckbox')
@@ -132,23 +156,6 @@ end, 'Next `MINE` todo comment')
 map('n', '[t', function()
     require('todo-comments').jump_prev { keywords = { 'MINE' } }
 end, 'Previous `MINE` todo comment')
-
--- Harpoon
-map('n', '<leader>a', function()
-    harpoon:list():add()
-end, '[A]dd [F]ile to Harpoon')
-map('n', '<C-1>', function()
-    harpoon:list():select(1)
-end, '[S]elect Harpoon (1)')
-map('n', '<C-2>', function()
-    harpoon:list():select(2)
-end, '[S]elect Harpoon (2)')
-map('n', '<C-3>', function()
-    harpoon:list():select(3)
-end, '[S]elect Harpoon (3)')
-map('n', '<C-4>', function()
-    harpoon:list():select(4)
-end, '[S]elect Harpoon (4)')
 
 -- nvim-tree
 map('n', '<leader>E', '<cmd>NvimTreeToggle<CR>', 'Explorer [N]vimTree')
