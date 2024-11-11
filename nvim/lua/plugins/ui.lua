@@ -116,11 +116,27 @@ return {
         end,
     },
 
-    { -- Preview hex colors
-        'norcalli/nvim-colorizer.lua',
-        config = function()
-            require('colorizer').setup()
-        end,
+    { -- Better color preview i think
+        'uga-rosa/ccc.nvim',
+        opts = {
+            highlighter = {
+                auto_enable = true,
+                lsp = true,
+                filetypes = {
+                    'html',
+                    'lua',
+                    'css',
+                    'scss',
+                    'sass',
+                    'less',
+                    'stylus',
+                    'javascript',
+                    'tmux',
+                    'typescript',
+                },
+                excludes = { 'lazy', 'mason', 'help', 'neo-tree' },
+            },
+        },
     },
 
     { -- Integrated terminal

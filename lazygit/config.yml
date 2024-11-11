@@ -6,7 +6,7 @@ gui:
     sidePanelWidth: 0.3333 # number from 0 to 1
     expandFocusedSidePanel: false
     mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
-    language: "ko" # one of 'auto' | 'en' | 'zh' | 'pl' | 'nl' | 'ja' | 'ko' | 'ru'
+    language: "ja" # one of 'auto' | 'en' | 'zh' | 'pl' | 'nl' | 'ja' | 'ko' | 'ru'
     timeFormat: "02 Jan 06" # https://pkg.go.dev/time#Time.Format
     shortTimeFormat: "3:04PM"
     theme:
@@ -142,7 +142,7 @@ keybinding:
         scrollDownMain-alt1: "J" # main panel scroll down
         scrollUpMain-alt2: "<c-u>" # main panel scroll up
         scrollDownMain-alt2: "<c-d>" # main panel scroll down
-        executeCustomCommand: ":"
+        executeShellCommand: ":"
         createRebaseOptionsMenu: "m"
         pushFiles: "P"
         pullFiles: "p"

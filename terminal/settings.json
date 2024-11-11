@@ -32,6 +32,9 @@
     "initialRows": 70,
     "profiles": {
         "defaults": {
+            "style": {
+                "underline": false
+            },
             "scrollbarState": "hidden",
             "colorScheme": "Kitty",
             "font": {

@@ -245,4 +245,5 @@ fi
 export LAZYVIM_CONFIG_PATH="$HOME/dotfiles/nvim"
 
 eval "$(zoxide init zsh)"
-eval "$(fzf --zsh)"
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
