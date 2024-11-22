@@ -1,53 +1,72 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": [
+    "actions": 
+    [
         {
-            "command": {
+            "command": 
+            {
                 "action": "closeTab"
             },
+            "id": "User.closeTab.0",
             "keys": "alt+w"
         },
         {
-            "command": {
+            "command": 
+            {
                 "action": "nextTab"
             },
+            "id": "User.nextTab.0",
             "keys": "alt+shift+right"
         },
         {
-            "command": {
+            "command": 
+            {
                 "action": "prevTab"
             },
+            "id": "User.prevTab.0",
             "keys": "alt+shift+left"
         },
         {
-            "command": {
+            "command": 
+            {
                 "action": "newTab"
             },
+            "id": "User.newTab.5DEADB41",
             "keys": "alt+t"
         }
     ],
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "experimental.detectURLs": false,
     "initialCols": 140,
     "initialRows": 70,
-    "profiles": {
-        "defaults": {
-            "style": {
-                "underline": false
-            },
-            "scrollbarState": "hidden",
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "adjustIndistinguishableColors": "never",
             "colorScheme": "Kitty",
-            "font": {
+            "font": 
+            {
                 "face": "JetBrainsMono Nerd Font",
+                "features": 
+                {
+                    "calt": 1,
+                    "liga": 1
+                },
                 "size": 9,
-                "weight": "semi-bold",
-                "features": {
-                    "liga": 1,
-                    "calt": 1
-                }
-            }
+                "weight": "semi-bold"
+            },
+            "scrollbarState": "hidden"
         },
-        "list": [
+        "list": 
+        [
             {
                 "background": "#000000",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -63,37 +82,40 @@
                 "name": "cmd"
             },
             {
+                "commandline": "wsl -d Ubuntu-22.04 --cd ~",
                 "guid": "{4ff56d04-d9cf-57ea-bae2-ad396374e7e3}",
                 "hidden": false,
                 "name": "Ubuntu-22.04",
-                "commandline": "wsl -d Ubuntu-22.04 --cd ~",
-                "startingDirectory": "\\\\wsl$\\Ubuntu-22.04\\home\\bays"
+                "source": "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc",
+                "startingDirectory": "\\\\wsl$\\Ubuntu-22.04\\home\\bays",
+                "colorScheme": "Kitty"
             }
         ]
     },
-    "schemes": [
+    "schemes": 
+    [
         {
-            "name": "Kitty",
             "background": "#181818",
-            "foreground": "#c7c7c7",
-            "selectionBackground": "#BFBFBF",
-            "cursorColor": "#FFFFFF",
             "black": "#686868",
-            "red": "#FA2C3A",
-            "green": "#5B9B4C",
-            "yellow": "#DCDCAA",
             "blue": "#3794FF",
-            "purple": "#C586C0",
-            "cyan": "#4EC9B0",
-            "white": "#c7c7c7",
             "brightBlack": "#686868",
-            "brightRed": "#FA2C3A",
-            "brightGreen": "#5B9B4C",
-            "brightYellow": "#DCDCAA",
             "brightBlue": "#3794FF",
-            "brightPurple": "#C586C0",
             "brightCyan": "#4EC9B0",
-            "brightWhite": "#c7c7c7"
+            "brightGreen": "#5B9B4C",
+            "brightPurple": "#C586C0",
+            "brightRed": "#FA2C3A",
+            "brightWhite": "#C7C7C7",
+            "brightYellow": "#DCDCAA",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#4EC9B0",
+            "foreground": "#C7C7C7",
+            "green": "#5B9B4C",
+            "name": "Kitty",
+            "purple": "#C586C0",
+            "red": "#FA2C3A",
+            "selectionBackground": "#BFBFBF",
+            "white": "#C7C7C7",
+            "yellow": "#DCDCAA"
         }
     ],
     "startOnUserLogin": true,

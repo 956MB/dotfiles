@@ -23,14 +23,18 @@ return {
         dependencies = {
             { 'nvim-lua/plenary.nvim' },
         },
-        opts = {
-            workspaces = {
-                {
-                    name = 'ObsidianVault',
-                    path = '~/Documents/Obsidian Vault',
+        opts = function()
+            local is_mac = vim.loop.os_uname().sysname == 'Darwin'
+
+            return {
+                workspaces = {
+                    {
+                        name = 'ObsidianVault',
+                        path = is_mac and '~/Documents/Obsidian Vault' or '/mnt/c/Users/infga/Documents/All',
+                    },
                 },
-            },
-            mappings = {},
-        },
+                mappings = {},
+            }
+        end,
     },
 }

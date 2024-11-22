@@ -30,9 +30,11 @@ return {
         },
     },
 
-    { -- Find and replace text
-        'nvim-pack/nvim-spectre',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+    { -- Trying grug-far for find and replace
+        'MagicDuck/grug-far.nvim',
+        config = function()
+            require('grug-far').setup {}
+        end,
     },
 
     { -- Adds git related signs to the gutter, as well as utilities for managing changes

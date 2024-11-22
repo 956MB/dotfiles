@@ -229,8 +229,8 @@ map('n', '<leader>nr', '<cmd>NcksRandom<cr>', 'Pick [R]andom [N]ick from file')
 map('n', '<leader>nc', '<cmd>NcksCopyAll<cr>', '[C]opy all [N]icknames from file to clipboard')
 map('n', '<leader>ni', '<cmd>NcksInfo<cr>', 'Show [N]icks file [I]nfo')
 
--- Spectre
-map('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', '[S]pectre Toggle')
+-- GrugFar search and replace
+map('n', '<leader>S', '<cmd>:GrugFar<CR>', '[S]pectre Toggle')
 
 -- Map left/right subword navigation to ctrl+left / ctrl+right
 map('n', '<C-Left>', 'b', 'Subword navigate left')
