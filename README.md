@@ -1,11 +1,3 @@
-
-![dashboard](./img/dashboard.png)
-![neo-tree](./img/neo-tree.png)
-![lazy](./img/lazy.png)
-![xcode](./img/xcode.png)
-
-<sub>These screenshots are not up to date anymore. Taking new ones just like this is annoying</sub>
-
 ### Aliases
 
 ##### General
