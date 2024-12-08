@@ -1,0 +1,52 @@
+background = #181818
+foreground= #D4D4D4
+
+# Looks good for screenshots, but not my fav for everyday :(
+# background-opacity = 0.956
+# background-blur-radius = 50
+cursor-style = bar
+
+selection-background = #264F78
+selection-foreground = #D4D4D4
+
+# Default font looks pretty good to me :)
+# default=Incosolata Nerd Font Mono
+font-family =
+
+# black
+palette = 0=#686868
+palette = 8=#686868
+# red
+palette = 1=#FA2C3A
+palette = 9=#FA2C3A
+# green
+palette = 2=#5B9B4C
+palette = 10=#5B9B4C
+# yellow
+palette = 3=#DCDCAA
+palette = 11=#DCDCAA
+# blue
+palette = 4=#3794FF
+palette = 12=#3794FF
+# purple
+palette = 5=#C586C0
+palette = 13=#C586C0
+# aqua
+palette = 6=#4EC9B0
+palette = 14=#4EC9B0
+# white
+palette = 7=#a89984
+palette = 15=#fbf1c7
+
+# Keybindings
+# NOTE: Re bind goto_split so we can use left/right arrows
+keybind = super+alt+l=goto_split:right
+keybind = super+alt+h=goto_split:left
+keybind = super+alt+right=next_tab
+keybind = super+alt+left=previous_tab
+
+window-padding-x = 4
+window-padding-y = 4
+window-padding-balance = true
+
+macos-titlebar-style = tabs

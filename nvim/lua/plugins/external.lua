@@ -14,27 +14,36 @@ return {
     --         require('live-preview').setup()
     --     end,
     -- },
+    --
 
-    { -- Obsidian integration
-        'epwalsh/obsidian.nvim',
-        version = '*',
-        lazy = true,
-        ft = 'markdown',
-        dependencies = {
-            { 'nvim-lua/plenary.nvim' },
-        },
-        opts = function()
-            local is_mac = vim.loop.os_uname().sysname == 'Darwin'
-
-            return {
-                workspaces = {
-                    {
-                        name = 'ObsidianVault',
-                        path = is_mac and '~/Documents/Obsidian Vault' or '/mnt/c/Users/infga/Documents/All',
-                    },
+    { -- Task runner
+        'stevearc/overseer.nvim',
+        opts = {
+            templates = { 'builtin' },
+            task_list = {
+                direction = 'right',
+                bindings = {
+                    ['<CR>'] = 'RunAction',
+                    ['<C-e>'] = 'Edit',
                 },
-                mappings = {},
-            }
+                default_detail = 1,
+            },
+        },
+        config = function()
+            local overseer = require 'overseer'
+            overseer.setup {}
+
+            local ok, tasks = pcall(dofile, vim.fn.getcwd() .. '/.nvim/tasks.lua')
+            if ok and tasks.builder then
+                local task_list = tasks.builder()
+                for _, task in ipairs(task_list) do
+                    overseer.new_task(task)
+                end
+            end
         end,
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+        },
+        event = 'VeryLazy',
     },
 }

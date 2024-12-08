@@ -2,7 +2,7 @@
 # Colors are based on the VSCode Dark Modern theme
 
 # Main background, empty for terminal default, need to be empty if you want transparent background
-theme[main_bg]="#181818"
+theme[main_bg]="#000000"
 
 # Main text color
 theme[main_fg]="#CCCCCC"

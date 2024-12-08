@@ -40,6 +40,34 @@ return {
         end,
     },
 
+    { -- Running tests
+        'nvim-neotest/neotest',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'antoinemadec/FixCursorHold.nvim',
+            'rouge8/neotest-rust',
+        },
+        config = function()
+            local neotest = require 'neotest'
+
+            neotest.setup {
+                adapters = {
+                    require 'neotest-rust',
+                },
+            }
+
+            vim.keymap.set('n', '<leader>tt', function()
+                neotest.run.run()
+            end, { desc = 'Run nearest test' })
+            vim.keymap.set('n', '<leader>tf', function()
+                neotest.run.run(vim.fn.expand '%')
+            end, { desc = 'Run file tests' })
+            vim.keymap.set('n', '<leader>ts', function()
+                neotest.summary.toggle()
+            end, { desc = 'Toggle test summary' })
+        end,
+    },
+
     { -- Autoformat
         'stevearc/conform.nvim',
         event = { 'BufWritePre' },

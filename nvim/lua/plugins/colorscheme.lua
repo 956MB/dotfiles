@@ -2,13 +2,27 @@ return {
     { -- syntax highlighting for kitty.conf
         'fladson/vim-kitty',
     },
+
+    { -- Icons
+        'nvim-tree/nvim-web-devicons',
+        lazy = false,
+        priority = 1100,
+        enabled = vim.g.have_nerd_font,
+        config = function()
+            require('nvim-web-devicons').setup {
+                default = true,
+                color_icons = true,
+                strict = true,
+            }
+        end,
+    },
+
     { -- Color scheme
         -- 'Mofiqul/vscode.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/vscode.nvim',
         lazy = false,
-        priority = 1000,
         config = function()
-            local bg1, bg2 = '#181818', '#141414'
+            local bg1, bg2 = 'NONE', '#141414'
             local vscode = require 'vscode'
             local c = require('vscode.colors').get_colors()
 
@@ -34,6 +48,7 @@ return {
 
             local group_overrides = {
                 -- Basic UI elements
+                DevIcon = { fg = 'NONE', bg = 'NONE' },
                 VertSplit = { fg = c.vscSplitDark, bg = bg1 },
                 WinBar = { bg = bg1, fg = bg1 },
                 WinBarNC = { bg = bg1, fg = bg1 },

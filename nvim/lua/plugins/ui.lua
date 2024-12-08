@@ -39,18 +39,6 @@ local function lualine_pretty_path(opts)
 end
 
 return {
-    { -- Icons
-        'nvim-tree/nvim-web-devicons',
-        lazy = false,
-        priority = 1000,
-        config = function()
-            require('nvim-web-devicons').setup {
-                color_icons = true,
-                default = true,
-            }
-        end,
-    },
-
     { -- Notifications
         'rcarriga/nvim-notify',
         config = function()
@@ -116,7 +104,7 @@ return {
         end,
     },
 
-    { -- Better color preview i think
+    { -- Better hex color preview i think
         'uga-rosa/ccc.nvim',
         opts = {
             highlighter = {
@@ -133,6 +121,8 @@ return {
                     'javascript',
                     'tmux',
                     'typescript',
+                    'conf',
+                    'toml',
                 },
                 excludes = { 'lazy', 'mason', 'help', 'neo-tree' },
             },
@@ -253,6 +243,7 @@ return {
                     reveal = { 'close' },
                 },
                 diagnostics = 'nvim_lsp',
+                color_icons = true, -- whether or not to add the filetype icon highlights
             })
         end,
         config = function(_, opts)

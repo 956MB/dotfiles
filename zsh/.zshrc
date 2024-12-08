@@ -8,6 +8,7 @@ export PATH="$PATH:$HOME/dotfiles/scripts"
 export PATH=~/.npm-global/bin:$PATH
 export PATH="/usr/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
 if [[ "$IS_MAC" == true ]]; then
     export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -27,6 +28,7 @@ setopt pushdminus
 setopt pushdsilent
 
 FUNCNEST=100
+autoload -U add-zsh-hook
 
 # Vars
 HISTFILE=~/.zsh_history
@@ -245,5 +247,9 @@ fi
 export LAZYVIM_CONFIG_PATH="$HOME/dotfiles/nvim"
 
 eval "$(zoxide init zsh)"
+function _zoxide_hook() {
+    check_directory_for_new_repository
+}
+add-zsh-hook chpwd _zoxide_hook
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh

@@ -118,17 +118,14 @@ else
     end, 'OIL')
 end
 
--- Obsidian
-map('n', '<leader>oc', '<cmd>lua require("obsidian").util.toggle_checkbox()<CR>', '[O]bsidian toggle [c]heckbox')
-map('n', '<leader>ot', '<cmd>ObsidianTemplate<CR>', 'Insert [O]bsidian [T]emplate')
-map('n', '<leader>ob', '<cmd>ObsidianBacklinks<CR>', 'Show [O]bsidian [B]acklinks')
-map('n', '<leader>oo', '<cmd>ObsidianOpen<CR>', '[O]pen in [O]bsidian App')
-map('n', '<leader>os', '<cmd>ObsidianSearch<CR>', '[O]bsidian [S]earch')
-map('n', '<leader>on', '<cmd>ObsidianNew<CR>', '[O]bsidian [N]ew Note')
-map('n', '<leader>od', '<cmd>ObsidianDelete<CR>', '[O]bsidian [D]elete Note')
-map('n', '<leader>op', '<cmd>ObsidianPreview<CR>', '[O]bsidian [P]review')
-map('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<CR>', '[O]bsidian [Q]uick Switch')
-map('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', '[O]bsidian Show [L]inks')
+-- Overseer (run tasks)
+map('n', '<leader>ot', '<cmd>OverseerToggle<CR>', '[T]asks [O]pen/close')
+map('n', '<leader>or', '<cmd>OverseerRun<CR>', '[T]ask [R]un')
+map('n', '<leader>ol', '<cmd>OverseerLoadBundle<CR>', '[T]ask [L]oad bundle')
+map('n', '<leader>os', '<cmd>OverseerSaveBundle<CR>', '[T]ask [S]ave bundle')
+map('n', '<leader>oa', '<cmd>OverseerTaskAction<CR>', '[T]ask [A]ction')
+map('n', '<leader>ob', '<cmd>OverseerBuild<CR>', '[T]ask [B]uild new')
+map('n', '<leader>oc', '<cmd>OverseerClearCache<CR>', '[T]ask [C]lear cache')
 
 -- diffview (git diff)
 map('n', '<leader>do', ':DiffviewOpen<CR>', '[D]iffview [O]pen')
