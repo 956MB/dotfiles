@@ -3,6 +3,7 @@ ssh/known_hosts.old
 ssh/id_ed25519*
 ssh/sourcehut_2024*
 ssh/gitlab_com_ed25519*
+ssh/id_githubmacos2025*
 
 .DS_Store
 .env.gpa

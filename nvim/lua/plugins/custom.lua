@@ -75,7 +75,7 @@ return {
                     keyword = 'wide_fg',
                 },
                 colors = {
-                    mine = { c.vscGreen },
+                    mine = { c.lualineYellow },
                 },
             }
         end,

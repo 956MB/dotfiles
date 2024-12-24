@@ -50,6 +50,7 @@ alias gcm='git commit -m'                 # Commit changes with a message
 alias gbr='git branch -M'                 # Rename current branch
 alias gcr='git clone'                     # Clone a repository
 alias gd='git diff'                       # Show changes between commits, commit and working tree, etc.
+alias gds='git diff --stat'               # Show diff stats (files changed, insertions, deletions)
 alias gi='git init'                       # Initialize a new Git repository
 alias gl='git log'                        # Show commit logs
 alias gp='git pull'                       # Fetch from and integrate with another repository or a local branch

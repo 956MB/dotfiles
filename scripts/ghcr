@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <github-username>"
+    exit 1
+fi
+
+gh repo list "$1" --limit 4000 | while read -r repo _; do
+    repo_name=$(basename "$repo")
+
+    if [ ! -d "$repo_name" ]; then
+        echo "Cloning $repo..."
+        gh repo clone "$repo" "$repo_name"
+    else
+        echo "Skipping $repo_name - already exists"
+    fi
+done

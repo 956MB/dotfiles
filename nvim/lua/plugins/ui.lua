@@ -123,6 +123,7 @@ return {
                     'typescript',
                     'conf',
                     'toml',
+                    'yaml',
                 },
                 excludes = { 'lazy', 'mason', 'help', 'neo-tree' },
             },
@@ -232,7 +233,7 @@ return {
         opts = function(_, opts)
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
-                    icon = '┃ ',
+                    icon = '┃',
                     style = 'icon',
                 },
                 show_buffer_close_icons = false,
@@ -244,6 +245,7 @@ return {
                 },
                 diagnostics = 'nvim_lsp',
                 color_icons = true, -- whether or not to add the filetype icon highlights
+                show_buffer_icons = true, -- disable filetype icons for buffers
             })
         end,
         config = function(_, opts)
@@ -323,7 +325,7 @@ return {
                 return modes[str] or str
             end
 
-            opts.options.theme = 'vscode'
+            -- opts.options.theme = 'vscode'
             opts.options.disabled_filetypes = {
                 statusline = { 'NvimTree' },
                 winbar = {},

@@ -1,4 +1,16 @@
 return {
+    { -- Icons
+        'nvim-tree/nvim-web-devicons',
+        lazy = true,
+        config = function()
+            require('nvim-web-devicons').setup {
+                default = true,
+                color_icons = true,
+                strict = true,
+            }
+        end,
+    },
+
     { -- Fixing gx with OIL
         'chrishrb/gx.nvim',
         keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'v' } } },

@@ -213,6 +213,31 @@ return {
             capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
             local servers = {
+                clangd = {
+                    cmd = {
+                        'clangd',
+                        '--background-index',
+                        '--clang-tidy',
+                        '--header-insertion=iwyu',
+                        '--completion-style=detailed',
+                        '--function-arg-placeholders',
+                        '--fallback-style=llvm',
+                        '--query-driver=/usr/bin/arm-none-eabi-gcc', -- Add this
+                        '--compile-commands-dir=build/latest', -- Add this
+                        '--all-scopes-completion', -- Add this
+                    },
+                    capabilities = {
+                        offsetEncoding = 'utf-16',
+                    },
+                    init_options = {
+                        usePlaceholders = true,
+                        completeUnimported = true,
+                        clangdFileStatus = true,
+                    },
+                    root_dir = function(fname)
+                        return require('lspconfig').util.root_pattern('compile_commands.json', '.clangd', '.git')(fname)
+                    end,
+                },
                 rust_analyzer = {
                     settings = {
                         ['rust-analyzer'] = {
@@ -351,6 +376,7 @@ return {
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
                 'gopls',
+                'clangd',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

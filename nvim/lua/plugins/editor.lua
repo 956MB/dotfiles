@@ -43,7 +43,7 @@ return {
         config = function()
             require('gitsigns').setup {
                 signs = {
-                    -- ⁞, ⋮, ┆, ┊, ┋, ┇, ︙, │
+                    -- ┆, ┊, ┋, ┇, │
                     add = { text = '│' },
                     change = { text = '│' },
                     delete = { text = '│' },
@@ -68,13 +68,13 @@ return {
                         text = '─',
                     },
                     GitAdd = {
-                        text = '│',
+                        text = '┊',
                     },
                     GitChange = {
-                        text = '│',
+                        text = '┊',
                     },
                     GitDelete = {
-                        text = '│',
+                        text = '┊',
                     },
                 },
             }

@@ -106,9 +106,9 @@ vim.defer_fn(function()
     })
 
     -- Apply padding when entering a window
-    vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
-        callback = SetWindowPadding,
-    })
+    -- vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+    --     callback = SetWindowPadding,
+    -- })
 end, 0) -- 0 ms delay, but still deferred
 
 -- Window padding

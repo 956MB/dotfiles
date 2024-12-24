@@ -3,6 +3,11 @@ Host *
   UseKeychain yes
   IdentityFile ~/.ssh/id_ed25519
 
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/is_githubmacos2025
+
 Host *sr.ht
   IdentityFile ~/.ssh/sourcehut_2024
   PreferredAuthentications publickey

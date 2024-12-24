@@ -90,6 +90,7 @@ alias gcm='git commit -m'                 # Commit changes with a message
 alias gbr='git branch -M'                 # Rename current branch
 alias gcr='git clone'                     # Clone a repository
 alias gd='git diff'                       # Show changes between commits, commit and working tree, etc.
+alias gds='git diff --stat'               # Show diff stats (files changed, insertions, deletions)
 alias gi='git init'                       # Initialize a new Git repository
 alias gl='git log'                        # Show commit logs
 alias gp='git pull'                       # Fetch from and integrate with another repository or a local branch
@@ -136,7 +137,7 @@ check_directory_for_new_repository() {
     current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
     if [ "$current_repository" ] && \
     [ "$current_repository" != "$last_repository" ]; then
-	of; l
+	of; l # onefetch and ls
     fi
     last_repository=$current_repository
 }
@@ -251,5 +252,7 @@ function _zoxide_hook() {
     check_directory_for_new_repository
 }
 add-zsh-hook chpwd _zoxide_hook
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+if [[ "$IS_MAC" == false ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
+fi

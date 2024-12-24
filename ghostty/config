@@ -4,15 +4,17 @@ foreground= #D4D4D4
 # Looks good for screenshots, but not my fav for everyday :(
 # background-opacity = 0.956
 # background-blur-radius = 50
-cursor-style = bar
+cursor-style = block
+# title =👻
 
 selection-background = #264F78
 selection-foreground = #D4D4D4
 
 # Default font looks pretty good to me :)
-# default=Incosolata Nerd Font Mono
+# default = Incosolata Nerd Font Mono
 font-family =
 
+# VSCode colors (vscode.nvim / vscode.yazi)
 # black
 palette = 0=#686868
 palette = 8=#686868
@@ -37,6 +39,16 @@ palette = 14=#4EC9B0
 # white
 palette = 7=#a89984
 palette = 15=#fbf1c7
+
+#  delta git diff pager in lazygit  uses these palette colors for it's
+#  add/remove background color, and for some reason the 'palette = 235'
+#  by default is gray. so I changed it to green to fix it.
+#  (not exactly the VSCode green but I think it's better.)
+palette = 52=#411F1D
+palette = 235=#17351E
+# Other greens I don't want to use but would work
+# palette = 235=#1E3319
+# palette = 235=#47552A
 
 # Keybindings
 # NOTE: Re bind goto_split so we can use left/right arrows
