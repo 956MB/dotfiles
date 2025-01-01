@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/ghostty-org/ghostty">
+        <img src="./ghostty/img/ghostty.png" alt="ghostty" width="210">
+    </a>
+</p>
+
 ![Screenshot](./img/Screenshot_2024-12-08_at_6.27.59_AM.png)
 
 ### Aliases

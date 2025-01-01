@@ -2,10 +2,15 @@ background = #181818
 foreground= #D4D4D4
 
 # Looks good for screenshots, but not my fav for everyday :(
-# background-opacity = 0.956
-# background-blur-radius = 50
+background-opacity = 0.956
+background-blur-radius = 50
 cursor-style = block
-# title =👻
+
+# Icon
+macos-icon = custom-style
+macos-icon-frame = plastic
+macos-icon-ghost-color = #ffffff
+macos-icon-screen-color = #181818
 
 selection-background = #264F78
 selection-foreground = #D4D4D4

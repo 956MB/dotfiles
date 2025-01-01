@@ -281,7 +281,7 @@ return {
                         end,
                     },
                 },
-                tsserver = {},
+                -- tsserver = {},
                 tailwindcss = {
                     -- Tailwindcss support for Rust (leptos/yew/dioxus/etc)
                     filetypes = {
