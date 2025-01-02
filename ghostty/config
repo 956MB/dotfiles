@@ -42,8 +42,8 @@ palette = 13=#C586C0
 palette = 6=#4EC9B0
 palette = 14=#4EC9B0
 # white
-palette = 7=#a89984
-palette = 15=#fbf1c7
+palette = 7=#c7c7c7
+palette = 15=#d4d4d4
 
 #  delta git diff pager in lazygit  uses these palette colors for it's
 #  add/remove background color, and for some reason the 'palette = 235'

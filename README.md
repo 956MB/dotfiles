@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/ghostty-org/ghostty">
-        <img src="./ghostty/img/ghostty.png" alt="ghostty" width="210">
+        <img src="./img/ghostty.png" alt="ghostty" width="210">
     </a>
 </p>
 
