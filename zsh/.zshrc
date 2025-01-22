@@ -81,6 +81,19 @@ if [[ "$IS_MAC" == true ]]; then
     alias skstop='skhd --stop-service'        # Stop skhd service
 fi
 
+# "Alias print": Print the contents of aliases
+ap() {
+    if [ -z "$1" ]; then
+        echo "Usage: ap <alias_name>"
+        return 1
+    fi
+    if alias "$1" >/dev/null 2>&1; then
+        echo "$1 -> $(alias "$1" | cut -d'=' -f2- | tr -d "'")"
+    else
+        echo "Alias '$1' not found"
+    fi
+}
+
 # Git aliases
 alias ga='git add'                        # Stage changes
 alias gaa='git add .'                     # Stage all changes in current directory
@@ -256,3 +269,13 @@ if [[ "$IS_MAC" == false ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.zsh
     source /usr/share/doc/fzf/examples/completion.zsh
 fi
+
+# bun completions
+[ -s "/Users/bays/.bun/_bun" ] && source "/Users/bays/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/bays/.lmstudio/bin"

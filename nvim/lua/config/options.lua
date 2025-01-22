@@ -73,18 +73,19 @@ opt.scroll = 5
 opt.scrolloff = 10
 opt.hlsearch = true
 
--- -- Wrap cursor around lines
+-- Wrap cursor around lines
 opt.whichwrap:append '<,>,[,],h,l'
 
 -- Cursor blink and line instead of block
 opt.selection = 'exclusive'
 opt.virtualedit = 'onemore'
--- blink on:
+-- Line: blink on:
 -- vim.o.guicursor = table.concat({
 --     'n-v-c:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
 --     'i-ci-r-cr:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
 --     'r:ver25-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
 -- }, ',')
+-- Block
 vim.o.guicursor = table.concat({
     'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
     'i-ci-r-cr:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',

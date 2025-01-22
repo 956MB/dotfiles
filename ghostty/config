@@ -2,8 +2,8 @@ background = #181818
 foreground= #D4D4D4
 
 # Looks good for screenshots, but not my fav for everyday :(
-background-opacity = 0.956
-background-blur-radius = 50
+background-opacity = 0.999
+# background-blur-radius = 50
 cursor-style = block
 
 # Icon
