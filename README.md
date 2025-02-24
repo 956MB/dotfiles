@@ -212,24 +212,24 @@ Neovim: [v0.10.1](https://github.com/neovim/neovim) · Colorscheme: [vscode.nvim
 
 ```python
                  -- --                    Project: dotfiles (2 branches)
-         --                 -- @@@@       HEAD: 28186e2 (main, origin/main)
-      --      @@@@@@@@@@@     @@@@@@      Pending: 1+- 4+
-           @@@@@@@@@@@@@@@@@   @@@@       Created: 8 months ago
-  --     @@@@@@@@@@@@@@****@@@     --     Languages:                                
- --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (94.9 %) ● BASH (1.8 %)
-      @@@@@@@@@@@@@@@@@****@@@@@@                    ● Shell (1.4 %) ● Python (1.1 %)
---   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Scheme (0.3 %) ● Zsh (0.2 %)
---   @@@**@@@@@@**@@**@@******@@@@   --              ● Other (0.2 %) 
-     @@@**@@@@@@**@@**@**@@@**@@@@        Authors: 96% Alexander Bays <bays@956mb.com> 72
---   @@@**@@@@@@**@@**@@@*****@@@@   --             4% 956MB <bays@956mb.com> 3
---   @@@**@@@@@@**@@**@***@@**@@@@   --   Last change: 19 minutes ago
+         --                 -- @@@@       HEAD: 7db864f (main)
+      --      @@@@@@@@@@@     @@@@@@      Pending: 2+- 4+
+           @@@@@@@@@@@@@@@@@   @@@@       Created: 10 months ago
+  --     @@@@@@@@@@@@@@****@@@     --     Languages:
+ --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (91.7 %) ● CSS (2.8 %)
+      @@@@@@@@@@@@@@@@@****@@@@@@                    ● BASH (1.9 %) ● Python (1.1 %)
+--   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Fish (1.0 %) ● Shell (0.9 %)
+--   @@@**@@@@@@**@@**@@******@@@@   --              ● Other (0.7 %)
+     @@@**@@@@@@**@@**@**@@@**@@@@        Authors: 90% Alexander Bays <bays@956mb.com> 73
+--   @@@**@@@@@@**@@**@@@*****@@@@   --            10% 956MB <bays@956mb.com> 8
+--   @@@**@@@@@@**@@**@***@@**@@@@   --   Last change: 12 seconds ago
       @@*******@******@********@@         URL: https://github.com/956MB/dotfiles.git
- --    @@@@@@@@@@@@@@@@@@@@@@@@@    --    Commits: 75
-  --     @@@@@@@@@@@@@@@@@@@@@     --     Churn (2): kitty/kitty.conf 2
-           @@@@@@@@@@@@@@@@@                         nvim/init.lua 1
-      --      @@@@@@@@@@@      --                    …/config/keymaps.lua 1
-         --                 --            Lines of code: 14836
-                 -- --                    Size: 21.04 MiB (82 files)
+ --    @@@@@@@@@@@@@@@@@@@@@@@@@    --    Commits: 81
+  --     @@@@@@@@@@@@@@@@@@@@@     --     Churn (2): ghostty/config 2
+           @@@@@@@@@@@@@@@@@                         betterdiscord/Github-Dark-Neutral.theme.css 1
+      --      @@@@@@@@@@@      --                    …/functions/grepr.fish 1
+         --                 --            Lines of code: 15255
+                 -- --                    Size: 21.19 MiB (83 files)
                                           License: MIT
 ```
 
