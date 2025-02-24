@@ -10,7 +10,7 @@
 
 ##### General
 
-[zshrc](./zsh/.zshrc)
+[fish/aliases.fish](./fish/conf.d/aliases.fish)
 
 ```bash
 alias v='nvim'                            # Open neovim
@@ -18,7 +18,9 @@ alias nv='nvim'                           # Open neovim (alternative)
 alias z-='z -'                            # Navigate to previous directory using zoxide
 alias cd..='z ..'                         # Go up one directory using zoxide
 alias z..='z ..'                          # Go up one directory using zoxide (alternative)
-alias ..='z ..'                           # Go up one directory using zoxide (another alternative)
+alias ..='z ..'                           # Go up one directory using zoxide
+alias ...='z ../..'                       # Go up two directories using zoxide
+alias ....='z ../../..'                   # Go up three directories using zoxide
 alias l='ls -t'                           # List files sorted by modification time, newest first
 alias ll='ls -altrhF'                     # List all files in long format, sorted by modification time (newest last), with / for directories
 alias lsa='ls -hla'                       # List all files (including hidden) with human-readable sizes
@@ -32,11 +34,7 @@ alias oldtop="/usr/bin/top"               # Run the original top command
 alias nf="neofetch"                       # Display system information using neofetch
 alias of="onefetch --no-color-palette --include-hidden -E --no-title"  # Display git repository information using onefetch
 alias ep="echo $PATH"                     # Print the PATH environment variable
-alias resh="source ~/.zshrc"              # Reload the .zshrc configuration
-alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.zshrc'  # Edit .zshrc in a new Kitty tab using Neovim
-alias vlua='kitty @ launch --type=tab nvim --remote-silent ~/dotfiles/nvim'  # Edit Neovim config in a new Kitty tab
-alias monkeytype='z ~/Dev/monkeytype-24.22.0/; pnpm dev-fe'  # Navigate to monkeytype directory and start development server
-alias zfq='zoxide query -l -s | less'     # List zoxide query results in less
+alias resh="source ~/.config/fish/config.fish"  # Reload the fish configuration
 ```
 
 ##### Commands
@@ -65,6 +63,8 @@ alias gss='git status'                    # Show the working tree status
 alias gwho='git shortlog -s -n | head'    # Show top contributors
 alias gcnt='git ls-files | wc -l'         # Count number of files in the repository
 alias lg='lazygit'                        # Open Lazygit interface
+alias grl='gh repo ls 956MB'              # List my repos on GitHub
+alias grlf='gh repo ls 956MB --fork'      # List my forked repos on GitHub
 
 # GitHub Copilot CLI function aliases
 exp() {

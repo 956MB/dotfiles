@@ -1,0 +1,59 @@
+# General aliases
+alias v='nvim'                            # Open neovim
+alias nv='nvim'                           # Open neovim (alternative)
+alias z-='z -'                            # Navigate to previous directory using zoxide
+alias cd..='z ..'                         # Go up one directory using zoxide
+alias z..='z ..'                          # Go up one directory using zoxide (alternative)
+alias ..='z ..'                           # Go up one directory using zoxide
+alias ...='z ../..'                       # Go up two directories using zoxide
+alias ....='z ../../..'                   # Go up three directories using zoxide
+alias l='ls -t'                           # List files sorted by modification time, newest first
+alias ll='ls -altrhF'                     # List all files in long format, sorted by modification time (newest last), with / for directories
+alias lsa='ls -hla'                       # List all files (including hidden) with human-readable sizes
+alias lsr='ls -lR'                        # List files recursively
+alias lsf='ls -1 | wc -l'                 # Count number of files in current directory
+alias lss='du -sh *'                      # Show sizes of files and directories in current directory
+alias la='ls -A'                          # List all files except . and ..
+alias ls='ls -CF'                         # List files with / for directories and * for executables
+alias cls='clear'                         # Clear the terminal screen
+alias oldtop="/usr/bin/top"               # Run the original top command
+alias nf="neofetch"                       # Display system information using neofetch
+alias of="onefetch --no-color-palette --include-hidden -E --no-title"  # Display git repository information using onefetch
+alias ep="echo \$PATH"                     # Print the PATH environment variable
+alias resh="source ~/.config/fish/config.fish"  # Reload the fish configuration
+
+# Git aliases
+alias ga='git add'                        # Stage changes
+alias gaa='git add .'                     # Stage all changes in current directory
+alias gaaa='git add -A'                   # Stage all changes
+alias gc='git commit'                     # Commit changes
+alias gcm='git commit -m'                 # Commit changes with a message
+alias gbr='git branch -M'                 # Rename current branch
+alias gd='git diff'                       # Show changes between commits, commit and working tree, etc.
+alias gds='git diff --stat'               # Show diff stats (files changed, insertions, deletions)
+alias gi='git init'                       # Initialize a new Git repository
+alias gl='git log'                        # Show commit logs
+alias gp='git pull'                       # Fetch from and integrate with another repository or a local branch
+alias gpsh='git push'                     # Update remote refs along with associated objects
+alias gss='git status'                    # Show the working tree status
+alias gwho='git shortlog -s -n | head'    # Show top contributors
+alias gcnt='git ls-files | wc -l'         # Count number of files in the repository
+alias lg='lazygit'                        # Open Lazygit interface
+alias grl='gh repo ls 956MB'              # List my repos on GitHub
+alias grlf='gh repo ls 956MB --fork'      # List my forked repos on GitHub
+
+# System-specific aliases
+if test "$IS_MAC" = true
+    alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.config/fish/config.fish'  # Edit fish config in a new Kitty tab using Neovim
+    alias vlua='kitty @ launch --type=tab nvim --remote-silent ~/dotfiles/nvim'  # Edit Neovim config in a new Kitty tab
+
+    # Yabai/skhd aliases
+    alias ystart='yabai --start-service'      # Start yabai service
+    alias ystop='yabai --stop-service'        # Stop yabai service
+    alias yupgrade='brew upgrade yabai'       # Upgrade yabai using Homebrew
+    alias skstart='skhd --start-service'      # Start skhd service
+    alias skstop='skhd --stop-service'        # Stop skhd service
+else
+    alias vzsh='nvim ~/.config/fish/config.fish'
+    alias vlua='nvim ~/dotfiles/nvim'
+end

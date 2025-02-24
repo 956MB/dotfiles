@@ -3,7 +3,7 @@
 display_usage() {
     echo "This script stringifies the contents of a directory, including all files and their line numbers."
     echo ""
-    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name> [-m] [-sn <number>] [-ss <size>]"
+    echo "Usage: stringify <repo-root-directory> [-e <extension1>,<extension2>,...] [-i <extension1>,<extension2>,...] -n <custom_output_name> [-m] [-sn <number>] [-ss <size>] [--line-nums]"
     echo ""
     echo "Example: stringify gpui -i rs,toml -n gpui_rs -m -sn 5"
     echo "(Stringify all contents in 'gpui/', includes only '.rs' and '.toml' files, names the output 'gpui_rs.md', minifies the output, and splits it into 5 files)"
@@ -16,6 +16,7 @@ display_usage() {
     echo "  -m, --minify            Minify the output, removing extra whitespace and replacing newlines with '\n'"
     echo "  -sn, --split-num        Split the output into a specific number of files"
     echo "  -ss, --split-size       Split the output into files of a specific size (e.g., 500k, 1m)"
+    echo "  -l, --line-nums         Include line numbers in the output"
     echo "  -h, --help              Display this help message"
 }
 
@@ -28,6 +29,7 @@ REPO_DIR="."
 MINIFY=false
 SPLIT_NUM=""
 SPLIT_SIZE=""
+LINE_NUM=false
 
 append_patterns() {
     IFS=',' read -ra exts <<<"$1"
@@ -119,6 +121,10 @@ while [[ "$#" -gt 0 ]]; do
         SPLIT_SIZE="$1"
         shift
         ;;
+    -l | --line-nums)
+        LINE_NUM=true
+        shift
+        ;;
     *)
         REPO_DIR="$1"
         shift
@@ -185,7 +191,11 @@ while IFS= read -r file; do
     if ! is_binary "$file"; then
         echo "FILE: ${file#$REPO_DIR/}" >>"$OUTPUT_FILE"
         echo '```'"$(language_specifier "$file")" >>"$OUTPUT_FILE"
-        awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
+        if [[ "$LINE_NUM" = true ]]; then
+            awk '{printf "%6d  %s\n", NR, $0}' "$file" >>"$OUTPUT_FILE"
+        else
+            cat "$file" >>"$OUTPUT_FILE"
+        fi
         echo '```' >>"$OUTPUT_FILE"
         ((TOTAL_FILES++))
         ((TOTAL_LINES += $(wc -l <"$file")))
