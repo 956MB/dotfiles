@@ -1,0 +1,15 @@
+themes {
+    vscode {
+        fg 112 112 112
+        bg 40 40 40
+        black 0 0 0
+        red 250 44 58
+        green 91 155 76
+        yellow 220 220 170
+        blue 55 148 255
+        magenta 197 134 192
+        cyan 78 201 176
+        white 255 255 255
+        orange 202 143 118
+    }
+}

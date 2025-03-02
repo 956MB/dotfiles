@@ -285,7 +285,7 @@ return {
     { -- Github Copliot
         'zbirenbaum/copilot.lua',
         cmd = 'Copilot',
-        event = 'InsertEnter',
+        event = { 'BufReadPre', 'InsertEnter' },
         config = function()
             require('copilot').setup {
                 panel = {
@@ -325,7 +325,8 @@ return {
                     hgcommit = false,
                     svn = false,
                     cvs = false,
-                    ['.'] = false,
+                    -- ['.'] = false,
+                    ['*'] = true,
                 },
                 copilot_node_command = 'node', -- Node.js version must be > 18.x
                 server_opts_overrides = {},

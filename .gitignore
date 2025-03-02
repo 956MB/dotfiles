@@ -7,12 +7,14 @@ ssh/id_githubmacos2025*
 
 .DS_Store
 .env.gpa
+fish_variables
 
 zsh/plugins/*
 lazygit/state.yml
 nvim/backup.lua
 kitty/kitty-default.conf
 ART.md
+scripts/zellij
 
 nvim/lua/plugins/custom/gruber-better.nvim
 nvim/lua/plugins/custom/habamax.nvim

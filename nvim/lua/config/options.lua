@@ -80,17 +80,17 @@ opt.whichwrap:append '<,>,[,],h,l'
 opt.selection = 'exclusive'
 opt.virtualedit = 'onemore'
 -- Line: blink on:
--- vim.o.guicursor = table.concat({
---     'n-v-c:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
---     'i-ci-r-cr:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
---     'r:ver25-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
--- }, ',')
--- Block
 vim.o.guicursor = table.concat({
-    'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-    'i-ci-r-cr:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-    'r:block-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
+    'n-v-c:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+    'i-ci-r-cr:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+    'r:ver25-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
 }, ',')
+-- Block
+-- vim.o.guicursor = table.concat({
+--     'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+--     'i-ci-r-cr:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+--     'r:block-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
+-- }, ',')
 
 -- Config options for Neovide gui (trying)
 --

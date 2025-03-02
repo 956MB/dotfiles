@@ -170,8 +170,8 @@ map('n', '<leader>cr', '<cmd>BufferLineCloseRight<CR>', '[C]lose open tabs to th
 map('n', '<leader>bp', '<cmd>BufferLineTogglePin<CR>', 'Toggle [B]uffer [P]in')
 map('n', '-', '<cmd>BufferLineCyclePrev<CR>', 'Cycle buffers Prev (Left)')
 map('n', '=', '<cmd>BufferLineCycleNext<CR>', 'Cycle buffers Next (Right)')
-map('n', '<C-->', '<cmd>BufferLineMovePrev<CR>', 'Move buffer Left')
-map('n', '<C-=>', '<cmd>BufferLineMoveNext<CR>', 'Move buffer Right')
+map('n', '<C-S-->', '<cmd>BufferLineMovePrev<CR>', 'Move buffer Left')
+map('n', '<C-S-=>', '<cmd>BufferLineMoveNext<CR>', 'Move buffer Right')
 for i = 1, 9 do
     map('n', '<leader>' .. i, '<cmd>BufferLineGoToBuffer ' .. i .. '<CR>', 'Go to buffer ' .. i)
 end
