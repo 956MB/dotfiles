@@ -11,7 +11,7 @@ alias ....='z ../../..'  # Go up three directories using zoxide
 if type -q eza
     alias l='eza --group-directories-first'                    # List with icons, directories first
     alias ls='eza --group-directories-first'                   # List with icons, directories first
-    alias ll='eza -l --group-directories-first'                # Long format with icons
+    alias ll='eza -la --group-directories-first'                # Long format with icons
     alias la='eza -la --group-directories-first'               # List all (including hidden) with icons
     alias lt='eza --tree --icons'                              # Tree view with icons
     alias l.='eza -a | grep -E "^\."'                          # Show only hidden files
