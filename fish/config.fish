@@ -55,6 +55,6 @@ eval /Users/bays/miniforge3/bin/conda "shell.fish" hook $argv | source
 # <<< conda initialize <<<
 
 # Run zellij for new tabs
-if status is-interactive && not set -q ZELLIJ
-    exec zellij
-end
+# if status is-interactive && not set -q ZELLIJ
+#     exec zellij
+# end

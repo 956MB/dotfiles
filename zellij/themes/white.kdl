@@ -3,7 +3,7 @@ themes {
     white {
         fg 100 100 100
         bg 40 40 40
-        black 0 0 0
+        black 13 13 13
         red 240 240 240
         green 156 156 156
         yellow 220 220 170

@@ -7,11 +7,13 @@ alias z..='z ..'         # Go up one directory using zoxide (alternative)
 alias ..='z ..'          # Go up one directory using zoxide
 alias ...='z ../..'      # Go up two directories using zoxide
 alias ....='z ../../..'  # Go up three directories using zoxide
+alias yy='yazi'          # Open yazi
+alias zj='zellij'        # Open zellij
 
 if type -q eza
     alias l='eza --group-directories-first'                    # List with icons, directories first
     alias ls='eza --group-directories-first'                   # List with icons, directories first
-    alias ll='eza -la --group-directories-first'                # Long format with icons
+    alias ll='eza -la --group-directories-first'               # Long format with icons
     alias la='eza -la --group-directories-first'               # List all (including hidden) with icons
     alias lt='eza --tree --icons'                              # Tree view with icons
     alias l.='eza -a | grep -E "^\."'                          # Show only hidden files
