@@ -1,3 +1,4 @@
+ssh/
 ssh/known_hosts
 ssh/known_hosts.old
 ssh/id_ed25519*
