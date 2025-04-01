@@ -128,6 +128,16 @@ return {
         end,
     },
 
+    {
+        'snacks.nvim',
+        opts = {
+            scroll = { enabled = false },
+            indent = {
+                scope = { enabled = false },
+            },
+        },
+    },
+
     { -- Neovide project explorer
         'Rics-Dev/project-explorer.nvim',
         dependencies = {
@@ -264,28 +274,56 @@ return {
         end,
     },
 
-    { -- Multi cusor editing
-        'smoka7/multicursors.nvim',
-        event = 'VeryLazy',
-        dependencies = {
-            'smoka7/hydra.nvim',
-        },
-        opts = {},
-        cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
-        keys = {
-            {
-                mode = { 'v', 'n' },
-                '<C-d>',
-                '<cmd>MCstart<cr>',
-                desc = 'Create a selection for selected text or word under the cursor',
-            },
-        },
+    { -- Multicursor (other one broke)
+        'jake-stewart/multicursor.nvim',
+        branch = '1.0',
+        config = function()
+            local mc = require 'multicursor-nvim'
+            mc.setup()
+
+            local set = vim.keymap.set
+
+            set({ 'n', 'x' }, '<A-S-up>', function()
+                mc.lineAddCursor(-1)
+            end)
+            set({ 'n', 'x' }, '<A-S-down>', function()
+                mc.lineAddCursor(1)
+            end)
+            set({ 'n', 'x' }, '<C-d>', function()
+                mc.matchAddCursor(1)
+            end)
+            set({ 'n', 'x' }, '<C-S-d>', function()
+                mc.matchAddCursor(-1)
+            end)
+
+            mc.addKeymapLayer(function(layerSet)
+                layerSet({ 'n', 'x' }, '<left>', mc.prevCursor)
+                layerSet({ 'n', 'x' }, '<right>', mc.nextCursor)
+                layerSet({ 'n', 'x' }, '<C-S-d>', mc.deleteCursor)
+                layerSet('n', '<esc>', function()
+                    if not mc.cursorsEnabled() then
+                        mc.enableCursors()
+                    else
+                        mc.clearCursors()
+                    end
+                end)
+            end)
+
+            local hl = vim.api.nvim_set_hl
+            hl(0, 'MultiCursorCursor', { link = 'Cursor' })
+            hl(0, 'MultiCursorVisual', { link = 'Visual' })
+            hl(0, 'MultiCursorSign', { link = 'SignColumn' })
+            hl(0, 'MultiCursorMatchPreview', { link = 'Search' })
+            hl(0, 'MultiCursorDisabledCursor', { link = 'Visual' })
+            hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
+            hl(0, 'MultiCursorDisabledSign', { link = 'SignColumn' })
+        end,
     },
 
-    { -- Github Copliot
+    { -- Github copilot
         'zbirenbaum/copilot.lua',
         cmd = 'Copilot',
-        event = { 'BufReadPre', 'InsertEnter' },
+        event = 'InsertEnter',
         config = function()
             require('copilot').setup {
                 panel = {
@@ -328,7 +366,7 @@ return {
                     -- ['.'] = false,
                     ['*'] = true,
                 },
-                copilot_node_command = 'node', -- Node.js version must be > 18.x
+                copilot_node_command = '/opt/homebrew/bin/node',
                 server_opts_overrides = {},
             }
         end,

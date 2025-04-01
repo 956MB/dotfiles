@@ -9,6 +9,7 @@ ssh/id_githubmacos2025*
 .DS_Store
 .env.gpa
 fish_variables
+_*.fish
 
 zsh/plugins/*
 lazygit/state.yml

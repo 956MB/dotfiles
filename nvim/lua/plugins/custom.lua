@@ -59,6 +59,26 @@ return {
         end,
     },
 
+    {
+        'mikavilpas/yazi.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+        },
+        config = function()
+            require('yazi').setup {
+                -- Size of the Yazi window
+                size = {
+                    width = 1.0, -- 80% of window width
+                    height = 0.25, -- 70% of window height
+                },
+                -- Open in a horizontal split (for your requirement)
+                direction = 'horizontal',
+                -- Keep Yazi open when selecting files
+                close_on_exit = false,
+            }
+        end,
+    },
+
     { -- Highlight todo, notes, etc in comments
         -- 'folke/todo-comments.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/todo-comments.nvim',

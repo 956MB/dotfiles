@@ -16,7 +16,8 @@ return {
 
     { -- Autocompletion
         'hrsh7th/nvim-cmp',
-        event = 'InsertEnter',
+        lazy = false, -- Make it load on startup
+        priority = 1000, -- Give it high priority
         dependencies = {
             'hrsh7th/cmp-buffer', -- source for text in buffer
             'L3MON4D3/LuaSnip', -- snippet engine
@@ -24,13 +25,11 @@ return {
             'rafamadriz/friendly-snippets', -- useful snippets
             'onsails/lspkind.nvim', -- vs-code like pictograms
             'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-nvim-lsp', -- Explicitly require cmp-nvim-lsp
         },
         config = function()
             local cmp = require 'cmp'
             local luasnip = require 'luasnip'
             local lspkind = require 'lspkind'
-            require 'cmp_nvim_lsp' -- Explicitly require cmp-nvim-lsp
 
             -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
             require('luasnip.loaders.from_vscode').lazy_load()
@@ -166,6 +165,7 @@ return {
             },
         },
         config = function()
+            -- LSP attach config
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
                 callback = function(event)
@@ -209,9 +209,17 @@ return {
                 end,
             })
 
+            -- Setup capabilities with error handling
             local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+            local has_cmp_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+            if has_cmp_lsp then
+                capabilities = vim.tbl_deep_extend('force', capabilities, cmp_nvim_lsp.default_capabilities())
+            else
+                -- Basic capabilities if cmp_nvim_lsp isn't available
+                capabilities.textDocument.completion.completionItem.snippetSupport = true
+            end
 
+            -- Your server configurations
             local servers = {
                 clangd = {
                     cmd = {
@@ -368,13 +376,12 @@ return {
                 },
             }
 
-            -- :Mason
-            --  You can press `g?` for help in this menu.
+            -- Mason setup
             require('mason').setup()
 
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                'stylua', -- Used to format Lua code
+                'stylua',
                 'gopls',
                 'clangd',
             })

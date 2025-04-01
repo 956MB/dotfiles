@@ -69,7 +69,8 @@ opt.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
 opt.shiftwidth = 4 -- Number of spaces inserted when indent
 
 opt.scroll = 5
-opt.scrolloff = 10
+opt.scrolloff = 0
+opt.smoothscroll = false
 opt.hlsearch = true
 
 -- Wrap cursor around lines

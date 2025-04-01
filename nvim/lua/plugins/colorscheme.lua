@@ -42,6 +42,13 @@ return {
                 }
             end
 
+            local black_fg = { 'visual', 'insert', 'replace', 'terminal', 'command' }
+            for _, mode in ipairs(black_fg) do
+                lualine_overrides[mode] = {
+                    a = { fg = c.vscBack },
+                }
+            end
+
             local group_overrides = {
                 -- Basic UI elements
                 DevIcon = { fg = '#ff0000', bg = 'NONE' },
