@@ -213,26 +213,26 @@ Neovim: [v0.10.1](https://github.com/neovim/neovim) · Colorscheme: [vscode.nvim
 ```
 
 ```python
-                 -- --                    Project: dotfiles (2 branches)
-         --                 -- @@@@       HEAD: 7db864f (main)
-      --      @@@@@@@@@@@     @@@@@@      Pending: 2+- 4+
-           @@@@@@@@@@@@@@@@@   @@@@       Created: 10 months ago
-  --     @@@@@@@@@@@@@@****@@@     --     Languages:
- --    @@@@@@@@@@@@@@@******@@@@    --               ● Lua (91.7 %) ● CSS (2.8 %)
-      @@@@@@@@@@@@@@@@@****@@@@@@                    ● BASH (1.9 %) ● Python (1.1 %)
---   @@@**@@@@@@@@@@@@@@@@@@@@@@@@   --              ● Fish (1.0 %) ● Shell (0.9 %)
---   @@@**@@@@@@**@@**@@******@@@@   --              ● Other (0.7 %)
-     @@@**@@@@@@**@@**@**@@@**@@@@        Authors: 90% Alexander Bays <bays@956mb.com> 73
---   @@@**@@@@@@**@@**@@@*****@@@@   --            10% 956MB <bays@956mb.com> 8
---   @@@**@@@@@@**@@**@***@@**@@@@   --   Last change: 12 seconds ago
-      @@*******@******@********@@         URL: https://github.com/956MB/dotfiles.git
- --    @@@@@@@@@@@@@@@@@@@@@@@@@    --    Commits: 81
-  --     @@@@@@@@@@@@@@@@@@@@@     --     Churn (2): ghostty/config 2
-           @@@@@@@@@@@@@@@@@                         betterdiscord/Github-Dark-Neutral.theme.css 1
-      --      @@@@@@@@@@@      --                    …/functions/grepr.fish 1
-         --                 --            Lines of code: 15255
-                 -- --                    Size: 21.19 MiB (83 files)
-                                          License: MIT
+   ··////////////////////··/·   Project: dotfiles (3 branches)
+ ·//·····/|/············/||/·   HEAD: f93771f (main, origin/main)
+·|·      ·|·           ·//·     Pending: 3+- 9+
+/|       ·|·         ·//·       Created: a year ago
+·|/     ·/|·       ·//·         Languages:
+ ·///////||·     ·//·                      ● Lua (90.9 %) ● CSS (2.8 %)
+    ···  ·|·    //·       ·/·              ● BASH (1.8 %) ● Python (1.8 %)
+         ·|·  /||·      ·//·               ● Fish (1.0 %) ● Shell (1.0 %)
+         ·|//|//////···//·                 ● Other (0.7 %)
+         ·||/·     ·||||·       Authors: 85% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               15% 956MB <bays@956mb.com> 13
+      ·//·       /|/    ·|/     Last change: 6 minutes ago
+    ·//·       ·//        //    URL: https://github.com/956MB/dotfiles.git
+  ·//·       ·//·         ·|·   Commits: 86
+ //·       ·/||/··········/|/   Churn (2): …/themes/white.kdl 2
+··         ·/··////////////··              fish/config.fish 2
+                                           …/conf.d/aliases.fish 2
+                                Lines of code: 15478
+                                Size: 21.22 MiB (93 files)
+                                License: MIT
 ```
 
 ## License
