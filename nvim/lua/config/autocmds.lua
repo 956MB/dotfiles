@@ -96,14 +96,14 @@ vim.defer_fn(function()
     })
 
     -- Merged BufEnter autocommands for disabling relative numbers and enabling wrap
-    local buffer_settings = vim.api.nvim_create_augroup('BufferSettings', { clear = true })
-    vim.api.nvim_create_autocmd('BufEnter', {
-        group = buffer_settings,
-        callback = function()
-            vim.wo.relativenumber = false -- Disable relative line numbers
-            vim.wo.wrap = true -- Enable text wrapping
-        end,
-    })
+    -- local buffer_settings = vim.api.nvim_create_augroup('BufferSettings', { clear = true })
+    -- vim.api.nvim_create_autocmd('BufEnter', {
+    --     group = buffer_settings,
+    --     callback = function()
+    --         vim.wo.relativenumber = false -- Disable relative line numbers
+    --         vim.wo.wrap = true -- Enable text wrapping
+    --     end,
+    -- })
 
     -- Apply padding when entering a window
     -- vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {

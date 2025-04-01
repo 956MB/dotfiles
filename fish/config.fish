@@ -54,7 +54,11 @@ fish_add_path "$PNPM_HOME"
 eval /Users/bays/miniforge3/bin/conda "shell.fish" hook $argv | source
 # <<< conda initialize <<<
 
+set -gx PATH /opt/homebrew/bin/zig $PATH
+
 # Run zellij for new tabs
 # if status is-interactive && not set -q ZELLIJ
 #     exec zellij
 # end
+
+starship init fish | source

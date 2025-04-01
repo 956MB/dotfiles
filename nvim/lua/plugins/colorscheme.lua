@@ -22,6 +22,15 @@ return {
                 vscDiffRedLightLight = '#910101',
                 vscDiffGreenDark = '#202317',
                 vscDiffGreenLight = '#2B311C',
+                vscGitAdded = '#0F3A0F',
+                vscGitModified = '#0F1E3A',
+                vscGitDeleted = '#3A0F0F',
+                vscGitRenamed = '#0F3A0F',
+                vscGitUntracked = '#0F3A0F',
+                vscGitIgnored = '#3A3A3A',
+                vscGitStageModified = '#0F1E3A',
+                vscGitStageDeleted = '#3A0F0F',
+                vscGitConflicting = '#3A0F0F',
             }
 
             local modes = { 'normal', 'visual', 'inactive', 'replace', 'insert', 'terminal', 'command' }
@@ -44,6 +53,15 @@ return {
                 NormalFloat = { bg = bg1 },
                 -- SignColumn = { bg = bg1 },
                 Delimiter = { fg = '#444444', bg = bg1 },
+                DiffAdd = { fg = c.vscFront, bg = c.vscGitAdded },
+                DiffChange = { fg = c.vscFront, bg = c.vscGitModified },
+                DiffDelete = { fg = c.vscFront, bg = c.vscGitDeleted },
+                DiffText = { fg = c.vscFront, bg = c.vscGitRenamed },
+
+                GitSignsAddLn = { fg = 'NONE', bg = c.vscGitAdded },
+                GitSignsDeleteLn = { fg = 'NONE', bg = c.vscGitDeleted },
+                GitWordAdd = { bg = c.vscGitAdded },
+                GitWordDelete = { bg = c.vscGitDeleted },
 
                 -- Noice cmdline
                 NoiceCmdlinePrompt = { fg = c.vscFront, bg = c.vscPink },

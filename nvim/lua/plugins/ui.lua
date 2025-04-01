@@ -213,16 +213,22 @@ return {
         end,
     },
 
-    { -- View git diffs
-        'sindrets/diffview.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles' },
+    { -- Git diff previews
+        'tanvirtin/vgit.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
+        event = 'VimEnter',
         config = function()
-            require('diffview').setup {}
+            require('vgit').setup {
+                settings = {
+                    live_blame = {
+                        enabled = false,
+                    },
+                },
+            }
         end,
     },
 
-    { -- Something for deletnig tabs and buffers
+    { -- Something for deleting tabs and buffers
         'famiu/bufdelete.nvim',
     },
 
@@ -433,28 +439,38 @@ return {
             end
 
             local banner = [[
-               .dP'                   db
-             dP'                   db    db
-                                            `Ybaaaaaad8'
-  `Yb    dP'  'Yb   `Yb.d88b d88b    'Yb      .dP'   88  `Yb.d888b  `Yb    dP'
-    Yb  dP     88    88'   8Y   8b    88      88     88   88'    8Y   Yb  dP
-     YbdP      88    88    8P   88    88      Y8    .88   88     8P    YbdP
-     .8P      .8P    88  ,dP  ,dP    .8P      `Y888P'88   88   ,dP     .8P
-   dP'  b            88                              88   88         dP'  b
-   Y.  ,P            88                              88   88         Y.  ,P
-    `""'            .8P                              Y8. .8P          `""'
-
-    ]]
-
-            local neovim_version = 'v' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
-            local lazyvim_version = 'v' .. require('lazy.core.config').version
-
-            local header = '\n\n\n\n\n\n' .. banner .. '\n' .. '                       Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
+      ··////////////////////··/·   
+    ·//·····/|/············/||/·   
+   ·|·      ·|·           ·//·     
+   /|       ·|·         ·//·       
+   ·|/     ·/|·       ·//·         
+    ·///////||·     ·//·           
+       ···  ·|·    //·       ·/·   
+            ·|·  /||·      ·//·    
+            ·|//|//////···//·      
+            ·||/·     ·||||·       
+           ·//·       ///·//·      
+         ·//·       /|/    ·|/     
+       ·//·       ·//        //    
+     ·//·       ·//·         ·|·   
+    //·       ·/||/··········/|/   
+   ··         ·/··////////////··   
+]]
+            local header = '\n\n\n\n\n\n' .. banner
 
             dashboard.section.header.val = vim.split(header, '\n')
+            dashboard.section.header.opts.hl = 'AlphaHeader'
             dashboard.section.buttons.opts.hl = 'AlphaButtons'
             dashboard.section.buttons.opts.spacing = 0
             dashboard.section.footer.opts.hl = 'AlphaFooter'
+            dashboard.config.layout = {
+                { type = 'padding', val = 1 },
+                dashboard.section.header,
+                { type = 'padding', val = 1 },
+                dashboard.section.buttons,
+                { type = 'padding', val = 1 },
+                dashboard.section.footer,
+            }
             return dashboard
         end,
 
@@ -480,7 +496,11 @@ return {
                 callback = function()
                     local stats = require('lazy').stats()
                     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    dashboard.section.footer.val = '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms'
+                    local neovim_version = 'v' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
+                    local lazyvim_version = 'v' .. require('lazy.core.config').version
+                    local footer = '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms'
+                    local version = '      Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
+                    dashboard.section.footer.val = { footer, '', version }
                     pcall(vim.cmd.AlphaRedraw)
                 end,
             })
