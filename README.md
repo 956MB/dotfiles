@@ -121,24 +121,24 @@ Neovim: [v0.11.0](https://github.com/neovim/neovim) · Colorscheme: [vscode.nvim
 
 ```python
    ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: f93771f (main, origin/main)
-·|·      ·|·           ·//·     Pending: 3+- 9+
+ ·//·····/|/············/||/·   HEAD: 9734d20 (main)
+·|·      ·|·           ·//·     Pending: 2+- 9+
 /|       ·|·         ·//·       Created: a year ago
 ·|/     ·/|·       ·//·         Languages:
- ·///////||·     ·//·                      ● Lua (90.9 %) ● CSS (2.8 %)
+ ·///////||·     ·//·                      ● Lua (90.8 %) ● Fish (4.0 %)
     ···  ·|·    //·       ·/·              ● BASH (1.8 %) ● Python (1.8 %)
-         ·|·  /||·      ·//·               ● Fish (1.0 %) ● Shell (1.0 %)
-         ·|//|//////···//·                 ● Other (0.7 %)
-         ·||/·     ·||||·       Authors: 85% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               15% 956MB <bays@956mb.com> 13
-      ·//·       /|/    ·|/     Last change: 6 minutes ago
+         ·|·  /||·      ·//·               ● Shell (1.0 %) ● Scheme (0.3 %)
+         ·|//|//////···//·                 ● Other (0.4 %)
+         ·||/·     ·||||·       Authors: 81% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               19% 956MB <bays@956mb.com> 17
+      ·//·       /|/    ·|/     Last change: a minute ago
     ·//·       ·//        //    URL: https://github.com/956MB/dotfiles.git
-  ·//·       ·//·         ·|·   Commits: 86
- //·       ·/||/··········/|/   Churn (2): …/themes/white.kdl 2
-··         ·/··////////////··              fish/config.fish 2
-                                           …/conf.d/aliases.fish 2
-                                Lines of code: 15478
-                                Size: 21.22 MiB (93 files)
+  ·//·       ·//·         ·|·   Commits: 90
+ //·       ·/||/··········/|/   Churn (2): zellij/config.kdl 1
+··         ·/··////////////··              …/functions/nvm.fish 1
+                                           …/completions/fisher.fish 1
+                                Lines of code: 15606
+                                Size: 21.24 MiB (96 files)
                                 License: MIT
 ```
 
