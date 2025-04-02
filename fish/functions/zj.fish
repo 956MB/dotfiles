@@ -5,5 +5,5 @@ function zj --description "Open zellij and attach to a session if it exists, oth
         set session_name (basename $PWD)
     end
 
-    zellij a $session_name -c
+    zellij a $session_name -c -f
 end
