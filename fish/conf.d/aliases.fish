@@ -8,7 +8,13 @@ alias ..='z ..'          # Go up one directory using zoxide
 alias ...='z ../..'      # Go up two directories using zoxide
 alias ....='z ../../..'  # Go up three directories using zoxide
 alias yy='yazi'          # Open yazi
-alias zj='zellij'        # Open zellij
+
+# Zellij aliases
+alias zsr='zellij ac rename-session'  # Rename zellij session <name>
+alias zsa='zellij a'                  # Attach to zellij session <name>
+alias zsl='zellij ls'                 # List zellij sessions
+alias zsk='zellij k'                  # Kill zellij session <name>
+alias zsd='zellij d'                  # Delete zellij session <name>
 
 if type -q eza
     alias l='eza --group-directories-first'                    # List with icons, directories first

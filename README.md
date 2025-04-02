@@ -8,9 +8,9 @@
 
 ### Aliases
 
-##### General
-
 [fish/aliases.fish](./fish/conf.d/aliases.fish)
+
+##### General
 
 ```bash
 alias v='nvim'                                                         # Open neovim
@@ -37,6 +37,18 @@ alias nf="neofetch"                                                    # Display
 alias of="onefetch --no-color-palette --include-hidden -E --no-title"  # Display git repository information using onefetch
 alias ep="echo $PATH"                                                  # Print the PATH environment variable
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
+```
+
+##### Zellij
+
+[zellij/config.kdl](./zellij/config.kdl)
+
+```bash
+alias zsr='zellij ac rename-session'  # Rename zellij session <name>
+alias zsa='zellij a'                  # Attach to zellij session <name>
+alias zsl='zellij ls'                 # List zellij sessions
+alias zsk='zellij k'                  # Kill zellij session <name>
+alias zsd='zellij d'                  # Delete zellij session <name>
 ```
 
 ##### Commands
@@ -77,6 +89,18 @@ sug() {
 }
 ```
 
+##### Yabai/skhd
+
+[yabairc](./yabai/.yabairc) · [skhdrc](/yabai/..skhdrc)
+
+```bash
+alias ystart='yabai --start-service'      # Start yabai service
+alias ystop='yabai --stop-service'        # Stop yabai service
+alias yupgrade='brew upgrade yabai'       # Upgrade yabai using Homebrew
+alias skstart='skhd --start-service'      # Start skhd service
+alias skstop='skhd --stop-service'        # Stop skhd service
+```
+
 ---
 
 ### Fish functions
@@ -99,25 +123,23 @@ gds -> 'git diff --stat' # Show diff stats (files changed, insertions, deletions
 gcr https://github.com/Next-Flip/Momentum-Firmware.git
 ```
 
----
+[zj.fish](./fish/functions/zj.fish)
 
-### Yabai/skhd
-
-[yabairc](./yabai/.yabairc) · [skhdrc](/yabai/..skhdrc)
+<sup>Opens a zellij session if it exists and creates it if not</sup>
 
 ```bash
-alias ystart='yabai --start-service'      # Start yabai service
-alias ystop='yabai --stop-service'        # Stop yabai service
-alias yupgrade='brew upgrade yabai'       # Upgrade yabai using Homebrew
-alias skstart='skhd --start-service'      # Start skhd service
-alias skstop='skhd --stop-service'        # Stop skhd service
+zj # -> zellij attach <cwd> -c
+```
+
+[zsde.fish](./fish/functions/zsde.fish)
+
+<sup>Delete all exited zellij sessions except the ones specified</sup>
+
+```bash
+zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "dotfiles\|Momentum-Firmware.wiki" | awk '{print $1}' | xargs -I {} zellij d {}
 ```
 
 ---
-
-### Neovim Summary
-
-Neovim: [v0.11.0](https://github.com/neovim/neovim) · Colorscheme: [vscode.nvim](https://github.com/Mofiqul/vscode.nvim)
 
 ```python
    ··////////////////////··/·   Project: dotfiles (3 branches)
