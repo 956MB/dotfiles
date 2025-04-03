@@ -62,3 +62,4 @@ set -gx PATH /opt/homebrew/bin/zig $PATH
 # end
 
 starship init fish | source
+export PATH="$HOME/.cargo/bin:$PATH"

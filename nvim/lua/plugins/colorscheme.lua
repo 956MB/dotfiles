@@ -34,18 +34,22 @@ return {
             }
 
             local modes = { 'normal', 'visual', 'inactive', 'replace', 'insert', 'terminal', 'command' }
+            local mode_colors = {
+                normal = c.lualineBlue,
+                visual = c.lualineYellow,
+                insert = c.lualineGreen,
+                replace = c.lualineRed,
+                terminal = c.lualineGreen,
+                command = c.lualinePink,
+                inactive = c.lualineInactive,
+            }
+
             local lualine_overrides = {}
             for _, mode in ipairs(modes) do
                 lualine_overrides[mode] = {
+                    a = { bg = bg1, fg = mode_colors[mode] or c.lualineBlue },
                     b = { fg = c.vscPink, bg = bg1 },
                     c = { bg = bg1 },
-                }
-            end
-
-            local black_fg = { 'visual', 'insert', 'replace', 'terminal', 'command' }
-            for _, mode in ipairs(black_fg) do
-                lualine_overrides[mode] = {
-                    a = { fg = c.vscBack },
                 }
             end
 
@@ -64,7 +68,7 @@ return {
                 DiffChange = { fg = c.vscFront, bg = c.vscGitModified },
                 DiffDelete = { fg = c.vscFront, bg = c.vscGitDeleted },
                 DiffText = { fg = c.vscFront, bg = c.vscGitRenamed },
-
+                VisualNonText = { fg = '#666666', bg = c.vscSelection },
                 GitSignsAddLn = { fg = 'NONE', bg = c.vscGitAdded },
                 GitSignsDeleteLn = { fg = 'NONE', bg = c.vscGitDeleted },
                 GitWordAdd = { bg = c.vscGitAdded },

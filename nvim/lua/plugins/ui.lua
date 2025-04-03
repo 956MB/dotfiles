@@ -61,6 +61,12 @@ return {
         },
     },
 
+    { -- Better whitespace visualization (vscode style)
+        'mcauley-penney/visual-whitespace.nvim',
+        config = true,
+        -- keys = { 'v', 'V', '<C-v>' }, -- optionally, lazy load on visual mode keys
+    },
+
     { -- Better cmdline
         'folke/noice.nvim',
         event = 'VeryLazy',

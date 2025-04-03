@@ -374,6 +374,18 @@ return {
                         },
                     },
                 },
+                zls = { -- Zig Language Server
+                    cmd = { 'zls' },
+                    filetypes = { 'zig' },
+                    root_dir = require('lspconfig').util.root_pattern('build.zig', 'build.zig.lock', 'compile_commands.json', '.git'),
+                    settings = {
+                        zls = {
+                            enableSnippets = true,
+                            enableDiagnostics = true,
+                            enableCodeActions = true,
+                        },
+                    },
+                },
             }
 
             -- Mason setup
