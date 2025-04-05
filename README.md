@@ -136,22 +136,22 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 
 ```python
    ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: e2aa327 (main, origin/main)
-·|·      ·|·           ·//·     Pending: 5+- 14+
+ ·//·····/|/············/||/·   HEAD: 36a6ec8 (main, origin/main)
+·|·      ·|·           ·//·     Pending: 5+- 14+ 1-
 /|       ·|·         ·//·       Created: a year ago
 ·|/     ·/|·       ·//·         Languages:
- ·///////||·     ·//·                      ● Lua (90.4 %) ● Fish (4.1 %)
-    ···  ·|·    //·       ·/·              ● Python (2.0 %) ● BASH (1.8 %)
-         ·|·  /||·      ·//·               ● Shell (0.9 %) ● Scheme (0.3 %)
-         ·|//|//////···//·                 ● Other (0.4 %)
-         ·||/·     ·||||·       Authors: 76% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               24% 956MB <bays@956mb.com> 23
-      ·//·       /|/    ·|/     Last change: 2 minutes ago
+ ·///////|·      ·//·                      ● Lua (90.4 %) ● Fish (4.1 %)
+    ····       ·//·      ·/·               ● Python (2.0 %) ● BASH (1.8 %)
+             ·||·      ·//·                ● Shell (0.9 %) ● Scheme (0.3 %)
+           ·|//////···//·                  ● Other (0.4 %)
+         ·||/·     ·||||·       Authors: 75% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               25% 956MB <bays@956mb.com> 24
+      ·//·       /|/    ·|/     Last change: 4 minutes ago
     ·//·       ·//        //    URL: https://github.com/956MB/dotfiles.git
-  ·//·       ·//·         ·|·   Commits: 96
- //·       ·/||/··········/|/   Churn (3): …/plugins/colorscheme.lua 2
-··         ·/··////////////··              …/conf.d/aliases.fish 2
-                                           …/plugins/ui.lua 2
+  ·//·       ·//·         ·|·   Commits: 97
+ //·       ·/||/··········/|/   Churn (2): README.md 1
+··         ·/··////////////··              scripts/myalias.py 1
+                                           …/conf.d/aliases.fish 1
                                 Lines of code: 15694
                                 Size: 21.25 MiB (99 files)
                                 License: MIT
