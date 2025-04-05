@@ -21,6 +21,9 @@ alias z..='z ..'                                                       # Go up o
 alias ..='z ..'                                                        # Go up one directory using zoxide
 alias ...='z ../..'                                                    # Go up two directories using zoxide
 alias ....='z ../../..'                                                # Go up three directories using zoxide
+alias yy='yazi'                                                        # Open yazi
+alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'            # Count number of directories in the current directory (excluding hidden ones)
+alias alias='myalias'                                                  # Display all fish shell aliases with their descriptions
 alias l='eza --group-directories-first'                                # List with icons, directories first
 alias ls='eza --group-directories-first'                               # List with icons, directories first
 alias ll='eza -l --group-directories-first'                            # Long format with icons
@@ -105,16 +108,6 @@ alias skstop='skhd --stop-service'        # Stop skhd service
 
 ### Fish functions
 
-[ap.fish](./fish/functions/ap.fish)
-
-<sup>Prints out the content of an alias and the description if it has one in your alaises file</sup>
-
-```bash
-# ap gds
-
-gds -> 'git diff --stat' # Show diff stats (files changed, insertions, deletions)
-```
-
 [gcr.fish](./fish/functions/gcr.fish)
 
 <sup>Clones a repo from https/ssh, and as backup uses github cli</sup>
@@ -143,24 +136,24 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 
 ```python
    ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: 9734d20 (main)
-·|·      ·|·           ·//·     Pending: 2+- 9+
+ ·//·····/|/············/||/·   HEAD: e2aa327 (main, origin/main)
+·|·      ·|·           ·//·     Pending: 5+- 14+
 /|       ·|·         ·//·       Created: a year ago
 ·|/     ·/|·       ·//·         Languages:
- ·///////||·     ·//·                      ● Lua (90.8 %) ● Fish (4.0 %)
-    ···  ·|·    //·       ·/·              ● BASH (1.8 %) ● Python (1.8 %)
-         ·|·  /||·      ·//·               ● Shell (1.0 %) ● Scheme (0.3 %)
+ ·///////||·     ·//·                      ● Lua (90.4 %) ● Fish (4.1 %)
+    ···  ·|·    //·       ·/·              ● Python (2.0 %) ● BASH (1.8 %)
+         ·|·  /||·      ·//·               ● Shell (0.9 %) ● Scheme (0.3 %)
          ·|//|//////···//·                 ● Other (0.4 %)
-         ·||/·     ·||||·       Authors: 81% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               19% 956MB <bays@956mb.com> 17
-      ·//·       /|/    ·|/     Last change: a minute ago
+         ·||/·     ·||||·       Authors: 76% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               24% 956MB <bays@956mb.com> 23
+      ·//·       /|/    ·|/     Last change: 2 minutes ago
     ·//·       ·//        //    URL: https://github.com/956MB/dotfiles.git
-  ·//·       ·//·         ·|·   Commits: 90
- //·       ·/||/··········/|/   Churn (2): zellij/config.kdl 1
-··         ·/··////////////··              …/functions/nvm.fish 1
-                                           …/completions/fisher.fish 1
-                                Lines of code: 15606
-                                Size: 21.24 MiB (96 files)
+  ·//·       ·//·         ·|·   Commits: 96
+ //·       ·/||/··········/|/   Churn (3): …/plugins/colorscheme.lua 2
+··         ·/··////////////··              …/conf.d/aliases.fish 2
+                                           …/plugins/ui.lua 2
+                                Lines of code: 15694
+                                Size: 21.25 MiB (99 files)
                                 License: MIT
 ```
 
