@@ -9,6 +9,7 @@ alias ...='z ../..'      # Go up two directories using zoxide
 alias ....='z ../../..'  # Go up three directories using zoxide
 alias yy='yazi'          # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
+alias alias='myalias'    # Display all fish shell aliases with their descriptions
 
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>
@@ -40,12 +41,12 @@ else
 end
 
 alias cls='clear'                                                      # Clear the terminal screen
-alias oldtop="/usr/bin/top"                                            # Run the original top command
-alias ff="fastfetch --logo dotfiles/ascii_logo.txt"                    # Display system information using neofetch and my ascii_logo
-alias nf="neofetch"                                                    # Display system information using neofetch
-alias of="onefetch --no-color-palette --include-hidden -E --no-title"  # Display git repository information using onefetch
-alias ep="echo \$PATH"                                                 # Print the PATH environment variable
-alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
+alias oldtop='usr/bin/top'                                            # Run the original top command
+alias ff='fastfetch --logo dotfiles/ascii_logo.txt'                    # Display system information using neofetch and my ascii_logo
+alias nf='neofetch'                                                    # Display system information using neofetch
+alias of='onefetch --no-color-palette --include-hidden -E --no-title'  # Display git repository information using onefetch
+alias ep='echo \$PATH'                                                 # Print the PATH environment variable
+alias resh='source ~/.config/fish/config.fish'                         # Reload the fish configuration
 
 # Git aliases
 alias ga='git add'                      # Stage changes
