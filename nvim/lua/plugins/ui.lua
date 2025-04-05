@@ -390,30 +390,38 @@ return {
             local dashboard = require 'alpha.themes.dashboard'
             local theta = require 'alpha.themes.theta'
             local cdir = vim.fn.getcwd()
+            local mru_list = theta.mru(0, cdir, 5)
             dashboard.section.buttons.val = {
                 {
                     type = 'group',
-                    val = {
-                        {
-                            type = 'text',
-                            val = 'Recent files',
-                            opts = {
-                                hl = 'SpecialComment',
-                                shrink_margin = false,
-                                position = 'center',
-                            },
-                        },
-                        { type = 'padding', val = 1 },
-                        {
-                            type = 'group',
-                            val = function()
-                                return { theta.mru(0, cdir, 5) }
-                            end,
-                            opts = { shrink_margin = false },
-                        },
-                    },
+                    val = function()
+                        if #mru_list.val > 0 then
+                            return {
+                                {
+                                    type = 'text',
+                                    val = 'Recent files',
+                                    opts = {
+                                        hl = 'SpecialComment',
+                                        shrink_margin = false,
+                                        position = 'center',
+                                    },
+                                },
+                                { type = 'padding', val = 1 },
+                                {
+                                    type = 'group',
+                                    val = function()
+                                        return { mru_list }
+                                    end,
+                                    opts = { shrink_margin = false },
+                                },
+                                { type = 'padding', val = 1 },
+                            }
+                        else
+                            return {}
+                        end
+                    end,
                 },
-                { type = 'padding', val = 1 },
+                { type = 'padding', val = #mru_list.val > 0 and 1 or 0 },
                 { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
                 { type = 'padding', val = 1 },
                 {
