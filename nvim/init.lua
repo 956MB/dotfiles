@@ -1,3 +1,5 @@
 require 'config.options'
+require 'config.diagnostics'
 require 'config.filetypes'
 require 'config.lazy'
+require 'config.autocmds'

@@ -386,6 +386,21 @@ return {
                         },
                     },
                 },
+                pylsp = {
+                    settings = {
+                        pylsp = {
+                            plugins = {
+                                pycodestyle = {
+                                    ignore = { 'E302', 'E501', 'E305' }, -- Ignore blank lines and line length warnings
+                                    maxLineLength = 400,
+                                },
+                                flake8 = {
+                                    enabled = false,
+                                },
+                            },
+                        },
+                    },
+                },
             }
 
             -- Mason setup
