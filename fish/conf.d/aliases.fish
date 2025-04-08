@@ -9,7 +9,6 @@ alias ...='z ../..'      # Go up two directories using zoxide
 alias ....='z ../../..'  # Go up three directories using zoxide
 alias yy='yazi'          # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
-alias alias='myalias'    # Display all fish shell aliases with their descriptions
 
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>

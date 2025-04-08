@@ -9,15 +9,14 @@ end
 # Fix fish Ctrl+C
 bind \cC 'echo; commandline ""; commandline -f repaint'
 
-# Load environment detection and core settings
-source ~/.config/fish/conf.d/env.fish
-
 # Path configurations
 fish_add_path "$HOME/dotfiles/scripts"
 fish_add_path ~/.npm-global/bin
 fish_add_path /usr/bin
 fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/Library/Python/3.9/bin"
+fish_add_path /opt/homebrew/bin/zig
+fish_add_path "$HOME/.cargo/bin"
 
 if test "$IS_MAC" = true
     fish_add_path /usr/local/opt/coreutils/libexec/gnubin
@@ -54,12 +53,4 @@ fish_add_path "$PNPM_HOME"
 eval /Users/bays/miniforge3/bin/conda "shell.fish" hook $argv | source
 # <<< conda initialize <<<
 
-set -gx PATH /opt/homebrew/bin/zig $PATH
-
-# Run zellij for new tabs
-# if status is-interactive && not set -q ZELLIJ
-#     exec zellij
-# end
-
 starship init fish | source
-export PATH="$HOME/.cargo/bin:$PATH"
