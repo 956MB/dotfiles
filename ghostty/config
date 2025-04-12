@@ -67,3 +67,5 @@ window-padding-y = 4
 window-padding-balance = true
 
 macos-titlebar-style = tabs
+
+mouse-hide-while-typing = true

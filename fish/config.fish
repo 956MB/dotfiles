@@ -15,8 +15,13 @@ fish_add_path ~/.npm-global/bin
 fish_add_path /usr/bin
 fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/Library/Python/3.9/bin"
-fish_add_path /opt/homebrew/bin/zig
+# fish_add_path /opt/homebrew/bin/zig
+fish_add_path "$HOME/.zvm/bin"
 fish_add_path "$HOME/.cargo/bin"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
 
 if test "$IS_MAC" = true
     fish_add_path /usr/local/opt/coreutils/libexec/gnubin
@@ -50,7 +55,7 @@ fish_add_path "$PNPM_HOME"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-eval /Users/bays/miniforge3/bin/conda "shell.fish" hook $argv | source
+# eval /Users/bays/miniforge3/bin/conda "shell.fish" hook $argv | source
 # <<< conda initialize <<<
 
 starship init fish | source

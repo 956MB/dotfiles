@@ -2,7 +2,7 @@ function zsde --description "Delete all exited zellij sessions except those spec
     set -l exclude_pattern $argv[1]
 
     if test -z "$exclude_pattern"
-        set exclude_pattern "^$"
+        set exclude_pattern "^" # Default to an empty string if no argument is given
     end
 
     zellij ls -n | grep EXITED | grep -v "$exclude_pattern" | awk '{print $1}' | xargs -I {} zellij d {}

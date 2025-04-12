@@ -136,3 +136,11 @@ function SetWindowPadding()
         api.nvim_set_option_value('winbar', nil, { win = win })
     end
 end
+
+-- Disable automatic comment insertion on new lines
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = '*',
+    callback = function()
+        vim.opt_local.formatoptions:remove { 'r', 'o' }
+    end,
+})

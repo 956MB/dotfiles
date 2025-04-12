@@ -289,7 +289,14 @@ map('n', '<leader>u', '<cmd>Telescope undo<cr>', 'Undo (Telescope)')
 
 -- Diagnostic keymaps
 map('n', '[d', vim.diagnostic.goto_prev, 'Go to previous [D]iagnostic message')
-map('n', '<leader>q', vim.diagnostic.setloclist, 'Open diagnostic [Q]uickfix list')
+map('n', ']d', vim.diagnostic.goto_next, 'Go to next [D]iagnostic message')
+map('n', '[l', function() 
+    vim.diagnostic.goto_prev({ float = false }) 
+end, 'Go to previous diagnostic location (no popup)')
+map('n', ']l', function() 
+    vim.diagnostic.goto_next({ float = false }) 
+end, 'Go to next diagnostic location (no popup)')
+-- map('n', '<leader>q', vim.diagnostic.setloclist, 'Open diagnostic [Q]uickfix list')
 
 -- YankBank
 map('n', '<leader>y', '<cmd>YankBank<CR>', 'Open YankBank popup')

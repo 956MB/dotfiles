@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.diagnostic.config {
             virtual_lines = false,
             virtual_text = true,
-            underline = false,
+            underline = true,
         }
     end,
 })

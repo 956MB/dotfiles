@@ -1,13 +1,14 @@
 # General aliases
-alias v='nvim'           # Open neovim
-alias nv='nvim'          # Open neovim (alternative)
-alias z-='z -'           # Navigate to previous directory using zoxide
-alias cd..='z ..'        # Go up one directory using zoxide
-alias z..='z ..'         # Go up one directory using zoxide (alternative)
-alias ..='z ..'          # Go up one directory using zoxide
-alias ...='z ../..'      # Go up two directories using zoxide
-alias ....='z ../../..'  # Go up three directories using zoxide
-alias yy='yazi'          # Open yazi
+alias v='nvim'                                               # Open neovim
+alias nv='nvim'                                              # Open neovim (alternative)
+alias z-='z -'                                               # Navigate to previous directory using zoxide
+alias cd..='z ..'                                            # Go up one directory using zoxide
+alias z..='z ..'                                             # Go up one directory using zoxide (alternative)
+alias ..='z ..'                                              # Go up one directory using zoxide
+alias ...='z ../..'                                          # Go up two directories using zoxide
+alias ....='z ../../..'                                      # Go up three directories using zoxide
+alias zfreq='zoxide query -l'                                # List most frequently used directories
+alias yy='yazi'                                              # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
 
 # Zellij aliases
