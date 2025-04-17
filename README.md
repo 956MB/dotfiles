@@ -106,7 +106,11 @@ alias skstop='skhd --stop-service'        # Stop skhd service
 
 ---
 
-### Fish functions
+### Scripts & Fish functions
+
+[aliaz](./scripts/zig/aliaz)
+
+<sup>A better `alias` command, and my first thing written in Zig for fun. Uses color and description comments in `fish/conf.d/aliases.fish`.</sup>
 
 [gcr.fish](./fish/functions/gcr.fish)
 
