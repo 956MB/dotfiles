@@ -15,7 +15,7 @@ fish_add_path ~/.npm-global/bin
 fish_add_path /usr/bin
 fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/Library/Python/3.9/bin"
-# fish_add_path /opt/homebrew/bin/zig
+fish_add_path "$HOME/dotfiles/scripts/zig/zig-out/bin"
 fish_add_path "$HOME/.zvm/bin"
 fish_add_path "$HOME/.cargo/bin"
 
@@ -59,3 +59,8 @@ fish_add_path "$PNPM_HOME"
 # <<< conda initialize <<<
 
 starship init fish | source
+
+# ZVM
+set -gx ZVM_INSTALL "$HOME/.zvm/self"
+set -gx PATH $PATH "$HOME/.zvm/bin"
+set -gx PATH $PATH "$ZVM_INSTALL/"

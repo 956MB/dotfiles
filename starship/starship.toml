@@ -57,17 +57,17 @@ $character"""
 ## FIRST LINE/ROW: Info & Status
 # First param ─┌
 [username]
-format = " [╭─](blue)[$user]($style)@"
+format = " [╭─](blue)[$user]($style)"
 style_user = "bold blue"
 style_root = "bold red"
 show_always = true
 
 # Second param
 [hostname]
-format = "[956]($style) "
+format = "(white)@[ssh]($style)"
 style = "bold blue"
 trim_at = "-"
-ssh_only = false
+ssh_only = true
 disabled = false
 
 # Battery after host
@@ -98,7 +98,7 @@ disabled = false
 
 # Location
 [directory]
-format = "in [$path]($style)[$read_only]($read_only_style) "
+format = " in [$path]($style)[$read_only]($read_only_style) "
 style = "purple"
 truncation_length = 0
 truncate_to_repo = true

@@ -10,6 +10,8 @@ ssh/id_githubmacos2025*
 .env.gpa
 fish_variables
 _*.fish
+.zig-cache/
+zig-out/
 
 zsh/plugins/*
 lazygit/state.yml

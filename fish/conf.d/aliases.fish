@@ -41,7 +41,7 @@ else
 end
 
 alias cls='clear'                                                      # Clear the terminal screen
-alias oldtop='usr/bin/top'                                            # Run the original top command
+alias oldtop='usr/bin/top'                                             # Run the original top command
 alias ff='fastfetch --logo dotfiles/ascii_logo.txt'                    # Display system information using neofetch and my ascii_logo
 alias nf='neofetch'                                                    # Display system information using neofetch
 alias of='onefetch --no-color-palette --include-hidden -E --no-title'  # Display git repository information using onefetch

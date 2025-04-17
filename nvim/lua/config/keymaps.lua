@@ -166,8 +166,15 @@ map('n', '<leader>gx', function()
     require('vgit').toggle_diff_preference()
 end, 'Toggle diff display mode')
 
+map('n', '<leader>gs', function()
+    local buf = vim.api.nvim_get_current_buf()
+    local current = vim.b[buf].gitsigns_disable or false
+    vim.b[buf].gitsigns_disable = not current
+    require('gitsigns').refresh()
+end, 'Toggle [G]it[S]igns')
+
 -- Toggle gitsigns
-map('n', '<leader>gs', '<cmd>lua require("gitsigns").toggle_signs()<CR>', 'Toggle [G]it[S]igns')
+-- map('n', '<leader>gs', '<cmd>lua require("gitsigns").toggle_signs()<CR>', 'Toggle [G]it[S]igns')
 
 -- Toggle Conceal and Spell (Markdown)
 map('n', '<leader>md', function()
@@ -290,11 +297,11 @@ map('n', '<leader>u', '<cmd>Telescope undo<cr>', 'Undo (Telescope)')
 -- Diagnostic keymaps
 map('n', '[d', vim.diagnostic.goto_prev, 'Go to previous [D]iagnostic message')
 map('n', ']d', vim.diagnostic.goto_next, 'Go to next [D]iagnostic message')
-map('n', '[l', function() 
-    vim.diagnostic.goto_prev({ float = false }) 
+map('n', '[l', function()
+    vim.diagnostic.goto_prev { float = false }
 end, 'Go to previous diagnostic location (no popup)')
-map('n', ']l', function() 
-    vim.diagnostic.goto_next({ float = false }) 
+map('n', ']l', function()
+    vim.diagnostic.goto_next { float = false }
 end, 'Go to next diagnostic location (no popup)')
 -- map('n', '<leader>q', vim.diagnostic.setloclist, 'Open diagnostic [Q]uickfix list')
 

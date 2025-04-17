@@ -1,0 +1,16 @@
+.{
+    .name = "zig-scripts",
+    .version = "0.0.0",
+    .minimum_zig_version = "0.14.0",
+    .dependencies = .{
+        .regex = .{
+            .url = "git+https://github.com/tiehuis/zig-regex.git#7bc0fd777c3b92c51a94531439e5913bda24030c",
+            .hash = "1220b497739b6fd60f627da85862cbd0cec01f3d6b7ddaa923057a7999ecfa138704",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "aliaz.zig",
+    },
+}

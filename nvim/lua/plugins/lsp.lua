@@ -391,7 +391,9 @@ return {
                         pylsp = {
                             plugins = {
                                 pycodestyle = {
-                                    ignore = { 'E302', 'E501', 'E305' }, -- Ignore blank lines and line length warnings
+                                    -- Ignore python warnings:
+                                    -- blank lines, line length warnings, multiple imports on one line, missing whitespace around arithmetic operator
+                                    ignore = { 'E302', 'E501', 'E305', 'E401', 'E226' },
                                     maxLineLength = 400,
                                 },
                                 flake8 = {
