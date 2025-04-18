@@ -18,6 +18,15 @@ alias zsl='zellij ls'                 # List zellij sessions
 alias zsk='zellij k'                  # Kill zellij session <name>
 alias zsd='zellij d'                  # Delete zellij session <name>
 
+# zigup aliases
+alias zup='zigup'                 # <version>: Fetch compiler and set default
+alias zupf='zigup fetch'          # <version>: Fetch Zig compiler
+alias zupls='zigup list'          # List installed Zig versions
+alias zupdef='zigup default'      # Set global Zig version
+alias zupcl='zigup cleanup'       # Clean compilers that aren't default/master/keep
+alias zupkp='zigup keep'          # <version>: Mark compiler as keep
+alias zupr='zigup run'            # <version> <args>: Run specific compiler
+
 if type -q eza
     alias l='eza --group-directories-first'                    # List with icons, directories first
     alias ls='eza --group-directories-first'                   # List with icons, directories first
