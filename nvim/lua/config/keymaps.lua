@@ -10,6 +10,8 @@ end
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+map('n', 'q', '<Nop>', 'Disable q in normal mode')
+
 map('n', '9', '$', 'Go to end of line', { noremap = true })
 
 -- Select all file contents with ctrl+a
@@ -60,8 +62,8 @@ map('n', '<leader><leader>x', '<cmd>source %<CR>', 'Reload File')
 map('n', '<C-S-y>', ':%y+<CR>', 'Copy all to clipboard')
 
 -- Ctrl+s to save
-map('i', '<C-s>', '<ESC>:w<CR>', '[S]ave')
-map('n', '<C-s>', ':w<CR>', '[S]ave')
+map('i', '<C-s>', '<ESC>:noa w<CR>', '[S]ave')
+map('n', '<C-s>', ':noa w<CR>', '[S]ave')
 
 -- Remap tab and shift+tab for indenting
 map('n', '<Tab>', ':><CR>', '[T]ab forward (4, Normal)')
@@ -238,24 +240,24 @@ map('n', '<leader>hs', ':split<CR>', 'Horizontal split')
 map('n', '<leader>dd', '<C-w>c', 'Close split')
 
 -- Xcodebuild / sourcekit-lsp
-map('n', '<leader>X', '<cmd>XcodebuildPicker<cr>', 'Show Xcodebuild Actions')
-map('n', '<leader>xf', '<cmd>XcodebuildProjectManager<cr>', 'Show Project Manager Actions')
-map('n', '<leader>xb', '<cmd>XcodebuildBuild<cr>', 'Build Project')
-map('n', '<leader>xB', '<cmd>XcodebuildBuildForTesting<cr>', 'Build For Testing')
-map('n', '<leader>xr', '<cmd>XcodebuildBuildRun<cr>', 'Build & Run Project')
-map('n', '<leader>xt', '<cmd>XcodebuildTest<cr>', 'Run Tests')
-map('v', '<leader>xt', '<cmd>XcodebuildTestSelected<cr>', 'Run Selected Tests')
-map('n', '<leader>xT', '<cmd>XcodebuildTestClass<cr>', 'Run This Test Class')
-map('n', '<leader>xl', '<cmd>XcodebuildToggleLogs<cr>', 'Toggle Xcodebuild Logs')
-map('n', '<leader>xc', '<cmd>XcodebuildToggleCodeCoverage<cr>', 'Toggle Code Coverage')
-map('n', '<leader>xC', '<cmd>XcodebuildShowCodeCoverageReport<cr>', 'Show Code Coverage Report')
-map('n', '<leader>xe', '<cmd>XcodebuildTestExplorerToggle<cr>', 'Toggle Test Explorer')
-map('n', '<leader>xs', '<cmd>XcodebuildFailingSnapshots<cr>', 'Show Failing Snapshots')
-map('n', '<leader>xd', '<cmd>XcodebuildSelectDevice<cr>', 'Select Device')
-map('n', '<leader>xp', '<cmd>XcodebuildSelectTestPlan<cr>', 'Select Test Plan')
-map('n', '<leader>xq', '<cmd>Telescope quickfix<cr>', 'Show QuickFix List')
-map('n', '<leader>xx', '<cmd>XcodebuildQuickfixLine<cr>', 'Quickfix Line')
-map('n', '<leader>xa', '<cmd>XcodebuildCodeActions<cr>', 'Show Code Actions')
+-- map('n', '<leader>X', '<cmd>XcodebuildPicker<cr>', 'Show Xcodebuild Actions')
+-- map('n', '<leader>xf', '<cmd>XcodebuildProjectManager<cr>', 'Show Project Manager Actions')
+-- map('n', '<leader>xb', '<cmd>XcodebuildBuild<cr>', 'Build Project')
+-- map('n', '<leader>xB', '<cmd>XcodebuildBuildForTesting<cr>', 'Build For Testing')
+-- map('n', '<leader>xr', '<cmd>XcodebuildBuildRun<cr>', 'Build & Run Project')
+-- map('n', '<leader>xt', '<cmd>XcodebuildTest<cr>', 'Run Tests')
+-- map('v', '<leader>xt', '<cmd>XcodebuildTestSelected<cr>', 'Run Selected Tests')
+-- map('n', '<leader>xT', '<cmd>XcodebuildTestClass<cr>', 'Run This Test Class')
+-- map('n', '<leader>xl', '<cmd>XcodebuildToggleLogs<cr>', 'Toggle Xcodebuild Logs')
+-- map('n', '<leader>xc', '<cmd>XcodebuildToggleCodeCoverage<cr>', 'Toggle Code Coverage')
+-- map('n', '<leader>xC', '<cmd>XcodebuildShowCodeCoverageReport<cr>', 'Show Code Coverage Report')
+-- map('n', '<leader>xe', '<cmd>XcodebuildTestExplorerToggle<cr>', 'Toggle Test Explorer')
+-- map('n', '<leader>xs', '<cmd>XcodebuildFailingSnapshots<cr>', 'Show Failing Snapshots')
+-- map('n', '<leader>xd', '<cmd>XcodebuildSelectDevice<cr>', 'Select Device')
+-- map('n', '<leader>xp', '<cmd>XcodebuildSelectTestPlan<cr>', 'Select Test Plan')
+-- map('n', '<leader>xq', '<cmd>Telescope quickfix<cr>', 'Show QuickFix List')
+-- map('n', '<leader>xx', '<cmd>XcodebuildQuickfixLine<cr>', 'Quickfix Line')
+-- map('n', '<leader>xa', '<cmd>XcodebuildCodeActions<cr>', 'Show Code Actions')
 
 -- ncks.nvim
 map('n', '<leader>nn', '<cmd>NcksNew<cr>', 'Add [N]ew [N]ickname')

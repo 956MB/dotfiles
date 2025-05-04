@@ -21,9 +21,9 @@ return {
         -- 'stevearc/oil.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/oil.nvim',
         name = 'oil.nvim',
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons' },
-        },
+        -- dependencies = {
+        --     { 'nvim-tree/nvim-web-devicons' },
+        -- },
         config = function()
             require('oil').setup {
                 default_file_explorer = true,
@@ -102,9 +102,9 @@ return {
     },
 
     { -- Better quickfix window
-        -- 'stevearc/quicker.nvim',
-        dir = '~/dotfiles/nvim/lua/plugins/custom/quicker.nvim',
-        branch = 'QuickFixCursorLineNr',
+        'stevearc/quicker.nvim',
+        -- dir = '~/dotfiles/nvim/lua/plugins/custom/quicker.nvim',
+        -- branch = 'QuickFixCursorLineNr',
         event = 'FileType qf',
         config = function()
             require('quicker').setup {

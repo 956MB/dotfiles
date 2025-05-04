@@ -146,8 +146,8 @@ keybinds clear-defaults=true {
         bind "Alt ]" { NextSwapLayout; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Alt i" { MoveTab "left"; }
-        bind "Ctrl j" { MoveFocus "up"; }
-        bind "Ctrl k" { MoveFocus "down"; }
+        // bind "Ctrl j" { MoveFocus "up"; }
+        // bind "Ctrl k" { MoveFocus "down"; }
         bind "Alt n" { NewPane; }
         bind "Alt o" { MoveTab "right"; }
         bind "PageUp" { PageScrollUp; }

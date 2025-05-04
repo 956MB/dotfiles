@@ -1,18 +1,18 @@
 return {
-    { -- Go Language Support
-        'ray-x/go.nvim',
-        dependencies = { -- optional packages
-            'ray-x/guihua.lua',
-            'neovim/nvim-lspconfig',
-            'nvim-treesitter/nvim-treesitter',
-        },
-        config = function()
-            require('go').setup()
-        end,
-        -- event = { 'CmdlineEnter' },
-        ft = { 'go', 'gomod' },
-        build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-    },
+    -- { -- Go Language Support
+    --     'ray-x/go.nvim',
+    --     dependencies = { -- optional packages
+    --         'ray-x/guihua.lua',
+    --         'neovim/nvim-lspconfig',
+    --         'nvim-treesitter/nvim-treesitter',
+    --     },
+    --     config = function()
+    --         require('go').setup()
+    --     end,
+    --     -- event = { 'CmdlineEnter' },
+    --     ft = { 'go', 'gomod' },
+    --     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+    -- },
 
     { -- Autocompletion
         'hrsh7th/nvim-cmp',
@@ -226,26 +226,40 @@ return {
                         'clangd',
                         '--background-index',
                         '--clang-tidy',
-                        '--header-insertion=iwyu',
                         '--completion-style=detailed',
-                        '--function-arg-placeholders',
-                        '--fallback-style=llvm',
-                        '--query-driver=/usr/bin/arm-none-eabi-gcc', -- Add this
-                        '--compile-commands-dir=build/latest', -- Add this
-                        '--all-scopes-completion', -- Add this
+                        '--function-arg-placeholders=0', 
+                        '--query-driver=/Applications/ArmGNUToolchain/14.2.rel1/bin/arm-none-eabi-gcc',
+                        '--compile-commands-dir=build/latest',
                     },
                     capabilities = {
                         offsetEncoding = 'utf-16',
                     },
-                    init_options = {
-                        usePlaceholders = true,
-                        completeUnimported = true,
-                        clangdFileStatus = true,
-                    },
-                    root_dir = function(fname)
-                        return require('lspconfig').util.root_pattern('compile_commands.json', '.clangd', '.git')(fname)
-                    end,
                 },
+                -- clangd = {
+                --     cmd = {
+                --         'clangd',
+                --         '--background-index',
+                --         '--clang-tidy',
+                --         '--header-insertion=iwyu',
+                --         '--completion-style=detailed',
+                --         '--function-arg-placeholders',
+                --         '--fallback-style=llvm',
+                --         '--query-driver=/usr/bin/arm-none-eabi-gcc', -- Add this
+                --         '--compile-commands-dir=build/latest', -- Add this
+                --         '--all-scopes-completion', -- Add this
+                --     },
+                --     capabilities = {
+                --         offsetEncoding = 'utf-16',
+                --     },
+                --     init_options = {
+                --         usePlaceholders = true,
+                --         completeUnimported = true,
+                --         clangdFileStatus = true,
+                --     },
+                --     root_dir = function(fname)
+                --         return require('lspconfig').util.root_pattern('compile_commands.json', '.clangd', '.git')(fname)
+                --     end,
+                -- },
                 rust_analyzer = {
                     settings = {
                         ['rust-analyzer'] = {

@@ -43,6 +43,7 @@ return {
     { -- Running tests
         'nvim-neotest/neotest',
         dependencies = {
+            'nvim-neotest/nvim-nio',
             'nvim-lua/plenary.nvim',
             'antoinemadec/FixCursorHold.nvim',
             'rouge8/neotest-rust',
@@ -125,6 +126,10 @@ return {
             -- - sd'   - [S]urround [D]elete [']quotes
             -- - sr)'  - [S]urround [R]eplace [)] [']
             require('mini.surround').setup()
+
+            -- require('mini.icons').setup {
+            --     style = 'ascii', -- Use ascii style to avoid icons
+            -- }
         end,
     },
 
@@ -251,26 +256,26 @@ return {
                 cycle_results = true,
             }
 
-            vim.api.nvim_create_autocmd('User', {
-                pattern = { 'XcodebuildBuildFinished', 'XcodebuildTestsFinished' },
-                callback = function(event)
-                    if event.data.cancelled then
-                        return
-                    end
-
-                    if event.data.success then
-                        require('trouble').close()
-                    elseif not event.data.failedCount or event.data.failedCount > 0 then
-                        if next(vim.fn.getqflist()) then
-                            require('trouble').open { focus = false }
-                        else
-                            require('trouble').close()
-                        end
-
-                        require('trouble').refresh()
-                    end
-                end,
-            })
+            -- vim.api.nvim_create_autocmd('User', {
+            --     pattern = { 'XcodebuildBuildFinished', 'XcodebuildTestsFinished' },
+            --     callback = function(event)
+            --         if event.data.cancelled then
+            --             return
+            --         end
+            --
+            --         if event.data.success then
+            --             require('trouble').close()
+            --         elseif not event.data.failedCount or event.data.failedCount > 0 then
+            --             if next(vim.fn.getqflist()) then
+            --                 require('trouble').open { focus = false }
+            --             else
+            --                 require('trouble').close()
+            --             end
+            --
+            --             require('trouble').refresh()
+            --         end
+            --     end,
+            -- })
         end,
     },
 

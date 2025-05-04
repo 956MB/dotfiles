@@ -10,6 +10,7 @@ alias ....='z ../../..'                                      # Go up three direc
 alias zfreq='zoxide query -l'                                # List most frequently used directories
 alias yy='yazi'                                              # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
+alias func='functions'                                       # List all functions
 
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>

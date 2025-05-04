@@ -219,20 +219,20 @@ return {
         end,
     },
 
-    { -- Git diff previews
-        'tanvirtin/vgit.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
-        event = 'VimEnter',
-        config = function()
-            require('vgit').setup {
-                settings = {
-                    live_blame = {
-                        enabled = false,
-                    },
-                },
-            }
-        end,
-    },
+    -- { -- Git diff previews
+    --     'tanvirtin/vgit.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
+    --     event = 'VimEnter',
+    --     config = function()
+    --         require('vgit').setup {
+    --             settings = {
+    --                 live_blame = {
+    --                     enabled = false,
+    --                 },
+    --             },
+    --         }
+    --     end,
+    -- },
 
     { -- Something for deleting tabs and buffers
         'famiu/bufdelete.nvim',
@@ -241,7 +241,7 @@ return {
     { -- Tabs
         'akinsho/bufferline.nvim',
         version = '*',
-        dependencies = 'nvim-tree/nvim-web-devicons',
+        -- dependencies = 'nvim-tree/nvim-web-devicons',
         opts = function(_, opts)
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
@@ -289,17 +289,17 @@ return {
 
     { -- Statusline
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        -- dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = function(_, opts)
-            local function xcodebuild_device()
-                if vim.g.xcodebuild_platform == 'macOS' then
-                    return ' macOS'
-                end
-                if vim.g.xcodebuild_os then
-                    return ' ' .. vim.g.xcodebuild_device_name .. ' (' .. vim.g.xcodebuild_os .. ')'
-                end
-                return ' ' .. vim.g.xcodebuild_device_name
-            end
+            -- local function xcodebuild_device()
+            --     if vim.g.xcodebuild_platform == 'macOS' then
+            --         return ' macOS'
+            --     end
+            --     if vim.g.xcodebuild_os then
+            --         return ' ' .. vim.g.xcodebuild_device_name .. ' (' .. vim.g.xcodebuild_os .. ')'
+            --     end
+            --     return ' ' .. vim.g.xcodebuild_device_name
+            -- end
 
             -- filename.ext \\\ line:col
             local function inactive_statusline()
@@ -351,7 +351,7 @@ return {
             opts.sections.lualine_y = opts.sections.lualine_x
             opts.sections.lualine_x = {
                 { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
-                { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
+                -- { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
                 'encoding',
                 { 'g:metals_status' },
             }
@@ -384,7 +384,7 @@ return {
         'goolord/alpha-nvim',
         event = 'VimEnter',
         enabled = true,
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        -- dependencies = { 'nvim-tree/nvim-web-devicons' },
         init = false,
         opts = function()
             local dashboard = require 'alpha.themes.dashboard'

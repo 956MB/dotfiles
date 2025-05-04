@@ -18,7 +18,10 @@ fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/Library/Python/3.9/bin"
 fish_add_path "$HOME/.zvm/bin"
 fish_add_path "$HOME/.cargo/bin"
+
 # bun
+set llvm_bin (brew --prefix llvm@19)/bin
+fish_add_path $llvm_bin
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 

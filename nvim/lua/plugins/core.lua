@@ -10,4 +10,9 @@ return {
             },
         },
     },
+
+    { -- visualize nvim plugin sizes
+        'dundalek/bloat.nvim',
+        cmd = 'Bloat',
+    },
 }
