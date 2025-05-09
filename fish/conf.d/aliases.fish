@@ -1,3 +1,10 @@
+# e.g.: alias ll='ls -l' # List files in long format
+#       ^     ^   ^      ^
+#       |     |   |      |-- Description (optional)
+#       |     |   |--------- Content (command)
+#       |     |------------- Key (alias name)
+#       |------------------- Alias definition
+
 # General aliases
 alias v='nvim'                                               # Open neovim
 alias nv='nvim'                                              # Open neovim (alternative)
@@ -11,6 +18,15 @@ alias zfreq='zoxide query -l'                                # List most frequen
 alias yy='yazi'                                              # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
 alias func='functions'                                       # List all functions
+
+# Tailscale aliases (watch out for close "tsc" command (typescript compiler))
+alias ts='tailscale'                                         # Tailscale command
+alias tsup='tailscale up'                                    # Start Tailscale
+alias tsdown='tailscale down'                                # Stop Tailscale
+alias tss='tailscale status'                                 # Show Tailscale status
+alias tsip='tailscale ip'                                    # Show Tailscale IPv4 address
+alias tssh='tailscale ssh'                                   # SSH into a Tailscale machine
+# TODO: Add more from the `tailscale --help`
 
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>

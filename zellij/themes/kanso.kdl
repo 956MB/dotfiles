@@ -1,0 +1,16 @@
+themes {
+    kanso {
+        fg 112 112 112
+        bg 40 40 40
+        black 24 24 24
+        red 250 44 58
+        green 114 137 182 // yellow (main border)
+        // green 151 89 174 // purple
+        yellow 220 220 170
+        blue 55 148 255
+        magenta 131 167 101 // 167 132 171 (the magenta from before)
+        cyan 78 201 176
+        white 255 255 255
+        orange 203 127 79
+    }
+}

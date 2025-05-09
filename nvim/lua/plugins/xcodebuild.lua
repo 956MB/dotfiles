@@ -1,6 +1,6 @@
 -- local progress_handle
 --
--- return {
+return {
 --     {
 --         'wojciech-kulik/xcodebuild.nvim',
 --         dependencies = {
@@ -113,4 +113,4 @@
 --     },
 --
 --     { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
--- }
+}

@@ -11,26 +11,26 @@ gui:
   shortTimeFormat: "3:04PM"
   theme:
     activeBorderColor:
-      - '#3794FF'
+      - '#7c98c7'
       - bold
     inactiveBorderColor:
-      - '#707070'
+      - '#868686'
     optionsTextColor:
-      - '#CE9178'
+      - '#cb7f4f'
     selectedLineBgColor:
-      - '#04395E'
+      - '#52596a'
     cherryPickedCommitBgColor:
-      - '#181818'
+      - '#181818'  # keeping dark background
     cherryPickedCommitFgColor:
-      - '#C586c0'
+      - '#a784ab'
     unstagedChangesColor:
-      - '#F14C4C'
+      - '#e03c30'
     defaultFgColor:
-      - '#CCCCCC'
+      - '#CDCDCD'
     searchingActiveBorderColor:
-      - '#4EC9B0'
+      - '#7ab0a8'
   authorColors:
-    '*': '#4EC9B0'
+    '*': '#7ab0a8'
   commitLength:
     show: true
   mouseEvents: true
@@ -52,7 +52,7 @@ git:
   paging:
     colorArg: always
     # useConfig: false
-    pager: delta --syntax-theme "Visual Studio Dark+"  --paging=never
+    pager: delta --syntax-theme "kanso"  --paging=never
   commit:
     signOff: false
   merging:

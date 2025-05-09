@@ -73,6 +73,9 @@ return {
         dependencies = {
             'rcarriga/nvim-notify',
         },
+        keys = function()
+            return {}
+        end,
         config = function()
             require('noice').setup {
                 lsp = {
@@ -432,9 +435,9 @@ return {
                         dashboard.button('n', ' ' .. ' New file', '<cmd> ene <CR>'),
                         dashboard.button('r', ' ' .. ' Recent files', '<cmd> Telescope oldfiles <CR>'),
                         dashboard.button('c', ' ' .. ' Config', '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
-                        -- dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
+                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
                         dashboard.button(
-                            's',
+                            'x',
                             '󰁯 ' .. ' Restore Session',
                             '<cmd>lua require("persistence").load() vim.defer_fn(function() vim.cmd("doautocmd User SessionLoadPost") end, 10)<CR>'
                         ),
@@ -458,10 +461,10 @@ return {
    ·|·      ·|·           ·//·     
    /|       ·|·         ·//·       
    ·|/     ·/|·       ·//·         
-    ·///////||·     ·//·           
-       ···  ·|·    //·       ·/·   
-            ·|·  /||·      ·//·    
-            ·|//|//////···//·      
+    ·///////|·      ·//·           
+       ·····       //·       ·/·   
+                 /||·      ·//·    
+              //|//////···//·      
             ·||/·     ·||||·       
            ·//·       ///·//·      
          ·//·       /|/    ·|/     

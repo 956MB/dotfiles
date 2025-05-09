@@ -64,11 +64,11 @@ show_always = true
 
 # Second param
 [hostname]
-format = "(white)@[ssh]($style)"
+format = '@[$hostname]($style)'
 style = "bold blue"
-trim_at = "-"
 ssh_only = true
 disabled = false
+aliases = { "AlexandacStudio" = "macstudio", "MacBookPro" = "macbookpro" }
 
 # Battery after host
 [battery]

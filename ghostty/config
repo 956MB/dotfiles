@@ -1,8 +1,47 @@
-# neutral:
+# Kanso zen
+# palette = 0=#090E13
+# palette = 1=#c4746e
+# palette = 2=#8a9a7b
+# palette = 3=#c4b28a
+# palette = 4=#8ba4b0
+# palette = 5=#a292a3
+# palette = 6=#8ea4a2
+# palette = 7=#c8c093
+# palette = 8=#a4a7a4
+# palette = 9=#e46876
+# palette = 10=#87a987
+# palette = 11=#e6c384
+# palette = 12=#7fb4ca
+# palette = 13=#938aa9
+# palette = 14=#7aa89f
+# palette = 15=#c5c9c7
+palette = 0=#090E13
+palette = 1=#d45c55
+palette = 2=#799c66
+palette = 3=#d4b473
+palette = 4=#76abc3
+palette = 5=#a87ea9
+palette = 6=#7ab1ae
+palette = 7=#d6be70
+palette = 8=#9a9f9a
+palette = 9=#f05068
+palette = 10=#73b173
+palette = 11=#f1c065
+palette = 12=#69c3e1
+palette = 13=#a87cc4
+palette = 14=#65bcb0
+palette = 15=#c1c6c3
 background = #181818
+foreground = #c5c9c7
+cursor-color = #c5c9c7
+selection-background = #24262D
+selection-foreground = #c5c9c7
+
+# neutral:
+# background = #181818
 #blue:
 # background = #0D1116
-foreground= #D4D4D4
+# foreground= #D4D4D4
 
 # Looks good for screenshots, but not my fav for everyday :(
 # background-opacity = 0.999
@@ -24,29 +63,29 @@ font-family =
 
 # VSCode colors (vscode.nvim / vscode.yazi)
 # black
-palette = 0=#686868
-palette = 8=#686868
-# red
-palette = 1=#FA2C3A
-palette = 9=#FA2C3A
-# green
-palette = 2=#5B9B4C
-palette = 10=#5B9B4C
-# yellow
-palette = 3=#DCDCAA
-palette = 11=#DCDCAA
-# blue
-palette = 4=#3794FF
-palette = 12=#3794FF
-# purple
-palette = 5=#C586C0
-palette = 13=#C586C0
-# aqua
-palette = 6=#4EC9B0
-palette = 14=#4EC9B0
-# white
-palette = 7=#c7c7c7
-palette = 15=#d4d4d4
+# palette = 0=#686868
+# palette = 8=#686868
+# # red
+# palette = 1=#FA2C3A
+# palette = 9=#FA2C3A
+# # green
+# palette = 2=#5B9B4C
+# palette = 10=#5B9B4C
+# # yellow
+# palette = 3=#DCDCAA
+# palette = 11=#DCDCAA
+# # blue
+# palette = 4=#3794FF
+# palette = 12=#3794FF
+# # purple
+# palette = 5=#C586C0
+# palette = 13=#C586C0
+# # aqua
+# palette = 6=#4EC9B0
+# palette = 14=#4EC9B0
+# # white
+# palette = 7=#c7c7c7
+# palette = 15=#d4d4d4
 
 #  delta git diff pager in lazygit  uses these palette colors for it's
 #  add/remove background color, and for some reason the 'palette = 235'

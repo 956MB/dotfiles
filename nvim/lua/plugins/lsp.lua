@@ -149,18 +149,30 @@ return {
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-            {
+            { -- workspace notifications
                 'j-hui/fidget.nvim',
                 event = 'LspAttach',
                 opts = {},
             },
 
             {
-                'folke/neodev.nvim',
-                config = function()
-                    require('neodev').setup {
-                        library = { plugins = { 'nvim-dap-ui' }, types = true },
-                    }
+                'folke/lazydev.nvim',
+                ft = 'lua', -- only load on lua files
+                opts = {
+                    library = {
+                        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+                    },
+                },
+            },
+
+            {
+                'hrsh7th/nvim-cmp',
+                opts = function(_, opts)
+                    opts.sources = opts.sources or {}
+                    table.insert(opts.sources, {
+                        name = 'lazydev',
+                        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+                    })
                 end,
             },
         },
@@ -227,7 +239,7 @@ return {
                         '--background-index',
                         '--clang-tidy',
                         '--completion-style=detailed',
-                        '--function-arg-placeholders=0', 
+                        '--function-arg-placeholders=0',
                         '--query-driver=/Applications/ArmGNUToolchain/14.2.rel1/bin/arm-none-eabi-gcc',
                         '--compile-commands-dir=build/latest',
                     },

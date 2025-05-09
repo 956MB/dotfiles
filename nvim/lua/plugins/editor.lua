@@ -44,7 +44,6 @@ return {
         -- Delete existing popup buffer causing problems
         init = function()
             local popupWin = require 'rip-substitute.popup-win'
-
             local origOpen = popupWin.openSubstitutionPopup
             popupWin.openSubstitutionPopup = function(...)
                 local popupBufName = '[RipSubstitute]'
@@ -57,13 +56,13 @@ return {
             end
         end,
         keys = {
-            {
+            { -- n: whole buffer, V: visual line selection
                 '<leader>fs',
                 function()
                     require('rip-substitute').sub()
                 end,
                 mode = { 'n', 'x' },
-                desc = ' rip substitute',
+                desc = ' rip substitute',
             },
         },
     },

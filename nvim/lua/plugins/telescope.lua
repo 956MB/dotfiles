@@ -82,7 +82,7 @@ return {
             pcall(require('telescope').load_extension, 'fzf')
             pcall(require('telescope').load_extension, 'ui-select')
 
-            local function map(mode, lhs, rhs, opts)
+            local function tmap(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.silent = opts.silent ~= false
                 vim.keymap.set(mode, lhs, rhs, opts)
@@ -109,17 +109,18 @@ return {
                 end
             end
 
-            map({ 'n', 'v' }, '<leader>sh', create_picker(builtin.help_tags), { desc = '[S]earch [H]elp' })
-            map({ 'n', 'v' }, '<leader>sk', create_picker(builtin.keymaps), { desc = '[S]earch [K]eymaps' })
-            map({ 'n', 'v' }, '<leader>ss', create_picker(builtin.builtin), { desc = '[S]earch [S]elect Telescope' })
-            map({ 'n', 'v' }, '<leader>sw', create_picker(builtin.grep_string), { desc = '[S]earch current [W]ord' })
-            map({ 'n', 'v' }, '<leader>sd', create_picker(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
-            map({ 'n', 'v' }, '<leader>sr', create_picker(builtin.resume), { desc = '[S]earch [R]esume' })
-            map({ 'n', 'v' }, '<leader>s.', create_picker(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
-            map({ 'n', 'v' }, '<C-g>', create_picker(builtin.live_grep), { desc = '[S]earch by [G]rep' })
-            map({ 'n', 'v' }, '<C-p>', create_picker(builtin.find_files), { desc = '[S]earch [F]iles' })
-            map({ 'n', 'v' }, '<C-t>', create_picker(builtin.buffers), { desc = '[S]earch [T]abs (Buffers)' })
-            map(
+            tmap({ 'n', 'v' }, '<leader>sh', create_picker(builtin.help_tags), { desc = '[S]earch [H]elp' })
+            tmap({ 'n', 'v' }, '<leader>sk', create_picker(builtin.keymaps), { desc = '[S]earch [K]eymaps' })
+            tmap({ 'n', 'v' }, '<leader>ss', create_picker(builtin.builtin), { desc = '[S]earch [S]elect Telescope' })
+            tmap({ 'n', 'v' }, '<leader>sw', create_picker(builtin.grep_string), { desc = '[S]earch current [W]ord' })
+            tmap({ 'n', 'v' }, '<leader>sd', create_picker(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
+            tmap({ 'n', 'v' }, '<leader>sr', create_picker(builtin.resume), { desc = '[S]earch [R]esume' })
+            tmap({ 'n', 'v' }, '<leader>s.', create_picker(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
+            tmap({ 'n', 'v' }, '<C-g>', create_picker(builtin.live_grep), { desc = '[S]earch by [G]rep' })
+            tmap({ 'n', 'v' }, '<C-p>', create_picker(builtin.find_files), { desc = '[S]earch [F]iles' })
+            tmap({ 'n', 'v' }, '<C-t>', create_picker(builtin.buffers), { desc = '[S]earch [T]abs (Buffers)' })
+            tmap({ 'n', 'v' }, '<C-f>', create_picker(builtin.current_buffer_fuzzy_find), { desc = 'Fuzzy find in current buffer', noremap = true })
+            tmap(
                 { 'n', 'v' },
                 '<leader>s/',
                 create_picker(builtin.live_grep, {
@@ -128,9 +129,9 @@ return {
                 }),
                 { desc = '[S]earch [/] in Open Files' }
             )
-            map({ 'n', 'v' }, '<leader>sn', create_picker(builtin.find_files, { cwd = vim.fn.stdpath 'config' }), { desc = '[S]earch [N]eovim files' })
-            map({ 'n', 'v' }, '<leader>?', create_picker(builtin.oldfiles), { desc = '[?] Find recently opened files' })
-            map({ 'n', 'v' }, '<leader><space>', create_picker(builtin.buffers), { desc = '[ ] Find existing buffers' })
+            tmap({ 'n', 'v' }, '<leader>sn', create_picker(builtin.find_files, { cwd = vim.fn.stdpath 'config' }), { desc = '[S]earch [N]eovim files' })
+            tmap({ 'n', 'v' }, '<leader>?', create_picker(builtin.oldfiles), { desc = '[?] Find recently opened files' })
+            tmap({ 'n', 'v' }, '<leader><space>', create_picker(builtin.buffers), { desc = '[ ] Find existing buffers' })
         end,
     },
 }

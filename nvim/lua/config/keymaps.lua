@@ -201,7 +201,7 @@ map('n', '<leader>E', '<cmd>NvimTreeToggle<CR>', 'Explorer [N]vimTree')
 
 -- tiny-code-action
 map('n', '<leader>ct', function()
-    require('tiny-code-action').code_action()
+    require('tiny-code-action').code_action({})
 end, 'Code [A]ction (Tiny)')
 
 -- Bufferline
