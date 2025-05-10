@@ -13,46 +13,16 @@ $hg_branch\
 $cmd_duration\
 $status\
 $jobs\
+$bun\
+$cmake\
+$golang\
+$lua\
+$python\
+$rust\
+$swift\
+$zig\
 $line_break\
 $character"""
-# $time\
-# $package\
-# $aws\
-# $cmake\
-# $crystal\
-# $conda\
-# $dart\
-# $deno\
-# $docker_context\
-# $dotnet\
-# $elixir\
-# $elm\
-# $erlang\
-# $gcloud\
-# $golang\
-# $helm\
-# $java\
-# $julia\
-# $kotlin\
-# $lua\
-# $nim\
-# $nix_shell\
-# $nodejs\
-# $ocaml\
-# $openstack\
-# $perl\
-# $php\
-# $purescript\
-# $python\
-# $red\
-# $ruby\
-# $rust\
-# $scala\
-# $swift\
-# $terraform\
-# $vlang\
-# $vagrant\
-# $zig\
 
 ## FIRST LINE/ROW: Info & Status
 # First param ─┌
@@ -68,7 +38,7 @@ format = '@[$hostname]($style)'
 style = "bold blue"
 ssh_only = true
 disabled = false
-aliases = { "AlexandacStudio" = "macstudio", "MacBookPro" = "macbookpro" }
+aliases = { "AlexandacStudio" = "macstudio", "AlexandacStudio.attlocal.net" = "macstudio", "Alexanders-Mac-Studio" = "macstudio", "Mac.attlocal.net" = "macstudio", "Mac" = "macstudio" }
 
 # Battery after host
 [battery]
@@ -77,16 +47,16 @@ charging_symbol = " "
 discharging_symbol = " "
 disabled = false
 
-[[battery.display]]  # "bold red" style when capacity is between 0% and 10%
-threshold = 15
+[[battery.display]]  # "bold red" style when capacity is between 0% and 20%
+threshold = 20
 style = "bold red"
 
-[[battery.display]]  # "bold yellow" style when capacity is between 10% and 30%
+[[battery.display]]  # "bold yellow" style when capacity is between 20% and 50%
 threshold = 50
 style = "bold yellow"
 
-[[battery.display]]  # "bold green" style when capacity is between 10% and 30%
-threshold = 80
+[[battery.display]]  # "bold green" style when capacity is between 50% and 100%
+threshold = 100
 style = "bold green"
 
 # Current time
@@ -138,120 +108,33 @@ disabled = false
 success_symbol = " [╰─](blue)[λ](bold blue)"
 error_symbol = " [╰─](blue)[Σ](bold red)"
 
-
-[package]
-symbol = " "
-
-[aws]
-symbol = " "
+[bun]
+symbol = " "
 
 [cmake]
 symbol = "謁 "
-
-[crystal]
-symbol = " "
-
-[conda]
-symbol = " "
-
-[dart]
-symbol = " "
-
-[deno]
-symbol = " "
-
-[docker_context]
-symbol = " "
-
-[dotnet]
-symbol = " "
-
-[elixir]
-symbol = ""
-
-[elm]
-symbol = " "
-
-[erlang]
-symbol = " "
-
-[gcloud]
-symbol = " "
 
 [git_branch]
 symbol = " "
 
 [golang]
-symbol = " "
-
-[helm]
-symbol = " "
-
-[hg_branch]
-symbol = " "
-
-[java]
-symbol = " "
-
-[julia]
-symbol = " "
-
-[kotlin]
-symbol = " "
+symbol = "󰟓 "
+style = "blue"
 
 [lua]
 symbol = " "
-
-[nim]
-symbol = " "
-
-[nix_shell]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[ocaml]
-symbol = "🐫"
-
-[openstack]
-symbol = "柳 "
-
-[perl]
-symbol = " "
-
-[php]
-symbol = " "
-
-[purescript]
-symbol = ""
+style = "blue"
 
 [python]
 symbol = " "
-
-[red]
-symbol = " "
-
-[ruby]
-symbol = " "
+style = "bold blue"
 
 [rust]
 symbol = " "
 
-[scala]
-symbol = " "
-
 [swift]
-symbol = "ﯣ "
-
-[terraform]
-symbol = " "
-
-[vlang]
-symbol = " "
-
-[vagrant]
-symbol = " "
+symbol = " "
 
 [zig]
-symbol = "⚡"
+symbol = " "
+style = "bold yellow"
