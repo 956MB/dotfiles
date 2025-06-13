@@ -201,7 +201,7 @@ map('n', '<leader>E', '<cmd>NvimTreeToggle<CR>', 'Explorer [N]vimTree')
 
 -- tiny-code-action
 map('n', '<leader>ct', function()
-    require('tiny-code-action').code_action({})
+    require('tiny-code-action').code_action {}
 end, 'Code [A]ction (Tiny)')
 
 -- Bufferline
@@ -325,10 +325,10 @@ end
 map('n', '`t', '<cmd>tabnew<cr>', 'New Tab')
 map('n', '`w', '<cmd>tabclose<cr>', 'Close Tab')
 
-map('n', '<S-Down>', function()
-    utils.scroll_less_screen 'down'
-end, '[M]ove screen [D]own')
-
-map('n', '<S-Up>', function()
-    utils.scroll_less_screen 'up'
-end, '[M]ove screen [U]p')
+-- Zed nvim style shift+selection
+map('n', '<S-Down>', 'vj', 'Start visual selection down')
+map('n', '<S-Up>', 'vk', 'Start visual selection up')
+map('v', '<S-Down>', 'j', 'Extend selection down')
+map('v', '<S-Up>', 'k', 'Extend selection up')
+map('i', '<S-Down>', '<C-o>vj', 'Start visual selection down (insert mode)')
+map('i', '<S-Up>', '<C-o>vk', 'Start visual selection up (insert mode)')
