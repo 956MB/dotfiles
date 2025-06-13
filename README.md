@@ -139,25 +139,28 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./ascii_logo.txt)"
+
    ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: 36a6ec8 (main, origin/main)
-·|·      ·|·           ·//·     Pending: 5+- 14+ 1-
+ ·//·····/|/············/||/·   HEAD: 272a6b7 (main, origin/main)
+·|·      ·|·           ·//·     Pending: 3+- 9+ 15-
 /|       ·|·         ·//·       Created: a year ago
 ·|/     ·/|·       ·//·         Languages:
- ·///////|·      ·//·                      ● Lua (90.4 %) ● Fish (4.1 %)
-    ····       ·//·      ·/·               ● Python (2.0 %) ● BASH (1.8 %)
-             ·||·      ·//·                ● Shell (0.9 %) ● Scheme (0.3 %)
-           ·|//////···//·                  ● Other (0.4 %)
-         ·||/·     ·||||·       Authors: 75% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               25% 956MB <bays@956mb.com> 24
-      ·//·       /|/    ·|/     Last change: 4 minutes ago
-    ·//·       ·//        //    URL: https://github.com/956MB/dotfiles.git
-  ·//·       ·//·         ·|·   Commits: 97
- //·       ·/||/··········/|/   Churn (2): README.md 1
-··         ·/··////////////··              scripts/myalias.py 1
-                                           …/conf.d/aliases.fish 1
-                                Lines of code: 15694
-                                Size: 21.25 MiB (99 files)
+ ·///////|·      ·//·                      ● Lua (89.4 %) ● Fish (4.7 %)
+    ····       ·//·      ·/·               ● BASH (1.6 %) ● Python (1.6 %)
+             ·||·      ·//·                ● Zig (1.2 %) ● Shell (0.8 %)
+           ·|//////···//·                  ● Other (0.6 %)
+         ·||/·     ·||||·       Authors: 68% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               31% 956MB <bays@956mb.com> 33
+      ·//·       /|/    ·|/               2% Alexander Bays <bays@MacBookPro.attlocal.net> 2
+    ·//·       ·//        //    Last change: 9 minutes ago
+  ·//·       ·//·         ·|·   URL: git@github.com:956MB/dotfiles.git
+ //·       ·/||/··········/|/   Commits: 108
+··         ·/··////////////··   Churn (2): starship/starship.toml 2
+                                           yazi/keymap.toml 1
+                                           yazi/theme.toml 1
+                                Lines of code: 17381
+                                Size: 26.05 MiB (126 files)
                                 License: MIT
 ```
 
