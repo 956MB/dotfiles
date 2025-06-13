@@ -28,3 +28,12 @@ nvim/lua/plugins/custom/todo-comments.nvim
 nvim/lua/plugins/custom/lspmark.nvim
 
 yazi/theme-*.toml
+yazi/theme.toml-*
+yazi/keymap.toml-*
+yazi/yazi.toml-*
+yazi/flavors/*
+yazi/flavors/*.yazi
+yazi/flavors/**/*
+yazi/opener.sh
+
+zellij/*.bak*

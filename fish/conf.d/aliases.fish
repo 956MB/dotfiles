@@ -21,6 +21,7 @@ alias func='functions'                                       # List all function
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                         # Tailscale command
+alias tsh='tailscale --help'                                 # Tailscale help
 alias tsup='tailscale up'                                    # Start Tailscale
 alias tsdown='tailscale down'                                # Stop Tailscale
 alias tss='tailscale status'                                 # Show Tailscale status

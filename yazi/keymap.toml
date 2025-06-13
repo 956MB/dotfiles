@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 prepend_keymap = [
     # Remap Enter to act like 'l'
     { on = [ '<Enter>' ],   run = 'enter', desc = 'Enter the child directory' },

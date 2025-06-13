@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
-[manager]
+[mgr]
 ratio          = [ 1, 2, 3 ]
 sort_by        = "natural"
 sort_sensitive = false
@@ -24,8 +24,8 @@ ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]
 
 [opener]
-text = [
-    { run = 'nvim', block = true },
+fallback = [
+    { run = '/Users/bays/dotfiles/yazi/opener.sh', block = true },
 ]
 
 [tasks]
@@ -45,7 +45,7 @@ cd_origin = "top-center"
 cd_offset = [ 0, 2, 50, 3 ]
 
 # create
-create_title  = "Create:"
+create_title  = ["Create:", "Create a new file:"]
 create_origin = "top-center"
 create_offset = [ 0, 2, 50, 3 ]
 

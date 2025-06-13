@@ -85,7 +85,7 @@ return {
         event = 'VimEnter',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
-            local c = require('vscode.colors').get_colors()
+            -- local c = require('vscode.colors').get_colors()
             require('todo-comments').setup {
                 signs = false,
                 keywords = {
@@ -95,7 +95,7 @@ return {
                     keyword = 'wide_fg',
                 },
                 colors = {
-                    mine = { c.lualineYellow },
+                    mine = { fg = '#ff0000', bg = '#000000', gui = 'bold' },
                 },
             }
         end,

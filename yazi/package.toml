@@ -5,3 +5,13 @@ deps = []
 use = "BennyOe/tokyo-night"
 rev = "b3950bf"
 hash = "319ce574cdb2865baf4323db90456504"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:dracula"
+rev = "d04a298"
+hash = "7b9ff01a0070cc9176e0c683329aeb26"
+
+[[flavor.deps]]
+use = "956MB/vscode-dark-plus"
+rev = "1436e10"
+hash = "c33bb8b21921f2f468ea188d1263a405"
