@@ -9,7 +9,7 @@
 [push]
 	default = current
 [init]
-	defaultBranch = master
+	defaultBranch = main
 [sendpack]
 	sideband = false
 [http]
@@ -17,3 +17,12 @@
 	lowSpeedTime = 20
 	postBuffer = 524288000
 	sslBackend = openssl
+[core]
+	compression = 9
+	whitespace = error
+	preloadindex = true
+[url "git@github.com:"]
+	insteadOf = "gh:"
+[url "git@github.com:956MB/"]
+	insteadOf = "956:"
+

@@ -4,10 +4,11 @@ $hostname\
 $battery\
 $directory\
 $vcsh\
-$git_branch\
+${custom.git_branch}\
 $git_commit\
 $git_state\
-$custom\
+${custom.jj}\
+${custom.git_changes}\
 $bun\
 $cmake\
 $golang\
@@ -67,7 +68,7 @@ disabled = false
 
 # Location
 [directory]
-format = " in [$path]($style)[$read_only]($read_only_style) "
+format = " [$path]($style)[$read_only]($read_only_style) "
 style = "purple"
 truncation_length = 0
 truncate_to_repo = true
@@ -120,7 +121,33 @@ fi
 '''
 when = "true"
 shell = ["bash", "--noprofile", "--norc"]
-format = "$output "
+
+# custom module for jj status
+[custom.jj]
+ignore_timeout = true
+description = "The current jj status"
+detect_folders = [".jj"]
+# symbol = "🥋 "
+command = '''
+jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+  separate(" ",
+    change_id.shortest(4),
+    bookmarks,
+    "·",
+    concat(
+      if(conflict, "💥"),
+      if(divergent, "🚧"),
+      if(hidden, "👻"),
+      if(immutable, "🔒"),
+    ),
+    raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+    raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+      truncate_end(29, description.first_line(), "…"),
+      "(no description set)",
+    ) ++ raw_escape_sequence("\x1b[0m"),
+  )
+'
+'''
 
 # Before all the version info (python, nodejs, php, etc.)
 [git_status]
@@ -145,7 +172,7 @@ disabled = false
 
 # Background running jobs
 [jobs]
-format = "with [($number )more jobs]($style) "
+format = "[($number )more jobs]($style) "
 threshold = 1
 disabled = false
 
@@ -159,24 +186,35 @@ error_symbol = " (blue)[Σ](bold red)"
 [bun]
 symbol = "Bun "
 style = "#F471B5"
+format = "[$symbol($version )]($style)"
 
 [cmake]
-symbol = "謁 "
+symbol = "謁 "
+format = "[$symbol($version )]($style)"
 
 [git_branch]
+disabled = true
 symbol = " "
+
+[custom.git_branch]
+when = true
+command = "jj root >/dev/null 2>&1 || starship module git_branch"
+description = "Only show git_branch if we're not in a jj repo"
 
 [golang]
 symbol = "󰟓 "
 style = "blue"
+format = "[$symbol($version )]($style)"
 
 [lua]
 symbol = " "
 style = "blue"
+format = "[$symbol($version )]($style)"
 
 [python]
 symbol = " "
 style = "bold blue"
+format = "[$symbol($version )]($style)"
 
 [rust]
 symbol = " "
@@ -187,3 +225,4 @@ symbol = " "
 [zig]
 symbol = " "
 style = "bold yellow"
+format = "[$symbol($version )]($style)"

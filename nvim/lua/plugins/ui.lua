@@ -222,20 +222,20 @@ return {
         end,
     },
 
-    -- { -- Git diff previews
-    --     'tanvirtin/vgit.nvim',
-    --     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
-    --     event = 'VimEnter',
-    --     config = function()
-    --         require('vgit').setup {
-    --             settings = {
-    --                 live_blame = {
-    --                     enabled = false,
-    --                 },
-    --             },
-    --         }
-    --     end,
-    -- },
+    { -- Git diff previews
+        'tanvirtin/vgit.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
+        event = 'VimEnter',
+        config = function()
+            require('vgit').setup {
+                settings = {
+                    live_blame = {
+                        enabled = false,
+                    },
+                },
+            }
+        end,
+    },
 
     { -- Something for deleting tabs and buffers
         'famiu/bufdelete.nvim',

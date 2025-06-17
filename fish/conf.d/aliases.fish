@@ -95,6 +95,36 @@ alias lg='lazygit'                      # Open Lazygit interface
 alias grl='gh repo ls 956MB'            # List my repos on GitHub
 alias grlf='gh repo ls 956MB --fork'    # List my forked repos on GitHub
 
+# jj aliases
+alias jji='jj git init --colocate'       # Initialize a new jj repository
+alias jjn='jj new'                       # Create a new working copy
+alias jjcr='jj git clone'                # Clone a repository
+alias jjf='jj git fetch'                 # Fetch changes from the remote
+alias jjim='jj git import'               # Import remote refs into jj
+alias jjex='jj git export'               # Export refs to a remote (use normal git push afterwards)
+alias jjbl='jj bookmark list --all'      # List all bookmarks
+alias jjbt='jj bookmark track'           # Track a branch
+alias jjbc='jj bookmark create'          # Create a new bookmark
+alias jjl='jj log'                       # Log our commits (excludes untracked remote branches)
+alias jjlop='jj op log'                  # Log operations
+alias jjla='jj log --all'                # Log all commits
+alias jjdi='jj diff -r'                  # Show differences between commits
+alias jjs='jj status'                    # Show the status of the repository
+alias jjsp='jj split'                    # Select files to be commited and create new working copy
+alias jjd='jj describe'                  # Describe any commit
+alias jjdm='jj describe -m'              # Describe the current commit with message
+alias jjrb='jj rebase -d'                # Rebase current commit onto a different branch
+alias jjre='jj reset'                    # Reset the current working copy to a specific commit
+alias jjco='jj checkout'                 # Switch working copy to a branch/commit
+alias jjca='jj abandon'                  # Abandon current commit / working copy
+alias jjup='jj git fetch; jj git import' # Shortcut for "pull" behavior
+alias jjpush='jj git export; git push'   # Shortcut for "push"
+alias jjpop='jj undo'                    # Alt name for "pop last operation"
+alias jjw='jj workspace list'            # List all working copies
+alias jjwf='jj workspace forget'         # Forget the current workspace (or given name)
+alias jjwa='jj workspace add'            # Add a new workspace
+alias lj='lazyjj'                        # Open Lazyjj interface
+
 # System-specific aliases
 if test "$IS_MAC" = true
     alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.config/fish/config.fish'  # Edit fish config in a new Kitty tab using Neovim

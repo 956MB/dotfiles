@@ -325,6 +325,14 @@ end
 map('n', '`t', '<cmd>tabnew<cr>', 'New Tab')
 map('n', '`w', '<cmd>tabclose<cr>', 'Close Tab')
 
+map('n', '<S-C-Down>', function()
+    utils.scroll_less_screen 'down'
+end, '[M]ove screen [D]own')
+
+map('n', '<S-C-Up>', function()
+    utils.scroll_less_screen 'up'
+end, '[M]ove screen [U]p')
+
 -- Zed nvim style shift+selection
 map('n', '<S-Down>', 'vj', 'Start visual selection down')
 map('n', '<S-Up>', 'vk', 'Start visual selection up')
