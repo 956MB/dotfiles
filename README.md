@@ -13,17 +13,20 @@
 ##### General
 
 ```bash
-alias v='nvim'                                               # Open neovim
-alias nv='nvim'                                              # Open neovim (alternative)
-alias z-='z -'                                               # Navigate to previous directory using zoxide
-alias cd..='z ..'                                            # Go up one directory using zoxide
-alias z..='z ..'                                             # Go up one directory using zoxide (alternative)
-alias ..='z ..'                                              # Go up one directory using zoxide
-alias ...='z ../..'                                          # Go up two directories using zoxide
-alias ....='z ../../..'                                      # Go up three directories using zoxide
-alias zfreq='zoxide query -l'                                # List most frequently used directories
-alias yy='yazi'                                              # Open yazi
-alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
+alias v='nvim'                                                         # Open neovim
+alias nv='nvim'                                                        # Open neovim (alternative)
+alias z-='z -'                                                         # Navigate to previous directory using zoxide
+alias cd..='z ..'                                                      # Go up one directory using zoxide
+alias z..='z ..'                                                       # Go up one directory using zoxide (alternative)
+alias ..='z ..'                                                        # Go up one directory using zoxide
+alias ...='z ../..'                                                    # Go up two directories using zoxide
+alias ....='z ../../..'                                                # Go up three directories using zoxide
+alias zfreq='zoxide query -l'                                          # List most frequently used directories
+alias yy='yazi'                                                        # Open yazi
+alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'            # Count number of directories in the current directory (excluding hidden ones)
+alias func='functions'                                                 # List all functions
+alias cat='bat'                                                        # Use bat instead of cat
+alias oldcat='cat'                                                     # Use original cat
 alias l='eza --group-directories-first'                                # List with icons, directories first
 alias ls='eza --group-directories-first'                               # List with icons, directories first
 alias ll='eza -l --group-directories-first'                            # Long format with icons
