@@ -17,7 +17,7 @@ curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | ba
 The script will:
 
 -   Backup existing configurations (e.g. `~/.config-backup-20250727_064950`)
--   Install the main languages and packages for the shell (`Ruby`, `Rust`, `Homebrew`, `eza`, `starship`, `zoxide`, `zellij`, `Fish`)
+-   Install the main packages for the shell (`Homebrew`, `eza`, `starship`, `zoxide`, `zellij`, `Fish`)
 -   Clone this repository and create symlinks
 -   Install packages from the [Brewfile](./Brewfile) (optional)
 -   Set `Fish` as the default shell

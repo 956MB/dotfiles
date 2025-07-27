@@ -2,10 +2,6 @@
 
 set -e
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
 CHAR_INDEX=0
 
 get_next_char() {
@@ -23,15 +19,15 @@ log() {
 }
 log_success() {
   get_next_char
-  printf "${GREEN}%s${NC}  %s\n" "$CHAR_OUT" "$1"
+  printf "\033[0;32m%s\033[0m  %s\n" "$CHAR_OUT" "$1"
 }
 log_warning() {
   get_next_char
-  printf "${YELLOW}%s${NC}  %s\n" "$CHAR_OUT" "$1"
+  printf "\033[1;33m%s\033[0m  %s\n" "$CHAR_OUT" "$1"
 }
 log_error() {
   get_next_char
-  printf "${RED}%s${NC}  %s\n" "$CHAR_OUT" "$1"
+  printf "\033[0;31m%s\033[0m  %s\n" "$CHAR_OUT" "$1"
 }
 log_blank() {
   get_next_char
@@ -141,10 +137,10 @@ install_ruby_linux() {
     apk add --no-cache ruby ruby-dev build-base git
   elif exists apt-get; then
     apt-get update && apt-get install -y ruby ruby-dev build-essential git
-  elif exists yum; then
-    yum groupinstall -y 'Development Tools' && yum install -y ruby ruby-devel git
   elif exists pacman; then
     pacman -S --noconfirm ruby base-devel git
+  elif exists yum; then
+    yum groupinstall -y 'Development Tools' && yum install -y ruby ruby-devel git
   else
     log_warning "Could not install Ruby automatically. Please install Ruby 2.6+ manually."
     return 1
@@ -191,38 +187,6 @@ install_homebrew() {
     log "Trying to continue without Homebrew..."
     return 1
   fi
-}
-
-install_bun() {
-  if exists bun; then
-    log_success "Bun already installed"
-    return
-  fi
-
-  log "Installing Bun..."
-  curl -fsSL https://bun.sh/install | bash
-
-  if [[ -f "$HOME/.bun/bin/bun" ]]; then
-    export PATH="$HOME/.bun/bin:$PATH"
-  fi
-
-  log_success "Bun installed"
-}
-
-install_rust() {
-  if exists rustc && exists cargo; then
-    log_success "Rust already installed"
-    return
-  fi
-
-  log "Installing Rust..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-  if [[ -f "$HOME/.cargo/env" ]]; then
-    source "$HOME/.cargo/env"
-  fi
-  
-  log_success "Rust installed"
 }
 
 clone_dotfiles() {
@@ -405,7 +369,7 @@ show_logo() {
 *  https://github.com/956MB/dotfiles
 |
 /  This script will install and configure development tools and dotfiles"
-  echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Bun, Rust, Fish shell, and more"
+  echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Fish shell, and more"
   echo -e "\\  Usage: install.sh [--packages-only|-p] for packages only"
   echo -e "|  "
 
@@ -452,20 +416,14 @@ main() {
   detect_system
   backup_configs
   install_homebrew
-  install_bun
-  install_rust
   clone_dotfiles
   create_symlinks
   install_packages
   install_fish_tools
   set_fish_shell
-
-  if [[ -n "$BACKUP_DIR" && -d "$BACKUP_DIR" ]]; then
-    log "Old configurations are backed up in: $BACKUP_DIR"
-  fi
-  
-  log "Dotfiles installation completed!"
+  log_success "Dotfiles installation completed!"
   log_end "Initializing Fish shell ($FISH_PATH)..."
+  
   exec "$FISH_PATH"
 }
 
