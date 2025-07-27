@@ -191,28 +191,28 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
-# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./ascii_logo.txt)"
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logo.txt)"
 
    ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: 272a6b7 (main, origin/main)
-·|·      ·|·           ·//·     Pending: 3+- 9+ 15-
+ ·//·····/|/············/||/·   HEAD: 3736378 (main, origin/main)
+·|·      ·|·           ·//·     Pending: 2+- 5+
 /|       ·|·         ·//·       Created: a year ago
 ·|/     ·/|·       ·//·         Languages:
- ·///////|·      ·//·                      ● Lua (89.4 %) ● Fish (4.7 %)
-    ····       ·//·      ·/·               ● BASH (1.6 %) ● Python (1.6 %)
-             ·||·      ·//·                ● Zig (1.2 %) ● Shell (0.8 %)
-           ·|//////···//·                  ● Other (0.6 %)
-         ·||/·     ·||||·       Authors: 68% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               31% 956MB <bays@956mb.com> 33
+ ·///////|·      ·//·                      ● Lua (85.0 %) ● Fish (6.3 %)
+    ····       ·//·      ·/·               ● Shell (3.3 %) ● BASH (1.7 %)
+             ·||·      ·//·                ● Python (1.7 %) ● Zig (1.3 %)
+           ·|//////···//·                  ● Other (0.7 %)
+         ·||/·     ·||||·       Authors: 64% Alexander Bays <bays@956mb.com> 73
+        ·//·       ///·//·               34% 956MB <bays@956mb.com> 39
       ·//·       /|/    ·|/               2% Alexander Bays <bays@MacBookPro.attlocal.net> 2
-    ·//·       ·//        //    Last change: 9 minutes ago
+    ·//·       ·//        //    Last change: 17 seconds ago
   ·//·       ·//·         ·|·   URL: git@github.com:956MB/dotfiles.git
- //·       ·/||/··········/|/   Commits: 108
-··         ·/··////////////··   Churn (2): starship/starship.toml 2
-                                           yazi/keymap.toml 1
-                                           yazi/theme.toml 1
-                                Lines of code: 17381
-                                Size: 26.05 MiB (126 files)
+ //·       ·/||/··········/|/   Commits: 114
+··         ·/··////////////··   Churn (2): Brewfile 2
+                                           …/completions/docker.fish 1
+                                           …/conf.d/aliases.fish 1
+                                Lines of code: 16282
+                                Size: 16.28 MiB (116 files)
                                 License: MIT
 ```
 
