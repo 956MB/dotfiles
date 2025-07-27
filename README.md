@@ -6,6 +6,24 @@
 
 ![Screenshot](./img/Screenshot_2024-12-08_at_6.27.59_AM.png)
 
+### `install.sh` script (for me)
+
+I made this script for myself to make it easier starting on different systems, so the stuff inside is focused on my personal preferences and keeping my configs exactly the same. **Run at your own risk.**
+
+```ruby
+curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | bash
+```
+
+The script will:
+
+-   Backup existing configurations (e.g. `~/.config-backup-20250727_064950`)
+-   Install the main languages and packages for the shell (`Ruby`, `Rust`, `Homebrew`, `eza`, `starship`, `zoxide`, `zellij`, `Fish`)
+-   Clone this repository and create symlinks
+-   Install packages from the [Brewfile](./Brewfile) (optional)
+-   Set `Fish` as the default shell
+
+---
+
 ### Aliases
 
 [fish/aliases.fish](./fish/conf.d/aliases.fish)
@@ -150,7 +168,7 @@ alias skstop='skhd --stop-service'        # Stop skhd service
 
 <sup>Clones a repo from https/ssh, and as backup uses github cli</sup>
 
-```bash
+```ruby
 gcr https://github.com/Next-Flip/Momentum-Firmware.git
 ```
 
@@ -158,7 +176,7 @@ gcr https://github.com/Next-Flip/Momentum-Firmware.git
 
 <sup>Opens a zellij session if it exists and creates it if not</sup>
 
-```bash
+```ruby
 zj # -> zellij attach <cwd> -c
 ```
 
@@ -166,7 +184,7 @@ zj # -> zellij attach <cwd> -c
 
 <sup>Delete all exited zellij sessions except the ones specified</sup>
 
-```bash
+```ruby
 zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "dotfiles\|Momentum-Firmware.wiki" | awk '{print $1}' | xargs -I {} zellij d {}
 ```
 
@@ -197,7 +215,5 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
                                 Size: 26.05 MiB (126 files)
                                 License: MIT
 ```
-
-## License
 
 [MIT license](./LICENSE)

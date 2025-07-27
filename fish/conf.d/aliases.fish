@@ -18,6 +18,9 @@ alias zfreq='zoxide query -l'                                # List most frequen
 alias yy='yazi'                                              # Open yazi
 alias fct='find . -maxdepth 1 -type d ! -name ".*" | wc -l'  # Count number of directories in the current directory (excluding hidden ones)
 alias func='functions'                                       # List all functions
+alias cat='bat'                                              # Use bat instead of cat
+alias oldcat='/usr/bin/cat'                                  # Use original cat
+alias ld='lazydocker'                                        # Open Lazydocker interface
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                         # Tailscale command
@@ -68,8 +71,8 @@ else
 end
 
 alias cls='clear'                                                      # Clear the terminal screen
-alias oldtop='usr/bin/top'                                             # Run the original top command
-alias ff='fastfetch --logo dotfiles/ascii_logo.txt'                    # Display system information using neofetch and my ascii_logo
+alias oldtop='/usr/bin/top'                                             # Run the original top command
+alias ff='fastfetch --logo ~/dotfiles/logo.txt'                        # Display system information using fastfetch and my logo
 alias nf='neofetch'                                                    # Display system information using neofetch
 alias of='onefetch --no-color-palette --include-hidden -E --no-title'  # Display git repository information using onefetch
 alias ep='echo \$PATH'                                                 # Print the PATH environment variable

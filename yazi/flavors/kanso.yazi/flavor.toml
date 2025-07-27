@@ -1,186 +1,116 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
-# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
-
-# kanso with ink colors
-# Original: https://github.com/956MB/kanso.yazi/blob/main/themes/kanso/
-#
-# ...
-
-[colors]
-background = "#1F1F1F"
-foreground = "#CDCDCD"  # inkWhite
-selection = "#7289b6"   # inkViolet
-cursor = "#a2aaa1"      # inkGray
-black = "#000000"
-red = "#e03c30"         # inkRed
-green = "#6eb575"       # inkGreen
-yellow = "#d9af54"      # inkYellow
-blue = "#71a7c1"        # inkBlue2
-magenta = "#a784ab"     # inkPink
-cyan = "#7ab0a8"        # inkAqua
-white = "#CDCDCD"       # inkWhite
-bright_black = "#868686"  # inkGray2
-bright_red = "#e03c30"    # inkRed
-bright_green = "#83a765"  # inkGreen2
-bright_yellow = "#d9af54" # inkYellow
-bright_blue = "#7c98c7"   # inkTeal
-bright_magenta = "#a784ab"  # inkPink
-bright_cyan = "#7ab0a8"    # inkAqua
-bright_white = "#FFFFFF"
-
 [manager]
-cwd = { fg = "cyan" }
-# Hovered
-hovered         = { fg = "#CDCDCD", bg = "#7289b6" }  # inkWhite, inkViolet
-preview_hovered = { underline = true }
-# Find
-find_keyword  = { fg = "#d9af54", bold = true, italic = true, underline = true }  # inkYellow
-find_position = { fg = "#a784ab", bg = "#1F1F1F", bold = true, italic = true }    # inkPink
-# Marker
-marker_copied   = { fg = "#6eb575", bg = "#6eb575" }  # inkGreen
-marker_cut      = { fg = "#e03c30", bg = "#e03c30" }  # inkRed
-marker_marked   = { fg = "#7ab0a8", bg = "#7ab0a8" }  # inkAqua
-marker_selected = { fg = "#d9af54", bg = "#d9af54" }  # inkYellow
-# Tab
-tab_active   = { fg = "#CDCDCD", bg = "#1F1F1F" }  # inkWhite
-tab_inactive = { fg = "#CDCDCD", bg = "#2D2D2D" }  # inkWhite
-tab_width    = 1
-# Count
-count_copied   = { fg = "#1F1F1F", bg = "#6eb575" }  # inkGreen
-count_cut      = { fg = "#1F1F1F", bg = "#e03c30" }  # inkRed
-count_selected = { fg = "#1F1F1F", bg = "#d9af54" }  # inkYellow
-# Border
+marker_copied = { fg = "#87A987", bg = "#87A987" }
+marker_cut = { fg = "#E46876", bg = "#E46876" }
+marker_marked = { fg = "#938AA9", bg = "#938AA9" }
+marker_selected = { fg = "#B98D7B", bg = "#B98D7B" }
+
+cwd = { fg = "#E6C384" }
+hovered = { reversed = true }
+preview_hovered = { reversed = true }
+
+find_keyword = { fg = "#B98D7B", bg = "#14171D" }
+find_position = {}
+
+tab_active = { reversed = true }
+tab_inactive = {}
+tab_width = 1
+
+count_copied = { fg = "#14171D", bg = "#87A987" }
+count_cut = { fg = "#14171D", bg = "#E46876" }
+count_selected = { fg = "#14171D", bg = "#E6C384" }
+
 border_symbol = "│"
-border_style  = { fg = "#6B6B6B" }  # inkGray3
-# Highlighting
-syntect_theme = "./tmtheme.xml"
-# Cursor
-cursor_symbol = "█"
-cursor = { fg = "#1F1F1F", bg = "#a2aaa1" }  # inkGray
-# Executable
-exe_symbol = ""
-exe = { fg = "#7ab0a8", bg = "#1F1F1F" }  # inkAqua
-# Regular
-file_symbol = ""
-file = { }
-# Directory
-folder_symbol = ""
-folder = { fg = "#71a7c1", bg = "#1F1F1F" }  # inkBlue2
-# Hidden
-hidden_symbol = ""
-hidden = { fg = "#868686" }  # inkGray2
-# Link
-link_symbol = ""
-link = { fg = "#7ab0a8", bg = "#1F1F1F" }  # inkAqua
-# Link (broken)
-broken_symbol = ""
-broken = { fg = "#e03c30", bg = "#3A1212" }  # inkRed
-# Selected
-selected = { fg = "#FFFFFF", bg = "#7289b6" }  # inkViolet
+border_style = { fg = "#C5C9C7" }
+
+
+[mode]
+normal_main = { fg = "#14171D", bg = "#8BA4B0" }
+normal_alt = { fg = "#8BA4B0", bg = "#14171D" }
+select_main = { fg = "#14171D", bg = "#957fb8" }
+select_alt = { fg = "#957fb8", bg = "#14171D" }
+unset_main = { fg = "#14171D", bg = "#e6c384" }
+unset_alt = { fg = "#e6c384", bg = "#14171D" }
+
 
 [status]
-separator_open  = ""
-separator_close = ""
-separator_style = { fg = "#6B6B6B", bg = "#6B6B6B" }  # inkGray3
-# Mode
-mode_normal = { fg = "#1F1F1F", bg = "#71a7c1", bold = true }  # inkBlue2
-mode_select = { fg = "#1F1F1F", bg = "#d9af54", bold = true }  # inkYellow
-mode_unset  = { fg = "#1F1F1F", bg = "#e03c30", bold = true }  # inkRed
-# Progress
-progress_label  = { bold = true }
-progress_normal = { fg = "#71a7c1", bg = "#1F1F1F" }  # inkBlue2
-progress_error  = { fg = "#e03c30", bg = "#1F1F1F" }  # inkRed
-# Permissions
-permissions_t = { fg = "#6eb575" }  # inkGreen
-permissions_r = { fg = "#d9af54" }  # inkYellow
-permissions_w = { fg = "#e03c30" }  # inkRed
-permissions_x = { fg = "#7ab0a8" }  # inkAqua
-permissions_s = { fg = "#868686" }  # inkGray2
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+overall = { fg = "#C5C9C7", bg = "#14171D" }
 
-[select]
-border   = { fg = "#71a7c1" }  # inkBlue2
-active   = { fg = "#a784ab", bold = true }  # inkPink
+progress_label = { fg = "#8BA4B0", bg = "#14171D", bold = true }
+progress_normal = { fg = "#14171D", bg = "#14171D" }
+progress_error = { fg = "#14171D", bg = "#14171D" }
+
+perm_type = { fg = "#87A987" }
+perm_read = { fg = "#E6C384" }
+perm_write = { fg = "#E46876" }
+perm_exec = { fg = "#7AA89F" }
+perm_sep = { fg = "#938AA9" }
+
+
+[pick]
+border = { fg = "#7fb4ca" }
+active = { fg = "#938AA9", bold = true }
 inactive = {}
 
 [input]
-border   = { fg = "#71a7c1" }  # inkBlue2
-title    = {}
-value    = {}
+border = { fg = "#7fb4ca" }
+title = {}
+value = {}
 selected = { reversed = true }
 
 [completion]
-border   = { fg = "#71a7c1" }  # inkBlue2
-active   = { bg = "#7289b6" }  # inkViolet
+border = { fg = "#7fb4ca" }
+active = { reversed = true }
 inactive = {}
-# Icons
-icon_file    = ""
-icon_folder  = ""
-icon_command = ""
 
 [tasks]
-border  = { fg = "#71a7c1" }  # inkBlue2
-title   = {}
-hovered = { underline = true }
+border = { fg = "#7fb4ca" }
+title = {}
+hovered = { fg = "#938AA9" }
 
 [which]
-mask            = { bg = "#1F1F1F" }
-cand            = { fg = "#7ab0a8" }  # inkAqua
-rest            = { fg = "#868686" }  # inkGray2
-desc            = { fg = "#a784ab" }  # inkPink
-separator       = "  "
-separator_style = { fg = "#868686" }  # inkGray2
+cols = 2
+separator = " - "
+separator_style = { fg = "#A4A7A4" }
+mask = { bg = "#14171D" }
+rest = { fg = "#A4A7A4" }
+cand = { fg = "#8EA4A2" }
+desc = { fg = "#C5C9C7" }
 
 [help]
-on      = { fg = "#7ab0a8" }  # inkAqua
-run     = { fg = "#a784ab" }  # inkPink
-desc    = { fg = "#CDCDCD" }  # inkWhite
-hovered = { bg = "#7289b6", bold = true }  # inkViolet
-footer  = { fg = "#CDCDCD", bg = "#252526" }  # inkWhite
+on = { fg = "#7AA89F" }
+run = { fg = "#938AA9" }
+desc = {}
+hovered = { reversed = true, bold = true }
+footer = { fg = "#14171D", bg = "#C5C9C7" }
+
+[notify]
+title_info = { fg = "#87A987" }
+title_warn = { fg = "#E6C384" }
+title_error = { fg = "#E46876" }
 
 [filetype]
 rules = [
-    # Images
-    { mime = "image/*", fg = "#d9af54" },  # inkYellow
-    # Videos
-    { mime = "video/*", fg = "#a784ab" },  # inkPink
-    # Audio
-    { mime = "audio/*", fg = "#a784ab" },  # inkPink
-    # Archives
-    { mime = "application/zip", fg = "#e03c30" },  # inkRed
-    { mime = "application/gzip", fg = "#e03c30" },  # inkRed
-    { mime = "application/x-tar", fg = "#e03c30" },  # inkRed
-    { mime = "application/x-bzip", fg = "#e03c30" },  # inkRed
-    { mime = "application/x-bzip2", fg = "#e03c30" },  # inkRed
-    { mime = "application/x-7z-compressed", fg = "#e03c30" },  # inkRed
-    { mime = "application/x-rar", fg = "#e03c30" },  # inkRed
-    # Documents
-    { mime = "application/pdf", fg = "#7ab0a8" },  # inkAqua
-    { mime = "application/msword", fg = "#7ab0a8" },  # inkAqua
-    { mime = "application/vnd.openxmlformats-officedocument.*", fg = "#7ab0a8" },  # inkAqua
-    # Fallback
-    { name = "*", fg = "#CDCDCD" },  # inkWhite
-    { name = "*/", fg = "#71a7c1" },  # inkBlue2
-    # Executable
-    { name = "*", category = "executable", fg = "#7ab0a8", bg = "#1F1F1F" },  # inkAqua
-    # Directories
-    { name = "*/", fg = "#71a7c1", bg = "#1F1F1F" },  # inkBlue2
-    # Hidden files
-    { name = ".*", fg = "#868686" },  # inkGray2
-    # Symlinks
-    { name = "*", category = "link", fg = "#7ab0a8", bg = "#1F1F1F" },  # inkAqua
-    # Broken symlinks
-    { name = "*", category = "broken", fg = "#e03c30", bg = "#3A1212" },  # inkRed
-]
+    # images
+    { mime = "image/*", fg = "#E6C384" },
 
-[icon]
-rules = [
-    { name = "Desktop", text = "" },
-    { name = "Documents", text = "" },
-    { name = "Downloads", text = "" },
-    { name = "Pictures", text = "" },
-    { name = "Music", text = "" },
-    { name = "Videos", text = "" },
-    { name = ".git", text = "" },
-    { name = ".config", text = "" },
+    # media
+    { mime = "{audio,video}/*", fg = "#938AA9" },
+
+    # archives
+    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#e46876" },
+
+    # documents
+    { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#A292A3" },
+
+    # broken links
+    { name = "*", is = "orphan", fg = "#E46876" },
+
+    # executables
+    { name = "*", is = "exec", fg = "#7AA89F" },
+
+    # fallback
+    { name = "*", fg = "#C5C9C7" },
+    { name = "*/", fg = "#8BA4B0" },
 ]

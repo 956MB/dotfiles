@@ -17,13 +17,21 @@ return {
         end,
     },
 
+    -- { -- Git status in oil.nvim
+    --     'benomahony/oil-git.nvim',
+    --     dependencies = { 'stevearc/oil.nvim' },
+    --     opts = {},
+    -- },
+
     { -- OIL
         -- 'stevearc/oil.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/oil.nvim',
         name = 'oil.nvim',
+        lazy = false,
         -- dependencies = {
         --     { 'nvim-tree/nvim-web-devicons' },
         -- },
+        -- opts = {},
         config = function()
             require('oil').setup {
                 default_file_explorer = true,
@@ -44,17 +52,6 @@ return {
                         return name.match(name, '^%.DS_Store$')
                     end,
                 },
-            }
-        end,
-    },
-    { -- Git status oil.nvim
-        'refractalize/oil-git-status.nvim',
-        dependencies = {
-            'oil.nvim',
-        },
-        config = function()
-            require('oil-git-status').setup {
-                show_ignored = false,
             }
         end,
     },
