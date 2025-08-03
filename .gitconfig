@@ -6,6 +6,7 @@
 [user]
 	name = 956MB
 	email = bays@956mb.com
+	signingkey = /Users/bays/.ssh/id_githubmacos2025.pub
 [push]
 	default = current
 [init]
@@ -26,3 +27,7 @@
 [url "git@github.com:956MB/"]
 	insteadOf = "956:"
 
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
