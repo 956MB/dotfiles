@@ -203,6 +203,8 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 style = "bold blue"
 format = "[$symbol($version )]($style)"
+# python_binary = 'python3'
+# pyenv_version_name = true
 
 [rust]
 symbol = " "
