@@ -6,7 +6,7 @@
 [user]
 	name = 956MB
 	email = bays@956mb.com
-	signingkey = /Users/bays/.ssh/id_githubmacos2025.pub
+	signingkey = /Users/bays/.ssh/id_github_signing_2025.pub
 [push]
 	default = current
 [init]
