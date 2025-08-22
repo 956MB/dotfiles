@@ -193,27 +193,27 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ```python
 # onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logo.txt)"
 
-   ··////////////////////··/·   Project: dotfiles (3 branches)
- ·//·····/|/············/||/·   HEAD: 3736378 (main, origin/main)
-·|·      ·|·           ·//·     Pending: 2+- 5+
-/|       ·|·         ·//·       Created: a year ago
-·|/     ·/|·       ·//·         Languages:
- ·///////|·      ·//·                      ● Lua (85.0 %) ● Fish (6.3 %)
-    ····       ·//·      ·/·               ● Shell (3.3 %) ● BASH (1.7 %)
-             ·||·      ·//·                ● Python (1.7 %) ● Zig (1.3 %)
-           ·|//////···//·                  ● Other (0.7 %)
-         ·||/·     ·||||·       Authors: 64% Alexander Bays <bays@956mb.com> 73
-        ·//·       ///·//·               34% 956MB <bays@956mb.com> 39
-      ·//·       /|/    ·|/               2% Alexander Bays <bays@MacBookPro.attlocal.net> 2
-    ·//·       ·//        //    Last change: 17 seconds ago
-  ·//·       ·//·         ·|·   URL: git@github.com:956MB/dotfiles.git
- //·       ·/||/··········/|/   Commits: 114
-··         ·/··////////////··   Churn (2): Brewfile 2
-                                           …/completions/docker.fish 1
-                                           …/conf.d/aliases.fish 1
-                                Lines of code: 16282
-                                Size: 16.28 MiB (116 files)
-                                License: MIT
+           /////////////////////////////       Project: dotfiles (3 branches)
+         /···|/////////////////////|···|       HEAD: 2273424 (main, origin/main)
+        |·/||/                    /||/         Pending: 2+- 5+
+      /·|  /·|                  |||/           Created: a year ago
+     |·/    |·/              /|·|/             Languages:
+   /·|      /·|            /|·|/                          ● Lua (85.2 %) ● Fish (6.3 %)
+  ||/        |·/         /||/                             ● Shell (3.1 %) ● BASH (1.7 %)
+/··|/////////|·|       /||////            //              ● Python (1.7 %) ● Zig (1.3 %)
+////////////////    /|||//|||·|        /|||/              ● Other (0.7 %)
+                  /|·|||||/  |·|    /|||/      Authors: 60% Alexander Bays <bays@956mb.com> 73
+                /|···||/      |·|/|||/                  38% 956MB <bays@956mb.com> 46
+              /|··||/         /···/                      2% Alexander Bays <bays@MacBookPro.attlocal.net> 2
+           /|··||/         /|||/|·|            Last change: now
+         /|··|/         /|||/    |·|           URL: git@github.com:956MB/dotfiles.git
+       /|·|/         /|···|//////|··|          Commits: 121
+       //            ////////////////          Churn (2): fish/config.fish 1
+                                                          …/plugins/ui.lua 1
+                                                          .gitconfig 1
+                                               Lines of code: 16250
+                                               Size: 16.28 MiB (116 files)
+                                               License: MIT
 ```
 
 [MIT license](./LICENSE)
