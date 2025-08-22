@@ -349,28 +349,28 @@ set_fish_shell() {
 show_logo() {
   clear
   echo -e "
-*     ··////////////////////··/·   
-|   ·//·····/|/············/||/·   
-/  ·|·      ·|·           ·//·     
--  /|       ·|·         ·//·       
-\\  ·|/     ·/|·       ·//·         
-|   ·///////|·      ·//·           
-/      ····       ·//·      ·/·    
--               ·||·      ·//·     
-\\             ·|//////···//·       
-|           ·||/·     ·||||·       
-/          ·//·       ///·//·      
--        ·//·       /|/    ·|/     
-\\      ·//·       ·//        //    
-|    ·//·       ·//·         ·|·   
-/   //·       ·/||/··········/|/   
--  ··         ·/··////////////··   
+*            /////////////////////////////    
+|          /···|/////////////////////|···|    
+/         |·/||/                    /||/      
+-       /·|  /·|                  |||/        
+\\      |·/    |·/              /|·|/          
+|    /·|      /·|            /|·|/            
+/   ||/        |·/         /||/               
+- /··|/////////|·|       /||////            //
+\\ ////////////////    /|||//|||·|        /|||/
+|                   /|·|||||/  |·|    /|||/   
+/                 /|···||/      |·|/|||/      
+-               /|··||/         /···/         
+\\            /|··||/         /|||/|·|         
+|          /|··|/         /|||/    |·|        
+/        /|·|/         /|···|//////|··|       
+-        //            ////////////////       
 \\  
 *  https://github.com/956MB/dotfiles
 |
 /  This script will install and configure development tools and dotfiles"
   echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Fish shell, and more"
-  echo -e "\\  Usage: install.sh [--packages-only|-p] for packages only"
+  echo -e "\\  Usage: install.sh [--packages-only | -p] for packages only"
   echo -e "|  "
 
   while true; do
