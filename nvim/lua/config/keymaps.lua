@@ -219,22 +219,45 @@ for i = 1, 9 do
 end
 
 -- Split creation/navigation
-map('n', '<C-j>', '<C-w>k', 'Move focus to the split above')
-map('n', '<C-k>', '<C-w>j', 'Move focus to the split below')
-map('n', '<C-S-j>', '<C-w>h', 'Move focus to the split on the left')
-map('n', '<C-S-k>', '<C-w>l', 'Move focus to the split on the right')
---
--- Workaround for `<A-j>`, `<A-k>`, `<A-h>`, `<A-l>` not working in kitty for some reason
-vim.api.nvim_set_keymap('n', '˚', '<C-w>J', { noremap = true, desc = 'Move split up' }) -- Alt+j
-vim.api.nvim_set_keymap('n', '∆', '<C-w>K', { noremap = true, desc = 'Move split down' }) -- Alt+k
-vim.api.nvim_set_keymap('n', '˙', '<C-w>H', { noremap = true, desc = 'Move split left' }) -- Alt+h
-vim.api.nvim_set_keymap('n', '¬', '<C-w>L', { noremap = true, desc = 'Move split right' }) -- Alt+l
-map('n', '<C-,>', function()
-    utils.scale_split '-1'
-end, 'Scale the current split by -1')
-map('n', '<C-.>', function()
-    utils.scale_split '+1'
-end, 'Scale the current split by +1')
+map('n', '<C-,>', function ()
+    require('smart-splits').resize_left()
+end, 'Resize split left')
+map('n', '<C-S-.>', function ()
+    require('smart-splits').resize_down()
+end, 'Resize split down')
+map('n', '<C-S-,>', function ()
+    require('smart-splits').resize_up()
+end, 'Resize split up')
+map('n', '<C-.>', function ()
+    require('smart-splits').resize_right()
+end, 'Resize split right')
+map('n', '<C-j>', function ()
+    require('smart-splits').move_cursor_left()
+end, 'Move to left split')
+map('n', '<C-S-k>', function ()
+    require('smart-splits').move_cursor_down()
+end, 'Move to down split')
+map('n', '<C-S-j>', function ()
+    require('smart-splits').move_cursor_up()
+end, 'Move to up split')
+map('n', '<C-k>', function ()
+    require('smart-splits').move_cursor_right()
+end, 'Move to right split')
+map('n', '<C-\\>', function ()
+    require('smart-splits').move_cursor_previous()
+end, 'Move to previous split')
+map('n', '<leader><leader>h', function ()
+    require('smart-splits').swap_buf_left()
+end, 'Swap buffer left')
+map('n', '<leader><leader>j', function ()
+    require('smart-splits').swap_buf_down()
+end, 'Swap buffer down')
+map('n', '<leader><leader>k', function ()
+    require('smart-splits').swap_buf_up()
+end, 'Swap buffer up')
+map('n', '<leader><leader>l', function ()
+    require('smart-splits').swap_buf_right()
+end, 'Swap buffer right')
 map('n', '<leader>vs', ':vsplit<CR>', 'Vertical split')
 map('n', '<leader>hs', ':split<CR>', 'Horizontal split')
 map('n', '<leader>dd', '<C-w>c', 'Close split')

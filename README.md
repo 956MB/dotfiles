@@ -75,6 +75,19 @@ alias zsk='zellij k'                  # Kill zellij session <name>
 alias zsd='zellij d'                  # Delete zellij session <name>
 ```
 
+##### Tailscale
+
+```bash
+alias ts='tailscale'                                  # Tailscale command
+alias tsh='tailscale --help'                          # Tailscale help
+alias tsup='tailscale up'                             # Start Tailscale
+alias tsdown='tailscale down'                         # Stop Tailscale
+alias tss='tailscale status'                          # Show Tailscale status
+alias tsip='tailscale ip'                             # Show Tailscale IPv4 address
+alias tssh='tailscale ssh'                            # SSH into a Tailscale machine
+alias tsdc='ps aux | grep tailscaled | grep -v grep'  # Check if tailscaled daemon is running
+```
+
 ##### Commands
 
 ```bash
@@ -191,7 +204,7 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
-# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logo.txt)"
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo.txt)"
 
            /////////////////////////////       Project: dotfiles (3 branches)
          /···|/////////////////////|···|       HEAD: 2273424 (main, origin/main)

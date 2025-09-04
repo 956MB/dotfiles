@@ -202,6 +202,16 @@ return {
         end,
     },
 
+    -- Better splits
+    {
+        'mrjones2014/smart-splits.nvim',
+        config = function()
+            require('smart-splits').setup {
+                default_amount = 1,
+            }
+        end,
+    },
+
     { -- ^^ Better than opening lazygit in a terminal with toggleterm (TermExec)
         'kdheepak/lazygit.nvim',
         cmd = {
@@ -381,146 +391,5 @@ return {
     {
         'folke/persistence.nvim',
         opts = { autoload = false },
-    },
-
-    { -- Dashboard
-        'goolord/alpha-nvim',
-        event = 'VimEnter',
-        enabled = true,
-        -- dependencies = { 'nvim-tree/nvim-web-devicons' },
-        init = false,
-        opts = function()
-            local dashboard = require 'alpha.themes.dashboard'
-            local theta = require 'alpha.themes.theta'
-            local cdir = vim.fn.getcwd()
-            local mru_list = theta.mru(0, cdir, 5)
-            dashboard.section.buttons.val = {
-                {
-                    type = 'group',
-                    val = function()
-                        if #mru_list.val > 0 then
-                            return {
-                                {
-                                    type = 'text',
-                                    val = 'Recent files',
-                                    opts = {
-                                        hl = 'SpecialComment',
-                                        shrink_margin = false,
-                                        position = 'center',
-                                    },
-                                },
-                                { type = 'padding', val = 1 },
-                                {
-                                    type = 'group',
-                                    val = function()
-                                        return { mru_list }
-                                    end,
-                                    opts = { shrink_margin = false },
-                                },
-                                { type = 'padding', val = 1 },
-                            }
-                        else
-                            return {}
-                        end
-                    end,
-                },
-                { type = 'padding', val = #mru_list.val > 0 and 1 or 0 },
-                { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
-                { type = 'padding', val = 1 },
-                {
-                    type = 'group',
-                    val = {
-                        dashboard.button('f', '󰱽 ' .. ' Find file', '<cmd> Telescope find_files <CR>'),
-                        dashboard.button('g', '󱩾 ' .. ' Find text', '<cmd> Telescope live_grep <CR>'),
-                        dashboard.button('n', ' ' .. ' New file', '<cmd> ene <CR>'),
-                        dashboard.button('r', ' ' .. ' Recent files', '<cmd> Telescope oldfiles <CR>'),
-                        dashboard.button('c', ' ' .. ' Config', '<cmd> lua require("lazyvim.util").telescope.config_files()() <CR>'),
-                        dashboard.button('s', '󰁯 ' .. ' Restore Session', '<cmd> lua require("persistence").load() <CR>'),
-                        dashboard.button(
-                            'x',
-                            '󰁯 ' .. ' Restore Session',
-                            '<cmd>lua require("persistence").load() vim.defer_fn(function() vim.cmd("doautocmd User SessionLoadPost") end, 10)<CR>'
-                        ),
-                        dashboard.button('u', ' ' .. ' Update plugins', '<cmd> Lazy sync <CR>'),
-                        dashboard.button('l', '󰒲 ' .. ' Lazy', '<cmd> Lazy <CR>'),
-                        dashboard.button('q', ' ' .. ' Quit', '<cmd> qa <CR>'),
-                    },
-                },
-                { type = 'padding', val = 1 },
-            }
-            for _, button in ipairs(dashboard.section.buttons.val) do
-                if button.on_press then
-                    button.opts.hl = 'AlphaButtons'
-                    button.opts.hl_shortcut = 'AlphaShortcut'
-                end
-            end
-
-            local banner = [[
-           /////////////////////////////    
-         /···|/////////////////////|···|    
-        |·/||/                    /||/      
-      /·|  /·|                  |||/        
-     |·/    |·/              /|·|/          
-   /·|      /·|            /|·|/            
-  ||/        |·/         /||/               
-/··|/////////|·|       /||////            //
-////////////////    /|||//|||·|        /|||/
-                  /|·|||||/  |·|    /|||/   
-                /|···||/      |·|/|||/      
-              /|··||/         /···/         
-           /|··||/         /|||/|·|         
-         /|··|/         /|||/    |·|        
-       /|·|/         /|···|//////|··|       
-       //            ////////////////          
-]]
-            local header = '\n\n\n\n\n\n' .. banner
-
-            dashboard.section.header.val = vim.split(header, '\n')
-            dashboard.section.header.opts.hl = 'AlphaHeader'
-            dashboard.section.buttons.opts.hl = 'AlphaButtons'
-            dashboard.section.buttons.opts.spacing = 0
-            dashboard.section.footer.opts.hl = 'AlphaFooter'
-            dashboard.config.layout = {
-                { type = 'padding', val = 1 },
-                dashboard.section.header,
-                { type = 'padding', val = 1 },
-                dashboard.section.buttons,
-                { type = 'padding', val = 1 },
-                dashboard.section.footer,
-            }
-            return dashboard
-        end,
-
-        -- Credits: https://github.com/LazyVim/LazyVim
-        config = function(_, dashboard)
-            -- close Lazy and re-open when the dashboard is ready
-            if vim.o.filetype == 'lazy' then
-                vim.cmd.close()
-                vim.api.nvim_create_autocmd('User', {
-                    once = true,
-                    pattern = 'AlphaReady',
-                    callback = function()
-                        require('lazy').show()
-                    end,
-                })
-            end
-
-            require('alpha').setup(dashboard.opts)
-
-            vim.api.nvim_create_autocmd('User', {
-                once = true,
-                pattern = 'LazyVimStarted',
-                callback = function()
-                    local stats = require('lazy').stats()
-                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    local neovim_version = 'v' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
-                    local lazyvim_version = 'v' .. require('lazy.core.config').version
-                    local footer = '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms'
-                    local version = '      Neovim ' .. neovim_version .. ' · LazyVim ' .. lazyvim_version
-                    dashboard.section.footer.val = { footer, '', version }
-                    pcall(vim.cmd.AlphaRedraw)
-                end,
-            })
-        end,
     },
 }

@@ -1,6 +1,6 @@
 return {
     {
-        'webhooked/kanso.nvim',
+        -- 'webhooked/kanso.nvim',
         dir = '~/dotfiles/nvim/lua/plugins/custom/kanso.nvim',
         branch = 'neutral+saturate',
         lazy = false,

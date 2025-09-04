@@ -30,6 +30,7 @@ alias tsdown='tailscale down'                                # Stop Tailscale
 alias tss='tailscale status'                                 # Show Tailscale status
 alias tsip='tailscale ip'                                    # Show Tailscale IPv4 address
 alias tssh='tailscale ssh'                                   # SSH into a Tailscale machine
+alias tsdc='ps aux | grep tailscaled | grep -v grep'         # Check if tailscaled daemon is running
 # TODO: Add more from the `tailscale --help`
 
 # Zellij aliases
