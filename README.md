@@ -207,25 +207,25 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 # onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo.txt)"
 
            /////////////////////////////       Project: dotfiles (3 branches)
-         /···|/////////////////////|···|       HEAD: 2273424 (main, origin/main)
-        |·/||/                    /||/         Pending: 2+- 5+
+         /···|/////////////////////|···|       HEAD: bbe5622 (main, origin/main)
+        |·/||/                    /||/         Pending: 2+-
       /·|  /·|                  |||/           Created: a year ago
      |·/    |·/              /|·|/             Languages:
-   /·|      /·|            /|·|/                          ● Lua (85.2 %) ● Fish (6.3 %)
-  ||/        |·/         /||/                             ● Shell (3.1 %) ● BASH (1.7 %)
-/··|/////////|·|       /||////            //              ● Python (1.7 %) ● Zig (1.3 %)
+   /·|      /·|            /|·|/                          ● Lua (85.7 %) ● Fish (6.2 %)
+  ||/        |·/         /||/                             ● Shell (3.1 %) ● Python (1.7 %)
+/··|/////////|·|       /||////            //              ● BASH (1.4 %) ● Zig (1.3 %)
 ////////////////    /|||//|||·|        /|||/              ● Other (0.7 %)
-                  /|·|||||/  |·|    /|||/      Authors: 60% Alexander Bays <bays@956mb.com> 73
-                /|···||/      |·|/|||/                  38% 956MB <bays@956mb.com> 46
-              /|··||/         /···/                      2% Alexander Bays <bays@MacBookPro.attlocal.net> 2
-           /|··||/         /|||/|·|            Last change: now
+                  /|·|||||/  |·|    /|||/      Authors: 59% Alexander Bays <bays@956mb.com>
+                /|···||/      |·|/|||/                  39% 956MB <bays@956mb.com> 48
+              /|··||/         /···/                      2% Alexander Bays <bays@MacBookPro.
+           /|··||/         /|||/|·|            Last change: 12 seconds ago
          /|··|/         /|||/    |·|           URL: git@github.com:956MB/dotfiles.git
-       /|·|/         /|···|//////|··|          Commits: 121
-       //            ////////////////          Churn (2): fish/config.fish 1
-                                                          …/plugins/ui.lua 1
-                                                          .gitconfig 1
-                                               Lines of code: 16250
-                                               Size: 16.28 MiB (116 files)
+       /|·|/         /|···|//////|··|          Commits: 123
+       //            ////////////////          Churn (2): README.md 2
+                                                          logos/logo-26.txt 1
+                                                          …/plugins/completion.lua 1
+                                               Lines of code: 16278
+                                               Size: 16.29 MiB (121 files)
                                                License: MIT
 ```
 
