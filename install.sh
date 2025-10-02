@@ -123,31 +123,41 @@ install_ruby_linux() {
   if [[ "$OS" != "linux" ]]; then
     return
   fi
-  
+
   if exists ruby; then
-    local ruby_version=$(ruby --version 2>/dev/null || echo "unknown")
+    local ruby_version
+    ruby_version=$(ruby --version 2>/dev/null || echo "unknown")
     log_success "Ruby already installed: $ruby_version"
     log "    Ruby location: $(which ruby)"
     return
   fi
 
   log "Installing Ruby (required for Homebrew on Linux)..."
-  
-  if exists apk; then
-    apk add --no-cache ruby ruby-dev build-base git
+  log "Package manager detection:"
+
+  for cmd in dnf yum dnf5 apt-get apk pacman; do
+    if exists "$cmd"; then
+      log "    Found: $cmd -> $(command -v $cmd)"
+    fi
+  done
+
+  if exists dnf; then
+    sudo dnf group install -y development-tools
+    sudo dnf install -y ruby ruby-devel git
+  elif exists apk; then
+    sudo apk add --no-cache ruby ruby-dev build-base git
   elif exists apt-get; then
-    apt-get update && apt-get install -y ruby ruby-dev build-essential git
+    sudo apt-get update && sudo apt-get install -y ruby ruby-dev build-essential git
   elif exists pacman; then
-    pacman -S --noconfirm ruby base-devel git
-  elif exists yum; then
-    yum groupinstall -y 'Development Tools' && yum install -y ruby ruby-devel git
+    sudo pacman -S --noconfirm ruby base-devel git
   else
-    log_warning "Could not install Ruby automatically. Please install Ruby 2.6+ manually."
+    log_warning "Could not install Ruby automatically. Please install Ruby manually."
     return 1
   fi
 
   if exists ruby; then
-    local ruby_version=$(ruby --version 2>/dev/null || echo "unknown")
+    local ruby_version
+    ruby_version=$(ruby --version 2>/dev/null || echo "unknown")
     log_success "Ruby installed: $ruby_version"
     log "    Ruby location: $(which ruby)"
   else
@@ -211,7 +221,7 @@ create_symlinks() {
   log "Creating symlinks..."
   mkdir -p "$HOME/.config"
 
-  configs=("bat" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
+  configs=("bat" "btop" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
 
   for config in "${configs[@]}"; do
     if [[ -d "$HOME/dotfiles/$config" ]]; then
@@ -366,7 +376,7 @@ show_logo() {
 /        /|·|/         /|···|//////|··|       
 -        //            ////////////////       
 \\  
-*  https://github.com/956MB/dotfiles
+* -> https://github.com/956MB/dotfiles <- *
 |
 /  This script will install and configure development tools and dotfiles"
   echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Fish shell, and more"
@@ -374,12 +384,16 @@ show_logo() {
   echo -e "|  "
 
   while true; do
-    echo -n "*  Press Enter to continue, 'q' to quit, or Ctrl+C to cancel..."
+    echo -n "*  Press Enter to continue, 'p' for packages only, 'q' to quit, or Ctrl+C to cancel..."
     read -r -n1 response
     echo ""
     case "$response" in
       ""|$'\n')
         break
+        ;;
+      [pP])
+        packages_only
+        return
         ;;
       [qQ])
         echo "|  Installation cancelled"

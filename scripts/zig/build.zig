@@ -3,7 +3,6 @@ const std = @import("std");
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-
     const regex_module = b.dependency("regex", .{ .target = target, .optimize = optimize }).module("regex");
 
     buildExe(b, target, optimize, "aliaz", "aliaz.zig", regex_module);
@@ -30,8 +29,15 @@ fn buildExe(
 
     b.installArtifact(exe);
 
+    const copy_step = b.addInstallFileWithDir(
+        exe.getEmittedBin(),
+        .{ .custom = ".." },
+        name,
+    );
+    copy_step.step.dependOn(b.getInstallStep());
+
     const run_cmd = b.addRunArtifact(exe);
-    run_cmd.step.dependOn(b.getInstallStep());
+    run_cmd.step.dependOn(&copy_step.step);
 
     if (b.args) |args| {
         run_cmd.addArgs(args);

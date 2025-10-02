@@ -58,7 +58,7 @@ alias lss='eza -la --group-directories-first --sort=size'              # Sort by
 alias cls='clear'                                                      # Clear the terminal screen
 alias oldtop="/usr/bin/top"                                            # Run the original top command
 alias nf="neofetch"                                                    # Display system information using neofetch
-alias of="onefetch --no-color-palette --include-hidden -E --no-title"  # Display git repository information using onefetch
+alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/logos/logo.txt)"'  # Display git repository information using onefetch with logo
 alias ep="echo $PATH"                                                  # Print the PATH environment variable
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
 ```
@@ -80,6 +80,7 @@ alias zsd='zellij d'                  # Delete zellij session <name>
 ```bash
 alias ts='tailscale'                                  # Tailscale command
 alias tsh='tailscale --help'                          # Tailscale help
+alias tsv='tailscale version'                         # Tailscale version
 alias tsup='tailscale up'                             # Start Tailscale
 alias tsdown='tailscale down'                         # Stop Tailscale
 alias tss='tailscale status'                          # Show Tailscale status

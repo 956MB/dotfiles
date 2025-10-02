@@ -1,7 +1,8 @@
 .{
-    .name = "zig-scripts",
+    .name = .zig_scripts,
     .version = "0.0.0",
     .minimum_zig_version = "0.14.0",
+    .fingerprint = 0xae8ed1664315a193,
     .dependencies = .{
         .regex = .{
             .url = "git+https://github.com/tiehuis/zig-regex.git#7bc0fd777c3b92c51a94531439e5913bda24030c",

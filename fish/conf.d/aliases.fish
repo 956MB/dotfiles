@@ -21,17 +21,24 @@ alias func='functions'                                       # List all function
 alias cat='bat'                                              # Use bat instead of cat
 alias oldcat='/usr/bin/cat'                                  # Use original cat
 alias ld='lazydocker'                                        # Open Lazydocker interface
+alias cls='clear'                                            # Clear the terminal screen
+alias oldtop='/usr/bin/top'                                  # Run the original top command
+alias ff='fastfetch --logo ~/dotfiles/logo.txt'              # Display system information using fastfetch and my logo
+alias nf='neofetch'                                          # Display system information using neofetch
+alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/logos/logo.txt)"'  # Display git repository information using onefetch with logo
+alias ep='echo \$PATH'                                       # Print the PATH environment variable
+alias resh='source ~/.config/fish/config.fish'               # Reload the fish configuration
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                         # Tailscale command
 alias tsh='tailscale --help'                                 # Tailscale help
+alias tsv='tailscale version'                                # Tailscale version
 alias tsup='tailscale up'                                    # Start Tailscale
 alias tsdown='tailscale down'                                # Stop Tailscale
 alias tss='tailscale status'                                 # Show Tailscale status
 alias tsip='tailscale ip'                                    # Show Tailscale IPv4 address
 alias tssh='tailscale ssh'                                   # SSH into a Tailscale machine
 alias tsdc='ps aux | grep tailscaled | grep -v grep'         # Check if tailscaled daemon is running
-# TODO: Add more from the `tailscale --help`
 
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>
@@ -43,6 +50,7 @@ alias zsd='zellij d'                  # Delete zellij session <name>
 # zigup aliases
 alias zup='zigup'                 # <version>: Fetch compiler and set default
 alias zupf='zigup fetch'          # <version>: Fetch Zig compiler
+alias zuph='zigup --help'         # Zigup help
 alias zupls='zigup list'          # List installed Zig versions
 alias zupdef='zigup default'      # Set global Zig version
 alias zupcl='zigup cleanup'       # Clean compilers that aren't default/master/keep
@@ -70,14 +78,6 @@ else
     alias la='ls -A -G'           # List all files except . and ..
     alias ls='ls -CF -G'          # List files with / for directories and * for executables
 end
-
-alias cls='clear'                                                      # Clear the terminal screen
-alias oldtop='/usr/bin/top'                                             # Run the original top command
-alias ff='fastfetch --logo ~/dotfiles/logo.txt'                        # Display system information using fastfetch and my logo
-alias nf='neofetch'                                                    # Display system information using neofetch
-alias of='onefetch --no-color-palette --include-hidden -E --no-title'  # Display git repository information using onefetch
-alias ep='echo \$PATH'                                                 # Print the PATH environment variable
-alias resh='source ~/.config/fish/config.fish'                         # Reload the fish configuration
 
 # Git aliases
 alias ga='git add'                      # Stage changes
@@ -131,9 +131,6 @@ alias lj='lazyjj'                        # Open Lazyjj interface
 
 # System-specific aliases
 if test "$IS_MAC" = true
-    alias vzsh='kitty @ launch --type=tab nvim --remote-silent ~/.config/fish/config.fish'  # Edit fish config in a new Kitty tab using Neovim
-    alias vlua='kitty @ launch --type=tab nvim --remote-silent ~/dotfiles/nvim'             # Edit Neovim config in a new Kitty tab
-
     # Yabai/skhd aliases
     alias ystart='yabai --start-service'  # Start yabai service
     alias ystop='yabai --stop-service'    # Stop yabai service

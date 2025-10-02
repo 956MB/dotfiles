@@ -6,7 +6,7 @@
 [user]
 	name = 956MB
 	email = bays@956mb.com
-	signingkey = /Users/bays/.ssh/id_github_signing_2025.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 [push]
 	default = current
 [init]
@@ -32,4 +32,4 @@
 [commit]
 	gpgsign = true
 [gpg "ssh"]
-	allowedSignersFile = /Users/bays/.config/git/allowed_signers
+	allowedSignersFile = ~/.config/git/allowed_signers

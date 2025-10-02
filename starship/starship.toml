@@ -62,7 +62,7 @@ style = "bold bright-cyan"
 disabled = false
 
 [directory]
-format = " [$path]($style)[$read_only]($read_only_style) "
+format = "[$path]($style)[$read_only]($read_only_style) "
 style = "purple"
 truncation_length = 0
 truncate_to_repo = true

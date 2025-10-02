@@ -12,6 +12,8 @@ else
     # Linux Homebrew path
     if test -d /home/linuxbrew/.linuxbrew
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        set zigup_bin (brew --prefix zigup)/bin
+        fish_add_path $zigup_bin
     end
 end
 
@@ -85,6 +87,11 @@ if command -q starship
     starship init fish | source
 end
 
+if type -q nvim
+    set -x EDITOR (which nvim)
+    set -x VISUAL (which nvim)
+end
+set -gx PATH $PATH "$HOME/linuxbrew/.linuxbrew/bin"
 set -gx ZVM_INSTALL "$HOME/.zvm/self"
 set -gx PATH $PATH "$HOME/.zvm/bin"
 set -gx PATH $PATH "$ZVM_INSTALL/"

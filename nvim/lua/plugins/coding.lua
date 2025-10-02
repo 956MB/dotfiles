@@ -371,7 +371,7 @@ return {
                     -- ['.'] = false,
                     ['*'] = true,
                 },
-                copilot_node_command = '/opt/homebrew/bin/node',
+                copilot_node_command = vim.fn.exepath 'node',
                 server_opts_overrides = {},
             }
         end,
