@@ -19,13 +19,13 @@ $hg_branch\
 $jobs\
 $character"""
 
-right_format = """$status$cmd_duration$git_branch """
+right_format = """$status$cmd_duration$git_branch"""
 
 # ${custom.git_branch}\
 # ${custom.jj}\
 
 [username]
-format = " (blue)[$user]($style)"
+format = "(blue)[$user]($style)"
 style_user = "bold blue"
 style_root = "bold red"
 show_always = true
@@ -66,7 +66,7 @@ format = "[$path]($style)[$read_only]($read_only_style) "
 style = "purple"
 truncation_length = 0
 truncate_to_repo = true
-truncation_symbol = "repo: "
+truncation_symbol = ": "
 
 [git_metrics]
 disabled = true

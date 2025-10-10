@@ -20,7 +20,7 @@ gui:
     selectedLineBgColor:
       - '#52596a'
     cherryPickedCommitBgColor:
-      - '#181818'  # keeping dark background
+      - '#181818' # keeping dark background
     cherryPickedCommitFgColor:
       - '#a784ab'
     unstagedChangesColor:
@@ -78,11 +78,13 @@ git:
   autoRefresh: true
   fetchAll: true # Pass --all flag when running git fetch. Set to false to fetch only origin (or the current branch's upstream remote if there is one)
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
-  allBranchesLogCmd: "git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium"
   overrideGpg: false # prevents lazygit from spawning a separate process when using GPG
   disableForcePushing: false
   parseEmoji: false
   # diffContextSize: 3 # how many lines of context are shown around a change in diffs
+
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
 os:
   copyToClipboardCmd: "" # See 'Custom Command for Copying to Clipboard' section
   editPreset: "" # see 'Configuring File Editing' section

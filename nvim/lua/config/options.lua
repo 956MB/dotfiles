@@ -7,8 +7,8 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 vim.g.indent_blankline_enabled = false
 
-vim.o.relativenumber = true
-vim.opt_global.relativenumber = true
+vim.o.relativenumber = false
+vim.opt_global.relativenumber = false
 
 vim.o.foldcolumn = '1' -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value

@@ -40,6 +40,14 @@ alias tsip='tailscale ip'                                    # Show Tailscale IP
 alias tssh='tailscale ssh'                                   # SSH into a Tailscale machine
 alias tsdc='ps aux | grep tailscaled | grep -v grep'         # Check if tailscaled daemon is running
 
+# Vicinae aliases (raycast clone for linux)
+alias vicstart='systemctl --user start vicinae.service'
+alias vicstop='systemctl --user stop vicinae.service'
+alias vicrestart='systemctl --user restart vicinae.service'
+alias vicstatus='systemctl --user status vicinae.service'
+alias vicenable='systemctl --user enable --now vicinae.service'
+alias vicdisable='systemctl --user disable vicinae.service'
+
 # Zellij aliases
 alias zsr='zellij ac rename-session'  # Rename zellij session <name>
 alias zsa='zellij a'                  # Attach to zellij session <name>
