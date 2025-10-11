@@ -110,26 +110,12 @@ return {
     },
 
     { -- Collection of various small independent plugins/modules
-        'echasnovski/mini.nvim',
+        'nvim-mini/mini.nvim',
         config = function()
             -- Better Around/Inside textobjects
-            --
-            -- Examples:
-            --  - va)  - [V]isually select [A]round [)]paren
-            --  - yinq - [Y]ank [I]nside [N]ext [']quote
-            --  - ci'  - [C]hange [I]nside [']quote
             require('mini.ai').setup { n_lines = 500 }
-
             -- Add/delete/replace surroundings (brackets, quotes, etc.)
-            --
-            -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-            -- - sd'   - [S]urround [D]elete [']quotes
-            -- - sr)'  - [S]urround [R]eplace [)] [']
             require('mini.surround').setup()
-
-            -- require('mini.icons').setup {
-            --     style = 'ascii', -- Use ascii style to avoid icons
-            -- }
         end,
     },
 
@@ -165,7 +151,7 @@ return {
     },
 
     { -- Indentation scope animation NONE
-        'echasnovski/mini.indentscope',
+        'nvim-mini/mini.indentscope',
         event = 'LazyFile',
         opts = function(_, opts)
             opts.symbol = '│'
@@ -178,8 +164,11 @@ return {
 
     { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
-        event = 'BufReadPost',
+        event = { 'BufReadPost', 'BufNewFile' },
         build = ':TSUpdate',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+        },
         opts = {
             ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'vim', 'vimdoc' },
             auto_install = true,
@@ -190,9 +179,24 @@ return {
             indent = { enable = true, disable = { 'ruby' } },
         },
         config = function(_, opts)
-            -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-            ---@diagnostic disable-next-line: missing-fields
-            require('nvim-treesitter.configs').setup(opts)
+            -- Defer treesitter setup to ensure it's fully loaded
+            vim.defer_fn(function()
+                local ok, configs = pcall(require, 'nvim-treesitter.configs')
+                if not ok then
+                    -- Try installing parsers first
+                    vim.cmd('TSUpdate')
+                    vim.defer_fn(function()
+                        local retry_ok, retry_configs = pcall(require, 'nvim-treesitter.configs')
+                        if retry_ok then
+                            ---@diagnostic disable-next-line: missing-fields
+                            retry_configs.setup(opts)
+                        end
+                    end, 1000)
+                    return
+                end
+                ---@diagnostic disable-next-line: missing-fields
+                configs.setup(opts)
+            end, 100)
         end,
     },
 

@@ -17,6 +17,14 @@ else
     end
 end
 
+if set -q SSH_CONNECTION; and not set -q COLORTERM
+    set -gx COLORTERM truecolor
+end
+
+function ssh
+    env TERM=xterm-ghostty COLORTERM=truecolor /usr/bin/ssh $argv
+end
+
 # Fix fish Ctrl+C
 bind \cC 'echo; commandline ""; commandline -f repaint'
 

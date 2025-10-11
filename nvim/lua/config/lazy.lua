@@ -13,8 +13,8 @@ else
             'git',
             'clone',
             '--filter=blob:none',
-            'https://github.com/956MB/lazy.nvim.git',
-            '--branch=summary-urls',
+            'https://github.com/folke/lazy.nvim.git',
+            '--branch=stable',
             lazypath,
         }
     end

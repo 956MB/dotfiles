@@ -33,7 +33,7 @@ return {
         dependencies = {
             -- 'nvim-tree/nvim-web-devicons',
             'antosha417/nvim-lsp-file-operations',
-            'echasnovski/mini.base16',
+            'nvim-mini/mini.base16',
         },
         config = function()
             local function shorten_path(path, max_length)

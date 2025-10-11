@@ -1,7 +1,7 @@
 local Util = require 'lazyvim.util'
 local cfg_utils = require 'config.utils'
 
--- like lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6)
+-- Simple pretty path function (adapted from lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6))
 ---@param opts? {relative: "cwd"|"root", modified_hl: string?}
 local function lualine_pretty_path(opts)
     opts = vim.tbl_extend('force', {
@@ -256,6 +256,7 @@ return {
         version = '*',
         -- dependencies = 'nvim-tree/nvim-web-devicons',
         opts = function(_, opts)
+            opts.options = opts.options or {}
             opts.options = vim.tbl_deep_extend('force', opts.options, {
                 indicator = {
                     icon = '┃',
@@ -304,6 +305,14 @@ return {
         'nvim-lualine/lualine.nvim',
         -- dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = function(_, opts)
+            -- Initialize opts structure
+            opts.options = opts.options or {}
+            opts.sections = opts.sections or {}
+            opts.sections.lualine_c = opts.sections.lualine_c or {}
+            opts.sections.lualine_x = opts.sections.lualine_x or {}
+            opts.sections.lualine_y = opts.sections.lualine_y or {}
+            opts.inactive_sections = opts.inactive_sections or {}
+            
             -- local function xcodebuild_device()
             --     if vim.g.xcodebuild_platform == 'macOS' then
             --         return ' macOS'

@@ -102,7 +102,7 @@ backup_configs() {
   BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
   mkdir -p "$BACKUP_DIR"
 
-  configs=("bat" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
+  configs=("bat" "btop" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
 
   for config in "${configs[@]}"; do
     if [[ -e "$HOME/.config/$config" ]]; then
