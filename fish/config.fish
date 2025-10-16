@@ -1,6 +1,18 @@
 # Load environment detection and core settings
 source ~/.config/fish/conf.d/env.fish
 
+if test (uname) = Linux
+    if not set -q XAUTHORITY
+        set authfile (find /run/user/1000 -maxdepth 1 -name '.mutter-Xwaylandauth.*' | head -n1)
+        if test -n "$authfile"
+            set -x XAUTHORITY $authfile
+        end
+    end
+    if not set -q DISPLAY
+        set -x DISPLAY :0
+    end
+end
+
 # Add Homebrew to PATH (add this before other path configurations)
 if test "$IS_MAC" = true
     eval "$(/opt/homebrew/bin/brew shellenv)"
