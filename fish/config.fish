@@ -19,13 +19,22 @@ if test "$IS_MAC" = true
     if command -q brew
         set zigup_bin (brew --prefix zigup)/bin
         fish_add_path $zigup_bin
+        fish_add_path "/opt/homebrew/opt/ffmpeg@7/bin"
+        set -gx DYLD_LIBRARY_PATH "/opt/homebrew/opt/ffmpeg@7/lib" $DYLD_LIBRARY_PATH
+        set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/ffmpeg@7/lib/pkgconfig" $PKG_CONFIG_PATH
     end
+    set -gx ZVM_INSTALL "$HOME/.zvm/self"
+    fish_add_path "$HOME/.zvm/bin"
+    fish_add_path "$ZVM_INSTALL/"
+    fish_add_path "$HOME/.lmstudio/bin"
 else
     # Linux Homebrew path
     if test -d /home/linuxbrew/.linuxbrew
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        set zigup_bin (brew --prefix zigup)/bin
-        fish_add_path $zigup_bin
+        if command -q brew
+            set zigup_bin (brew --prefix zigup)/bin
+            fish_add_path $zigup_bin
+        end
     end
 end
 
@@ -44,7 +53,6 @@ bind \cC 'echo; commandline ""; commandline -f repaint'
 test -d ~/.npm-global/bin && fish_add_path ~/.npm-global/bin
 test -d /usr/bin && fish_add_path /usr/bin
 test -d "$HOME/go/bin" && fish_add_path "$HOME/go/bin"
-test -d "$HOME/.zvm/bin" && fish_add_path "$HOME/.zvm/bin"
 test -d "$HOME/.cargo/bin" && fish_add_path "$HOME/.cargo/bin"
 
 # Python paths (different on macOS vs Linux)
@@ -55,12 +63,14 @@ else
 end
 
 # bun
+set --export BUN_INSTALL "$HOME/.bun"
+fish_add_path "$BUN_INSTALL/bin"
+
+# LLVM (after brew is available)
 if command -q brew
     set llvm_bin (brew --prefix llvm@19)/bin
     fish_add_path $llvm_bin
 end
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
 
 if test "$IS_MAC" = true
     test -d /usr/local/opt/coreutils/libexec/gnubin && fish_add_path /usr/local/opt/coreutils/libexec/gnubin
@@ -111,8 +121,3 @@ if type -q nvim
     set -x EDITOR (which nvim)
     set -x VISUAL (which nvim)
 end
-set -gx PATH $PATH "$HOME/linuxbrew/.linuxbrew/bin"
-set -gx ZVM_INSTALL "$HOME/.zvm/self"
-set -gx PATH $PATH "$HOME/.zvm/bin"
-set -gx PATH $PATH "$ZVM_INSTALL/"
-set -gx PATH $PATH "$HOME/.lmstudio/bin"
