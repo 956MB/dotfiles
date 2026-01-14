@@ -141,8 +141,8 @@ keybinding:
     openFile: "o"
     scrollUpMain: "<pgup>" # main panel scroll up
     scrollDownMain: "<pgdown>" # main panel scroll down
-    scrollUpMain-alt1: "K" # main panel scroll up
-    scrollDownMain-alt1: "J" # main panel scroll down
+    scrollUpMain-alt1: "J" # main panel scroll up
+    scrollDownMain-alt1: "K" # main panel scroll down
     scrollUpMain-alt2: "<c-u>" # main panel scroll up
     scrollDownMain-alt2: "<c-d>" # main panel scroll down
     executeShellCommand: ":"

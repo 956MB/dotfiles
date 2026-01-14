@@ -82,6 +82,8 @@ if test -f ~/.config/fish/conf.d/aliases.fish
     source ~/.config/fish/conf.d/aliases.fish
 end
 
+source /etc/grc.fish
+
 # Git default push behavior
 git config --global push.default current
 

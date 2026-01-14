@@ -51,6 +51,7 @@ cursor-style = block
 
 # Icon
 macos-icon = custom-style
+# macos-custom-icon = ~/dotfiles/img/ghostty-icon.png
 macos-icon-frame = plastic
 macos-icon-ghost-color = #ffffff
 macos-icon-screen-color = #181818
@@ -88,6 +89,12 @@ font-family = Menlo Bold
 # palette = 7=#c7c7c7
 # palette = 15=#d4d4d4
 
+# For fun
+# custom-shader = ./shaders/tft.glsl
+# custom-shader = ./shaders/bettercrt.glsl
+# custom-shader = ./shaders/bloom.glsl
+# custom-shader = ./shaders/glitchy.glsl
+
 #  delta git diff pager in lazygit  uses these palette colors for it's
 #  add/remove background color, and for some reason the 'palette = 235'
 #  by default is gray. so I changed it to green to fix it.
@@ -100,6 +107,7 @@ palette = 235=#17351E
 
 # Keybindings
 # NOTE: Re bind goto_split so we can use left/right arrows
+keybind = ctrl+shift+p=toggle_command_palette
 keybind = super+alt+l=goto_split:right
 keybind = super+alt+h=goto_split:left
 keybind = super+alt+right=next_tab

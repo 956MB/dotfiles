@@ -1,10 +1,10 @@
 <p align="center">
     <a href="https://github.com/ghostty-org/ghostty">
-        <img src="./img/ghostty.png" alt="ghostty" width="210">
+        <img src="./.github/ghostty.png" alt="ghostty" width="210">
     </a>
 </p>
 
-![Screenshot](./img/Screenshot_2024-12-08_at_6.27.59_AM.png)
+![Screenshot](./.github/Screenshot_2024-12-08_at_6.27.59_AM.png)
 
 ### `install.sh` script (for me)
 
@@ -61,6 +61,7 @@ alias nf="neofetch"                                                    # Display
 alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/logos/logo.txt)"'  # Display git repository information using onefetch with logo
 alias ep="echo $PATH"                                                  # Print the PATH environment variable
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
+alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"               # Open a timestamped scratch file in neovim
 ```
 
 ##### Zellij
