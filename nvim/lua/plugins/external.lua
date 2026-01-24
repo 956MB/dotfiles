@@ -18,20 +18,19 @@ return {
 
     { -- Task runner
         'stevearc/overseer.nvim',
-        opts = {
-            templates = { 'builtin' },
-            task_list = {
-                direction = 'right',
-                bindings = {
-                    ['<CR>'] = 'RunAction',
-                    ['<C-e>'] = 'Edit',
-                },
-                default_detail = 1,
-            },
-        },
         config = function()
             local overseer = require 'overseer'
-            overseer.setup {}
+            overseer.setup {
+                templates = { 'builtin', 'vscode' },
+                task_list = {
+                    direction = 'right',
+                    bindings = {
+                        ['<CR>'] = 'RunAction',
+                        ['<C-e>'] = 'Edit',
+                    },
+                    default_detail = 1,
+                },
+            }
 
             local ok, tasks = pcall(dofile, vim.fn.getcwd() .. '/.nvim/tasks.lua')
             if ok and tasks.builder then

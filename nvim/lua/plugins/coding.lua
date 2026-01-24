@@ -184,7 +184,7 @@ return {
                 local ok, configs = pcall(require, 'nvim-treesitter.configs')
                 if not ok then
                     -- Try installing parsers first
-                    vim.cmd('TSUpdate')
+                    vim.cmd 'TSUpdate'
                     vim.defer_fn(function()
                         local retry_ok, retry_configs = pcall(require, 'nvim-treesitter.configs')
                         if retry_ok then
@@ -378,6 +378,42 @@ return {
                 copilot_node_command = vim.fn.exepath 'node',
                 server_opts_overrides = {},
             }
+        end,
+    },
+
+    {
+        'NickvanDyke/opencode.nvim',
+        dependencies = {
+            { 'folke/snacks.nvim', opts = { input = {}, picker = {}, terminal = {} } },
+        },
+        config = function()
+            vim.o.autoread = true
+            local function set_opencode_keymaps()
+                local bufname = vim.api.nvim_buf_get_name(0)
+                if bufname:match 'opencode' then
+                    local opts = { buffer = true, silent = true }
+                    vim.keymap.set('t', '<C-j>', function()
+                        vim.cmd 'stopinsert'
+                        require('smart-splits').move_cursor_left()
+                    end, opts)
+                    vim.keymap.set('t', '<C-k>', function()
+                        vim.cmd 'stopinsert'
+                        require('smart-splits').move_cursor_right()
+                    end, opts)
+                    vim.keymap.set('t', '<C-S-k>', function()
+                        vim.cmd 'stopinsert'
+                        require('smart-splits').move_cursor_down()
+                    end, opts)
+                    vim.keymap.set('t', '<C-S-j>', function()
+                        vim.cmd 'stopinsert'
+                        require('smart-splits').move_cursor_up()
+                    end, opts)
+                end
+            end
+            vim.api.nvim_create_autocmd({ 'TermOpen', 'BufEnter' }, {
+                pattern = '*',
+                callback = set_opencode_keymaps,
+            })
         end,
     },
 }

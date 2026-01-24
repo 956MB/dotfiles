@@ -134,12 +134,12 @@ map('n', '<leader>ob', '<cmd>OverseerBuild<CR>', '[T]ask [B]uild new')
 map('n', '<leader>oc', '<cmd>OverseerClearCache<CR>', '[T]ask [C]lear cache')
 
 -- vgit
-map('n', '<C-k>', function()
-    require('vgit').hunk_up()
-end, 'Navigate to previous hunk')
-map('n', '<C-j>', function()
-    require('vgit').hunk_down()
-end, 'Navigate to next hunk')
+-- map('n', '<C-k>', function()
+--     require('vgit').hunk_up()
+-- end, 'Navigate to previous hunk')
+-- map('n', '<C-j>', function()
+--     require('vgit').hunk_down()
+-- end, 'Navigate to next hunk')
 map('n', '<leader>gs', function()
     require('vgit').buffer_hunk_stage()
 end, 'Stage current hunk')
@@ -219,43 +219,43 @@ for i = 1, 9 do
 end
 
 -- Split creation/navigation
-map('n', '<C-,>', function ()
+map('n', '<C-,>', function()
     require('smart-splits').resize_left()
 end, 'Resize split left')
-map('n', '<C-S-.>', function ()
+map('n', '<C-S-.>', function()
     require('smart-splits').resize_down()
 end, 'Resize split down')
-map('n', '<C-S-,>', function ()
+map('n', '<C-S-,>', function()
     require('smart-splits').resize_up()
 end, 'Resize split up')
-map('n', '<C-.>', function ()
+map('n', '<C-.>', function()
     require('smart-splits').resize_right()
 end, 'Resize split right')
-map('n', '<C-j>', function ()
+map('n', '<C-j>', function()
     require('smart-splits').move_cursor_left()
 end, 'Move to left split')
-map('n', '<C-S-k>', function ()
+map('n', '<C-S-k>', function()
     require('smart-splits').move_cursor_down()
 end, 'Move to down split')
-map('n', '<C-S-j>', function ()
+map('n', '<C-S-j>', function()
     require('smart-splits').move_cursor_up()
 end, 'Move to up split')
-map('n', '<C-k>', function ()
+map('n', '<C-k>', function()
     require('smart-splits').move_cursor_right()
 end, 'Move to right split')
-map('n', '<C-\\>', function ()
+map('n', '<C-\\>', function()
     require('smart-splits').move_cursor_previous()
 end, 'Move to previous split')
-map('n', '<leader><leader>h', function ()
+map('n', '<leader><leader>h', function()
     require('smart-splits').swap_buf_left()
 end, 'Swap buffer left')
-map('n', '<leader><leader>j', function ()
+map('n', '<leader><leader>j', function()
     require('smart-splits').swap_buf_down()
 end, 'Swap buffer down')
-map('n', '<leader><leader>k', function ()
+map('n', '<leader><leader>k', function()
     require('smart-splits').swap_buf_up()
 end, 'Swap buffer up')
-map('n', '<leader><leader>l', function ()
+map('n', '<leader><leader>l', function()
     require('smart-splits').swap_buf_right()
 end, 'Swap buffer right')
 map('n', '<leader>vs', ':vsplit<CR>', 'Vertical split')
@@ -336,8 +336,7 @@ map('n', '<leader>y', '<cmd>YankBank<CR>', 'Open YankBank popup')
 -- Cheatsheet
 map('n', '<leader>ch', '<cmd>:Cheatsheet<CR>', 'Show [C][h]eatsheet')
 
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
+-- NOTE: This won't work in all terminal emulators/tmux/etc.
 map('t', '<Esc><Esc>', '<C-\\><C-n>', 'Exit terminal mode')
 
 -- Tabs
@@ -363,3 +362,58 @@ map('v', '<S-Down>', 'j', 'Extend selection down')
 map('v', '<S-Up>', 'k', 'Extend selection up')
 map('i', '<S-Down>', '<C-o>vj', 'Start visual selection down (insert mode)')
 map('i', '<S-Up>', '<C-o>vk', 'Start visual selection up (insert mode)')
+
+-- opencode.nvim keymaps
+map({ 'n', 'x' }, '<C-S-a>', function()
+    require('opencode').ask('@this: ', { submit = true })
+end, 'Ask opencode…')
+map({ 'n', 'x' }, '<C-S-o>', function()
+    require('opencode').select()
+end, 'Execute opencode action…')
+map({ 'n', 't' }, '<C-/>', function()
+    local current_win = vim.api.nvim_get_current_win()
+    require('opencode').toggle()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local bufname = vim.api.nvim_buf_get_name(buf)
+        if bufname:match 'opencode' then
+            vim.api.nvim_set_current_win(win)
+            return
+        end
+    end
+    if vim.api.nvim_win_is_valid(current_win) then
+        vim.api.nvim_set_current_win(current_win)
+    end
+end, 'Toggle opencode')
+map({ 'n', 'x' }, 'go', function()
+    return require('opencode').operator '@this '
+end, 'Add range to opencode', { expr = true })
+map('n', 'goo', function()
+    return require('opencode').operator '@this ' .. '_'
+end, 'Add line to opencode', { expr = true })
+map({ 'n', 't' }, '<C-S-u>', function()
+    require('opencode').command 'session.half.page.up'
+end, 'Scroll opencode half page up')
+map({ 'n', 't' }, '<C-S-d>', function()
+    require('opencode').command 'session.half.page.down'
+end, 'Scroll opencode half page down')
+map({ 'n', 't' }, '<C-S-l>', function()
+    require('opencode').command 'session.line.up'
+end, 'Scroll opencode line up')
+map({ 'n', 't' }, '<C-S-;>', function()
+    require('opencode').command 'session.line.down'
+end, 'Scroll opencode line down')
+map({ 'n', 't' }, '<C-S-p>', function()
+    require('opencode').command 'session.page.up'
+end, 'Scroll opencode page up')
+map({ 'n', 't' }, '<C-S-n>', function()
+    require('opencode').command 'session.page.down'
+end, 'Scroll opencode page down')
+map({ 'n', 't' }, '<C-S-h>', function()
+    require('opencode').command 'session.first'
+end, 'Scroll opencode to first')
+map({ 'n', 't' }, '<C-S-g>', function()
+    require('opencode').command 'session.last'
+end, 'Scroll opencode to last')
+-- map('n', '+', '<C-a>', 'Increment under cursor', { noremap = true })
+-- map('n', '-', '<C-x>', 'Decrement under cursor', { noremap = true })

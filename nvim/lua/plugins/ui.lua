@@ -312,7 +312,6 @@ return {
             opts.sections.lualine_x = opts.sections.lualine_x or {}
             opts.sections.lualine_y = opts.sections.lualine_y or {}
             opts.inactive_sections = opts.inactive_sections or {}
-            
             -- local function xcodebuild_device()
             --     if vim.g.xcodebuild_platform == 'macOS' then
             --         return ' macOS'
@@ -333,31 +332,31 @@ return {
 
                 return string.format('%s %s %s', filename, backslashes, position)
             end
-            local function short(str)
-                local modes = {
-                    ['NORMAL'] = 'NOR',
-                    ['INSERT'] = 'INS',
-                    ['VISUAL'] = 'VIS',
-                    ['V-LINE'] = 'V-L',
-                    ['V-BLOCK'] = 'V-B',
-                    ['REPLACE'] = 'REP',
-                    ['COMMAND'] = 'CMD',
-                    ['TERMINAL'] = 'TER',
-                    ['EX'] = 'EX',
-                    ['SELECT'] = 'SEL',
-                    ['S-LINE'] = 'S-L',
-                    ['S-BLOCK'] = 'S-B',
-                    ['OPERATOR'] = 'OPE',
-                    ['MORE'] = 'MOR',
-                    ['CONFIRM'] = 'CON',
-                    ['SHELL'] = 'SHL',
-                    ['MULTICHAR'] = 'MCH',
-                    ['PROMPT'] = 'PRT',
-                    ['BLOCK'] = 'BLK',
-                    ['FUNCTION'] = 'FUN',
-                }
-                return modes[str] or str
-            end
+            -- local function short(str)
+            --     local modes = {
+            --         ['NORMAL'] = 'NOR',
+            --         ['INSERT'] = 'INS',
+            --         ['VISUAL'] = 'VIS',
+            --         ['V-LINE'] = 'V-L',
+            --         ['V-BLOCK'] = 'V-B',
+            --         ['REPLACE'] = 'REP',
+            --         ['COMMAND'] = 'CMD',
+            --         ['TERMINAL'] = 'TER',
+            --         ['EX'] = 'EX',
+            --         ['SELECT'] = 'SEL',
+            --         ['S-LINE'] = 'S-L',
+            --         ['S-BLOCK'] = 'S-B',
+            --         ['OPERATOR'] = 'OPE',
+            --         ['MORE'] = 'MOR',
+            --         ['CONFIRM'] = 'CON',
+            --         ['SHELL'] = 'SHL',
+            --         ['MULTICHAR'] = 'MCH',
+            --         ['PROMPT'] = 'PRT',
+            --         ['BLOCK'] = 'BLK',
+            --         ['FUNCTION'] = 'FUN',
+            --     }
+            --     return modes[str] or str
+            -- end
 
             -- opts.options.theme = 'vscode'
             opts.options.disabled_filetypes = {

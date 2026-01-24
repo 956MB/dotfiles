@@ -149,7 +149,7 @@ return {
             'mason-org/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-            { -- workspace notifications
+            {
                 'j-hui/fidget.nvim',
                 event = 'LspAttach',
                 opts = {},
@@ -177,7 +177,6 @@ return {
             },
         },
         config = function()
-            -- LSP attach config
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
                 callback = function(event)
@@ -197,8 +196,6 @@ return {
                     map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
                     map('K', vim.lsp.buf.hover, 'Hover Documentation')
                     map('gr', vim.lsp.buf.references, 'Show [R]eferences')
-
-                    -- workspace management. Necessary for multi-module projects
                     map('<leader>wa', vim.lsp.buf.add_workspace_folder, '[A]dd [W]orkspace Folder')
                     map('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[R]emove [W]orkspace Folder')
                     map('<leader>wl', function()
@@ -221,28 +218,42 @@ return {
                 end,
             })
 
-            -- Setup capabilities with error handling
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             local has_cmp_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
             if has_cmp_lsp then
                 capabilities = vim.tbl_deep_extend('force', capabilities, cmp_nvim_lsp.default_capabilities())
             else
-                -- Basic capabilities if cmp_nvim_lsp isn't available
                 capabilities.textDocument.completion.completionItem.snippetSupport = true
             end
 
-            -- Your server configurations
+            local function get_clangd_cmd()
+                local cmd = {
+                    'clangd',
+                    '--background-index',
+                    '--clang-tidy',
+                    '--completion-style=detailed',
+                    '--function-arg-placeholders=0',
+                }
+
+                local util = require('lspconfig.util')
+                local root_dir = util.find_git_ancestor(vim.fn.getcwd())
+                if root_dir then
+                    local arm_toolchain = root_dir .. '/toolchain/arm64-darwin/bin/arm-none-eabi-gcc'
+                    if vim.fn.filereadable(arm_toolchain) == 1 then
+                        table.insert(cmd, '--query-driver=' .. arm_toolchain)
+                    end
+                    local compile_cmds = root_dir .. '/build/latest/compile_commands.json'
+                    if vim.fn.filereadable(compile_cmds) == 1 then
+                        table.insert(cmd, '--compile-commands-dir=' .. root_dir .. '/build/latest')
+                    end
+                end
+
+                return cmd
+            end
+
             local servers = {
                 clangd = {
-                    cmd = {
-                        'clangd',
-                        '--background-index',
-                        '--clang-tidy',
-                        '--completion-style=detailed',
-                        '--function-arg-placeholders=0',
-                        '--query-driver=/Applications/ArmGNUToolchain/14.2.rel1/bin/arm-none-eabi-gcc',
-                        '--compile-commands-dir=build/latest',
-                    },
+                    cmd = get_clangd_cmd(),
                     capabilities = {
                         offsetEncoding = 'utf-16',
                     },
@@ -315,9 +326,8 @@ return {
                         end,
                     },
                 },
-                -- tsserver = {},
+                ts_ls = {},
                 tailwindcss = {
-                    -- Tailwindcss support for Rust (leptos/yew/dioxus/etc)
                     filetypes = {
                         'css',
                         'scss',
@@ -333,7 +343,6 @@ return {
                         'rust',
                     },
                     init_options = {
-                        -- There you can set languages to be considered as different ones by tailwind lsp I guess same as includeLanguages in VSCod
                         userLanguages = {
                             rust = 'html',
                         },
@@ -344,7 +353,6 @@ return {
                             'class=\\s+"([^"]*)',
                         },
                     },
-                    -- Here If any of files from list will exist tailwind lsp will activate.
                     root_dir = require('lspconfig').util.root_pattern(
                         'tailwind.config.js',
                         'tailwind.config.ts',
@@ -376,21 +384,16 @@ return {
                     settings = {
                         Lua = {
                             runtime = {
-                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                                 version = 'LuaJIT',
                             },
                             diagnostics = {
-                                -- Get the language server to recognize the `vim` global
                                 globals = { 'vim' },
-                                -- Keep your existing setting to disable 'missing-fields' warnings
                                 disable = { 'missing-fields' },
                             },
                             workspace = {
-                                -- Make the server aware of Neovim runtime files
                                 library = vim.api.nvim_get_runtime_file('', true),
                                 checkThirdParty = false,
                             },
-                            -- Do not send telemetry data containing a randomized but unique identifier
                             telemetry = {
                                 enable = false,
                             },
@@ -400,7 +403,7 @@ return {
                         },
                     },
                 },
-                zls = { -- Zig Language Server
+                zls = {
                     cmd = { 'zls' },
                     filetypes = { 'zig' },
                     root_dir = require('lspconfig').util.root_pattern('build.zig', 'build.zig.lock', 'compile_commands.json', '.git'),
@@ -431,7 +434,6 @@ return {
                 },
             }
 
-            -- Mason setup
             require('mason').setup()
 
             local ensure_installed = vim.tbl_keys(servers or {})
@@ -439,6 +441,7 @@ return {
                 'stylua',
                 'gopls',
                 'clangd',
+                'typescript-language-server',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

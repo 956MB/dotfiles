@@ -45,6 +45,7 @@ return {
         init = function()
             local popupWin = require 'rip-substitute.popup-win'
             local origOpen = popupWin.openSubstitutionPopup
+            ---@diagnostic disable-next-line: duplicate-set-field
             popupWin.openSubstitutionPopup = function(...)
                 local popupBufName = '[RipSubstitute]'
                 for _, buf in ipairs(vim.api.nvim_list_bufs()) do
