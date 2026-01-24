@@ -1,9 +1,15 @@
 # Core taps
+tap "algertc/kleopatra4mac"
+tap "anomalyco/tap"
 tap "fabricsoul/gitfetch", "https://github.com/FabricSoul/gitfetch"
+tap "gcenx/wine"
 tap "jesseduffield/lazydocker"
 tap "kegworks-app/kegworks"
 tap "koekeishiya/formulae"
 tap "linux-noah/noah"
+tap "robotsandpencils/made"
+tap "tw93/tap"
+tap "xcodesorg/made"
 
 # Cross-platform packages (work on both macOS and Linux)
 brew "openssl@3"
@@ -17,9 +23,11 @@ brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
 brew "bat"
+brew "bison"
 brew "protobuf"
 brew "bloaty"
 brew "btop"
+brew "freetype"
 brew "oven-sh/bun/bun"
 brew "cargo-binstall"
 brew "ccache"
@@ -37,7 +45,9 @@ brew "exiftool"
 brew "eza"
 brew "fastfetch"
 brew "fd"
+brew "flex"
 brew "unbound"
+brew "gnutls"
 brew "openjpeg"
 brew "leptonica"
 brew "libass"
@@ -45,6 +55,7 @@ brew "libmicrohttpd"
 brew "librist"
 brew "tesseract"
 brew "ffmpeg"
+brew "ffmpeg@7"
 brew "fish"
 brew "fisher"
 brew "fzf"
@@ -53,6 +64,7 @@ brew "gcc"
 brew "gcc@12"
 brew "ggshield"
 brew "gh"
+brew "ghidra"
 brew "git"
 brew "git-delta"
 brew "git-lfs"
@@ -76,6 +88,7 @@ brew "lazygit"
 brew "libiconv"
 brew "libmagic"
 brew "libmediainfo"
+brew "llvm"
 brew "lld"
 brew "python@3.12"
 brew "llvm@16"
@@ -84,7 +97,9 @@ brew "lowdown"
 brew "macchina"
 brew "make"
 brew "media-info"
+brew "mingw-w64"
 brew "minicom"
+brew "molten-vk"
 brew "nasm"
 brew "neofetch"
 brew "neovim"
@@ -105,7 +120,8 @@ brew "portmidi"
 brew "putty"
 brew "pyenv"
 brew "pypy"
-brew "pypy3.9"
+brew "pypy3.10"
+brew "pypy3.9", link: false
 brew "python@3.10"
 brew "python@3.9"
 brew "qemu"
@@ -124,16 +140,23 @@ brew "scons"
 brew "sherlock"
 brew "starship"
 brew "stow"
+brew "swiftlint"
+brew "tailscale"
 brew "telnet"
 brew "tree"
 brew "unar"
+brew "uv"
 brew "wget"
+brew "winetricks"
 brew "yazi", args: ["HEAD"]
+brew "yt-dlp"
 brew "zellij"
 brew "zigup"
 brew "zoxide"
+brew "anomalyco/tap/opencode"
 brew "fabricsoul/gitfetch/gitfetch"
 brew "jesseduffield/lazydocker/lazydocker"
+brew "tw93/tap/mole"
 
 # macOS-specific
 brew "arm-none-eabi-gcc" if OS.mac?
@@ -141,30 +164,35 @@ brew "blueutil" if OS.mac?
 brew "pinentry-mac" if OS.mac?
 brew "swift-format" if OS.mac?
 brew "swiftformat" if OS.mac?
+brew "swiftlint" if OS.mac?
 brew "xcbeautify" if OS.mac?
 brew "xcode-build-server" if OS.mac?
+brew "xcodegen" if OS.mac?
+brew "xcodes" if OS.mac?
 brew "koekeishiya/formulae/skhd" if OS.mac?
 brew "koekeishiya/formulae/yabai" if OS.mac?
-brew "robotsandpencils/made/xcodes", link: false if OS.mac?
 cask "alt-tab" if OS.mac?
 cask "basictex" if OS.mac?
-cask "copilot-for-xcode" if OS.mac?
+cask "chromium" if OS.mac?
+cask "dotnet-sdk@8" if OS.mac?
+cask "ghidra" if OS.mac?
 cask "gstreamer-runtime" if OS.mac?
-cask "kegworks" if OS.mac?
+cask "kegworks-app/kegworks/kegworks" if OS.mac?
+cask "linearmouse" if OS.mac?
+cask "macfuse" if OS.mac?
+cask "obs" if OS.mac?
 cask "temurin" if OS.mac?
 cask "vesktop" if OS.mac?
-cask "xcodes-app" if OS.mac?
+cask "wine-stable" if OS.mac?
+cask "xquartz" if OS.mac?
 
 # Linux-specific
 brew "xclip" if OS.linux?
 cask "zen" if OS.linux?
 
 # VSCode extensions (cross-platform)
-vscode "956mb.kanso-bright"
 vscode "adrianwilczynski.format-selection-as-html"
 vscode "amiralizadeh9480.cpp-helper"
-vscode "anysphere.pyright"
-vscode "anysphere.remote-containers"
 vscode "artlaman.chalice-icon-theme"
 vscode "asvetliakov.vscode-neovim"
 vscode "augustocdias.tasks-shell-input"
@@ -202,20 +230,25 @@ vscode "ethansk.restore-terminals"
 vscode "figma.figma-vscode-extension"
 vscode "funkyremi.vscode-google-translate"
 vscode "gitguardian-secret-security.gitguardian"
+vscode "github.copilot"
+vscode "github.copilot-chat"
 vscode "github.github-vscode-theme"
 vscode "github.vscode-github-actions"
 vscode "golang.go"
 vscode "gregorbiswanger.json2ts"
 vscode "gulajavaministudio.mayukaithemevsc"
 vscode "hankchizljaw.soot-theme"
+vscode "icsharpcode.ilspy-vscode"
 vscode "jackytsu.text-transformer"
 vscode "jeff-hykin.better-cpp-syntax"
 vscode "juwanpetty.github-icons-for-vscode"
 vscode "kamikillerto.vscode-colorize"
 vscode "kuscamara.remove-unused-imports"
+vscode "llvm-vs-code-extensions.lldb-dap"
 vscode "llvm-vs-code-extensions.vscode-clangd"
 vscode "lorenzopirro.zig-snippets"
 vscode "maciejdems.add-to-gitignore"
+vscode "mads-hartmann.bash-ide-vscode"
 vscode "mariomatheu.syntax-project-pbxproj"
 vscode "marus25.cortex-debug"
 vscode "mathematic.vscode-latex"
@@ -232,13 +265,16 @@ vscode "miguelsolorio.symbols"
 vscode "mishkinf.goto-next-previous-member"
 vscode "mohd-akram.vscode-html-format"
 vscode "monokai.theme-monokai-pro-vscode"
+vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
+vscode "ms-dotnettools.vscode-dotnet-runtime"
 vscode "ms-python.autopep8"
 vscode "ms-python.black-formatter"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.python"
 vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
 vscode "ms-toolsai.jupyter"
 vscode "ms-toolsai.jupyter-keymap"
 vscode "ms-toolsai.jupyter-renderers"
@@ -254,6 +290,7 @@ vscode "ms-vscode.cpptools-extension-pack"
 vscode "ms-vscode.cpptools-themes"
 vscode "ms-vscode.hexeditor"
 vscode "ms-vscode.live-server"
+vscode "ms-vscode.makefile-tools"
 vscode "ms-vscode.remote-explorer"
 vscode "mylesmurphy.prettify-ts"
 vscode "naumovs.color-highlight"
@@ -275,13 +312,14 @@ vscode "ritwickdey.liveserver"
 vscode "rust-lang.rust-analyzer"
 vscode "ryu1kn.partial-diff"
 vscode "sanaajani.taskrunnercode"
-vscode "saoudrizwan.claude-dev"
 vscode "shd101wyy.markdown-preview-enhanced"
+vscode "silvenon.mdx"
 vscode "simonsiefke.svg-preview"
 vscode "spmeesseman.vscode-taskexplorer"
 vscode "sswg.swift-lang"
 vscode "stylelint.vscode-stylelint"
 vscode "sumneko.lua"
+vscode "swiftlang.swift-vscode"
 vscode "tamasfe.even-better-toml"
 vscode "tauri-apps.tauri-vscode"
 vscode "teabyii.ayu"
@@ -303,6 +341,7 @@ vscode "wayou.vscode-todo-highlight"
 vscode "webfreak.debug"
 vscode "webhooked.kanso-theme"
 vscode "wiensss.region-highlighter"
+vscode "wk-j.save-and-run"
 vscode "xadillax.viml"
 vscode "xaver.clang-format"
 vscode "xyc.vscode-mdx-preview"
