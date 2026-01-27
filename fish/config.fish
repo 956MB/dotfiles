@@ -123,3 +123,7 @@ if type -q nvim
     set -x EDITOR (which nvim)
     set -x VISUAL (which nvim)
 end
+
+if test -f ~/.config/fish/functions/zellij_tabs.fish
+    source ~/.config/fish/functions/zellij_tabs.fish
+end

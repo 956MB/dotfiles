@@ -19,26 +19,22 @@ return {
     { -- Task runner
         'stevearc/overseer.nvim',
         config = function()
+            vim.o.shell = '/bin/bash'
+            vim.o.shellcmdflag = '-c'
             local overseer = require 'overseer'
             overseer.setup {
-                templates = { 'builtin', 'vscode' },
+                templates = { 'builtin' },
                 task_list = {
-                    direction = 'right',
+                    direction = 'bottom',
                     bindings = {
                         ['<CR>'] = 'RunAction',
                         ['<C-e>'] = 'Edit',
+                        ['<C-j>'] = false,
+                        ['<C-k>'] = false,
                     },
                     default_detail = 1,
                 },
             }
-
-            local ok, tasks = pcall(dofile, vim.fn.getcwd() .. '/.nvim/tasks.lua')
-            if ok and tasks.builder then
-                local task_list = tasks.builder()
-                for _, task in ipairs(task_list) do
-                    overseer.new_task(task)
-                end
-            end
         end,
         dependencies = {
             'nvim-telescope/telescope.nvim',

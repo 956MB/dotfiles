@@ -93,7 +93,7 @@ return {
         dependencies = { 'lewis6991/gitsigns.nvim' },
         config = function()
             require('scrollbar').setup {
-                set_highlights = false,
+                set_highlights = true,
                 marks = {
                     Cursor = {
                         text = '─',
