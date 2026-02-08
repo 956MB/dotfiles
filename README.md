@@ -181,29 +181,26 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
-# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo.txt)"
-
-           /////////////////////////////       Project: dotfiles (3 branches)
-         /···|/////////////////////|···|       HEAD: bbe5622 (main, origin/main)
-        |·/||/                    /||/         Pending: 2+-
-      /·|  /·|                  |||/           Created: a year ago
-     |·/    |·/              /|·|/             Languages:
-   /·|      /·|            /|·|/                          ● Lua (85.7 %) ● Fish (6.2 %)
-  ||/        |·/         /||/                             ● Shell (3.1 %) ● Python (1.7 %)
-/··|/////////|·|       /||////            //              ● BASH (1.4 %) ● Zig (1.3 %)
-////////////////    /|||//|||·|        /|||/              ● Other (0.7 %)
-                  /|·|||||/  |·|    /|||/      Authors: 59% Alexander Bays <bays@956mb.com>
-                /|···||/      |·|/|||/                  39% 956MB <bays@956mb.com> 48
-              /|··||/         /···/                      2% Alexander Bays <bays@MacBookPro.
-           /|··||/         /|||/|·|            Last change: 12 seconds ago
-         /|··|/         /|||/    |·|           URL: git@github.com:956MB/dotfiles.git
-       /|·|/         /|···|//////|··|          Commits: 123
-       //            ////////////////          Churn (2): README.md 2
-                                                          logos/logo-26.txt 1
-                                                          …/plugins/completion.lua 1
-                                               Lines of code: 16278
-                                               Size: 16.29 MiB (121 files)
-                                               License: MIT
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo-50b.txt)"
+⠀⢠⣤⣤⣤⣤⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⡀   HEAD: 62f8c7c (main, github/main)
+⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⢿⣿⣿⡿   Pending: 5+- 2+
+⠀⠙⠻⣿⣿⣧⡉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡿⣻⠁⠀   Created: 2 years ago
+⠀⠀⠀⠉⢻⣿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⡟⠀⠀⠀   Languages:
+⠀⠀⠀⠀⠀⠈⠛⢿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠋⠀⠀⠀⠀              ● Lua (83.8 %) ● Fish (6.6 %)
+⠀⠀⠀⠀⠀⠀⠀⠀⠉⠋⠁⠀⠀⠀⠀⠀⠀⣰⣾⡿⠏⠀⠀⠀⠀⠀⠀              ● Shell (3.6 %) ● Python (1.7 %)
+⠀⣠⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡿⠟⠀⠀⠀⠀⠀⠀⠀⠀              ● BASH (1.4 %) ● Zig (1.3 %)
+⠀⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⢀⢔⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀              ● Other (1.7 %)
+⠀⢹⣿⣿⠛⢿⣻⣿⣶⣤⡀⠀⡔⣡⡞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   Authors: 54% Alexander Bays <bays@956mb.com> 73
+⠀⠸⣿⣿⠂⠀⠉⠘⠿⣿⣿⢿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀            44% 956MB <bays@956mb.com> 59
+⠀⢠⣿⣿⠀⠀⠀⠀⣀⣾⣽⠻⢿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀             1% Alexander Bays <bays@MacBookPro.attlocal.net> 2
+⠀⢸⣿⣿⠀⢀⣤⣾⣿⠟⠁⠀⠀⠈⠹⢿⣏⣷⣦⣄⣀⠀⠀⠀⠀⠀⠀   Last change: 2 weeks ago
+⠀⠈⣿⣿⣴⣼⣿⣿⠋⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣧⣆⡠⣀⠀⠀   Commits: 134
+⠀⠀⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣷⣷⣆   Churn (2): …/functions/zellij_tabs.fish 1
+⠀⠀⠙⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠋              Brewfile 1
+                                         …/plugins/editor.lua 1
+                              Lines of code: 16745
+                              Size: 16.42 MiB (130 files)
+                              License: MIT
 ```
 
 [MIT license](./LICENSE)
