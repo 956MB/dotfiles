@@ -5,7 +5,7 @@ function zellij_tab_name_update
 
     set -l parent_pid (ps -o ppid= -p %self | string trim)
     set -l parent_cmd (ps -o comm= -p $parent_pid 2>/dev/null | string trim)
-    set -l persistent_programs nvim nv bat lg lazygit btop
+    set -l persistent_programs nvim nv bat lg lazygit btop opencode
     
     for prog in $persistent_programs
         if string match -q "*$prog*" "$parent_cmd"
@@ -50,7 +50,7 @@ function __zellij_on_postexec --on-event fish_postexec
     end
 
     set -l cmd (string split " " -- $argv[1])[1]
-    set -l persistent_programs nvim nv bat lg lazygit btop
+    set -l persistent_programs nvim nv bat lg lazygit btop opencode
     
     for prog in $persistent_programs
         if test "$cmd" = "$prog"
