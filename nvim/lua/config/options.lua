@@ -77,30 +77,25 @@ opt.hlsearch = true
 -- Wrap cursor around lines
 opt.whichwrap:append '<,>,[,],h,l'
 
--- Cursor blink and line instead of block
+-- Block in normal/command, line in insert/visual/select, blink only in insert
 opt.selection = 'exclusive'
 opt.virtualedit = 'onemore'
--- Line: blink on:
 vim.o.guicursor = table.concat({
-    'n-v-c:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-    'i-ci-r-cr:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-    'r:ver25-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
+    'n-c:block-Cursor/lCursor',
+    'v-sm:ver25-Cursor/lCursor',
+    'i-ci:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+    'r-cr-o:hor20-Cursor/lCursor',
 }, ',')
--- Block
--- vim.o.guicursor = table.concat({
---     'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
---     'i-ci-r-cr:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
---     'r:block-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
--- }, ',')
 
 -- Config options for Neovide gui (trying)
 --
 if vim.g.neovide then
     -- blink off:
     vim.o.guicursor = table.concat({
-        'n-v-c:ver25-Cursor/lCursor',
-        'i-ci-r-cr:ver25-Cursor/lCursor',
-        'r:ver25-Cursor/lCursor',
+        'n-c:block-Cursor/lCursor',
+        'v-sm:ver25-Cursor/lCursor',
+        'i-ci:ver25-Cursor/lCursor',
+        'r-cr-o:hor20-Cursor/lCursor',
     }, ',')
     vim.o.guifont = 'JetBrainsMonoNL Nerd Font Mono:h13'
     vim.o.linespace = 0
