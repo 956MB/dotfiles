@@ -62,6 +62,7 @@ alias lsr='eza -R --icons'                                             # List re
 alias lsf='eza -1 | wc -l'                                             # Count number of files
 alias lss='eza -la --group-directories-first --sort=size'              # Sort by size
 alias cls='clear'                                                      # Clear the terminal screen
+alias top='btop'                                                       # Use btop instead of top
 alias oldtop="/usr/bin/top"                                            # Run the original top command
 alias nf="neofetch"                                                    # Display system information using neofetch
 alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/logos/logo.txt)"'  # Display git repository information using onefetch with logo

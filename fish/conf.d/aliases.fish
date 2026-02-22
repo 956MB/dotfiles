@@ -22,6 +22,7 @@ alias cat='bat'                                                       # Use bat 
 alias oldcat='/usr/bin/cat'                                           # Use original cat
 alias ld='lazydocker'                                                 # Open Lazydocker interface
 alias cls='clear'                                                     # Clear the terminal screen
+alias top='btop'                                                      # Use btop instead of top
 alias oldtop='/usr/bin/top'                                           # Run the original top command
 alias ff='fastfetch --logo ~/dotfiles/logo.txt'                       # Display system information using fastfetch and my logo
 alias nf='neofetch'                                                   # Display system information using neofetch
