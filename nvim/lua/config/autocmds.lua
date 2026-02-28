@@ -1,15 +1,42 @@
--- Starting manually works, I guess.
 local swift_lsp = vim.api.nvim_create_augroup('swift_lsp', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { 'swift' },
     callback = function()
-        local root_dir = vim.fs.dirname(vim.fs.find({
-            'Package.swift',
-            '.git',
-        }, { upward = true })[1])
+        local function find_swift_root()
+            local path = vim.fn.expand '%:p:h'
+            while path ~= '/' do
+                for _, name in ipairs { 'buildServer.json', 'Package.swift' } do
+                    if vim.fn.filereadable(path .. '/' .. name) == 1 then
+                        return path
+                    end
+                end
+                local entries = vim.fn.glob(path .. '/*.xcodeproj', false, true)
+                vim.list_extend(entries, vim.fn.glob(path .. '/*.xcworkspace', false, true))
+                if #entries > 0 then
+                    return path
+                end
+                if vim.fn.isdirectory(path .. '/.git') == 1 or vim.fn.filereadable(path .. '/.git') == 1 then
+                    return path
+                end
+                path = vim.fn.fnamemodify(path, ':h')
+            end
+            return vim.fn.expand '%:p:h'
+        end
+
+        local root_dir = find_swift_root()
+        local xcode_sourcekit = vim.fn.trim(vim.fn.system { 'xcrun', '--find', 'sourcekit-lsp' })
+        local sourcekit_bin = (xcode_sourcekit ~= '' and vim.fn.executable(xcode_sourcekit) == 1)
+                and xcode_sourcekit
+            or 'sourcekit-lsp'
+
+        local cmd = { sourcekit_bin }
+        if vim.fn.filereadable(root_dir .. '/buildServer.json') == 1 then
+            vim.list_extend(cmd, { '--default-workspace-type', 'buildServer' })
+        end
+
         local client_id = vim.lsp.start {
             name = 'sourcekit-lsp',
-            cmd = { 'sourcekit-lsp' },
+            cmd = cmd,
             root_dir = root_dir,
         }
         if client_id then
@@ -17,6 +44,15 @@ vim.api.nvim_create_autocmd('FileType', {
         end
     end,
     group = swift_lsp,
+})
+
+-- Disable diagnostics for generated interface files from sourcekit-lsp
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = swift_lsp,
+    pattern = '*/sourcekit-lsp/GeneratedInterfaces/*',
+    callback = function(args)
+        vim.diagnostic.enable(false, { bufnr = args.buf })
+    end,
 })
 
 -- Set the filetype of .db files to sqlite (prisma)
