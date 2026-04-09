@@ -114,8 +114,15 @@ return {
 
     { -- Toggle comment lines with Comment.nvim
         'numToStr/Comment.nvim',
+        dependencies = 'JoosepAlviste/nvim-ts-context-commentstring',
         config = function()
-            require('Comment').setup()
+            require('ts_context_commentstring').setup {
+                enable_autocmd = false,
+            }
+
+            require('Comment').setup {
+                pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+            }
 
             local api = require 'Comment.api'
             vim.keymap.set('n', '<C-l>', api.call('toggle.linewise.current', 'g@$'), { expr = true })

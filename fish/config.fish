@@ -127,3 +127,6 @@ end
 if test -f ~/.config/fish/functions/zellij_tabs.fish
     source ~/.config/fish/functions/zellij_tabs.fish
 end
+
+# uv
+fish_add_path "/Users/bays/.local/bin"

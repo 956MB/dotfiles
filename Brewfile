@@ -9,9 +9,11 @@ tap "koekeishiya/formulae"
 tap "linux-noah/noah"
 tap "robotsandpencils/made"
 tap "tw93/tap"
+tap "AlexsJones/llmfit"
 tap "xcodesorg/made"
 
 # Cross-platform packages (work on both macOS and Linux)
+brew "rtk"
 brew "openssl@3"
 brew "ansible"
 brew "libtiff"
@@ -46,6 +48,7 @@ brew "eza"
 brew "fastfetch"
 brew "fd"
 brew "flex"
+brew "huggingface-cli"
 brew "unbound"
 brew "gnutls"
 brew "openjpeg"
@@ -61,7 +64,9 @@ brew "fisher"
 brew "fzf"
 brew "gallery-dl"
 brew "gcc"
-brew "gcc@12"
+brew "gettext"
+brew "gnu-tar"
+brew "sccache"
 brew "ggshield"
 brew "gh"
 brew "ghidra"
@@ -142,6 +147,7 @@ brew "starship"
 brew "stow"
 brew "swiftlint"
 brew "tailscale"
+brew "AlexsJones/llmfit/llmfit"
 brew "telnet"
 brew "tree"
 brew "unar"
@@ -178,8 +184,12 @@ cask "dotnet-sdk@8" if OS.mac?
 cask "ghidra" if OS.mac?
 cask "gstreamer-runtime" if OS.mac?
 cask "kegworks-app/kegworks/kegworks" if OS.mac?
+cask "finetune" if OS.mac?
+cask "jellyfin" if OS.mac?
 cask "linearmouse" if OS.mac?
+cask "logi-options+@1.60.495862" if OS.mac?
 cask "macfuse" if OS.mac?
+cask "sshfs" if OS.mac?
 cask "obs" if OS.mac?
 cask "temurin" if OS.mac?
 cask "vesktop" if OS.mac?

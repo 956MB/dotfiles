@@ -32,15 +32,16 @@ alias resh='source ~/.config/fish/config.fish'                        # Reload t
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"              # Open a timestamped scratch file in neovim
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
-alias ts='tailscale'                                         # Tailscale command
-alias tsh='tailscale --help'                                 # Tailscale help
-alias tsv='tailscale version'                                # Tailscale version
-alias tsup='tailscale up'                                    # Start Tailscale
-alias tsdown='tailscale down'                                # Stop Tailscale
-alias tss='tailscale status'                                 # Show Tailscale status
-alias tsip='tailscale ip'                                    # Show Tailscale IPv4 address
-alias tssh='tailscale ssh'                                   # SSH into a Tailscale machine
-alias tsdc='ps aux | grep tailscaled | grep -v grep'         # Check if tailscaled daemon is running
+alias ts='tailscale'                                                        # Tailscale command
+alias tsh='tailscale --help'                                                # Tailscale help
+alias tsv='tailscale version'                                               # Tailscale version
+alias tsup='tailscale up'                                                   # Start Tailscale
+alias tsdown='tailscale down'                                               # Stop Tailscale
+alias tss='tailscale status'                                                # Show Tailscale status
+alias tsip='tailscale ip'                                                   # Show Tailscale IPv4 address
+alias tssh='tailscale ssh'                                                  # SSH into a Tailscale machine
+alias tsdc='ps aux | grep tailscaled | grep -v grep'                        # Check if tailscaled daemon is running
+alias tsre='sudo pkill tailscaled; sleep 1; brew services start tailscale'  # Restart tailscaled daemon (after brew upgrade)
 
 # Vicinae aliases (raycast clone for linux)
 alias vicstart='systemctl --user start vicinae.service'
