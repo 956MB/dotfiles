@@ -321,13 +321,17 @@ map('i', '<S-C-Z>', '<ESC>:redo<CR>', 'Redo (Insert)')
 map('n', '<leader>u', '<cmd>Telescope undo<cr>', 'Undo (Telescope)')
 
 -- Diagnostic keymaps
-map('n', '[d', vim.diagnostic.goto_prev, 'Go to previous [D]iagnostic message')
-map('n', ']d', vim.diagnostic.goto_next, 'Go to next [D]iagnostic message')
+map('n', '[d', function()
+    vim.diagnostic.jump { count = -1 }
+end, 'Go to previous [D]iagnostic message')
+map('n', ']d', function()
+    vim.diagnostic.jump { count = 1 }
+end, 'Go to next [D]iagnostic message')
 map('n', '[l', function()
-    vim.diagnostic.goto_prev { float = false }
+    vim.diagnostic.jump { count = -1, float = false }
 end, 'Go to previous diagnostic location (no popup)')
 map('n', ']l', function()
-    vim.diagnostic.goto_next { float = false }
+    vim.diagnostic.jump { count = 1, float = false }
 end, 'Go to next diagnostic location (no popup)')
 -- map('n', '<leader>q', vim.diagnostic.setloclist, 'Open diagnostic [Q]uickfix list')
 

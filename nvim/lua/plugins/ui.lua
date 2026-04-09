@@ -1,27 +1,14 @@
-local Util = require 'lazyvim.util'
 local cfg_utils = require 'config.utils'
 
--- Simple pretty path function (adapted from lazyvim.util.lualine.pretty_path but with a longer path (3 -> 6))
----@param opts? {relative: "cwd"|"root", modified_hl: string?}
-local function lualine_pretty_path(opts)
-    opts = vim.tbl_extend('force', {
-        relative = 'cwd',
-        modified_hl = 'Comment',
-    }, opts or {})
-
-    return function(self)
+-- Standalone path display for lualine (replaces lazyvim.util dependency)
+local function lualine_pretty_path()
+    return function()
         local path = vim.fn.expand '%:p' --[[@as string]]
+        if path == '' then return '' end
 
-        if path == '' then
-            return ''
-        end
-        local root = Util.root.get { normalize = true }
-        local cwd = Util.root.cwd()
-
-        if opts.relative == 'cwd' and path:find(cwd, 1, true) == 1 then
+        local cwd = vim.fn.getcwd()
+        if path:find(cwd, 1, true) == 1 then
             path = path:sub(#cwd + 2)
-        else
-            path = path:sub(#root + 2)
         end
 
         local sep = package.config:sub(1, 1)
@@ -30,374 +17,218 @@ local function lualine_pretty_path(opts)
             parts = { parts[1], parts[2], parts[3], parts[4], '…', parts[#parts - 1], parts[#parts] }
         end
 
-        if opts.modified_hl and vim.bo.modified then
-            parts[#parts] = Util.lualine.format(self, parts[#parts], opts.modified_hl)
+        if vim.bo.modified then
+            parts[#parts] = parts[#parts] .. ' ●'
         end
 
         return table.concat(parts, sep)
     end
 end
 
-return {
-    { -- Notifications
-        'rcarriga/nvim-notify',
-        config = function()
-            require('notify').setup {
-                filter = function(_, win)
-                    local bufnr = vim.api.nvim_win_get_buf(win)
-                    local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
-                    return buftype ~= 'help'
-                end,
-            }
-        end,
-    },
+local function inactive_statusline()
+    local width = vim.fn.winwidth(0)
+    local filename = vim.fn.expand '%:t'
+    local position = string.format('%d:%d', vim.fn.line '.', vim.fn.col '.')
+    local backslash_count = width - #filename - #position - 4
+    local backslashes = string.rep('\\', backslash_count)
+    return string.format('%s %s %s', filename, backslashes, position)
+end
 
-    { -- Cheatsheet
-        'sudormrfbin/cheatsheet.nvim',
-        dependencies = {
-            'nvim-telescope/telescope.nvim',
-            'nvim-lua/popup.nvim',
-            'nvim-lua/plenary.nvim',
+-- [[ nvim-notify ]]
+require('notify').setup {
+    filter = function(_, win)
+        local bufnr = vim.api.nvim_win_get_buf(win)
+        local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
+        return buftype ~= 'help'
+    end,
+}
+
+-- [[ noice.nvim ]]
+require('noice').setup {
+    lsp = {
+        override = {
+            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+            ['vim.lsp.util.stylize_markdown'] = true,
+            ['cmp.entry.get_documentation'] = true,
         },
     },
-
-    { -- Better whitespace visualization (vscode style)
-        'mcauley-penney/visual-whitespace.nvim',
-        config = true,
-        -- keys = { 'v', 'V', '<C-v>' }, -- optionally, lazy load on visual mode keys
+    presets = {
+        bottom_search = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
     },
-
-    { -- Better cmdline
-        'folke/noice.nvim',
-        event = 'VeryLazy',
-        dependencies = {
-            'rcarriga/nvim-notify',
-        },
-        keys = function()
-            return {}
-        end,
-        config = function()
-            require('noice').setup {
-                lsp = {
-                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-                    override = {
-                        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-                        ['vim.lsp.util.stylize_markdown'] = true,
-                        ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
-                    },
+    views = {
+        cmdline_popup = {
+            position = {
+                row = '50%',
+                col = '50%',
+            },
+            win_options = {
+                winhighlight = {
+                    Normal = 'NoiceCmdlineNormal',
+                    FloatBorder = 'NoiceCmdlinePopupBorder',
+                    FloatTitle = 'NoiceCmdlinePopupTitle',
                 },
-                -- you can enable a preset for easier configuration
-                presets = {
-                    bottom_search = true, -- use a classic bottom cmdline for search
-                    -- command_palette = true, -- position the cmdline and popupmenu together
-                    long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
-                },
-                views = {
-                    cmdline_popup = {
-                        postion = {
-                            row = '50%',
-                            col = '50%',
-                        },
-                        win_options = {
-                            winhighlight = {
-                                Normal = 'NoiceCmdlineNormal',
-                                FloatBorder = 'NoiceCmdlinePopupBorder',
-                                FloatTitle = 'NoiceCmdlinePopupTitle',
-                            },
-                        },
-                    },
-                },
-            }
-        end,
-    },
-
-    { -- Better hex color preview i think
-        'uga-rosa/ccc.nvim',
-        opts = {
-            highlighter = {
-                auto_enable = true,
-                lsp = true,
-                filetypes = {
-                    'html',
-                    'lua',
-                    'css',
-                    'scss',
-                    'sass',
-                    'less',
-                    'stylus',
-                    'javascript',
-                    'tmux',
-                    'typescript',
-                    'conf',
-                    'toml',
-                    'yaml',
-                },
-                excludes = { 'lazy', 'mason', 'help', 'neo-tree' },
             },
         },
-    },
-
-    { -- Integrated terminal
-        'akinsho/toggleterm.nvim',
-        version = '*',
-        cmd = 'ToggleTerm',
-        keys = {
-            {
-                '<C-\\>',
-                '<cmd>ToggleTerm direction=float<CR>',
-                { desc = '[T]oggleTerm [F]loat' },
-            },
-            {
-                '<leader>vt',
-                '<cmd>ToggleTerm direction=vertical<CR>',
-                { desc = '[T]oggleTerm [V]ertical' },
-            },
-            {
-                '<leader>ht',
-                '<cmd>ToggleTerm direction=horizontal<CR>',
-                { desc = '[T]oggleTerm [H]orizontal' },
-            },
-        },
-        config = function()
-            require('toggleterm').setup {
-                persist_mode = true,
-                size = function(term)
-                    if term.direction == 'horizontal' then
-                        return 20
-                    elseif term.direction == 'vertical' then
-                        return vim.o.columns * 0.4
-                    end
-                end,
-                float_opts = {
-                    border = 'curved',
-                    title_pos = 'center',
-                },
-                on_open = function(term)
-                    vim.api.nvim_set_option_value('winhighlight', 'Normal:Normal', { win = term.window })
-
-                    local opts = { buffer = term.bufnr }
-                    vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-W>k]], opts)
-                    vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-W>j]], opts)
-                    vim.keymap.set('t', '<C-S-j>', [[<C-\><C-n><C-W>h]], opts)
-                    vim.keymap.set('t', '<C-S-k>', [[<C-\><C-n><C-W>l]], opts)
-
-                    -- Resize terminal split works
-                    vim.keymap.set('t', '<C-,>', function()
-                        vim.cmd.stopinsert()
-                        cfg_utils.scale_split '-1'
-                        vim.cmd.startinsert()
-                    end, opts)
-                    vim.keymap.set('t', '<C-.>', function()
-                        vim.cmd.stopinsert()
-                        cfg_utils.scale_split '+1'
-                        vim.cmd.startinsert()
-                    end, opts)
-
-                    -- Enter insert mode when focusing terminal window
-                    vim.cmd 'autocmd BufEnter <buffer> startinsert'
-                end,
-            }
-        end,
-    },
-
-    -- Better splits
-    {
-        'mrjones2014/smart-splits.nvim',
-        config = function()
-            require('smart-splits').setup {
-                default_amount = 1,
-            }
-        end,
-    },
-
-    { -- ^^ Better than opening lazygit in a terminal with toggleterm (TermExec)
-        'kdheepak/lazygit.nvim',
-        cmd = {
-            'LazyGit',
-            'LazyGitConfig',
-            'LazyGitCurrentFile',
-            'LazyGitFilter',
-            'LazyGitFilterCurrentFile',
-        },
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-        },
-        keys = {
-            { '<leader>lg', cfg_utils.open_lazygit_tab, desc = 'LazyGit in Buffer' },
-        },
-        config = function()
-            vim.g.lazygit_floating_window_use_plenary = 0 -- Disable floating window
-        end,
-    },
-
-    { -- Git diff previews
-        'tanvirtin/vgit.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
-        event = 'VimEnter',
-        config = function()
-            require('vgit').setup {
-                settings = {
-                    live_blame = {
-                        enabled = false,
-                    },
-                },
-            }
-        end,
-    },
-
-    { -- Something for deleting tabs and buffers
-        'famiu/bufdelete.nvim',
-    },
-
-    { -- Tabs
-        'akinsho/bufferline.nvim',
-        version = '*',
-        -- dependencies = 'nvim-tree/nvim-web-devicons',
-        opts = function(_, opts)
-            opts.options = opts.options or {}
-            opts.options = vim.tbl_deep_extend('force', opts.options, {
-                indicator = {
-                    icon = '┃',
-                    style = 'icon',
-                },
-                show_buffer_close_icons = false,
-                always_show_bufferline = false,
-                hover = {
-                    enabled = true,
-                    delay = 0,
-                    reveal = { 'close' },
-                },
-                diagnostics = 'nvim_lsp',
-                color_icons = true, -- whether or not to add the filetype icon highlights
-                show_buffer_icons = true, -- disable filetype icons for buffers
-            })
-        end,
-        config = function(_, opts)
-            local bufferline = require 'bufferline'
-            bufferline.setup(opts)
-
-            local bufferline_visible = true
-            _G.toggle_bufferline = function()
-                bufferline_visible = not bufferline_visible
-                if bufferline_visible then
-                    vim.opt.showtabline = 1 -- 0: never, 1: only multiple tabs, 2: always
-                    bufferline.setup(opts)
-                else
-                    vim.opt.showtabline = 0
-                end
-            end
-
-            vim.api.nvim_create_user_command('ToggleBufferline', 'lua _G.toggle_bufferline()', {})
-            vim.keymap.set('n', '<leader>tb', '<cmd>lua _G.toggle_bufferline()<CR>', { noremap = true, silent = true, desc = 'Toggle bufferline visibility' })
-        end,
-    },
-
-    { -- Cursor line highlight
-        'jake-stewart/force-cul.nvim',
-        config = function()
-            require('force-cul').setup()
-        end,
-    },
-
-    { -- Statusline
-        'nvim-lualine/lualine.nvim',
-        -- dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = function(_, opts)
-            -- Initialize opts structure
-            opts.options = opts.options or {}
-            opts.sections = opts.sections or {}
-            opts.sections.lualine_c = opts.sections.lualine_c or {}
-            opts.sections.lualine_x = opts.sections.lualine_x or {}
-            opts.sections.lualine_y = opts.sections.lualine_y or {}
-            opts.inactive_sections = opts.inactive_sections or {}
-            -- local function xcodebuild_device()
-            --     if vim.g.xcodebuild_platform == 'macOS' then
-            --         return ' macOS'
-            --     end
-            --     if vim.g.xcodebuild_os then
-            --         return ' ' .. vim.g.xcodebuild_device_name .. ' (' .. vim.g.xcodebuild_os .. ')'
-            --     end
-            --     return ' ' .. vim.g.xcodebuild_device_name
-            -- end
-
-            -- filename.ext \\\ line:col
-            local function inactive_statusline()
-                local width = vim.fn.winwidth(0)
-                local filename = vim.fn.expand '%:t'
-                local position = string.format('%d:%d', vim.fn.line '.', vim.fn.col '.')
-                local backslash_count = width - #filename - #position - 4
-                local backslashes = string.rep('\\', backslash_count)
-
-                return string.format('%s %s %s', filename, backslashes, position)
-            end
-            -- local function short(str)
-            --     local modes = {
-            --         ['NORMAL'] = 'NOR',
-            --         ['INSERT'] = 'INS',
-            --         ['VISUAL'] = 'VIS',
-            --         ['V-LINE'] = 'V-L',
-            --         ['V-BLOCK'] = 'V-B',
-            --         ['REPLACE'] = 'REP',
-            --         ['COMMAND'] = 'CMD',
-            --         ['TERMINAL'] = 'TER',
-            --         ['EX'] = 'EX',
-            --         ['SELECT'] = 'SEL',
-            --         ['S-LINE'] = 'S-L',
-            --         ['S-BLOCK'] = 'S-B',
-            --         ['OPERATOR'] = 'OPE',
-            --         ['MORE'] = 'MOR',
-            --         ['CONFIRM'] = 'CON',
-            --         ['SHELL'] = 'SHL',
-            --         ['MULTICHAR'] = 'MCH',
-            --         ['PROMPT'] = 'PRT',
-            --         ['BLOCK'] = 'BLK',
-            --         ['FUNCTION'] = 'FUN',
-            --     }
-            --     return modes[str] or str
-            -- end
-
-            -- opts.options.theme = 'vscode'
-            opts.options.disabled_filetypes = {
-                statusline = { 'NvimTree' },
-                winbar = {},
-            }
-            -- opts.sections.lualine_a = { { 'mode', separator = { left = '', right = '' }, fmt = short } }
-            opts.sections.lualine_c[4] = { lualine_pretty_path() }
-            -- middle --
-            -- opts.sections.lualine_z = {
-            --     { 'location', separator = { left = '', right = '' } },
-            -- }
-            opts.sections.lualine_y = opts.sections.lualine_x
-            opts.sections.lualine_x = {
-                { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
-                -- { xcodebuild_device, color = { fg = '#f9e2af', bg = '#161622' } },
-                'encoding',
-                { 'g:metals_status' },
-            }
-            opts.inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = { inactive_statusline },
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {},
-            }
-            opts.tabline = {}
-            opts.winbar = {}
-            opts.inactive_winbar = {}
-            opts.extensions = { 'nvim-dap-ui', 'quickfix', 'trouble', 'nvim-tree', 'lazy', 'mason' }
-            opts.options.ignore_focus = {}
-            opts.options.always_divide_middle = true
-            opts.options.globalstatus = false
-            opts.options.component_separators = { left = '', right = '' }
-            opts.options.section_separators = { left = '', right = '' }
-        end,
-    },
-
-    {
-        'folke/persistence.nvim',
-        opts = { autoload = false },
     },
 }
+
+-- [[ lualine ]]
+require('lualine').setup {
+    options = {
+        theme = 'auto',
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+        disabled_filetypes = {
+            statusline = { 'NvimTree' },
+            winbar = {},
+        },
+        always_divide_middle = true,
+        globalstatus = false,
+        ignore_focus = {},
+    },
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = { lualine_pretty_path() },
+        lualine_x = {
+            { "' ' .. vim.g.xcodebuild_last_status", color = { fg = '#a6e3a1' } },
+            'encoding',
+            { 'g:metals_status' },
+        },
+        lualine_y = { 'filetype' },
+        lualine_z = { 'location' },
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { inactive_statusline },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+    },
+    tabline = {},
+    winbar = {},
+    inactive_winbar = {},
+    extensions = { 'quickfix', 'trouble', 'nvim-tree', 'mason' },
+}
+
+-- [[ bufferline ]]
+local bufferline = require 'bufferline'
+local bufferline_opts = {
+    options = {
+        indicator = {
+            icon = '┃',
+            style = 'icon',
+        },
+        show_buffer_close_icons = false,
+        always_show_bufferline = false,
+        hover = {
+            enabled = true,
+            delay = 0,
+            reveal = { 'close' },
+        },
+        diagnostics = 'nvim_lsp',
+        color_icons = true,
+        show_buffer_icons = true,
+    },
+}
+bufferline.setup(bufferline_opts)
+
+local bufferline_visible = true
+_G.toggle_bufferline = function()
+    bufferline_visible = not bufferline_visible
+    if bufferline_visible then
+        vim.opt.showtabline = 1
+        bufferline.setup(bufferline_opts)
+    else
+        vim.opt.showtabline = 0
+    end
+end
+vim.api.nvim_create_user_command('ToggleBufferline', 'lua _G.toggle_bufferline()', {})
+vim.keymap.set('n', '<leader>tb', '<cmd>lua _G.toggle_bufferline()<CR>', { noremap = true, silent = true, desc = 'Toggle bufferline visibility' })
+
+-- [[ ccc.nvim: color preview ]]
+require('ccc').setup {
+    highlighter = {
+        auto_enable = true,
+        lsp = true,
+        filetypes = {
+            'html', 'lua', 'css', 'scss', 'sass', 'less', 'stylus',
+            'javascript', 'tmux', 'typescript', 'conf', 'toml', 'yaml',
+        },
+        excludes = { 'mason', 'help', 'neo-tree' },
+    },
+}
+
+-- [[ visual-whitespace.nvim ]]
+require('visual-whitespace').setup()
+
+-- [[ toggleterm ]]
+require('toggleterm').setup {
+    persist_mode = true,
+    size = function(term)
+        if term.direction == 'horizontal' then
+            return 20
+        elseif term.direction == 'vertical' then
+            return vim.o.columns * 0.4
+        end
+    end,
+    float_opts = {
+        border = 'curved',
+        title_pos = 'center',
+    },
+    on_open = function(term)
+        vim.api.nvim_set_option_value('winhighlight', 'Normal:Normal', { win = term.window })
+
+        local opts = { buffer = term.bufnr }
+        vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-W>k]], opts)
+        vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-W>j]], opts)
+        vim.keymap.set('t', '<C-S-j>', [[<C-\><C-n><C-W>h]], opts)
+        vim.keymap.set('t', '<C-S-k>', [[<C-\><C-n><C-W>l]], opts)
+
+        vim.keymap.set('t', '<C-,>', function()
+            vim.cmd.stopinsert()
+            cfg_utils.scale_split '-1'
+            vim.cmd.startinsert()
+        end, opts)
+        vim.keymap.set('t', '<C-.>', function()
+            vim.cmd.stopinsert()
+            cfg_utils.scale_split '+1'
+            vim.cmd.startinsert()
+        end, opts)
+
+        vim.cmd 'autocmd BufEnter <buffer> startinsert'
+    end,
+}
+
+vim.keymap.set('n', '<C-\\>', '<cmd>ToggleTerm direction=float<CR>', { desc = '[T]oggleTerm [F]loat' })
+vim.keymap.set('n', '<leader>vt', '<cmd>ToggleTerm direction=vertical<CR>', { desc = '[T]oggleTerm [V]ertical' })
+vim.keymap.set('n', '<leader>ht', '<cmd>ToggleTerm direction=horizontal<CR>', { desc = '[T]oggleTerm [H]orizontal' })
+
+-- [[ smart-splits ]]
+require('smart-splits').setup {
+    default_amount = 1,
+}
+
+-- [[ force-cul ]]
+require('force-cul').setup()
+
+-- [[ lazygit ]]
+vim.g.lazygit_floating_window_use_plenary = 0
+vim.keymap.set('n', '<leader>lg', cfg_utils.open_lazygit_tab, { desc = 'LazyGit in Buffer' })
+
+-- [[ vgit ]]
+require('vgit').setup {
+    settings = {
+        live_blame = { enabled = false },
+    },
+}
+
+-- [[ persistence ]]
+require('persistence').setup { autoload = false }
+
+-- [[ cheatsheet ]]
+-- No setup needed; accessed via <leader>ch keymap.
