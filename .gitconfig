@@ -22,6 +22,7 @@
 	compression = 9
 	whitespace = error
 	preloadindex = true
+	pager = hunk pager
 [url "git@github.com:"]
 	insteadOf = "gh:"
 [url "git@github.com:956MB/"]

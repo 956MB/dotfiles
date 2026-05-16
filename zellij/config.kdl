@@ -144,7 +144,7 @@ keybinds clear-defaults=true {
         bind "Alt =" { Resize "Increase"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
-        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Ctrl Alt Right" { ToggleFloatingPanes; }
         bind "Alt i" { MoveTab "left"; }
         // bind "Ctrl j" { MoveFocus "up"; }
         // bind "Ctrl k" { MoveFocus "down"; }

@@ -30,6 +30,7 @@ alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-inp
 alias ep='echo \$PATH'                                                # Print the PATH environment variable
 alias resh='source ~/.config/fish/config.fish'                        # Reload the fish configuration
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"              # Open a timestamped scratch file in neovim
+alias mkd="mkdir"                                                     # Create a new directory
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                                        # Tailscale command

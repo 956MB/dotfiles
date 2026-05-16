@@ -26,6 +26,25 @@ local ufo_handler = function(virtText, lnum, endLnum, width, truncate)
     return newVirtText
 end
 
+-- [[ nvim-treesitter ]]
+-- Deferred because vim.pack activates plugins asynchronously; FileType has
+-- already fired for any buffers open at startup, so we reattach manually.
+vim.defer_fn(function()
+    local ok, configs = pcall(require, 'nvim-treesitter.configs')
+    if not ok then return end
+    configs.setup { ---@diagnostic disable-line: missing-fields
+        ensure_installed = { 'bash', 'c', 'html', 'javascript', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'tsx', 'typescript', 'vim', 'vimdoc' },
+        auto_install = true,
+        highlight = { enable = true, additional_vim_regex_highlighting = { 'ruby' } },
+        indent = { enable = true, disable = { 'ruby' } },
+    }
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype ~= '' then
+            vim.api.nvim_exec_autocmds('FileType', { buffer = buf, modeline = false })
+        end
+    end
+end, 100)
+
 require('ufo').setup {
     fold_virt_text_handler = ufo_handler,
     provider_selector = function(_, _, _)

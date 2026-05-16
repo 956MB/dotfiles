@@ -5,7 +5,7 @@ local lspkind = require 'lspkind'
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
-cmp.setup {
+cmp.setup { ---@diagnostic disable-line: missing-fields
     performance = {
         debounce = 0,
         throttle = 0,
@@ -62,7 +62,7 @@ cmp.setup.cmdline(':', {
 })
 
 -- [[ lazydev.nvim: Neovim API completion ]]
-require('lazydev').setup {
+require('lazydev').setup { ---@diagnostic disable-line: missing-fields
     library = {
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     },
@@ -86,6 +86,33 @@ require('tiny-code-action').setup {
         },
     },
 }
+
+-- lspconfig's plugin/ file exits early on Neovim 0.12 because :lsp is built-in.
+-- Provide :LspRestart and :LspInfo manually.
+vim.api.nvim_create_user_command('LspRestart', function(info)
+    local clients = #info.args > 0
+        and vim.lsp.get_clients { name = info.args }
+        or vim.lsp.get_clients { bufnr = 0 }
+    for _, client in ipairs(clients) do
+        client:stop()
+    end
+    vim.defer_fn(function() vim.cmd 'edit' end, 500)
+end, { nargs = '?', complete = function()
+    return vim.tbl_map(function(c) return c.name end, vim.lsp.get_clients())
+end })
+
+vim.api.nvim_create_user_command('LspInfo', function()
+    local clients = vim.lsp.get_clients { bufnr = 0 }
+    if #clients == 0 then
+        vim.notify('No LSP clients attached to this buffer', vim.log.levels.INFO)
+        return
+    end
+    local lines = {}
+    for _, c in ipairs(clients) do
+        table.insert(lines, string.format('%s  (id %d)  root: %s', c.name, c.id, c.root_dir or 'none'))
+    end
+    vim.notify(table.concat(lines, '\n'), vim.log.levels.INFO, { title = 'LSP clients' })
+end, {})
 
 -- [[ mason ]]
 require('mason').setup()
@@ -121,11 +148,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client and client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, { ---@diagnostic disable-line: param-type-mismatch
                 buffer = event.buf,
                 callback = vim.lsp.buf.document_highlight,
             })
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, { ---@diagnostic disable-line: param-type-mismatch
                 buffer = event.buf,
                 callback = vim.lsp.buf.clear_references,
             })
@@ -150,8 +177,7 @@ local function get_clangd_cmd()
         '--function-arg-placeholders=0',
     }
 
-    local util = require 'lspconfig.util'
-    local root_dir = util.find_git_ancestor(vim.fn.getcwd())
+    local root_dir = vim.fs.dirname(vim.fs.find('.git', { path = vim.fn.getcwd(), upward = true })[1])
     if root_dir then
         local arm_toolchain = root_dir .. '/toolchain/arm64-darwin/bin/arm-none-eabi-gcc'
         if vim.fn.filereadable(arm_toolchain) == 1 then
@@ -164,6 +190,19 @@ local function get_clangd_cmd()
     end
 
     return cmd
+end
+
+do
+    local orig = vim.lsp.handlers['textDocument/publishDiagnostics']
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        if client and client.name == 'pylsp' and result.diagnostics then
+            result.diagnostics = vim.tbl_filter(function(d)
+                return d.code ~= 'E501' and not (d.message and d.message:match 'E501')
+            end, result.diagnostics)
+        end
+        orig(err, result, ctx, config)
+    end
 end
 
 local servers = {
@@ -207,9 +246,18 @@ local servers = {
     ts_ls = {},
     tailwindcss = {
         filetypes = {
-            'css', 'scss', 'sass', 'postcss', 'html',
-            'javascript', 'javascriptreact', 'typescript', 'typescriptreact',
-            'svelte', 'vue', 'rust',
+            'css',
+            'scss',
+            'sass',
+            'postcss',
+            'html',
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
+            'svelte',
+            'vue',
+            'rust',
         },
         init_options = {
             userLanguages = { rust = 'html' },
@@ -281,7 +329,7 @@ vim.list_extend(ensure_installed, {
 })
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-require('mason-lspconfig').setup {
+require('mason-lspconfig').setup { ---@diagnostic disable-line: missing-fields
     handlers = {
         -- stylua is a formatter only; prevent mason-lspconfig from starting it as an LSP server
         stylua = function() end,

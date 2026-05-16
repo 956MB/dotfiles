@@ -49,10 +49,11 @@ gui:
   border: "single" # one of 'single' | 'double' | 'rounded' | 'hidden'
   animateExplosion: true # shows an explosion animation when nuking the working tree
 git:
-  paging:
-    colorArg: always
-    # useConfig: false
-    pager: delta --syntax-theme "kanso"  --paging=never
+  pagers:
+    - colorArg: always
+      # useConfig: false
+      # pager: hunk pager
+      pager: delta --syntax-theme "kanso"  --paging=never
   commit:
     signOff: false
   merging:
@@ -182,7 +183,7 @@ keybinding:
     viewResetOptions: "D"
     fetch: "f"
     toggleTreeView: "`"
-    openMergeTool: "M"
+    openMergeOptions: "M"
     openStatusFilter: "<c-b>"
   branches:
     createPullRequest: "o"

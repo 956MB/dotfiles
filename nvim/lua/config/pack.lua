@@ -19,10 +19,14 @@ rtp_add 'todo-comments.nvim'
 -- Must be created before vim.pack.add() is called.
 vim.api.nvim_create_autocmd('PackChanged', {
     callback = function(ev)
-        if ev.data.kind == 'delete' then return end
+        if ev.data.kind == 'delete' then
+            return
+        end
         local name = ev.data.spec.name
         local function ensure_loaded()
-            if not ev.data.active then vim.cmd.packadd(name) end
+            if not ev.data.active then
+                vim.cmd.packadd(name)
+            end
         end
         if name == 'nvim-treesitter' then
             ensure_loaded()
@@ -75,6 +79,8 @@ vim.pack.add {
     -- Treesitter deps
     'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
     'https://github.com/JoosepAlviste/nvim-ts-context-commentstring',
+
+    'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 
     -- Telescope deps
     'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
