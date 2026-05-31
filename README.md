@@ -70,6 +70,7 @@ alias ep="echo $PATH"                                                  # Print t
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"               # Open a timestamped scratch file in neovim
 alias mkd="mkdir"                                                      # Create a new directory
+alias opc="opencode"                                                   # Start Opencode
 ```
 
 ##### Zellij
@@ -184,26 +185,26 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
-# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo-50b.txt)"
-⠀⢠⣤⣤⣤⣤⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⡀   HEAD: 62f8c7c (main, github/main)
-⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⢿⣿⣿⡿   Pending: 5+- 2+
-⠀⠙⠻⣿⣿⣧⡉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡿⣻⠁⠀   Created: 2 years ago
-⠀⠀⠀⠉⢻⣿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⡟⠀⠀⠀   Languages:
-⠀⠀⠀⠀⠀⠈⠛⢿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠋⠀⠀⠀⠀              ● Lua (83.8 %) ● Fish (6.6 %)
-⠀⠀⠀⠀⠀⠀⠀⠀⠉⠋⠁⠀⠀⠀⠀⠀⠀⣰⣾⡿⠏⠀⠀⠀⠀⠀⠀              ● Shell (3.6 %) ● Python (1.7 %)
-⠀⣠⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡿⠟⠀⠀⠀⠀⠀⠀⠀⠀              ● BASH (1.4 %) ● Zig (1.3 %)
-⠀⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⢀⢔⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀              ● Other (1.7 %)
-⠀⢹⣿⣿⠛⢿⣻⣿⣶⣤⡀⠀⡔⣡⡞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   Authors: 54% Alexander Bays <bays@956mb.com> 73
-⠀⠸⣿⣿⠂⠀⠉⠘⠿⣿⣿⢿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀            44% 956MB <bays@956mb.com> 59
-⠀⢠⣿⣿⠀⠀⠀⠀⣀⣾⣽⠻⢿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀             1% Alexander Bays <bays@MacBookPro.attlocal.net> 2
-⠀⢸⣿⣿⠀⢀⣤⣾⣿⠟⠁⠀⠀⠈⠹⢿⣏⣷⣦⣄⣀⠀⠀⠀⠀⠀⠀   Last change: 2 weeks ago
-⠀⠈⣿⣿⣴⣼⣿⣿⠋⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣧⣆⡠⣀⠀⠀   Commits: 134
-⠀⠀⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣷⣷⣆   Churn (2): …/functions/zellij_tabs.fish 1
-⠀⠀⠙⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠋              Brewfile 1
-                                         …/plugins/editor.lua 1
-                              Lines of code: 16745
-                              Size: 16.42 MiB (130 files)
-                              License: MIT
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo-52b.txt)"
+⠀⠀⣀⠀⡀⢀⡀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀⠀   HEAD: c1235d4 (main, github/main)
+⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⡂   Pending: 4+- 4+
+⠈⠻⣿⣿⣿⣿⣶⡀⠈⠈⠈⠉⠉⠉⠉⠃⠋⠉⠋⠉⠉⠉⠉⠉⣿⣿⢿⡯⡟⠀   Created: 2 years ago
+⠀⠀⠈⠻⣿⣻⣽⣷⣢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⡿⡽⠊⠀⠀   Languages:
+⠀⠀⠀⠀⠈⠛⢯⣷⣿⣳⡢⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠯⠋⠀⠀⠀⠀              ● Lua (82.8 %) ● Fish (7.4 %)
+⠀⠀⠀⠀⠀⠀⠀⠙⢾⢵⢯⡳⣑⡀⠀⠀⠀⠀⢀⣴⣿⣿⡿⠇⠁⠀⠀⠀⠀⠀              ● Shell (3.7 %) ● Python (1.7 %)
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢵⢹⡪⡪⡢⡀⣀⣴⣿⣿⣿⠏⠁⠀⠀⠀⠀⠀⠀⠀              ● BASH (1.4 %) ● Zig (1.3 %)
+⠀⢠⣾⣿⣧⣄⡀⠀⠀⠀⠀⠑⠕⡝⣼⣾⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀              ● Other (1.7 %)
+⠀⢸⣿⣿⢿⡿⣿⣷⣤⣀⠀⠀⠀⣠⣿⣟⣿⣟⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   Authors: 51% Alexander Bays <bays@956mb.com> 73
+⠀⠀⣟⣾⣻⠟⣿⢾⣻⡿⣿⣦⣾⣻⣽⡟⣟⢮⣳⢥⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀            48% 956MB <bays@956mb.com> 69
+⠀⠀⣟⡾⣽⠃⠀⠙⠫⣿⣯⣿⣽⣿⣷⣧⡀⠙⣾⣯⣷⣅⡀⠀⠀⠀⠀⠀⠀⠀             1% Alexander Bays <bays@MacBookPro.attlocal.net> 2
+⠀⠀⣗⣯⣳⡃⠀⢠⣾⣳⣿⢾⢿⡾⣯⣿⣿⣷⣮⣷⣷⣻⢮⣄⠀⠀⠀⠀⠀⠀   Last change: 2 minutes ago
+⠀⠀⣗⢧⣳⣃⣴⣿⣯⣿⡾⠅⠁⠈⠙⠳⢿⣽⣿⣽⣿⣿⣯⣿⣵⡀⠀⠀⠀⠀   Commits: 144
+⠀⠀⢸⣳⣿⣿⣿⣟⣯⠏⠁⠀⠀⠀⠀⠀⠀⠉⠚⠿⣾⣟⣿⢿⣿⣿⣦⡀⠀⠀   Churn (3): fish/config.fish 2
+⠀⠀⠘⣿⣿⢿⣽⡟⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢿⣿⣻⣿⣯⣆⠀              …/plugins/lsp.lua 2
+⠀⠀⠀⠙⠁⠁⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠟⠁⠀              …/plugins/snacks.lua 2
+                                 Lines of code: 16332
+                                 Size: 16.35 MiB (123 files)
+                                 License: MIT
 ```
 
 [MIT license](./LICENSE)
