@@ -44,3 +44,4 @@ go/telemetry/local
 github-copilot
 .backup/**/*
 .backup/**/.*
+fish/conf.d/env.fish

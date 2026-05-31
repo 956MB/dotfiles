@@ -18,6 +18,7 @@ if test "$IS_MAC" = true
     eval "$(/opt/homebrew/bin/brew shellenv)"
     if command -q brew
         set zigup_bin (brew --prefix zigup)/bin
+        fish_add_path "/opt/homebrew/bin"
         fish_add_path $zigup_bin
         fish_add_path "/opt/homebrew/opt/ffmpeg@7/bin"
         set -gx DYLD_LIBRARY_PATH "/opt/homebrew/opt/ffmpeg@7/lib" $DYLD_LIBRARY_PATH

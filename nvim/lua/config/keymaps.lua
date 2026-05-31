@@ -304,10 +304,15 @@ map('i', '<C-Right>', '<C-o>w', 'Subword navigate right (insert mode)')
 -- Source the Neovim configuration file
 map('n', '<leader>rr', ':luafile $HOME/dotfiles/nvim/init.lua<CR>', 'Reload Neovim configuration')
 
+-- Write
+map('n', '<leader>ww', function()
+    vim.cmd 'w'
+end, '[W]rite')
 -- Write Quit
 map('n', '<leader>wq', function()
     vim.cmd 'wq'
 end, '[W]rite and [Q]uit')
+-- Quit All
 map('n', '<leader>qq', function()
     vim.cmd 'qa'
 end, '[Q]uit All')

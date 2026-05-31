@@ -31,6 +31,7 @@ alias ep='echo \$PATH'                                                # Print th
 alias resh='source ~/.config/fish/config.fish'                        # Reload the fish configuration
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"              # Open a timestamped scratch file in neovim
 alias mkd="mkdir"                                                     # Create a new directory
+alias cl='linecounts'                                                 # List files sorted by line count
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                                        # Tailscale command
@@ -79,17 +80,16 @@ if type -q eza
     alias lsa='eza -la --group-directories-first'              # List all with icons (including hidden)
     alias lsr='eza -R --icons'                                 # List recursively
     alias lsf='eza -1 | wc -l'                                 # Count number of files
-    alias lss='eza -la --group-directories-first --sort=size'  # Sort by size
 else
     alias l='ls -t -G'            # List files sorted by modification time, newest first
     alias ll='ls -altrhF -G'      # List all files in long format, sorted by modification time (newest last), with / for directories
     alias lsa='ls -hla -G'        # List all files (including hidden) with human-readable sizes
     alias lsr='ls -lR -G'         # List files recursively
     alias lsf='ls -G -1 | wc -l'  # Count number of files in current directory
-    alias lss='du -sh *'          # Show sizes of files and directories in current directory
     alias la='ls -A -G'           # List all files except . and ..
     alias ls='ls -CF -G'          # List files with / for directories and * for executables
 end
+alias lss='du -sh .'          # Show sizes of files and directories in current directory
 
 # Git aliases
 alias ga='git add'                      # Stage changes

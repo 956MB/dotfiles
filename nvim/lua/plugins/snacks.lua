@@ -1,4 +1,4 @@
-local logo_path = vim.fn.expand '~' .. '/dotfiles/logos/logo-50b.txt'
+local logo_path = vim.fn.expand '~' .. '/dotfiles/logos/logo-52b.txt'
 local logo = table.concat(vim.fn.readfile(logo_path), '\n') .. '\n'
 
 require('snacks').setup {
@@ -32,7 +32,9 @@ require('snacks').setup {
                 if file and file:match '%.' then
                     local ok
                     ok, icon, icon_hl = pcall(require('mini.icons').get, 'file', file)
-                    if not ok then icon, icon_hl = '', '' end
+                    if not ok then
+                        icon, icon_hl = '', ''
+                    end
                 end
                 return dir
                         and {
