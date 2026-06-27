@@ -235,3 +235,33 @@ keybinding:
     init: "i"
     update: "u"
     bulkMenu: "b"
+customCommands:
+  - key: '<c-P>'
+    description: "Push to a specific remote repository"
+    context: 'global'
+    loadingText: 'Pushing ...'
+    prompts:
+      - type: 'menuFromCommand'
+        title: 'Which remote repository to push to?'
+        command: bash -c 'git remote -v | grep " (push)" | sed "s/ (push)$//"; echo "__all__ Push to all remotes"'
+        filter: '(?P<remote>[^\s]+)\s+(?P<url>.+)'
+        valueFormat: '{{ .remote }}'
+        labelFormat: '{{ .remote | bold | cyan }} {{ .url }}'
+      - type: 'menu'
+        title: 'How to push?'
+        options:
+          - value: 'push'
+          - value: 'push --force-with-lease'
+          - value: 'push --force'
+    command: >
+      bash -c '
+      if [ "{{index .PromptResponses 0}}" = "__all__" ]; then
+        for remote in $(git remote); do
+          echo "--- Pushing to $remote ---"
+          git {{index .PromptResponses 1}} "$remote" 2>&1 || echo "Failed, continuing..."
+        done
+        echo "=== Done ==="
+      else
+        git {{index .PromptResponses 1}} {{index .PromptResponses 0}}
+      fi
+      '

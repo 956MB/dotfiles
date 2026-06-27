@@ -146,6 +146,7 @@ keybinds clear-defaults=true {
         bind "Alt ]" { NextSwapLayout; }
         bind "Ctrl Alt Right" { ToggleFloatingPanes; }
         bind "Alt i" { MoveTab "left"; }
+        bind "Ctrl T" { SwitchToMode "renametab"; TabNameInput 0; }
         // bind "Ctrl j" { MoveFocus "up"; }
         // bind "Ctrl k" { MoveFocus "down"; }
         bind "Alt n" { NewPane; }

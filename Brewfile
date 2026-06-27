@@ -4,9 +4,11 @@ tap "anomalyco/tap"
 tap "fabricsoul/gitfetch", "https://github.com/FabricSoul/gitfetch"
 tap "gcenx/wine"
 tap "jesseduffield/lazydocker"
+tap "k06a/tap"
 tap "kegworks-app/kegworks"
 tap "koekeishiya/formulae"
 tap "linux-noah/noah"
+tap "modem-dev/tap"
 tap "robotsandpencils/made"
 tap "tw93/tap"
 tap "AlexsJones/llmfit"
@@ -24,6 +26,7 @@ brew "glib"
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
+brew "bandwhich"
 brew "bat"
 brew "bison"
 brew "protobuf"
@@ -67,6 +70,8 @@ brew "gcc"
 brew "gettext"
 brew "gnu-tar"
 brew "sccache"
+brew "helix"
+brew "mosh"
 brew "ggshield"
 brew "gh"
 brew "ghidra"
@@ -165,6 +170,16 @@ brew "fabricsoul/gitfetch/gitfetch"
 brew "jesseduffield/lazydocker/lazydocker"
 brew "tw93/tap/mole"
 
+# Cross-platform (added later, not alphabetized)
+brew "ansi"
+brew "modem-dev/tap/hunk"
+brew "pbzip2"
+brew "pkg-config"
+brew "pypy3"
+brew "pv"
+brew "tree-sitter"
+brew "wkhtmltopdf"
+
 # macOS-specific
 brew "arm-none-eabi-gcc" if OS.mac?
 brew "blueutil" if OS.mac?
@@ -172,34 +187,41 @@ brew "pinentry-mac" if OS.mac?
 brew "swift-format" if OS.mac?
 brew "swiftformat" if OS.mac?
 brew "swiftlint" if OS.mac?
+brew "swiftenv" if OS.mac?
+brew "terminal-notifier" if OS.mac?
 brew "xcbeautify" if OS.mac?
 brew "xcode-build-server" if OS.mac?
 brew "xcodegen" if OS.mac?
 brew "xcodes" if OS.mac?
 brew "koekeishiya/formulae/skhd" if OS.mac?
 brew "koekeishiya/formulae/yabai" if OS.mac?
+brew "k06a/tap/macpow" if OS.mac?
 cask "alt-tab" if OS.mac?
 cask "basictex" if OS.mac?
 cask "chromium" if OS.mac?
+cask "dotnet-sdk" if OS.mac?
 cask "dotnet-sdk@8" if OS.mac?
+cask "gcc-arm-embedded" if OS.mac?
 cask "ghidra" if OS.mac?
 cask "gstreamer-runtime" if OS.mac?
 cask "kegworks-app/kegworks/kegworks" if OS.mac?
 cask "finetune" if OS.mac?
 cask "jellyfin" if OS.mac?
+cask "librewolf" if OS.mac?
 cask "linearmouse" if OS.mac?
 cask "logi-options+@1.60.495862" if OS.mac?
 cask "macfuse" if OS.mac?
 cask "sshfs" if OS.mac?
 cask "obs" if OS.mac?
+cask "tablepro" if OS.mac?
 cask "temurin" if OS.mac?
 cask "vesktop" if OS.mac?
 cask "wine-stable" if OS.mac?
 cask "xquartz" if OS.mac?
+cask "zen"
 
 # Linux-specific
 brew "xclip" if OS.linux?
-cask "zen" if OS.linux?
 
 # VSCode extensions (cross-platform)
 vscode "adrianwilczynski.format-selection-as-html"
