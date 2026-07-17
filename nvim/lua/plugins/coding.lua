@@ -33,7 +33,7 @@ vim.defer_fn(function()
     local ok, configs = pcall(require, 'nvim-treesitter.configs')
     if not ok then return end
     configs.setup { ---@diagnostic disable-line: missing-fields
-        ensure_installed = { 'bash', 'c', 'html', 'javascript', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'tsx', 'typescript', 'vim', 'vimdoc' },
+        ensure_installed = { 'bash', 'c', 'html', 'javascript', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'tsx', 'typescript', 'vim', 'vimdoc', 'yaml', 'toml' },
         auto_install = true,
         highlight = { enable = true, additional_vim_regex_highlighting = { 'ruby' } },
         indent = { enable = true, disable = { 'ruby' } },

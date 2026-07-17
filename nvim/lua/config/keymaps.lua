@@ -84,11 +84,11 @@ map('n', '<C-m>', function()
 
     vim.fn.winrestview { topline = target_topline }
 end, 'Center view without moving cursor')
-map('n', '<S-C-Up>', function()
+map('n', '<C-S-[>', function()
     local topline = vim.fn.winsaveview().topline
     vim.fn.winrestview { topline = math.max(1, topline - 5) }
 end, 'Move view up slightly')
-map('n', '<S-C-Down>', function()
+map('n', '<C-S-]>', function()
     local topline = vim.fn.winsaveview().topline
     local total_lines = vim.fn.line '$'
     local window_height = vim.fn.winheight(0)

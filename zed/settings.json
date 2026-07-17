@@ -1,0 +1,126 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+    "edit_predictions": {
+        "allow_data_collection": "no"
+    },
+    "language_models": {
+        "opencode": {
+            "show_zen_models": false,
+        },
+    },
+    "outline_panel": {
+        "dock": "left",
+    },
+    "collaboration_panel": {
+        "dock": "left",
+    },
+    "git_panel": {
+        "dock": "left",
+    },
+    "agent_servers": {
+        "opencode": {
+            "type": "registry",
+        },
+        "claude-acp": {
+            "type": "registry",
+        },
+    },
+    "agent": {
+        "favorite_models": [
+            {
+                "provider": "opencode",
+                "model": "go/deepseek-v4-flash",
+                "enable_thinking": true,
+                "effort": "xhigh",
+            },
+            {
+                "provider": "opencode",
+                "model": "go/glm-5.1",
+                "enable_thinking": false,
+            },
+            {
+                "provider": "opencode",
+                "model": "go/glm-5.2",
+                "enable_thinking": false,
+            },
+            {
+                "provider": "opencode",
+                "model": "go/minimax-m3",
+                "enable_thinking": false,
+            },
+            {
+                "provider": "opencode",
+                "model": "go/qwen3.7-max",
+                "enable_thinking": false,
+            },
+            {
+                "provider": "opencode",
+                "model": "go/deepseek-v4-pro",
+                "enable_thinking": true,
+                "effort": "xhigh",
+            },
+        ],
+        "dock": "right",
+        "default_model": {
+            "provider": "opencode",
+            "model": "go/glm-5.2",
+        },
+        "model_parameters": [],
+        "default_profile": "write",
+        "commit_message_model": {
+            "provider": "ollama",
+            "model": "qwen2.5-coder:7b",
+            // "model": "ministral-3:3b",
+        },
+    },
+    "tabs": {
+        "close_position": "left",
+        "git_status": true,
+        "file_icons": true,
+    },
+    "project_panel": {
+        "dock": "left",
+        "indent_size": 20,
+    },
+    "icon_theme": "Monospace Icon Theme - Light",
+    "vim_mode": false,
+    "minimap": {
+        "show": "always",
+        "thumb": "hover",
+        "current_line_highlight": "line",
+    },
+    "soft_wrap": "bounded",
+    "preferred_line_length": 180,
+    "show_wrap_guides": false,
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false,
+    },
+    "theme": {
+        "mode": "system",
+        "light": "VSCode Light+",
+        "dark": "Kanso Ink (neutral+saturate) v3",
+    },
+    "buffer_font_size": 13,
+    // "ui_font_family": "Menlo",
+    "buffer_font_family": "Menlo",
+    "tab_size": 4,
+    "ui_font_size": 15,
+    "buffer_line_height": "standard",
+    "git": {
+        "inline_blame": {
+            "enabled": false,
+        },
+    },
+    // "toolbar": {
+    //     "breadcrumbs": false,
+    //     "quick_actions": false
+    // }
+}

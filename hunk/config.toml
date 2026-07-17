@@ -1,0 +1,26 @@
+# https://github.com/modem-dev/hunk#config
+
+theme = "custom"
+mode = "auto"
+vcs = "git"
+watch = false
+exclude_untracked = false
+line_numbers = true
+wrap_lines = false
+menu_bar = true
+agent_notes = true
+transparent_background = true
+
+[custom_theme]
+base = "vesper"
+label = "kanso"
+accent = "#7ab0a8"
+panel = "#1E1E1E"
+noteBorder = "#7289b6"
+
+[custom_theme.syntax]
+keyword = "#a784ab"
+string = "#cb7f4f"
+comment = "#868686"
+operator = "#a2aaa1"
+variable = "#CDCDCD"

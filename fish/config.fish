@@ -1,3 +1,5 @@
+# https://fishshell.com/docs/3.0/index.html
+
 # Load environment detection and core settings
 source ~/.config/fish/conf.d/env.fish
 

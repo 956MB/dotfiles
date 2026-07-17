@@ -68,9 +68,49 @@ require('scrollbar').setup {
 require('ts_context_commentstring').setup {
     enable_autocmd = false,
 }
-require('Comment').setup {
-    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-}
+
+local _comment_ft = require 'Comment.ft'
+
+_comment_ft.lua = { '--%s', '--[[%s]]' }
+_comment_ft.python = { '#%s', '#%s' }
+_comment_ft.javascript = { '//%s', '/*%s*/' }
+_comment_ft.javascriptreact = { '//%s', '/*%s*/' }
+_comment_ft.typescript = { '//%s', '/*%s*/' }
+_comment_ft.typescriptreact = { '//%s', '/*%s*/' }
+_comment_ft.rust = { '//%s', '/*%s*/' }
+_comment_ft.go = { '//%s', '/*%s*/' }
+_comment_ft.sh = { '#%s', '#%s' }
+_comment_ft.bash = { '#%s', '#%s' }
+_comment_ft.fish = { '#%s', '#%s' }
+_comment_ft.zig = { '//%s' }
+_comment_ft.c = { '//%s', '/*%s*/' }
+_comment_ft.cpp = { '//%s', '/*%s*/' }
+_comment_ft.css = { '/*%s*/', '/*%s*/' }
+_comment_ft.html = { '<!--%s-->', '<!--%s-->' }
+_comment_ft.scss = { '//%s', '/*%s*/' }
+
+local _tsc_pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+
+local function comment_pre_hook(ctx)
+    local ok, cstring = pcall(_tsc_pre_hook, ctx)
+    if ok and type(cstring) == 'string' and cstring ~= '' then
+        return cstring
+    end
+
+    local ft_cstring = _comment_ft.get(vim.bo.filetype, ctx.ctype)
+    if type(ft_cstring) == 'string' and ft_cstring ~= '' then
+        return ft_cstring
+    end
+
+    local buf_cstring = vim.bo.commentstring
+    if type(buf_cstring) == 'string' and buf_cstring ~= '' then
+        return buf_cstring
+    end
+
+    return '#%s'
+end
+
+require('Comment').setup { pre_hook = comment_pre_hook } ---@diagnostic disable-line: missing-fields
 
 local api = require 'Comment.api'
 vim.keymap.set('n', '<C-l>', api.call('toggle.linewise.current', 'g@$'), { expr = true })

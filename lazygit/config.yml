@@ -1,3 +1,5 @@
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
 gui:
   # stuff relating to the UI
   screenMode: "normal" # one of 'normal' | 'half' | 'full' default is 'normal'
@@ -89,9 +91,9 @@ git:
 os:
   copyToClipboardCmd: "" # See 'Custom Command for Copying to Clipboard' section
   editPreset: "" # see 'Configuring File Editing' section
-  edit: ""
-  editAtLine: ""
-  editAtLineAndWait: ""
+  edit: "nvim {{filename}}"
+  editAtLine: "nvim +{{line}} {{filename}}"
+  editAtLineAndWait: "nvim +{{line}} {{filename}}"
   open: ""
   openLink: ""
 refresher:
@@ -130,7 +132,7 @@ keybinding:
     jumpToBlock: ["1", "2", "3", "4", "5"] # goto the Nth block / panel
     nextMatch: "n"
     prevMatch: "N"
-    optionMenu: <disabled> # show help menu
+    optionMenu: "?" # show help menu
     optionMenu-alt1: "?" # show help menu
     select: "<space>"
     goInto: "<enter>"
@@ -140,12 +142,9 @@ keybinding:
     new: "n"
     edit: "e"
     openFile: "o"
-    scrollUpMain: "<pgup>" # main panel scroll up
-    scrollDownMain: "<pgdown>" # main panel scroll down
-    scrollUpMain-alt1: "J" # main panel scroll up
-    scrollDownMain-alt1: "K" # main panel scroll down
-    scrollUpMain-alt2: "<c-u>" # main panel scroll up
-    scrollDownMain-alt2: "<c-d>" # main panel scroll down
+    # These dont work, ghostty is blocking pgup... or something.
+    scrollUpMain: ["<pgup>", "J", "<c-up>", "<c-u>"] # main panel scroll up
+    scrollDownMain: ["<pgdown>", "K", "<c-down>", "<c-d>"] # main panel scroll down
     executeShellCommand: ":"
     createRebaseOptionsMenu: "m"
     pushFiles: "P"
@@ -217,7 +216,7 @@ keybinding:
     pasteCommits: "v"
     tagCommit: "T"
     checkoutCommit: "<space>"
-    resetCherryPick: "<c-R>"
+    resetCherryPick: "<c-s-r>"
     # copyCommitMessageToClipboard: "<c-y>"
     openLogMenu: "<c-l>"
     viewBisectOptions: "b"
@@ -236,7 +235,7 @@ keybinding:
     update: "u"
     bulkMenu: "b"
 customCommands:
-  - key: '<c-P>'
+  - key: '<c-p>'
     description: "Push to a specific remote repository"
     context: 'global'
     loadingText: 'Pushing ...'

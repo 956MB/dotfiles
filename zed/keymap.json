@@ -1,0 +1,165 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+    {
+        "bindings": {
+            "ctrl-p": "file_finder::Toggle"
+        }
+    },
+    {
+        "context": "vim_mode == insert",
+        "bindings": {
+            "ctrl-s": "workspace::Save"
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "alt-]": "pane::GoForward",
+            "alt-[": "pane::GoBack",
+            "cmd-b": "workspace::ToggleLeftDock",
+            "cmd-alt-b": "workspace::ToggleRightDock",
+            "cmd-t": "project_symbols::Toggle",
+            "ctrl-b": "workspace::ToggleLeftDock",
+            "ctrl-s": "workspace::Save",
+            "ctrl-shift-s": "workspace::SaveAll",
+            "ctrl-]": "pane::ActivateNextItem",
+            "ctrl-[": "pane::ActivatePreviousItem",
+            "shift-cmd-t": "project_symbols::Toggle",
+            "cmd-=": ["zed::IncreaseBufferFontSize", { "persist": false }],
+            "cmd--": ["zed::DecreaseBufferFontSize", { "persist": false }],
+            "cmd-s": "workspace::Save",
+            "ctrl-r": "task::Rerun",
+            "ctrl-shift f": "project_search::ToggleFocus",
+            "ctrl-shift r": "task::Rerun",
+            "ctrl-shift t": "task::Spawn"
+        }
+    },
+    {
+        "context": "Editor",
+        "bindings": {
+            "ctrl-shift-p": "command_palette::Toggle",
+            "cmd-alt ]": "editor::GoToDefinition",
+            "cmd-up": "editor::MoveToBeginning",
+            "ctrl-a": "editor::SelectAll",
+            "ctrl-c": "editor::Copy",
+            "ctrl-x": "editor::Cut",
+            "ctrl-v": "editor::Paste",
+            "ctrl-l": [
+                "editor::ToggleComments",
+                { "advance_downwards": false }
+            ],
+            "ctrl-f": "buffer_search::Deploy",
+            "ctrl-z": "editor::Undo",
+            "ctrl-shift-z": "editor::Redo",
+            "ctrl-d": ["editor::SelectNext", { "replace_newest": false }],
+            "shift-cmd-d": "editor::GoToDefinition",
+            "shift-ctrl-d": "editor::GoToDefinition",
+            "ctrl-.": "editor::ShowCompletions",
+            "ctrl-shift-o": "editor::SelectAllMatches",
+            "ctrl-alt-down": "editor::MoveToEndOfParagraph",
+            "ctrl-alt-up": "editor::MoveToStartOfParagraph",
+            "cmd-left": "editor::MoveToPreviousWordStart",
+            "cmd-right": "editor::MoveToNextWordEnd",
+            "cmd-shift-left": "editor::SelectToPreviousWordStart",
+            "cmd-shift-right": "editor::SelectToNextWordEnd",
+            "shift-ctrl-left": "editor::SelectToPreviousWordStart",
+            "cmd-alt-g i": "editor::ToggleGitBlameInline"
+        }
+    },
+    {
+        "context": "(Editor && mode == full)",
+        "bindings": {
+            "ctrl-g": [
+                "pane::DeploySearch",
+                {
+                    "replace_enabled": true
+                }
+            ]
+        }
+    },
+    {
+        "context": "(Editor && edit_prediction)",
+        "bindings": {
+            "tab": "editor::AcceptEditPrediction"
+        }
+    },
+    {
+        "context": "(Editor && edit_prediction)",
+        "bindings": {
+            "tab": "editor::AcceptEditPrediction"
+        }
+    },
+    {
+        "context": "(Editor && (edit_prediction && (showing_completions || in_leading_whitespace)))",
+        "bindings": {
+            "tab": "editor::AcceptEditPrediction"
+        }
+    },
+    {
+        "context": "(Workspace && !Terminal)",
+        "bindings": {
+            "ctrl-shift-t": [
+                "task::Spawn",
+                {
+                    "reveal_target": "center"
+                }
+            ]
+        }
+    },
+    {
+        "context": "(Workspace && !Terminal)",
+        "bindings": {
+            "ctrl-shift-r": [
+                "task::Rerun",
+                {
+                    "reevaluate_context": false
+                }
+            ]
+        }
+    },
+    {
+        "context": "Editor",
+        "unbind": {
+            "ctrl-t": "editor::Transpose"
+        }
+    },
+    {
+        "context": "Editor",
+        "unbind": {
+            "ctrl-j": "editor::JoinLines"
+        }
+    },
+    {
+        "bindings": {
+            "ctrl-j": "debug_panel::Toggle"
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-t": "terminal_panel::Toggle"
+        }
+    },
+    {
+        "context": "Workspace",
+        "unbind": {
+            "ctrl-`": "terminal_panel::Toggle"
+        }
+    },
+    {
+        "bindings": {
+            "ctrl-k": "terminal_panel::ToggleFocus"
+        }
+    },
+    {
+        "bindings": {
+            "cmd-shift-b": "agent::Toggle"
+        }
+    }
+]

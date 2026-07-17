@@ -2,8 +2,13 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "kanso",
   "autoupdate": true,
+  "lsp": true,
+  "keybinds": {
+    "prompt_skills": "<leader>k"
+  },
   "plugin": [
     "@ramarivera/opencode-model-announcer",
-    "@tarquinen/opencode-dcp@latest"
+    "@tarquinen/opencode-dcp@latest",
+    "compound-engineering@git+https://github.com/EveryInc/compound-engineering-plugin.git"
   ]
 }

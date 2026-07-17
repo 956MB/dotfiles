@@ -9,7 +9,6 @@ tap "kegworks-app/kegworks"
 tap "koekeishiya/formulae"
 tap "linux-noah/noah"
 tap "modem-dev/tap"
-tap "robotsandpencils/made"
 tap "tw93/tap"
 tap "AlexsJones/llmfit"
 tap "xcodesorg/made"
@@ -172,6 +171,8 @@ brew "tw93/tap/mole"
 
 # Cross-platform (added later, not alphabetized)
 brew "ansi"
+brew "codex"
+brew "llama.cpp"
 brew "modem-dev/tap/hunk"
 brew "pbzip2"
 brew "pkg-config"
@@ -180,6 +181,11 @@ brew "pv"
 brew "tree-sitter"
 brew "wkhtmltopdf"
 
+cask "steipete/tap/trimmy" if OS.mac?
+cask "bloom" if OS.mac?
+brew "watch"
+brew "herdr"
+brew "mlx-lm"
 # macOS-specific
 brew "arm-none-eabi-gcc" if OS.mac?
 brew "blueutil" if OS.mac?

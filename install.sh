@@ -114,7 +114,7 @@ backup_configs() {
 	BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 	mkdir -p "$BACKUP_DIR"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
 
 	for config in "${configs[@]}"; do
 		if [[ -e "$HOME/.config/$config" ]]; then
@@ -236,7 +236,7 @@ create_symlinks() {
 	log "Creating symlinks..."
 	mkdir -p "$HOME/.config"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml" "zellij")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
 
 	for config in "${configs[@]}"; do
 		if [[ -d "$HOME/dotfiles/$config" ]]; then
@@ -313,7 +313,7 @@ install_fish_tools() {
 
 	log "Installing essential Fish shell tools..."
 
-	local tools=("eza" "starship" "zoxide" "zellij")
+	local tools=("eza" "starship" "zoxide" "zellij" "herdr")
 
 	for tool in "${tools[@]}"; do
 		if exists "$tool"; then
@@ -466,7 +466,7 @@ revert_installation() {
 
 	log "Removing dotfile symlinks..."
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "nvim" "yazi" "zellij" "starship.toml")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
 
 	for config in "${configs[@]}"; do
 		if [[ -L "$HOME/.config/$config" ]]; then

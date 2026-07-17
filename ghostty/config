@@ -1,3 +1,5 @@
+# https://ghostty.org/docs/config/reference
+
 # Kanso zenghost
 # palette = 0=#090E13
 # palette = 1=#c4746e
@@ -45,8 +47,8 @@ selection-foreground = #c5c9c7
 # foreground= #D4D4D4
 
 # Looks good for screenshots, but not my fav for everyday :(
-# background-opacity = 0.999
-# background-blur-radius = 50
+background-opacity = 0.965
+background-blur-radius = 50
 cursor-style = block
 
 # Icon
@@ -119,6 +121,11 @@ keybind = super+alt+left=previous_tab
 keybind = super+alt+right=next_tab
 keybind = ctrl+enter=unbind
 
+keybind = ctrl+up=csi:5~
+keybind = ctrl+down=csi:6~
+
+title = " "
+window-subtitle = false
 window-padding-x = 4
 window-padding-y = 4
 window-padding-balance = true

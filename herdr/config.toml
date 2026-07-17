@@ -1,0 +1,133 @@
+# https://herdr.dev/docs/config-reference/
+
+onboarding = false
+
+[theme]
+
+[theme.custom]
+panel_bg    = "#181818"
+surface0    = "#1E1E1E"
+surface1    = "#1E1E1E"
+surface_dim = "#1C1C1C"
+overlay0    = "#868686"
+overlay1    = "#a69689"
+text        = "#CDCDCD"
+subtext0    = "#868686"
+accent      = "#71a7c1"
+mauve       = "#a784ab"
+green       = "#83a765"
+yellow      = "#d9af54"
+red         = "#e03c30"
+blue        = "#71a7c1"
+teal        = "#7ab0a8"
+peach       = "#cb7f4f"
+
+[terminal]
+default_shell = "fish"
+
+[keys]
+prefix = "ctrl+h"
+
+help = "prefix+?"
+settings = "prefix+s"
+detach = "prefix+q"
+reload_config = "prefix+shift+r"
+open_notification_target = "prefix+o"
+
+new_workspace = "prefix+shift+n"
+new_worktree = "prefix+shift+g"
+workspace_picker = "prefix+w"
+goto = "prefix+g"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+previous_workspace = "prefix+shift+up"
+next_workspace = "prefix+shift+down"
+
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+shift+x"
+
+rename_pane = "prefix+shift+p"
+edit_scrollback = "prefix+e"
+copy_mode = "prefix+["
+focus_pane_left   = ["prefix+h", "alt+h"]
+focus_pane_down   = ["prefix+j", "alt+j"]
+focus_pane_up     = ["prefix+k", "alt+k"]
+focus_pane_right  = ["prefix+l", "alt+l"]
+swap_pane_left  = "prefix+shift+h"
+swap_pane_down  = "prefix+shift+j"
+swap_pane_up    = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
+cycle_pane_next     = "prefix+tab"
+cycle_pane_previous = "prefix+shift+tab"
+last_pane = "prefix+\\"
+split_vertical   = "prefix+v"
+split_horizontal = "prefix+minus"
+close_pane = "prefix+x"
+zoom = "prefix+z"
+resize_mode = "prefix+r"
+toggle_sidebar = "prefix+b"
+
+switch_workspace = "prefix+shift+1..9"
+remote_image_paste = "ctrl+v"
+
+navigate_workspace_up   = "up"
+navigate_workspace_down = "down"
+navigate_pane_left  = "h"
+navigate_pane_down  = "j"
+navigate_pane_up    = "k"
+navigate_pane_right = "l"
+
+[[keys.command]]
+key = "prefix+alt+n"
+type = "shell"
+command = "herdr pane split --current --direction right --no-focus"
+description = "new pane right (zellij pane-mode n)"
+
+[[keys.command]]
+key = "prefix+alt+d"
+type = "shell"
+command = "herdr pane split --current --direction down --no-focus"
+description = "new pane down (zellij pane-mode d)"
+
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "example.zoom.toggle"
+description = "zoom toggle (zellij pane-mode f)"
+
+[[keys.command]]
+key = "prefix+alt+g"
+type = "pane"
+command = "lazygit"
+description = "open lazygit"
+
+[[keys.command]]
+key = "prefix+alt+b"
+type = "pane"
+command = "btop"
+description = "open btop"
+
+[[keys.command]]
+key = "prefix+alt+y"
+type = "pane"
+command = "yazi"
+description = "open yazi"
+
+[[keys.command]]
+key = "prefix+alt+j"
+type = "pane"
+command = "lazyjj"
+description = "open lazyjj"
+
+[[keys.command]]
+key = "prefix+alt+l"
+type = "pane"
+command = "lazydocker"
+description = "open lazydocker"
+
+[ui]
+sidebar_width = 32
+show_agent_labels_on_pane_borders = true
+accent = "#71a7c1"

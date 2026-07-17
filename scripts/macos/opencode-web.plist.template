@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>__LABEL__</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/bash</string>
+		<string>__DOTFILES__/scripts/macos/opencode-web.sh</string>
+	</array>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		<key>OPENCODE_SERVER_USERNAME</key>
+		<string>opencode</string>
+	</dict>
+
+	<key>WorkingDirectory</key>
+	<string>__HOME__</string>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>KeepAlive</key>
+	<dict>
+		<key>SuccessfulExit</key>
+		<false/>
+		<key>Crashed</key>
+		<true/>
+	</dict>
+
+	<key>ThrottleInterval</key>
+	<integer>5</integer>
+
+	<key>StandardOutPath</key>
+	<string>__HOME__/Library/Logs/opencode-web.log</string>
+
+	<key>StandardErrorPath</key>
+	<string>__HOME__/Library/Logs/opencode-web.err.log</string>
+
+	<key>ProcessType</key>
+	<string>Background</string>
+</dict>
+</plist>

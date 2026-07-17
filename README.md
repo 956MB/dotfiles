@@ -16,16 +16,18 @@ curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | ba
 
 The script will:
 
--   Backup existing configurations (e.g. `~/.config-backup-20250727_064950`)
--   Install the main packages for the shell (`Homebrew`, `eza`, `starship`, `zoxide`, `zellij`, `Fish`)
--   Clone this repository and create symlinks
--   Install packages from the [Brewfile](./Brewfile) (optional)
--   Set `Fish` as the default shell
+-   **Backup** existing configs (bat, btop, delta, fish, ghostty, herdr, nvim, yazi, zellij, starship.toml, .gitconfig)
+-   **Install** Homebrew, Fish shell, and Fish tooling (eza, starship, zoxide, zellij, herdr)
+-   **Clone** the repo and create symlinks for the same set of configs
+-   **Install** packages from the [Brewfile](./Brewfile) (optional, with GUI/non-GUI prompts)
+-   **Set** Fish as the default shell
+
+It runs on macOS (Intel + Apple Silicon) and Linux, with an interactive menu on first launch.
 
 ```bash
 ./install.sh
 ./install.sh {-p, --packages-only}  # Packages only (no symlinks/shell changes)
-./install.sh {-r, --revert}         # Revert to previous configuration
+./install.sh {-r, --revert}         # Revert to previous configuration (restores from backup)
 ```
 
 ---
@@ -70,7 +72,12 @@ alias ep="echo $PATH"                                                  # Print t
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"               # Open a timestamped scratch file in neovim
 alias mkd="mkdir"                                                      # Create a new directory
-alias opc="opencode"                                                   # Start Opencode
+alias ld='lazydocker'                                                  # Open Lazydocker interface
+alias ff='fastfetch --logo ~/dotfiles/logo.txt'                        # Display system info with logo
+alias cl='linecounts'                                                  # List files sorted by line count
+alias vzsh='nvim ~/.config/fish/config.fish'
+alias vlua='nvim ~/dotfiles/nvim'
+
 ```
 
 ##### Zellij
@@ -98,6 +105,79 @@ alias tsip='tailscale ip'                                                   # Sh
 alias tssh='tailscale ssh'                                                  # SSH into a Tailscale machine
 alias tsdc='ps aux | grep tailscaled | grep -v grep'                        # Check if tailscaled daemon is running
 alias tsre='sudo pkill tailscaled; sleep 1; brew services start tailscale'  # Restart tailscaled daemon (after brew upgrade)
+```
+
+##### Vicinae (Raycast-like launcher for Linux)
+
+```bash
+alias vicstart='systemctl --user start vicinae.service'
+alias vicstop='systemctl --user stop vicinae.service'
+alias vicrestart='systemctl --user restart vicinae.service'
+alias vicstatus='systemctl --user status vicinae.service'
+alias vicenable='systemctl --user enable --now vicinae.service'
+alias vicdisable='systemctl --user disable vicinae.service'
+```
+
+##### zigup (Zig version manager)
+
+```bash
+alias zup='zigup'                 # <version>: Fetch compiler and set default
+alias zupf='zigup fetch'          # <version>: Fetch Zig compiler
+alias zuph='zigup --help'         # Zigup help
+alias zupls='zigup list'          # List installed Zig versions
+alias zupdef='zigup default'      # Set global Zig version
+alias zupcl='zigup cleanup'       # Clean compilers that aren't default/master/keep
+alias zupkp='zigup keep'          # <version>: Mark compiler as keep
+alias zupr='zigup run'            # <version> <args>: Run specific compiler
+```
+
+##### Herdr (terminal multiplexer / workspace manager)
+
+[herdr/config.toml](./herdr/config.toml)
+
+```bash
+alias hreload='herdr server reload-config'  # Reload config without restart
+alias hsa='herdr session attach'            # Attach to session <name>
+alias hsl='herdr session list'              # List sessions
+alias hsk='herdr session stop'              # Stop session <name>
+alias hsd='herdr session delete'            # Delete session <name>
+alias hsr='herdr workspace rename'          # Rename workspace <id> <name>
+alias hwl='herdr workspace list'            # List workspaces
+alias hwc='herdr workspace create'          # Create a new workspace
+alias hst='herdr status'                    # Show herdr status
+```
+
+##### jj (Jujutsu version control)
+
+```bash
+alias jjl='jj log'                       # Log commits (excludes untracked remote branches)
+alias jjla='jj log --all'                # Log all commits
+alias jjlok='jj op log'                  # Log operations
+alias jjs='jj status'                    # Show repository status
+alias jjdi='jj diff -r'                  # Show differences between commits
+alias jjn='jj new'                       # Create a new working copy
+alias jjd='jj describe'                  # Describe any commit
+alias jjdm='jj describe -m'              # Describe current commit with message
+alias jjsp='jj split'                    # Select files to commit, create new working copy
+alias jjrb='jj rebase -d'                # Rebase current commit onto a different branch
+alias jjre='jj reset'                    # Reset working copy to a specific commit
+alias jjco='jj checkout'                 # Switch working copy to a branch/commit
+alias jjca='jj abandon'                  # Abandon current commit / working copy
+alias jji='jj git init --colocate'       # Initialize a new jj repository
+alias jjcr='jj git clone'                # Clone a repository
+alias jjf='jj git fetch'                 # Fetch changes from the remote
+alias jjim='jj git import'               # Import remote refs into jj
+alias jjex='jj git export'               # Export refs to remote
+alias jjup='jj git fetch; jj git import' # Pull shortcut
+alias jjpush='jj git export; git push'   # Push shortcut
+alias jjpop='jj undo'                    # Undo last operation
+alias jjbl='jj bookmark list --all'      # List all bookmarks
+alias jjbt='jj bookmark track'           # Track a branch
+alias jjbc='jj bookmark create'          # Create a new bookmark
+alias jjw='jj workspace list'            # List all working copies
+alias jjwf='jj workspace forget'         # Forget workspace
+alias jjwa='jj workspace add'            # Add a new workspace
+alias lj='lazyjj'                        # Open Lazyjj interface
 ```
 
 ##### Commands
@@ -138,18 +218,6 @@ sug() {
 }
 ```
 
-##### Yabai/skhd
-
-[yabairc](./yabai/.yabairc) · [skhdrc](/yabai/..skhdrc)
-
-```bash
-alias ystart='yabai --start-service'      # Start yabai service
-alias ystop='yabai --stop-service'        # Stop yabai service
-alias yupgrade='brew upgrade yabai'       # Upgrade yabai using Homebrew
-alias skstart='skhd --start-service'      # Start skhd service
-alias skstop='skhd --stop-service'        # Stop skhd service
-```
-
 ---
 
 ### Scripts & Fish functions
@@ -158,6 +226,18 @@ alias skstop='skhd --stop-service'        # Stop skhd service
 
 <sup>A better `alias` command, and my first thing written in Zig for fun. Uses color and description comments in `fish/conf.d/aliases.fish`.</sup>
 
+[brew.fish](./fish/functions/brew.fish)
+
+<sup>`brew` wrapper that mirrors `install`/`uninstall`/`reinstall` into `Brewfile`. Parses `--cask` and known flags so the Brewfile stays in sync automatically.</sup>
+
+[cwd.fish](./fish/functions/cwd.fish)
+
+<sup>Prints the absolute path of a file/directory (default `.`) and copies it to the clipboard.</sup>
+
+[fcs.fish](./fish/functions/fcs.fish)
+
+<sup>Counts total first-level subdirectories across all top-level folders.</sup>
+
 [gcr.fish](./fish/functions/gcr.fish) & [gcrz.fish](./fish/functions/gcrz.fish)
 
 <sup>Clones a repo from https/ssh (and `z` into it), and as backup uses github cli</sup>
@@ -165,6 +245,64 @@ alias skstop='skhd --stop-service'        # Stop skhd service
 ```ruby
 {gcr, gcrz} https://github.com/Next-Flip/Momentum-Firmware.git
 ```
+
+[hj.fish](./fish/functions/hj.fish)
+
+<sup>Opens a herdr session, defaulting to the current directory name.</sup>
+
+```ruby
+hj # -> herdr --session <cwd>
+```
+
+[linecounts.fish](./fish/functions/linecounts.fish)
+
+<sup>Lists all files (skipping node_modules, .git, dist, etc.) sorted by line count.</sup>
+
+[mkz.fish](./fish/functions/mkz.fish)
+
+<sup>Create a directory and `z` into it in one step.</sup>
+
+[mvz.fish](./fish/functions/mvz.fish)
+
+<sup>Renames the current directory and stays inside it.</sup>
+
+[ocw.fish](./fish/functions/ocw.fish)
+
+<sup>Manage the persistent opencode web service (launchd + Tailscale).</sup>
+
+```ruby
+ocw        # show status
+ocw start  # kickstart the service
+ocw stop   # SIGTERM the service
+ocw log    # tail both log files
+ocw url    # print Tailscale URL
+ocw install|uninstall|enable|disable|restart
+```
+
+[opc.fish](./fish/functions/opc.fish)
+
+<sup>Attach the opencode TUI to the running web service on `localhost:4096`. Reads password from Keychain. Accepts an optional session name.</sup>
+
+```ruby
+opc          # attach to current dir
+opc my-sess  # attach to a named session
+```
+
+[psd-sizes.fish](./fish/functions/psd-sizes.fish)
+
+<sup>Finds all `.psd` files recursively and prints their sizes in MB/GB with a total.</sup>
+
+[publish.fish](./fish/functions/publish.fish)
+
+<sup>Initialize a git repo and publish it to GitHub as a new repo (defaults to private, pass `--public` to override).</sup>
+
+[tailscale-update.fish](./fish/functions/tailscale-update.fish)
+
+<sup>Updates Tailscale via Homebrew and restarts the daemon, handling root-owned tailscaled and firewall rules.</sup>
+
+[uclip.fish](./fish/functions/uclip.fish)
+
+<sup>Copy file contents or stdin to clipboard. Works on macOS (`pbcopy`) and Linux (`wl-copy`/`xclip`/`xsel`).</sup>
 
 [zj.fish](./fish/functions/zj.fish)
 

@@ -32,6 +32,8 @@ alias resh='source ~/.config/fish/config.fish'                        # Reload t
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"              # Open a timestamped scratch file in neovim
 alias mkd="mkdir"                                                     # Create a new directory
 alias cl='linecounts'                                                 # List files sorted by line count
+alias vzsh='nvim ~/.config/fish/config.fish'
+alias vlua='nvim ~/dotfiles/nvim'
 
 # Tailscale aliases (watch out for close "tsc" command (typescript compiler))
 alias ts='tailscale'                                                        # Tailscale command
@@ -59,6 +61,17 @@ alias zsa='zellij a'                  # Attach to zellij session <name>
 alias zsl='zellij ls'                 # List zellij sessions
 alias zsk='zellij k'                  # Kill zellij session <name>
 alias zsd='zellij d'                  # Delete zellij session <name>
+
+# Herdr aliases (mirroring the zellij aliases above)
+alias hreload='herdr server reload-config'  # Reload herdr config without restart
+alias hsa='herdr session attach'            # Attach to herdr session <name>
+alias hsl='herdr session list'              # List herdr sessions
+alias hsk='herdr session stop'              # Stop herdr session <name>
+alias hsd='herdr session delete'            # Delete herdr session <name>
+alias hsr='herdr workspace rename'          # Rename herdr workspace <id> <name>
+alias hwl='herdr workspace list'            # List herdr workspaces
+alias hwc='herdr workspace create'          # Create a new herdr workspace
+alias hst='herdr status'                    # Show herdr status
 
 # zigup aliases
 alias zup='zigup'                 # <version>: Fetch compiler and set default
@@ -140,16 +153,3 @@ alias jjw='jj workspace list'            # List all working copies
 alias jjwf='jj workspace forget'         # Forget the current workspace (or given name)
 alias jjwa='jj workspace add'            # Add a new workspace
 alias lj='lazyjj'                        # Open Lazyjj interface
-
-# System-specific aliases
-if test "$IS_MAC" = true
-    # Yabai/skhd aliases
-    alias ystart='yabai --start-service'  # Start yabai service
-    alias ystop='yabai --stop-service'    # Stop yabai service
-    alias yupgrade='brew upgrade yabai'   # Upgrade yabai using Homebrew
-    alias skstart='skhd --start-service'  # Start skhd service
-    alias skstop='skhd --stop-service'    # Stop skhd service
-else
-    alias vzsh='nvim ~/.config/fish/config.fish'
-    alias vlua='nvim ~/dotfiles/nvim'
-end

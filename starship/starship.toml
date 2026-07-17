@@ -1,3 +1,5 @@
+# https://starship.rs/config/
+
 format = """
 $username\
 $hostname\

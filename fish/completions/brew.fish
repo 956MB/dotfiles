@@ -1,0 +1,5 @@
+complete -c brew -f -a install       -d "Install a formula or cask"
+complete -c brew -f -a reinstall     -d "Reinstall a formula or cask"
+complete -c brew -f -a uninstall     -d "Uninstall a formula or cask"
+complete -c brew -f -a rm            -d "Uninstall a formula or cask (alias for uninstall)"
+complete -c brew -f -a remove        -d "Uninstall a formula or cask (alias for uninstall)"
