@@ -147,39 +147,6 @@ alias hwc='herdr workspace create'          # Create a new workspace
 alias hst='herdr status'                    # Show herdr status
 ```
 
-##### jj (Jujutsu version control)
-
-```bash
-alias jjl='jj log'                       # Log commits (excludes untracked remote branches)
-alias jjla='jj log --all'                # Log all commits
-alias jjlok='jj op log'                  # Log operations
-alias jjs='jj status'                    # Show repository status
-alias jjdi='jj diff -r'                  # Show differences between commits
-alias jjn='jj new'                       # Create a new working copy
-alias jjd='jj describe'                  # Describe any commit
-alias jjdm='jj describe -m'              # Describe current commit with message
-alias jjsp='jj split'                    # Select files to commit, create new working copy
-alias jjrb='jj rebase -d'                # Rebase current commit onto a different branch
-alias jjre='jj reset'                    # Reset working copy to a specific commit
-alias jjco='jj checkout'                 # Switch working copy to a branch/commit
-alias jjca='jj abandon'                  # Abandon current commit / working copy
-alias jji='jj git init --colocate'       # Initialize a new jj repository
-alias jjcr='jj git clone'                # Clone a repository
-alias jjf='jj git fetch'                 # Fetch changes from the remote
-alias jjim='jj git import'               # Import remote refs into jj
-alias jjex='jj git export'               # Export refs to remote
-alias jjup='jj git fetch; jj git import' # Pull shortcut
-alias jjpush='jj git export; git push'   # Push shortcut
-alias jjpop='jj undo'                    # Undo last operation
-alias jjbl='jj bookmark list --all'      # List all bookmarks
-alias jjbt='jj bookmark track'           # Track a branch
-alias jjbc='jj bookmark create'          # Create a new bookmark
-alias jjw='jj workspace list'            # List all working copies
-alias jjwf='jj workspace forget'         # Forget workspace
-alias jjwa='jj workspace add'            # Add a new workspace
-alias lj='lazyjj'                        # Open Lazyjj interface
-```
-
 ##### Commands
 
 ```bash

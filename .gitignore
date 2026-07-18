@@ -36,6 +36,7 @@ yazi/flavors/*.yazi
 yazi/flavors/**/*
 yazi/opener.sh
 
+jj/
 zellij/*.bak*
 scripts/img2fbm
 nvim/lua/plugins/custom/kanso.nvim

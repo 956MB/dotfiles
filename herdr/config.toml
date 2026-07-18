@@ -116,16 +116,16 @@ command = "yazi"
 description = "open yazi"
 
 [[keys.command]]
-key = "prefix+alt+j"
-type = "pane"
-command = "lazyjj"
-description = "open lazyjj"
-
-[[keys.command]]
 key = "prefix+alt+l"
 type = "pane"
 command = "lazydocker"
 description = "open lazydocker"
+
+[[keys.command]]
+key = "prefix+t"
+type = "plugin_action"
+command = "herdr-navigator.open"
+description = "jump to anything"
 
 [ui]
 sidebar_width = 32
