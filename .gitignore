@@ -39,10 +39,10 @@ yazi/opener.sh
 jj/
 zellij/*.bak*
 scripts/img2fbm
-nvim/lua/plugins/custom/kanso.nvim
 scripts/ggshr
 go/telemetry/local
 github-copilot
+backup/
 .backup/**/*
 .backup/**/.*
 fish/conf.d/env.fish
