@@ -114,7 +114,7 @@ backup_configs() {
 	BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 	mkdir -p "$BACKUP_DIR"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -e "$HOME/.config/$config" ]]; then
@@ -122,6 +122,14 @@ backup_configs() {
 			mv "$HOME/.config/$config" "$BACKUP_DIR/$config"
 		fi
 	done
+
+	# Back up Claude Code-compatible skill path if it's not a symlink
+	# (~/.agents/skills is no longer used; ~/.claude/skills is for Claude Code)
+	if [[ -e "$HOME/.claude/skills" && ! -L "$HOME/.claude/skills" ]]; then
+		log "    Backing up ~/.claude/skills"
+		mkdir -p "$BACKUP_DIR/.claude"
+		mv "$HOME/.claude/skills" "$BACKUP_DIR/.claude/skills"
+	fi
 
 	if [[ -e "$HOME/.gitconfig" ]]; then
 		log "    Backing up ~/.gitconfig"
@@ -236,7 +244,7 @@ create_symlinks() {
 	log "Creating symlinks..."
 	mkdir -p "$HOME/.config"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -d "$HOME/dotfiles/$config" ]]; then
@@ -246,6 +254,15 @@ create_symlinks() {
 			log_warning "    Config directory $config not found in dotfiles"
 		fi
 	done
+
+	log "Linking Claude Code skill path..."
+	mkdir -p "$HOME/.claude"
+	if [[ -d "$HOME/dotfiles/opencode/skills" ]]; then
+		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.claude/skills"
+		log_success "    Linked ~/.claude/skills"
+	else
+		log_warning "    ~/dotfiles/opencode/skills not found"
+	fi
 
 	if [[ -f "$HOME/dotfiles/starship/starship.toml" ]]; then
 		ln -sf "$HOME/dotfiles/starship/starship.toml" "$HOME/.config/starship.toml"
@@ -466,7 +483,7 @@ revert_installation() {
 
 	log "Removing dotfile symlinks..."
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -L "$HOME/.config/$config" ]]; then
@@ -474,6 +491,12 @@ revert_installation() {
 			log_success "    Removed ~/.config/$config symlink"
 		fi
 	done
+
+	# Remove Claude Code skill symlink (opencode uses ~/.config/opencode/skills)
+	if [[ -L "$HOME/.claude/skills" ]]; then
+		rm "$HOME/.claude/skills"
+		log_success "    Removed ~/.claude/skills symlink"
+	fi
 
 	if [[ -L "$HOME/.gitconfig" ]]; then
 		rm "$HOME/.gitconfig"
@@ -488,6 +511,13 @@ revert_installation() {
 			log_success "    Restored ~/.config/$config"
 		fi
 	done
+
+	# Restore Claude Code skill path if backed up
+	if [[ -e "$LATEST_BACKUP/.claude/skills" ]]; then
+		mkdir -p "$HOME/.claude"
+		mv "$LATEST_BACKUP/.claude/skills" "$HOME/.claude/skills"
+		log_success "    Restored ~/.claude/skills"
+	fi
 
 	if [[ -f "$LATEST_BACKUP/.gitconfig" ]]; then
 		mv "$LATEST_BACKUP/.gitconfig" "$HOME/.gitconfig"

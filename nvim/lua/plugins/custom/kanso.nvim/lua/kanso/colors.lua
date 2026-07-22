@@ -2,7 +2,7 @@
 local palette = {
 
     -- Bg Shades
-    zen0 = '#181818',
+    zen0 = '#111111',
     zen1 = '#252525',
     zen2 = '#2D2D2D',
     zen3 = '#424242',

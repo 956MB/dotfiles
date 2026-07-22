@@ -15,7 +15,7 @@ transparent_background = true
 base = "vesper"
 label = "kanso"
 accent = "#7ab0a8"
-panel = "#1E1E1E"
+panel = "#151515"
 noteBorder = "#7289b6"
 
 [custom_theme.syntax]

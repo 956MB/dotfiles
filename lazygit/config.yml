@@ -22,7 +22,7 @@ gui:
     selectedLineBgColor:
       - '#52596a'
     cherryPickedCommitBgColor:
-      - '#181818' # keeping dark background
+      - '#111111' # keeping dark background
     cherryPickedCommitFgColor:
       - '#a784ab'
     unstagedChangesColor:

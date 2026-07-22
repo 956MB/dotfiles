@@ -1,10 +1,9 @@
 {
   "$schema": "https://opencode.ai/theme.json",
-  "name": "Kanso",
   "defs": {
-    "zen0": "#181818",
-    "zen1": "#1E1E1E",
-    "zen2": "#1E1E1E",
+    "zen0": "#111111",
+    "zen1": "#151515",
+    "zen2": "#151515",
     "zen3": "#424242",
     "inkBlack0": "#1C1C1C",
     "inkBlack1": "#262626",
@@ -53,7 +52,7 @@
     "info": { "dark": "zenAqua1", "light": "zenAqua1" },
     "text": { "dark": "inkWhite", "light": "inkWhite" },
     "textMuted": { "dark": "inkGray2", "light": "inkGray2" },
-    "background": { "dark": "zen0", "light": "zen0" },
+    "background": { "dark": "none", "light": "none" },
     "backgroundPanel": { "dark": "zen1", "light": "zen1" },
     "backgroundElement": { "dark": "zen2", "light": "zen2" },
     "border": { "dark": "inkBlack2", "light": "inkBlack2" },

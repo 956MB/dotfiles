@@ -5,9 +5,9 @@ onboarding = false
 [theme]
 
 [theme.custom]
-panel_bg    = "#181818"
-surface0    = "#1E1E1E"
-surface1    = "#1E1E1E"
+panel_bg    = "#111111"
+surface0    = "#151515"
+surface1    = "#151515"
 surface_dim = "#1C1C1C"
 overlay0    = "#868686"
 overlay1    = "#a69689"

@@ -6,6 +6,7 @@ set -gx CLICOLOR_FORCE 1
 set -gx VISUAL nvim
 set -gx EDITOR nvim
 set -gx LAZYVIM_CONFIG_PATH "$HOME/dotfiles/nvim"
+set -gx OPENCODE_DISABLE_CLAUDE_CODE_SKILLS 1
 
 # Go configuration for non-macOS
 if test "$IS_MAC" = false
