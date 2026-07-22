@@ -124,8 +124,6 @@ keybind = ctrl+enter=unbind
 keybind = ctrl+up=csi:5~
 keybind = ctrl+down=csi:6~
 
-title = " "
-window-subtitle = false
 window-padding-x = 4
 window-padding-y = 4
 window-padding-balance = true

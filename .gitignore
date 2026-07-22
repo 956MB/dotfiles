@@ -46,3 +46,7 @@ backup/
 .backup/**/*
 .backup/**/.*
 fish/conf.d/env.fish
+/herdr/session.json
+/herdr/herdr-server.log
+/herdr/herdr-client.log
+/herdr/.plugins.lock

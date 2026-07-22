@@ -243,7 +243,7 @@
       "src": "https://github.com/cameron-wags/rainbow_csv.nvim"
     },
     "render-markdown.nvim": {
-      "rev": "54d4b5431e9634ee3d8d30784e017239b5b89d41",
+      "rev": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "smart-splits.nvim": {

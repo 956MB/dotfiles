@@ -1,0 +1,6 @@
+[X-GNOME-Metatheme]
+Name=adw-gtk3-neutral-dark
+Type=X-GNOME-Metatheme
+Comment=Neutral-grey Adwaita theme (GNOME 48 based, no cold blue tint)
+Encoding=UTF-8
+GtkTheme=adw-gtk3-neutral-dark
