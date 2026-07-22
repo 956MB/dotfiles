@@ -1,4 +1,4 @@
-local logo_path = vim.fn.expand '~' .. '/dotfiles/logos/logo-52b.txt'
+local logo_path = vim.fn.expand '~' .. '/dotfiles/.github/logos/logo-52b.txt'
 local logo = table.concat(vim.fn.readfile(logo_path), '\n') .. '\n'
 
 require('snacks').setup {

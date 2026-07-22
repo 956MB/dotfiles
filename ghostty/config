@@ -133,5 +133,5 @@ macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 gtk-titlebar-style = tabs
 
-shell-integration-features = ssh-terminfo,ssh-env
+# shell-integration-features = ssh-terminfo,ssh-env
 auto-update = off
