@@ -11,7 +11,7 @@
 I made this script for myself to make it easier starting on different systems, so the stuff inside is focused on my personal preferences and keeping my configs exactly the same. **Run at your own risk.**
 
 ```ruby
-curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | sh
 ```
 
 The script will:
@@ -67,7 +67,7 @@ alias cls='clear'                                                      # Clear t
 alias top='btop'                                                       # Use btop instead of top
 alias oldtop="/usr/bin/top"                                            # Run the original top command
 alias nf="neofetch"                                                    # Display system information using neofetch
-alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/logos/logo.txt)"'  # Display git repository information using onefetch with logo
+alias of='onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ~/dotfiles/.github/logos/logo.txt)"'  # Display git repository information using onefetch with logo
 alias ep="echo $PATH"                                                  # Print the PATH environment variable
 alias resh="source ~/.config/fish/config.fish"                         # Reload the fish configuration
 alias nvs="nvim ~/.scratch/$(date +%Y-%m-%d-%H%M%S).txt"               # Open a timestamped scratch file in neovim
@@ -290,7 +290,7 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ---
 
 ```python
-# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./logos/logo-52b.txt)"
+# onefetch --no-color-palette --include-hidden -E --no-title --ascii-input "$(cat ./.github/logos/logo-52b.txt)"
 ⠀⠀⣀⠀⡀⢀⡀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀⠀   HEAD: 5a958a3 (main, github/main)
 ⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⡂   Pending: 2+- 3+
 ⠈⠻⣿⣿⣿⣿⣶⡀⠈⠈⠈⠉⠉⠉⠉⠃⠋⠉⠋⠉⠉⠉⠉⠉⣿⣿⢿⡯⡟⠀   Created: 2 years ago

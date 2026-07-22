@@ -114,7 +114,7 @@ backup_configs() {
 	BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 	mkdir -p "$BACKUP_DIR"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -e "$HOME/.config/$config" ]]; then
@@ -244,7 +244,7 @@ create_symlinks() {
 	log "Creating symlinks..."
 	mkdir -p "$HOME/.config"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -d "$HOME/dotfiles/$config" ]]; then
@@ -392,22 +392,22 @@ show_logo() {
 	clear
 	echo -e "
 * 
-|   ⠀⢠⣤⣤⣤⣤⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⡀
-/   ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⢿⣿⣿⡿
--   ⠀⠙⠻⣿⣿⣧⡉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡿⣻⠁⠀
-\\  ⠀⠀⠀⠉⢻⣿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⡟⠀⠀⠀ 
-|   ⠀⠀⠀⠀⠀⠈⠛⢿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠋⠀⠀⠀⠀
-/   ⠀⠀⠀⠀⠀⠀⠀⠀⠉⠋⠁⠀⠀⠀⠀⠀⠀⣰⣾⡿⠏⠀⠀⠀⠀⠀⠀
--   ⠀⣠⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡿⠟⠀⠀⠀⠀⠀⠀⠀⠀
-\\  ⠀⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⢀⢔⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-|   ⠀⢹⣿⣿⠛⢿⣻⣿⣶⣤⡀⠀⡔⣡⡞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-/   ⠀⠸⣿⣿⠂⠀⠉⠘⠿⣿⣿⢿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
--   ⠀⢠⣿⣿⠀⠀⠀⠀⣀⣾⣽⠻⢿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-\\  ⠀⢸⣿⣿⠀⢀⣤⣾⣿⠟⠁⠀⠀⠈⠹⢿⣏⣷⣦⣄⣀⠀⠀⠀⠀⠀⠀ 
-|   ⠀⠈⣿⣿⣴⣼⣿⣿⠋⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣧⣆⡠⣀⠀⠀
-/   ⠀⠀⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣷⣷⣆
--   ⠀⠀⠙⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠋
-\\  
+|   ⠀⠀⣀⠀⡀⢀⡀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀⠀
+/   ⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⡂
+-   ⠈⠻⣿⣿⣿⣿⣶⡀⠈⠈⠈⠉⠉⠉⠉⠃⠋⠉⠋⠉⠉⠉⠉⠉⣿⣿⢿⡯⡟⠀
+\\  ⠀⠀⠈⠻⣿⣻⣽⣷⣢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⡿⡽⠊⠀⠀
+|   ⠀⠀⠀⠀⠈⠛⢯⣷⣿⣳⡢⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠯⠋⠀⠀⠀⠀
+/   ⠀⠀⠀⠀⠀⠀⠀⠙⢾⢵⢯⡳⣑⡀⠀⠀⠀⠀⢀⣴⣿⣿⡿⠇⠁⠀⠀⠀⠀⠀
+-   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢵⢹⡪⡪⡢⡀⣀⣴⣿⣿⣿⠏⠁⠀⠀⠀⠀⠀⠀⠀
+\\  ⠀⢠⣾⣿⣧⣄⡀⠀⠀⠀⠀⠑⠕⡝⣼⣾⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+|   ⠀⢸⣿⣿⢿⡿⣿⣷⣤⣀⠀⠀⠀⣠⣿⣟⣿⣟⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+/   ⠀⠀⣟⣾⣻⠟⣿⢾⣻⡿⣿⣦⣾⣻⣽⡟⣟⢮⣳⢥⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+-   ⠀⠀⣟⡾⣽⠃⠀⠙⠫⣿⣯⣿⣽⣿⣷⣧⡀⠙⣾⣯⣷⣅⡀⠀⠀⠀⠀⠀⠀⠀
+\\  ⠀⠀⣗⣯⣳⡃⠀⢠⣾⣳⣿⢾⢿⡾⣯⣿⣿⣷⣮⣷⣷⣻⢮⣄⠀⠀⠀⠀⠀⠀
+|   ⠀⠀⣗⢧⣳⣃⣴⣿⣯⣿⡾⠅⠁⠈⠙⠳⢿⣽⣿⣽⣿⣿⣯⣿⣵⡀⠀⠀⠀⠀
+/   ⠀⠀⢸⣳⣿⣿⣿⣟⣯⠏⠁⠀⠀⠀⠀⠀⠀⠉⠚⠿⣾⣟⣿⢿⣿⣿⣦⡀⠀⠀
+-   ⠀⠀⠘⣿⣿⢿⣽⡟⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢿⣿⣻⣿⣯⣆⠀
+\\  ⠀⠀⠀⠙⠁⠁⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠟⠁⠀
 * -> https://github.com/956MB/dotfiles <- *
 |
 /  This script will install and configure development tools and dotfiles"
@@ -483,7 +483,7 @@ revert_installation() {
 
 	log "Removing dotfile symlinks..."
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -L "$HOME/.config/$config" ]]; then
