@@ -2,6 +2,10 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
   "lsp": true,
+  "instructions": [
+    "skills/never-say-actually/SKILL.md",
+    "skills/i-have-adhd/SKILL.md"
+  ],
   "keybinds": {
     "prompt_skills": "<leader>k"
   },

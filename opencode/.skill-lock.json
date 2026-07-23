@@ -1,0 +1,51 @@
+{
+  "version": 3,
+  "skills": {
+    "oklch-skill": {
+      "source": "jakubkrehel/oklch-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/jakubkrehel/oklch-skill.git",
+      "skillPath": "skills/oklch-skill/SKILL.md",
+      "skillFolderHash": "9831d14b4bf20f3267370470cc0912ca47798143",
+      "installedAt": "2026-05-01T04:47:32.205Z",
+      "updatedAt": "2026-05-01T04:47:32.205Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-05-01T04:47:38.143Z",
+      "updatedAt": "2026-07-23T02:12:00.198Z"
+    },
+    "herdr": {
+      "source": "ogulcancelik/herdr",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/ogulcancelik/herdr.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "2a20e90a026936d0d5b96823d74e2e4fe13a166f",
+      "installedAt": "2026-07-15T14:06:13.501Z",
+      "updatedAt": "2026-07-23T02:37:00.535Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "claude-code"
+  ]
+}

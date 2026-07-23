@@ -123,12 +123,35 @@ backup_configs() {
 		fi
 	done
 
-	# Back up Claude Code-compatible skill path if it's not a symlink
-	# (~/.agents/skills is no longer used; ~/.claude/skills is for Claude Code)
+	# Back up skill paths if they're not symlinks
+	# (~/.opencode/skills is for opencode; ~/.agents is for skill management)
 	if [[ -e "$HOME/.claude/skills" && ! -L "$HOME/.claude/skills" ]]; then
 		log "    Backing up ~/.claude/skills"
 		mkdir -p "$BACKUP_DIR/.claude"
 		mv "$HOME/.claude/skills" "$BACKUP_DIR/.claude/skills"
+	fi
+
+	if [[ -e "$HOME/.opencode/skills" && ! -L "$HOME/.opencode/skills" ]]; then
+		log "    Backing up ~/.opencode/skills"
+		mkdir -p "$BACKUP_DIR/.opencode"
+		mv "$HOME/.opencode/skills" "$BACKUP_DIR/.opencode/skills"
+	fi
+
+	if [[ -e "$HOME/.agents" && ! -L "$HOME/.agents" ]]; then
+		log "    Backing up ~/.agents"
+		mv "$HOME/.agents" "$BACKUP_DIR/.agents"
+	fi
+
+	if [[ -e "$HOME/.agents/skills" && ! -L "$HOME/.agents/skills" ]]; then
+		log "    Backing up ~/.agents/skills"
+		mkdir -p "$BACKUP_DIR/.agents"
+		mv "$HOME/.agents/skills" "$BACKUP_DIR/.agents/skills"
+	fi
+
+	if [[ -e "$HOME/.agents/.skill-lock.json" && ! -L "$HOME/.agents/.skill-lock.json" ]]; then
+		log "    Backing up ~/.agents/.skill-lock.json"
+		mkdir -p "$BACKUP_DIR/.agents"
+		mv "$HOME/.agents/.skill-lock.json" "$BACKUP_DIR/.agents/.skill-lock.json"
 	fi
 
 	if [[ -e "$HOME/.gitconfig" ]]; then
@@ -255,13 +278,27 @@ create_symlinks() {
 		fi
 	done
 
-	log "Linking Claude Code skill path..."
-	mkdir -p "$HOME/.claude"
+	log "Linking skill paths..."
 	if [[ -d "$HOME/dotfiles/opencode/skills" ]]; then
+		mkdir -p "$HOME/.claude"
 		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.claude/skills"
 		log_success "    Linked ~/.claude/skills"
+
+		mkdir -p "$HOME/.opencode"
+		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.opencode/skills"
+		log_success "    Linked ~/.opencode/skills"
+
+		# ~/.agents must be a real directory so the lock file and skills can be separate symlinks
+		# (~/.agents/.skill-lock.json is where npx skills reads/writes the global lock)
+		mkdir -p "$HOME/.agents"
+		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.agents/skills"
+		log_success "    Linked ~/.agents/skills"
+		if [[ -f "$HOME/dotfiles/opencode/.skill-lock.json" ]]; then
+			ln -sfn "$HOME/dotfiles/opencode/.skill-lock.json" "$HOME/.agents/.skill-lock.json"
+			log_success "    Linked ~/.agents/.skill-lock.json"
+		fi
 	else
-		log_warning "    ~/dotfiles/opencode/skills not found"
+		log_warning "    ~/dotfiles/opencode/skills not found (skills not linked)"
 	fi
 
 	if [[ -f "$HOME/dotfiles/starship/starship.toml" ]]; then
@@ -492,10 +529,24 @@ revert_installation() {
 		fi
 	done
 
-	# Remove Claude Code skill symlink (opencode uses ~/.config/opencode/skills)
 	if [[ -L "$HOME/.claude/skills" ]]; then
 		rm "$HOME/.claude/skills"
 		log_success "    Removed ~/.claude/skills symlink"
+	fi
+
+	if [[ -L "$HOME/.opencode/skills" ]]; then
+		rm "$HOME/.opencode/skills"
+		log_success "    Removed ~/.opencode/skills symlink"
+	fi
+
+	if [[ -L "$HOME/.agents/skills" ]]; then
+		rm "$HOME/.agents/skills"
+		log_success "    Removed ~/.agents/skills symlink"
+	fi
+
+	if [[ -L "$HOME/.agents/.skill-lock.json" ]]; then
+		rm "$HOME/.agents/.skill-lock.json"
+		log_success "    Removed ~/.agents/.skill-lock.json symlink"
 	fi
 
 	if [[ -L "$HOME/.gitconfig" ]]; then
@@ -512,11 +563,29 @@ revert_installation() {
 		fi
 	done
 
-	# Restore Claude Code skill path if backed up
+	# Restore skill paths if backed up
 	if [[ -e "$LATEST_BACKUP/.claude/skills" ]]; then
 		mkdir -p "$HOME/.claude"
 		mv "$LATEST_BACKUP/.claude/skills" "$HOME/.claude/skills"
 		log_success "    Restored ~/.claude/skills"
+	fi
+
+	if [[ -e "$LATEST_BACKUP/.opencode/skills" ]]; then
+		mkdir -p "$HOME/.opencode"
+		mv "$LATEST_BACKUP/.opencode/skills" "$HOME/.opencode/skills"
+		log_success "    Restored ~/.opencode/skills"
+	fi
+
+	if [[ -e "$LATEST_BACKUP/.agents/skills" ]]; then
+		mkdir -p "$HOME/.agents"
+		mv "$LATEST_BACKUP/.agents/skills" "$HOME/.agents/skills"
+		log_success "    Restored ~/.agents/skills"
+	fi
+
+	if [[ -e "$LATEST_BACKUP/.agents/.skill-lock.json" ]]; then
+		mkdir -p "$HOME/.agents"
+		mv "$LATEST_BACKUP/.agents/.skill-lock.json" "$HOME/.agents/.skill-lock.json"
+		log_success "    Restored ~/.agents/.skill-lock.json"
 	fi
 
 	if [[ -f "$LATEST_BACKUP/.gitconfig" ]]; then
