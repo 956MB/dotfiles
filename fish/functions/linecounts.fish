@@ -4,6 +4,7 @@ function linecounts --description 'List files sorted by line count, skipping lar
         -o -path '*/.git' \
         -o -path '*/dist' \
         -o -path '*/build' \
+        -o -path '*/binaries' \
         -o -path '*/.next' \
         -o -path '*/coverage' \
         -o -path '*/target' \

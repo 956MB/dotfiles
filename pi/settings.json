@@ -1,0 +1,17 @@
+{
+  "lastChangelogVersion": "0.83.0",
+  "theme": "kanso",
+  "defaultProvider": "opencode",
+  "defaultModel": "deepseek-v4-flash-free",
+  "defaultThinkingLevel": "max",
+  "packages": [
+    "npm:@kungfusaini/pi-plan-mode",
+    "npm:@tmustier/pi-session-hud",
+    "npm:pi-session-todo",
+    "npm:pi-system-prompt",
+    "npm:pi-web-access",
+    "npm:pi-hermes-memory",
+    "npm:pi-rtk-optimizer"
+  ],
+  "hideThinkingBlock": false
+}

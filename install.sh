@@ -78,6 +78,45 @@ exists() {
 	command -v "$1" >/dev/null 2>&1
 }
 
+AGENT_BACKUP_PATHS=(".claude/skills" ".opencode/skills" ".agents" ".agents/skills" ".agents/.skill-lock.json")
+AGENT_LINK_PATHS=(".claude/skills" ".opencode/skills" ".agents/skills" ".agents/.skill-lock.json")
+
+backup_path() {
+	local rel="$1"
+	local src="$HOME/$rel"
+
+	if [[ ! -e "$src" || -L "$src" ]]; then
+		return 0
+	fi
+
+	mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
+	log "    Backing up ~/$rel"
+	mv "$src" "$BACKUP_DIR/$rel"
+}
+
+remove_symlink() {
+	local rel="$1"
+	local src="$HOME/$rel"
+
+	if [[ -L "$src" ]]; then
+		rm "$src"
+		log_success "    Removed ~/$rel symlink"
+	fi
+}
+
+restore_path() {
+	local rel="$1"
+	local src="$BACKUP_DIR/$rel"
+
+	if [[ ! -e "$src" || -e "$HOME/$rel" ]]; then
+		return 0
+	fi
+
+	mkdir -p "$HOME/$(dirname "$rel")"
+	mv "$src" "$HOME/$rel"
+	log_success "    Restored ~/$rel"
+}
+
 ask_confirmation() {
 	local prompt="$1"
 	local default="${2:-n}"
@@ -123,36 +162,15 @@ backup_configs() {
 		fi
 	done
 
-	# Back up skill paths if they're not symlinks
-	# (~/.opencode/skills is for opencode; ~/.agents is for skill management)
-	if [[ -e "$HOME/.claude/skills" && ! -L "$HOME/.claude/skills" ]]; then
-		log "    Backing up ~/.claude/skills"
-		mkdir -p "$BACKUP_DIR/.claude"
-		mv "$HOME/.claude/skills" "$BACKUP_DIR/.claude/skills"
-	fi
+	# Back up agent config paths if they're not symlinks
+	for path in "${AGENT_BACKUP_PATHS[@]}"; do
+		backup_path "$path"
+	done
 
-	if [[ -e "$HOME/.opencode/skills" && ! -L "$HOME/.opencode/skills" ]]; then
-		log "    Backing up ~/.opencode/skills"
-		mkdir -p "$BACKUP_DIR/.opencode"
-		mv "$HOME/.opencode/skills" "$BACKUP_DIR/.opencode/skills"
-	fi
-
-	if [[ -e "$HOME/.agents" && ! -L "$HOME/.agents" ]]; then
-		log "    Backing up ~/.agents"
-		mv "$HOME/.agents" "$BACKUP_DIR/.agents"
-	fi
-
-	if [[ -e "$HOME/.agents/skills" && ! -L "$HOME/.agents/skills" ]]; then
-		log "    Backing up ~/.agents/skills"
-		mkdir -p "$BACKUP_DIR/.agents"
-		mv "$HOME/.agents/skills" "$BACKUP_DIR/.agents/skills"
-	fi
-
-	if [[ -e "$HOME/.agents/.skill-lock.json" && ! -L "$HOME/.agents/.skill-lock.json" ]]; then
-		log "    Backing up ~/.agents/.skill-lock.json"
-		mkdir -p "$BACKUP_DIR/.agents"
-		mv "$HOME/.agents/.skill-lock.json" "$BACKUP_DIR/.agents/.skill-lock.json"
-	fi
+	for item in "$HOME/.pi/agent"/*; do
+		[[ -L "$item" || -e "$item" ]] || continue
+		backup_path ".pi/agent/$(basename "$item")"
+	done
 
 	if [[ -e "$HOME/.gitconfig" ]]; then
 		log "    Backing up ~/.gitconfig"
@@ -299,6 +317,18 @@ create_symlinks() {
 		fi
 	else
 		log_warning "    ~/dotfiles/opencode/skills not found (skills not linked)"
+	fi
+
+	log "Linking pi agent paths..."
+	if [[ -d "$HOME/dotfiles/pi" ]]; then
+		mkdir -p "$HOME/.pi/agent"
+		for item in "$HOME/dotfiles/pi"/*; do
+			[[ -e "$item" ]] || continue
+			ln -sfn "$item" "$HOME/.pi/agent/$(basename "$item")"
+			log_success "    Linked ~/.pi/agent/$(basename "$item")"
+		done
+	else
+		log_warning "    ~/dotfiles/pi not found (pi agent paths not linked)"
 	fi
 
 	if [[ -f "$HOME/dotfiles/starship/starship.toml" ]]; then
@@ -512,6 +542,7 @@ revert_installation() {
 	fi
 
 	log "Found backup: $LATEST_BACKUP"
+	BACKUP_DIR="$LATEST_BACKUP"
 
 	if ! ask_confirmation "Revert to this backup? This will remove current dotfile symlinks"; then
 		log "Revert cancelled"
@@ -529,30 +560,19 @@ revert_installation() {
 		fi
 	done
 
-	if [[ -L "$HOME/.claude/skills" ]]; then
-		rm "$HOME/.claude/skills"
-		log_success "    Removed ~/.claude/skills symlink"
-	fi
-
-	if [[ -L "$HOME/.opencode/skills" ]]; then
-		rm "$HOME/.opencode/skills"
-		log_success "    Removed ~/.opencode/skills symlink"
-	fi
-
-	if [[ -L "$HOME/.agents/skills" ]]; then
-		rm "$HOME/.agents/skills"
-		log_success "    Removed ~/.agents/skills symlink"
-	fi
-
-	if [[ -L "$HOME/.agents/.skill-lock.json" ]]; then
-		rm "$HOME/.agents/.skill-lock.json"
-		log_success "    Removed ~/.agents/.skill-lock.json symlink"
-	fi
+	for path in "${AGENT_LINK_PATHS[@]}"; do
+		remove_symlink "$path"
+	done
 
 	if [[ -L "$HOME/.gitconfig" ]]; then
 		rm "$HOME/.gitconfig"
 		log_success "    Removed ~/.gitconfig symlink"
 	fi
+
+	for item in "$HOME/.pi/agent"/*; do
+		[[ -L "$item" || -e "$item" ]] || continue
+		remove_symlink ".pi/agent/$(basename "$item")"
+	done
 
 	log "Restoring backup configurations..."
 
@@ -563,35 +583,21 @@ revert_installation() {
 		fi
 	done
 
-	# Restore skill paths if backed up
-	if [[ -e "$LATEST_BACKUP/.claude/skills" ]]; then
-		mkdir -p "$HOME/.claude"
-		mv "$LATEST_BACKUP/.claude/skills" "$HOME/.claude/skills"
-		log_success "    Restored ~/.claude/skills"
-	fi
-
-	if [[ -e "$LATEST_BACKUP/.opencode/skills" ]]; then
-		mkdir -p "$HOME/.opencode"
-		mv "$LATEST_BACKUP/.opencode/skills" "$HOME/.opencode/skills"
-		log_success "    Restored ~/.opencode/skills"
-	fi
-
-	if [[ -e "$LATEST_BACKUP/.agents/skills" ]]; then
-		mkdir -p "$HOME/.agents"
-		mv "$LATEST_BACKUP/.agents/skills" "$HOME/.agents/skills"
-		log_success "    Restored ~/.agents/skills"
-	fi
-
-	if [[ -e "$LATEST_BACKUP/.agents/.skill-lock.json" ]]; then
-		mkdir -p "$HOME/.agents"
-		mv "$LATEST_BACKUP/.agents/.skill-lock.json" "$HOME/.agents/.skill-lock.json"
-		log_success "    Restored ~/.agents/.skill-lock.json"
-	fi
+	# Restore agent config paths if backed up
+	for path in "${AGENT_LINK_PATHS[@]}"; do
+		restore_path "$path"
+	done
 
 	if [[ -f "$LATEST_BACKUP/.gitconfig" ]]; then
 		mv "$LATEST_BACKUP/.gitconfig" "$HOME/.gitconfig"
 		log_success "    Restored ~/.gitconfig"
 	fi
+
+	# Restore pi agent paths if backed up
+	for item in "$BACKUP_DIR/.pi/agent"/*; do
+		[[ -e "$item" ]] || continue
+		restore_path ".pi/agent/$(basename "$item")"
+	done
 
 	# Restore previous shell if saved
 	if [[ -f "$LATEST_BACKUP/.previous_shell" ]]; then

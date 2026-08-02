@@ -52,8 +52,8 @@ background-blur-radius = 50
 cursor-style = block
 
 # Icon
-macos-icon = custom-style
-# macos-custom-icon = ~/dotfiles/img/ghostty-icon.png
+macos-icon = custom
+macos-custom-icon = ~/dotfiles/.github/ghostty-icon-2.png
 macos-icon-frame = plastic
 macos-icon-ghost-color = #ffffff
 macos-icon-screen-color = #181818

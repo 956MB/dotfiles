@@ -12,6 +12,7 @@
   "plugin": [
     "@ramarivera/opencode-model-announcer",
     "@tarquinen/opencode-dcp@latest",
-    "compound-engineering@git+https://github.com/EveryInc/compound-engineering-plugin.git"
+    "compound-engineering@git+https://github.com/EveryInc/compound-engineering-plugin.git",
+    "opencode-lmstudio@1.0.0-rc.2"
   ]
 }
