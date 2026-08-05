@@ -281,6 +281,15 @@ clone_dotfiles() {
 	log_success "Dotfiles repository ready"
 }
 
+safe_link() {
+	local target="$1" dest="$2"
+	if [[ -e "$dest" && ! -L "$dest" ]]; then
+		log_warning "    $dest is a real directory - moving aside to $dest.bak-$(date +%Y%m%d_%H%M%S)"
+		mv "$dest" "$dest.bak-$(date +%Y%m%d_%H%M%S)"
+	fi
+	ln -sfn "$target" "$dest"
+}
+
 create_symlinks() {
 	log "Creating symlinks..."
 	mkdir -p "$HOME/.config"
@@ -303,17 +312,17 @@ create_symlinks() {
 	log "Linking skill paths..."
 	if [[ -d "$HOME/dotfiles/opencode/skills" ]]; then
 		mkdir -p "$HOME/.claude"
-		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.claude/skills"
+		safe_link "$HOME/dotfiles/opencode/skills" "$HOME/.claude/skills"
 		log_success "    Linked ~/.claude/skills"
 
 		mkdir -p "$HOME/.opencode"
-		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.opencode/skills"
+		safe_link "$HOME/dotfiles/opencode/skills" "$HOME/.opencode/skills"
 		log_success "    Linked ~/.opencode/skills"
 
 		# ~/.agents must be a real directory so the lock file and skills can be separate symlinks
 		# (~/.agents/.skill-lock.json is where npx skills reads/writes the global lock)
 		mkdir -p "$HOME/.agents"
-		ln -sfn "$HOME/dotfiles/opencode/skills" "$HOME/.agents/skills"
+		safe_link "$HOME/dotfiles/opencode/skills" "$HOME/.agents/skills"
 		log_success "    Linked ~/.agents/skills"
 		if [[ -f "$HOME/dotfiles/opencode/.skill-lock.json" ]]; then
 			ln -sfn "$HOME/dotfiles/opencode/.skill-lock.json" "$HOME/.agents/.skill-lock.json"
@@ -328,7 +337,7 @@ create_symlinks() {
 		mkdir -p "$HOME/.pi/agent"
 		for item in "$HOME/dotfiles/pi"/*; do
 			[[ -e "$item" ]] || continue
-			ln -sfn "$item" "$HOME/.pi/agent/$(basename "$item")"
+			safe_link "$item" "$HOME/.pi/agent/$(basename "$item")"
 			log_success "    Linked ~/.pi/agent/$(basename "$item")"
 		done
 	else
@@ -489,12 +498,16 @@ show_logo() {
 	echo -e "/  "
 
 	while true; do
-		echo -n "*  Press Enter to continue, 'p' for packages only, 'r' to revert, 'q' to quit, or Ctrl+C to cancel..."
+		echo -n "*  Press Enter to continue, 's' for symlinks only, 'p' for packages only, 'r' to revert, 'q' to quit, or Ctrl+C to cancel..."
 		read -r -n1 response
 		echo ""
 		case "$response" in
 		"" | $'\n')
 			break
+			;;
+		[sS])
+			symlinks_only
+			return
 			;;
 		[pP])
 			packages_only
@@ -515,7 +528,7 @@ show_logo() {
 			exit 0
 			;;
 		*)
-			echo "/  Invalid input. Press Enter to continue, 'p' for packages, 'r' to revert, or 'q' to quit."
+			echo "/  Invalid input. Press Enter to continue, 's' for symlinks, 'p' for packages, 'r' to revert, or 'q' to quit."
 			;;
 		esac
 	done
