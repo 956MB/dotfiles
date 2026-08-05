@@ -11,7 +11,13 @@
     "npm:pi-system-prompt",
     "npm:pi-web-access",
     "npm:pi-hermes-memory",
-    "npm:pi-rtk-optimizer"
+    "npm:pi-rtk-optimizer",
+    "npm:pi-opencode-session-import",
+    "npm:pi-lmstudio",
+    "npm:pi-ollama-cloud",
+    "npm:pi-shell-completions"
   ],
-  "hideThinkingBlock": false
+  "hideThinkingBlock": false,
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false
 }

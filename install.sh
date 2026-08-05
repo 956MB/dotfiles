@@ -288,12 +288,16 @@ create_symlinks() {
 	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
-		if [[ -d "$HOME/dotfiles/$config" ]]; then
-			ln -sf "$HOME/dotfiles/$config" "$HOME/.config/$config"
-			log_success "    Linked ~/.config/$config"
-		else
+		if [[ ! -d "$HOME/dotfiles/$config" ]]; then
 			log_warning "    Config directory $config not found in dotfiles"
+			continue
 		fi
+		if [[ -e "$HOME/.config/$config" && ! -L "$HOME/.config/$config" ]]; then
+			log_warning "    ~/.config/$config is a real file/dir (not a symlink) - skipping to avoid clobbering"
+			continue
+		fi
+		ln -sfn "$HOME/dotfiles/$config" "$HOME/.config/$config"
+		log_success "    Linked ~/.config/$config"
 	done
 
 	log "Linking skill paths..."
@@ -480,6 +484,7 @@ show_logo() {
 /  This script will install and configure development tools and dotfiles"
 	echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Fish shell, and more"
 	echo -e "\\  Usage: install.sh [--packages-only | -p] for packages only"
+	echo -e "|         install.sh [--symlinks-only | -s] to link/relink dotfiles only"
 	echo -e "|         install.sh [--revert | -r] to revert to previous configuration"
 	echo -e "/  "
 
@@ -527,6 +532,15 @@ packages_only() {
 
 	install_packages
 	log_end "Package installation completed!"
+}
+
+symlinks_only() {
+	show_logo
+	log_start "Linking symlinks only..."
+	detect_system
+	clone_dotfiles
+	create_symlinks
+	log_end "Symlinks updated!"
 }
 
 revert_installation() {
@@ -629,6 +643,11 @@ revert_installation() {
 main() {
 	if [[ "$1" == "--packages-only" || "$1" == "-p" ]]; then
 		packages_only
+		return
+	fi
+
+	if [[ "$1" == "--symlinks-only" || "$1" == "-s" ]]; then
+		symlinks_only
 		return
 	fi
 
