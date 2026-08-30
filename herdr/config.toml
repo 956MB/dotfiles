@@ -9,6 +9,7 @@ panel_bg    = "#111111"
 surface0    = "#151515"
 surface1    = "#151515"
 surface_dim = "#1C1C1C"
+active_row_bg = "#1C1C1C"
 overlay0    = "#868686"
 overlay1    = "#a69689"
 text        = "#CDCDCD"
@@ -133,5 +134,18 @@ show_agent_labels_on_pane_borders = true
 accent = "#71a7c1"
 agent_panel_sort = "spaces"
 
+[ui.sidebar.agents]
+row_gap = 1
+
+[ui.sidebar.spaces]
+row_gap = 1
+
 [ui.toast]
 delivery = "herdr"
+
+# herdr-floax:keybind
+[[keys.command]]
+key = "ctrl+alt+right"
+type = "plugin_action"
+command = "herdr-floax.toggle"
+description = "Toggle floating pane"

@@ -129,7 +129,7 @@ window-padding-y = 4
 window-padding-balance = true
 window-save-state = always
 quit-after-last-window-closed=true
-macos-titlebar-style = tabs
+macos-titlebar-style = hidden
 mouse-hide-while-typing = true
 gtk-titlebar-style = tabs
 

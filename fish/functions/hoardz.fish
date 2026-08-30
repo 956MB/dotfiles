@@ -3,7 +3,7 @@ function hoardz --description 'Clone a repo into Hoard and z into it'
         return 1
     end
 
-    set -l repo_url $argv[1]
+    set -l repo_url (string replace -r '/+$' '' $argv[1])
     set -l repo_name (string replace -r '.*/' '' $repo_url | string replace -r '\.git$' '')
     set -l target_root "$HOME/Hoard/Saves"
 

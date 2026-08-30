@@ -184,6 +184,9 @@ cask "bloom" if OS.mac?
 brew "watch"
 brew "herdr"
 brew "mlx-lm"
+cask "paseo" if OS.mac?
+brew "blackhole-2ch"
+
 # macOS-specific
 brew "arm-none-eabi-gcc" if OS.mac?
 brew "blueutil" if OS.mac?

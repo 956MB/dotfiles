@@ -1,0 +1,10 @@
+{
+  "providers": {
+    "omlx": {
+      "baseUrl": "http://localhost:8000/v1",
+      "apiKey": "$OMLX_API_KEY",
+      "autoDiscover": true,
+      "excludePatterns": []
+    }
+  }
+}

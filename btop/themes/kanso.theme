@@ -1,0 +1,91 @@
+# Kanso (Ink) theme for btop
+# Based on the kanso.nvim Ink palette (kanso.nvim / pi / opencode / zed / ghostty kanso)
+# Style guide: see KANSO.md at the repo root.
+# Structure follows btop/themes/vscode_dark_modern.theme.
+
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]="#111111"            # zen0
+
+# Main text color
+theme[main_fg]="#CDCDCD"            # inkWhite
+
+# Title color for boxes
+theme[title]="#F2F2F2"              # fujiWhite
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#d9af54"              # inkYellow
+
+# Background color of selected items
+theme[selected_bg]="#262626"        # inkBlack1
+
+# Foreground color of selected items
+theme[selected_fg]="#F2F2F2"        # fujiWhite
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#6B6B6B"        # inkGray3
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#a69689"         # inkGray1
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#a2aaa1"          # inkGray
+
+# Cpu box outline color
+theme[cpu_box]="#424242"            # zen3
+
+# Memory/disks box outline color
+theme[mem_box]="#2D2D2D"            # inkBlack2
+
+# Net up/down box outline color
+theme[net_box]="#2D2D2D"            # inkBlack2
+
+# Processes box outline color
+theme[proc_box]="#2D2D2D"           # inkBlack2
+
+# Box divider line and small boxes line color
+theme[div_line]="#262626"           # inkBlack1
+
+# Temperature graph colors: cool -> warm -> hot
+theme[temp_start]="#6eb575"         # inkGreen
+theme[temp_mid]="#d9af54"           # inkYellow
+theme[temp_end]="#e03c30"           # inkRed
+
+# CPU graph colors: idle (aqua) -> load (violet) -> saturated (red)
+theme[cpu_start]="#7ab0a8"          # inkAqua
+theme[cpu_mid]="#7289b6"            # inkViolet
+theme[cpu_end]="#e03c30"            # inkRed
+
+# Mem/Disk free meter
+theme[free_start]="#6B6B6B"         # inkGray3
+theme[free_mid]="#83a765"           # inkGreen2
+theme[free_end]="#d9af54"           # inkYellow
+
+# Mem/Disk cached meter
+theme[cached_start]="#868686"       # inkGray2
+theme[cached_mid]="#a784ab"         # inkPink
+theme[cached_end]="#d9af54"         # inkYellow
+
+# Mem/Disk available meter
+theme[available_start]="#a69689"    # inkGray1
+theme[available_mid]="#7ab0a8"      # inkAqua
+theme[available_end]="#71a7c1"      # inkBlue2
+
+# Mem/Disk used meter
+theme[used_start]="#868686"         # inkGray2
+theme[used_mid]="#d9af54"           # inkYellow
+theme[used_end]="#71a7c1"           # inkBlue2
+
+# Download graph colors
+theme[download_start]="#d9af54"     # inkYellow
+theme[download_mid]="#7289b6"       # inkViolet
+theme[download_end]="#71a7c1"       # inkBlue2
+
+# Upload graph colors
+theme[upload_start]="#431b24"       # winterRed
+theme[upload_mid]="#e44355"         # zenRed
+theme[upload_end]="#a784ab"         # inkPink
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#cb7f4f"      # inkOrange
+theme[process_mid]="#7ab0a8"        # inkAqua
+theme[process_end]="#e03c30"        # inkRed

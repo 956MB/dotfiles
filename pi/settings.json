@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.83.0",
+  "lastChangelogVersion": "0.84.4",
   "theme": "kanso",
-  "defaultProvider": "opencode",
-  "defaultModel": "deepseek-v4-flash-free",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "max",
   "packages": [
     "npm:@kungfusaini/pi-plan-mode",
@@ -15,9 +15,27 @@
     "npm:pi-opencode-session-import",
     "npm:pi-lmstudio",
     "npm:pi-ollama-cloud",
-    "npm:pi-shell-completions"
+    "npm:pi-shell-completions",
+    "npm:pi-init",
+    "npm:context-mode",
+    "npm:@ff-labs/pi-fff",
+    "npm:@narumitw/pi-plan-mode",
+    "npm:@rolemodel/pi-omlx",
+    "~/Hoard/Forks/pi-token-speed",
+    "npm:pi-rewind",
+    "npm:@howaboua/pi-codex-conversion"
   ],
   "hideThinkingBlock": false,
   "enableInstallTelemetry": false,
-  "enableAnalytics": false
+  "enableAnalytics": false,
+  "tokenSpeed": {
+    "icon": "",
+    "label": "tok/s",
+    "unit": "",
+    "slidingWindow": 3000,
+    "useProviderTokens": true,
+    "countStrategy": "estimate",
+    "endTpsBehavior": "average",
+    "display": "tps"
+  }
 }

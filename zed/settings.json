@@ -107,7 +107,7 @@
     "theme": {
         "mode": "system",
         "light": "VSCode Light+",
-        "dark": "Kanso Ink (neutral+saturate) v3",
+        "dark": "Matte Black",
     },
     "buffer_font_size": 13,
     // "ui_font_family": "Menlo",

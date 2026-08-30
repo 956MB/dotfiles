@@ -51,11 +51,11 @@ gui:
   border: "single" # one of 'single' | 'double' | 'rounded' | 'hidden'
   animateExplosion: true # shows an explosion animation when nuking the working tree
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
       # useConfig: false
       # pager: hunk pager
-      pager: delta --syntax-theme "kanso"  --paging=never
+      command: delta --syntax-theme "kanso"  --paging=never
   commit:
     signOff: false
   merging:
@@ -253,14 +253,15 @@ customCommands:
           - value: 'push --force-with-lease'
           - value: 'push --force'
     command: >
-      bash -c '
-      if [ "{{index .PromptResponses 0}}" = "__all__" ]; then
+      bash -c ' if [ "{{index .PromptResponses 0}}" = "__all__" ]; then
+
         for remote in $(git remote); do
           echo "--- Pushing to $remote ---"
           git {{index .PromptResponses 1}} "$remote" 2>&1 || echo "Failed, continuing..."
         done
         echo "=== Done ==="
       else
+
         git {{index .PromptResponses 1}} {{index .PromptResponses 0}}
-      fi
-      '
+      fi '
+
