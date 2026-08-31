@@ -5,23 +5,42 @@ onboarding = false
 [theme]
 
 [theme.custom]
+# kanso (previous theme — commented out, switch back by uncommenting):
 panel_bg    = "#111111"
 surface0    = "#151515"
 surface1    = "#151515"
 surface_dim = "#1C1C1C"
 active_row_bg = "#1C1C1C"
-overlay0    = "#868686"
-overlay1    = "#a69689"
-text        = "#CDCDCD"
-subtext0    = "#868686"
-accent      = "#71a7c1"
-mauve       = "#a784ab"
-green       = "#83a765"
-yellow      = "#d9af54"
-red         = "#e03c30"
-blue        = "#71a7c1"
-teal        = "#7ab0a8"
-peach       = "#cb7f4f"
+# overlay0    = "#868686"
+# overlay1    = "#a69689"
+# text        = "#CDCDCD"
+# subtext0    = "#868686"
+# accent      = "#71a7c1"
+# mauve       = "#a784ab"
+# green       = "#83a765"
+# yellow      = "#d9af54"
+# red         = "#e03c30"
+# blue        = "#71a7c1"
+# teal        = "#7ab0a8"
+# peach       = "#cb7f4f"
+# matte-black (tahayvr/matte-black-theme) — see KANSO.md
+# panel_bg    = "#121212"      # bg1
+# surface0    = "#212121"      # bg3
+# surface1    = "#212121"      # bg3
+# surface_dim = "#262626"      # bg4
+# active_row_bg = "#333333"    # bg2 (selection)
+overlay0    = "#8A8A8D"      # fg3
+overlay1    = "#A3A3A3"      # gray1
+text        = "#EAEAEA"      # fg1
+subtext0    = "#8A8A8D"      # fg3
+accent      = "#F59E0B"      # orange
+mauve       = "#F87171"      # pink
+green       = "#059669"      # green
+yellow      = "#FBBF24"      # yellow
+red         = "#DC2626"      # crimson
+blue        = "#3B82F6"      # blue
+teal        = "#10B981"      # teal
+peach       = "#D97706"      # amber
 
 [terminal]
 default_shell = "fish"
@@ -131,7 +150,8 @@ description = "jump to anything"
 [ui]
 sidebar_width = 32
 show_agent_labels_on_pane_borders = true
-accent = "#71a7c1"
+# accent = "#71a7c1"    # kanso (previous theme)
+accent = "#F59E0B"      # matte-black orange
 agent_panel_sort = "spaces"
 
 [ui.sidebar.agents]

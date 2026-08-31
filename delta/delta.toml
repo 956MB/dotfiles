@@ -1,2 +1,6 @@
 [delta]
-syntax-theme = "kanso"
+# NOTE: delta 0.18.x reads config ONLY from git config ([delta] section in ~/.gitconfig,
+# symlinked to dotfiles/.gitconfig) — this file is NOT read by the installed delta.
+# Kept for reference / future delta versions; see KANSO.md "Matte Black inventory".
+# previous theme: syntax-theme = "kanso" (delta/themes/kanso.tmTheme)
+syntax-theme = "matte-black"

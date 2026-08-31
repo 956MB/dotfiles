@@ -13,14 +13,99 @@ transparent_background = true
 
 [custom_theme]
 base = "vesper"
-label = "kanso"
-accent = "#7ab0a8"
-panel = "#151515"
-noteBorder = "#7289b6"
+# kanso (previous theme):
+# label = "kanso"
+# accent = "#7ab0a8"
+# panel = "#151515"
+# noteBorder = "#7289b6"
+# matte-black (tahayvr/matte-black-theme) — see KANSO.md
+label = "matte-black"
+accent = "#F59E0B"
+panel = "#121212"
+noteBorder = "#8A8A8D"
 
-[custom_theme.syntax]
-keyword = "#a784ab"
-string = "#cb7f4f"
-comment = "#868686"
-operator = "#a2aaa1"
-variable = "#CDCDCD"
+# [[ Diff colors — washes from pi/themes/matte-black.json (see KANSO.md) ]]
+background = "#121212"       # bg1
+panelAlt = "#262626"         # bg4
+border = "#333333"           # bg2
+accentMuted = "#8A8A8D"      # fg3
+text = "#EAEAEA"             # fg1
+muted = "#8A8A8D"            # fg3
+addedBg = "#0D221B"          # washAdd
+removedBg = "#261010"        # washDel
+movedAddedBg = "#0D221B"     # washAdd
+movedRemovedBg = "#261010"   # washDel
+contextBg = "#212121"        # bg3
+addedContentBg = "#0E402F"   # washAdd lifted (word-level)
+removedContentBg = "#4A1414" # washDel lifted (word-level)
+contextContentBg = "#262626" # bg4
+addedSignColor = "#10B981"   # teal
+removedSignColor = "#DC2626" # crimson
+lineNumberBg = "#121212"     # bg1
+lineNumberFg = "#8A8A8D"     # gray
+selectedHunk = "#F59E0B"     # orange
+badgeAdded = "#10B981"       # teal
+badgeRemoved = "#DC2626"     # crimson
+badgeNeutral = "#8A8A8D"     # fg3
+fileNew = "#10B981"          # teal
+fileDeleted = "#DC2626"      # crimson
+fileRenamed = "#D97706"      # amber
+fileModified = "#F59E0B"     # orange
+fileUntracked = "#8A8A8D"    # fg3
+noteBackground = "#212121"   # bg3
+noteTitleBackground = "#333333"  # bg2
+noteTitleText = "#EAEAEA"    # fg1
+
+# kanso (previous theme) — legacy role table, superseded by syntax_scopes below:
+# [custom_theme.syntax]
+# keyword = "#a784ab"
+# string = "#cb7f4f"
+# comment = "#868686"
+# operator = "#a2aaa1"
+# variable = "#CDCDCD"
+# matte-black legacy role table (hunk <0.20 schema) — commented out:
+# [custom_theme.syntax]
+# keyword = "#059669"
+# string = "#EAEAEA"
+# comment = "#8A8A8D"
+# operator = "#BEBEBE"
+# variable = "#EAEAEA"
+
+# Exact Shiki/TextMate scopes (hunk 0.20.x schema) — ports delta/bat matte-black.tmTheme.
+# Generic role overrides lose to the base theme's specific selectors, so each family lists its
+# common descendants. See docs/themes.md of modem-dev/hunk.
+[custom_theme.syntax_scopes]
+"comment" = "#8A8A8D"
+"comment.block" = "#8A8A8D"
+"comment.line" = "#8A8A8D"
+"comment.block.documentation" = "#8A8A8D"
+"punctuation.definition.comment" = "#8A8A8D"
+"string" = "#EAEAEA"
+"string.quoted.double" = "#EAEAEA"
+"string.quoted.single" = "#EAEAEA"
+"string.quoted.triple" = "#EAEAEA"
+"string.template" = "#EAEAEA"
+"constant.numeric" = "#EFBF04"
+"constant.language" = "#10B981"
+"constant.character" = "#D97706"
+"constant.other" = "#D97706"
+"variable" = "#D97706"
+"variable.other" = "#D97706"
+"keyword" = "#059669"
+"keyword.control" = "#059669"
+"storage" = "#059669"
+"storage.modifier" = "#059669"
+"storage.type" = "#FBBF24"
+"entity.name.class" = "#FBBF24"
+"entity.name.type" = "#FBBF24"
+"entity.other.inherited-class" = "#FBBF24"
+"entity.name.function" = "#DC2626"
+"variable.parameter" = "#BEBEBE"
+"entity.name.tag" = "#059669"
+"entity.other.attribute-name" = "#D97706"
+"support.function" = "#D97706"
+"support.constant" = "#EFBF04"
+"support.type" = "#FBBF24"
+"support.class" = "#FBBF24"
+"invalid" = "#DC2626"
+"invalid.deprecated" = "#DC2626"

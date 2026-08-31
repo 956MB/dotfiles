@@ -3,4 +3,6 @@
 #:schema https://yazi-rs.github.io/schemas/theme.json
 
 [flavor]
-dark = "vscode-dark-modern"
+# dark = "vscode-dark-modern"    # previous theme
+# kanso flavor (yazi/flavors/kanso.yazi) available too
+dark = "matte-black"

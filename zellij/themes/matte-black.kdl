@@ -1,0 +1,15 @@
+themes {
+  matte-black {
+    bg		"#121212"
+    fg		"#EAEAEA"
+    red		"#D35F5F"
+    green	"#FFC107"
+    blue	"#E68E0D"
+    yellow	"#B91C1C"
+    magenta "#D35F5F"
+    orange	"#F59E0B"
+    cyan	"#BEBEBE"
+    black	"#333333"
+    white	"#BEBEBE"
+  }
+}

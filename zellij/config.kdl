@@ -259,7 +259,9 @@ ui {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "kanso"
+// theme "kanso"    // previous theme (kanso.kdl); switch back by uncommenting this and commenting matte-black
+// Matte Black (tahayvr/matte-black-theme), see zellij/themes/matte-black.kdl
+theme "matte-black"
  
 // Choose the base input mode of zellij.
 // Default: normal

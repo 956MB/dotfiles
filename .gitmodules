@@ -7,3 +7,7 @@
 [submodule "nvim/lua/plugins/custom/head.nvim"]
     path = nvim/lua/plugins/custom/head.nvim
     url = https://github.com/956MB/head.nvim
+[submodule "nvim/lua/plugins/custom/matteblack.nvim"]
+	path = nvim/lua/plugins/custom/matteblack.nvim
+	url = https://github.com/956MB/matteblack.nvim
+	branch = edits

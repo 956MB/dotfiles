@@ -34,3 +34,15 @@
 	gpgsign = true
 [gpg "ssh"]
 	allowedSignersFile = ~/.config/git/allowed_signers
+
+# Delta diff pager syntax theme + diff background washes (matte-black theme).
+# NOTE: delta 0.18.x reads config ONLY from git config, not ~/.config/delta/delta.toml
+# (see KANSO.md). Wash colors mirror pi/themes/matte-black.json.
+[delta]
+	syntax-theme = matte-black
+	plus-style = syntax "#0D221B"
+	plus-non-emph-style = syntax "#0D221B"
+	plus-emph-style = syntax "#0E402F"
+	minus-style = normal "#261010"
+	minus-non-emph-style = normal "#261010"
+	minus-emph-style = normal "#4A1414"

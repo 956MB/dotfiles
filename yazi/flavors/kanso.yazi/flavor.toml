@@ -1,19 +1,20 @@
-[manager]
-marker_copied = { fg = "#87A987", bg = "#87A987" }
-marker_cut = { fg = "#E46876", bg = "#E46876" }
-marker_marked = { fg = "#938AA9", bg = "#938AA9" }
-marker_selected = { fg = "#B98D7B", bg = "#B98D7B" }
+# Kanso flavor for yazi (zenghost accent set on #14171D)
+# Migrated to the yazi 26.x flavor schema (mgr/cmp/tabs sections, url+mime filetype rules)
+# on 2026-08-30 — colors unchanged. Switch via yazi/theme.toml.
 
+[mgr]
 cwd = { fg = "#E6C384" }
-hovered = { reversed = true }
-preview_hovered = { reversed = true }
 
 find_keyword = { fg = "#B98D7B", bg = "#14171D" }
 find_position = {}
 
-tab_active = { reversed = true }
-tab_inactive = {}
-tab_width = 1
+symlink_target = { fg = "#7AA89F", italic = true }
+
+marker_copied = { fg = "#87A987", bg = "#87A987" }
+marker_cut = { fg = "#E46876", bg = "#E46876" }
+marker_marked = { fg = "#938AA9", bg = "#938AA9" }
+marker_selected = { fg = "#B98D7B", bg = "#B98D7B" }
+marker_symbol = "│"
 
 count_copied = { fg = "#14171D", bg = "#87A987" }
 count_cut = { fg = "#14171D", bg = "#E46876" }
@@ -21,6 +22,11 @@ count_selected = { fg = "#14171D", bg = "#E6C384" }
 
 border_symbol = "│"
 border_style = { fg = "#C5C9C7" }
+
+
+[tabs]
+active = { reversed = true }
+inactive = {}
 
 
 [mode]
@@ -59,7 +65,7 @@ title = {}
 value = {}
 selected = { reversed = true }
 
-[completion]
+[cmp]
 border = { fg = "#7fb4ca" }
 active = { reversed = true }
 inactive = {}
@@ -79,11 +85,11 @@ cand = { fg = "#8EA4A2" }
 desc = { fg = "#C5C9C7" }
 
 [help]
-on = { fg = "#7AA89F" }
-run = { fg = "#938AA9" }
-desc = {}
+# original values mapped to the 26.x keys: on -> chord, run -> action; border matches the other panels
+border = { fg = "#7fb4ca" }
+chord = { fg = "#7AA89F", bold = true }
+action = { fg = "#938AA9" }
 hovered = { reversed = true, bold = true }
-footer = { fg = "#14171D", bg = "#C5C9C7" }
 
 [notify]
 title_info = { fg = "#87A987" }
@@ -93,24 +99,24 @@ title_error = { fg = "#E46876" }
 [filetype]
 rules = [
     # images
-    { mime = "image/*", fg = "#E6C384" },
+    { mime = "**/image/*", fg = "#E6C384" },
 
     # media
-    { mime = "{audio,video}/*", fg = "#938AA9" },
+    { mime = "**/{audio,video}/*", fg = "#938AA9" },
 
     # archives
-    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#e46876" },
+    { mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#e46876" },
 
     # documents
-    { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#A292A3" },
+    { mime = "**/application/{pdf,doc,rtf,vnd.*}", fg = "#A292A3" },
 
     # broken links
-    { name = "*", is = "orphan", fg = "#E46876" },
+    { url = "*", is = "orphan", fg = "#E46876" },
 
     # executables
-    { name = "*", is = "exec", fg = "#7AA89F" },
+    { url = "*", is = "exec", fg = "#7AA89F" },
 
     # fallback
-    { name = "*", fg = "#C5C9C7" },
-    { name = "*/", fg = "#8BA4B0" },
+    { url = "*", fg = "#C5C9C7" },
+    { url = "*/", fg = "#8BA4B0" },
 ]

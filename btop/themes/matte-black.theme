@@ -1,0 +1,92 @@
+# Matte Black theme for btop (tahayvr/matte-black-theme)
+# https://github.com/tahayvr/matte-black-theme
+# Style guide: see KANSO.md at the repo root (Matte Black section).
+# Structure follows btop/themes/kanso.theme.
+# Kanso theme is untouched at btop/themes/kanso.theme — switch back via btop.conf.
+
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]=""                   # transparent (terminal bg #121212)
+
+# Main text color
+theme[main_fg]="#EAEAEA"            # fg1
+
+# Title color for boxes
+theme[title]="#8a8a8d"              # fg3
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#f59e0b"              # orange
+
+# Background color of selected items
+theme[selected_bg]="#f59e0b"        # orange
+
+# Foreground color of selected items
+theme[selected_fg]="#EAEAEA"        # fg1
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#333333"        # bg2
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#BEBEBE"         # fg2
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#8a8a8d"          # fg3
+
+# Cpu box outline color
+theme[cpu_box]="#8a8a8d"            # fg3
+
+# Memory/disks box outline color
+theme[mem_box]="#8a8a8d"            # fg3
+
+# Net up/down box outline color
+theme[net_box]="#8a8a8d"            # fg3
+
+# Processes box outline color
+theme[proc_box]="#8a8a8d"           # fg3
+
+# Box divider line and small boxes line color
+theme[div_line]="#8a8a8d"           # fg3
+
+# Temperature graph colors: cool -> warm -> hot
+theme[temp_start]="#8a8a8d"         # fg3
+theme[temp_mid]="#f59e0b"           # orange
+theme[temp_end]="#b91c1c"           # red
+
+# CPU graph colors: idle -> load -> saturated
+theme[cpu_start]="#8a8a8d"          # fg3
+theme[cpu_mid]="#f59e0b"            # orange
+theme[cpu_end]="#b91c1c"            # red
+
+# Mem/Disk free meter
+theme[free_start]="#8a8a8d"         # fg3
+theme[free_mid]="#f59e0b"           # orange
+theme[free_end]="#b91c1c"           # red
+
+# Mem/Disk cached meter
+theme[cached_start]="#8a8a8d"       # fg3
+theme[cached_mid]="#f59e0b"         # orange
+theme[cached_end]="#b91c1c"         # red
+
+# Mem/Disk available meter
+theme[available_start]="#8a8a8d"    # fg3
+theme[available_mid]="#f59e0b"      # orange
+theme[available_end]="#b91c1c"      # red
+
+# Mem/Disk used meter
+theme[used_start]="#8a8a8d"         # fg3
+theme[used_mid]="#f59e0b"           # orange
+theme[used_end]="#b91c1c"           # red
+
+# Download graph colors
+theme[download_start]="#8a8a8d"     # fg3
+theme[download_mid]="#f59e0b"       # orange
+theme[download_end]="#b91c1c"       # red
+
+# Upload graph colors
+theme[upload_start]="#8a8a8d"       # fg3
+theme[upload_mid]="#f59e0b"         # orange
+theme[upload_end]="#b91c1c"         # red
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#8a8a8d"      # fg3
+theme[process_mid]="#f59e0b"        # orange
+theme[process_end]="#b91c1c"        # red

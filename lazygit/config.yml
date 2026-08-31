@@ -12,25 +12,46 @@ gui:
   timeFormat: "02 Jan 06" # https://pkg.go.dev/time#Time.Format
   shortTimeFormat: "3:04PM"
   theme:
+    # previous kanso colors (switch back: uncomment these, comment the matte-black values below)
+    # activeBorderColor:
+    #   - '#7c98c7'
+    #   - bold
+    # inactiveBorderColor:
+    #   - '#868686'
+    # optionsTextColor:
+    #   - '#cb7f4f'
+    # selectedLineBgColor:
+    #   - '#52596a'
+    # cherryPickedCommitBgColor:
+    #   - '#111111' # keeping dark background
+    # cherryPickedCommitFgColor:
+    #   - '#a784ab'
+    # unstagedChangesColor:
+    #   - '#e03c30'
+    # defaultFgColor:
+    #   - '#CDCDCD'
+    # searchingActiveBorderColor:
+    #   - '#7ab0a8'
+    # matte-black (tahayvr/matte-black-theme)
     activeBorderColor:
-      - '#7c98c7'
+      - '#F59E0B'
       - bold
     inactiveBorderColor:
-      - '#868686'
+      - '#8A8A8D'
     optionsTextColor:
-      - '#cb7f4f'
+      - '#D97706'
     selectedLineBgColor:
-      - '#52596a'
+      - '#333333'
     cherryPickedCommitBgColor:
-      - '#111111' # keeping dark background
+      - '#0D0D0D' # keeping dark background
     cherryPickedCommitFgColor:
-      - '#a784ab'
+      - '#10B981'
     unstagedChangesColor:
-      - '#e03c30'
+      - '#DC2626'
     defaultFgColor:
-      - '#CDCDCD'
+      - '#EAEAEA'
     searchingActiveBorderColor:
-      - '#7ab0a8'
+      - '#F59E0B'
   authorColors:
     '*': '#7ab0a8'
   commitLength:
@@ -55,7 +76,8 @@ git:
     - colorArg: always
       # useConfig: false
       # pager: hunk pager
-      command: delta --syntax-theme "kanso"  --paging=never
+      # previous: command: delta --syntax-theme "kanso"  --paging=never
+      command: delta --syntax-theme "matte-black" --paging=never
   commit:
     signOff: false
   merging:
