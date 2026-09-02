@@ -1,0 +1,36 @@
+// Linecast weather dashboard layout.
+//
+// Replicates ghostty/linecast-weather.applescript so Linux (or anything
+// without osascript) gets the same window layout inside Ghostty:
+//
+//   +--------+--------+
+//   | radar  | maps   |   maps has focus on startup
+//   +--------+--------+
+//   | weather| sun | moon |
+//   +--------+-----+------+
+//
+
+layout {
+    pane split_direction="vertical" {
+        pane name="radar" command="fish" {
+            args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast radar --theme dusk --zoom 14 --layers wind --live"
+        }
+        pane name="weather" command="fish" {
+            args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast weather --live --classic-colors"
+        }
+    }
+    pane split_direction="vertical" {
+        pane name="maps" size="75%" focus=true command="fish" {
+            args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast maps --no-labels --no-lines --zoom 140 --view now --bg moon --rotate --legacy-colors"
+        }
+        pane size="25%" split_direction="horizontal" {
+            pane name="sunshine" command="fish" {
+                args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast sunshine --live"
+            }
+            pane name="moon" command="fish" {
+                // args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast tides --station 8779768 --live"
+                args "-lc" "cd ~/Hoard/Forks/linecast && uv run linecast moon --live"
+            }
+        }
+    }
+}

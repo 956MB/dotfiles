@@ -186,6 +186,8 @@ brew "herdr"
 brew "mlx-lm"
 cask "paseo" if OS.mac?
 brew "blackhole-2ch"
+brew "linecast"
+brew "moshi-hook"
 
 # macOS-specific
 brew "arm-none-eabi-gcc" if OS.mac?

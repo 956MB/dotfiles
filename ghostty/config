@@ -95,7 +95,8 @@ selection-foreground = #eaeaea
 background-opacity = 0.965
 background-blur-radius = 50
 cursor-style = block
-
+unfocused-split-opacity = 1
+split-divider-color = #252525
 # Icon
 macos-icon = custom
 macos-custom-icon = ~/dotfiles/.github/ghostty-icon-2.png

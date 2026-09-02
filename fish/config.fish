@@ -1,5 +1,8 @@
 # https://fishshell.com/docs/3.0/index.html
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 # Load environment detection and core settings
 source ~/.config/fish/conf.d/env.fish
 

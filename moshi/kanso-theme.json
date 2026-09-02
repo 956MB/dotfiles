@@ -1,0 +1,27 @@
+{
+    "v": 1,
+    "name": "Kanso Ink",
+    "mode": "dark",
+    "colors": {
+        "background": "#111111",
+        "foreground": "#CDCDCD",
+        "cursor": "#F2F2F2",
+        "black": "#1C1C1C",
+        "red": "#e03c30",
+        "green": "#83a765",
+        "yellow": "#d9af54",
+        "blue": "#71a7c1",
+        "magenta": "#a784ab",
+        "cyan": "#7ab0a8",
+        "white": "#CDCDCD",
+        "brightBlack": "#a69689",
+        "brightRed": "#e44355",
+        "brightGreen": "#6eb575",
+        "brightYellow": "#e6b867",
+        "brightBlue": "#68adca",
+        "brightMagenta": "#8c81a9",
+        "brightCyan": "#6ca89c",
+        "brightWhite": "#CDCDCD",
+        "selectionBackground": "#262626"
+    }
+}

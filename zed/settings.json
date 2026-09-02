@@ -34,44 +34,31 @@
         },
     },
     "agent": {
+        "sandbox_permissions": {
+            "network_hosts": [
+                "zed.dev"
+            ]
+        },
         "favorite_models": [
-            {
-                "provider": "opencode",
-                "model": "go/deepseek-v4-flash",
-                "enable_thinking": true,
-                "effort": "xhigh",
-            },
-            {
-                "provider": "opencode",
-                "model": "go/glm-5.1",
-                "enable_thinking": false,
-            },
-            {
-                "provider": "opencode",
-                "model": "go/glm-5.2",
-                "enable_thinking": false,
-            },
-            {
-                "provider": "opencode",
-                "model": "go/minimax-m3",
-                "enable_thinking": false,
-            },
-            {
-                "provider": "opencode",
-                "model": "go/qwen3.7-max",
-                "enable_thinking": false,
-            },
             {
                 "provider": "opencode",
                 "model": "go/deepseek-v4-pro",
                 "enable_thinking": true,
-                "effort": "xhigh",
+                "effort": "xhigh"
             },
+            {
+                "provider": "opencode",
+                "model": "go/deepseek-v4-flash",
+                "enable_thinking": true,
+                "effort": "max"
+            }
         ],
         "dock": "right",
         "default_model": {
+            "effort": "max",
+            "enable_thinking": true,
             "provider": "opencode",
-            "model": "go/glm-5.2",
+            "model": "go/deepseek-v4-flash",
         },
         "model_parameters": [],
         "default_profile": "write",

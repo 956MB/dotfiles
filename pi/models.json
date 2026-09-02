@@ -2,9 +2,11 @@
   "providers": {
     "omlx": {
       "baseUrl": "http://localhost:8000/v1",
-      "apiKey": "$OMLX_API_KEY",
+      "apiKey": "20c269aa-7dc2-4aee-932e-f60f1ac1967f",
       "autoDiscover": true,
-      "excludePatterns": []
+      "excludePatterns": ["^Qwen3.8-27B-DFlash2$"],
+      "defaultContextWindow": 32768,
+      "defaultMaxTokens": 8192
     }
   }
 }
