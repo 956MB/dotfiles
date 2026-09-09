@@ -21,7 +21,7 @@
     "npm:@ff-labs/pi-fff",
     "npm:@narumitw/pi-plan-mode",
     "npm:@rolemodel/pi-omlx",
-    "~/Hoard/Forks/pi-token-speed",
+    "git:github.com/956MB/pi-token-speed@feat/label-unit-text",
     "npm:pi-rewind",
     "npm:@howaboua/pi-codex-conversion"
   ],
