@@ -13,4 +13,4 @@
 	branch = edits
 [submodule "nvim/lua/plugins/custom/koda.nvim"]
 	path = nvim/lua/plugins/custom/koda.nvim
-	url = git@github.com:oskarnurm/koda.nvim.git
+	url = git@github.com:956MB/koda.nvim.git
