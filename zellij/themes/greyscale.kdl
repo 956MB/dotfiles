@@ -1,0 +1,16 @@
+// Greyscale theme using koda-dark semantic colors.
+themes {
+  greyscale {
+    bg       "#101010"
+    fg       "#b0b0b0"
+    red      "#ff7676"
+    green    "#86cd82"
+    blue     "#8ebeec"
+    yellow   "#d9ba73"
+    magenta  "#f2a4db"
+    orange   "#ff5733"
+    cyan     "#5abfb5"
+    black    "#101010"
+    white    "#ffffff"
+  }
+}

@@ -25,9 +25,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
         local root_dir = find_swift_root()
         local xcode_sourcekit = vim.fn.trim(vim.fn.system { 'xcrun', '--find', 'sourcekit-lsp' })
-        local sourcekit_bin = (xcode_sourcekit ~= '' and vim.fn.executable(xcode_sourcekit) == 1)
-                and xcode_sourcekit
-            or 'sourcekit-lsp'
+        local sourcekit_bin = (xcode_sourcekit ~= '' and vim.fn.executable(xcode_sourcekit) == 1) and xcode_sourcekit or 'sourcekit-lsp'
 
         local cmd = { sourcekit_bin }
         if vim.fn.filereadable(root_dir .. '/buildServer.json') == 1 then
@@ -116,7 +114,7 @@ vim.defer_fn(function()
         group = buffer_settings,
         callback = function()
             vim.wo.relativenumber = false
-            vim.wo.wrap = true
+            vim.wo.wrap = false
         end,
     })
 end, 0)

@@ -8,6 +8,7 @@ Theme JSONs for [Moshi](https://getmoshi.app), following the v1 custom-theme for
 |---|---|---|
 | `kanso-theme.json` | Kanso Ink | kanso.nvim ink `term` ANSI + zen surfaces (see [KANSO.md](../KANSO.md)) |
 | `matteblack-theme.json` | Matte Black | active ghostty warm-repo palette v3 (see [MATTEBLACK.md](../MATTEBLACK.md)) |
+| `greyscale-theme.json` | Greyscale (Koda Dark) | koda-dark terminal ANSI + `#101010`/`#b0b0b0` surfaces (see [GREYSCALE.md](../themes/GREYSCALE.md)) |
 
 ## Import
 

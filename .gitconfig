@@ -6,7 +6,7 @@
 [user]
 	name = 956MB
 	email = bays@956mb.com
-	signingkey = ~/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/id_githubmacos2025.pub
 [push]
 	default = current
 [init]
@@ -35,11 +35,12 @@
 [gpg "ssh"]
 	allowedSignersFile = ~/.config/git/allowed_signers
 
-# Delta diff pager syntax theme + diff background washes (matte-black theme).
-# NOTE: delta 0.18.x reads config ONLY from git config, not ~/.config/delta/delta.toml
-# (see KANSO.md). Wash colors mirror pi/themes/matte-black.json.
+# Delta diff pager syntax theme (greyscale = koda-dark colors, see themes/GREYSCALE.md).
+# Diff background washes: DEEP matte-black green/red (user preference — deeper than koda blends).
+# NOTE: delta 0.18.x reads config ONLY from git config, not ~/.config/delta/delta.toml.
+# koda-blend washes (replaced 2026-09-08): plus "#283627"/emph "#3f5c3e", minus "#402424"/emph "#703939"
 [delta]
-	syntax-theme = matte-black
+	syntax-theme = greyscale
 	plus-style = syntax "#0D221B"
 	plus-non-emph-style = syntax "#0D221B"
 	plus-emph-style = syntax "#0E402F"

@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "theme": "matte-black",
+  "theme": "greyscale",
   "keybinds": {
     "prompt_skills": "<leader>k"
   }

@@ -1,0 +1,27 @@
+{
+    "v": 1,
+    "name": "Greyscale (Koda Dark)",
+    "mode": "dark",
+    "colors": {
+        "background": "#101010",
+        "foreground": "#b0b0b0",
+        "cursor": "#b0b0b0",
+        "black": "#101010",
+        "red": "#ff7676",
+        "green": "#a3d6a3",
+        "yellow": "#ffffff",
+        "blue": "#b3b3b3",
+        "magenta": "#f4b8e4",
+        "cyan": "#fafafa",
+        "white": "#a5a5a5",
+        "brightBlack": "#505050",
+        "brightRed": "#ff5733",
+        "brightGreen": "#86cd82",
+        "brightYellow": "#d9ba73",
+        "brightBlue": "#ffffff",
+        "brightMagenta": "#f2a4db",
+        "brightCyan": "#5abfb5",
+        "brightWhite": "#b5b5b5",
+        "selectionBackground": "#272727"
+    }
+}

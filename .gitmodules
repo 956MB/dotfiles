@@ -11,3 +11,6 @@
 	path = nvim/lua/plugins/custom/matteblack.nvim
 	url = https://github.com/956MB/matteblack.nvim
 	branch = edits
+[submodule "nvim/lua/plugins/custom/koda.nvim"]
+	path = nvim/lua/plugins/custom/koda.nvim
+	url = git@github.com:oskarnurm/koda.nvim.git

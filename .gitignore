@@ -52,3 +52,16 @@ fish/conf.d/env.fish
 /herdr/.plugins.lock
 /lazygit/github_pull_requests.json
 /opencode/.skill-lock.json
+
+# Keep only the skills maintained in this repository.
+/opencode/skills/*
+!/opencode/skills/draft-commit/
+!/opencode/skills/draft-commit/**
+!/opencode/skills/change-theme/
+!/opencode/skills/change-theme/**
+!/opencode/skills/i-have-adhd/
+!/opencode/skills/i-have-adhd/**
+!/opencode/skills/never-say-actually/
+!/opencode/skills/never-say-actually/**
+!/opencode/skills/repo-audit/
+!/opencode/skills/repo-audit/**

@@ -30,7 +30,7 @@ vim.wo.spell = false
 opt.swapfile = false
 opt.list = false
 
-opt.wrap = true
+opt.wrap = false
 opt.number = true
 opt.relativenumber = false
 

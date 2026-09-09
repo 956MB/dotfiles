@@ -106,19 +106,20 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         total_new = untracked + staged_files;
         
         out="";
-        # matte-black git colors via truecolor (palette-independent; the warm ghostty palette
-        # has no green/blue slots): red #DC2626 deleted, blue #3B82F6 modified,
-        # green #059669 added/untracked, yellow #FBBF24 staged adds.
-        if(deleted>0) out=out sprintf("\033[1;38;2;220;38;38m-%s\033[0m", deleted);
-        if(modified>0) out=out sprintf("\033[1;38;2;59;130;246m~%s\033[0m", modified);
-        if(total_new>0) out=out sprintf("\033[1;38;2;5;150;105m+%s\033[0m", total_new);
-        if(added>0) out=out sprintf("\033[1;38;2;251;191;36m↑%s\033[0m", added);
+        # Lighter koda-dark truecolor escapes keep git changes independent of Ghostty ANSI palette:
+        # red #ff7676 deleted, blue #8ebeec modified, green #86cd82 added/untracked,
+        # yellow #d9ba73 staged adds.
+        if(deleted>0) out=out sprintf("\033[38;2;255;118;118m-%s\033[0m", deleted);
+        if(modified>0) out=out sprintf("\033[38;2;142;190;236m~%s\033[0m", modified);
+        if(total_new>0) out=out sprintf("\033[38;2;134;205;130m+%s\033[0m", total_new);
+        if(added>0) out=out sprintf("\033[38;2;217;186;115m↑%s\033[0m", added);
         if(out!="") print "[" out "]";
     }'
 fi
 '''
 when = "true"
 shell = ["bash", "--noprofile", "--norc"]
+style = "#909090" # neutral wrapper; counts use their own lighter truecolor
 
 
 [git_status]
@@ -135,7 +136,7 @@ disabled = false
 
 [status]
 format = '[$status $common_meaning(SIG$signal_name)]($style) '
-style = "bold red"
+style = "#ff7676" # koda-dark danger red; non-bold keeps it dim
 map_symbol = true
 disabled = false
 
@@ -146,8 +147,9 @@ disabled = false
 
 
 [character]
-success_symbol = "(blue)[λ](bold blue)"
-error_symbol = "(blue)[Σ](bold red)"
+# Lighter truecolor: match the koda-dark git-change blue/red without Ghostty ANSI slots.
+success_symbol = "(#8ebeec)[λ](#8ebeec)"
+error_symbol = "(#ff7676)[Σ](#ff7676)"
 
 [bun]
 symbol = "Bun: "
@@ -160,6 +162,7 @@ format = "[$symbol($version )]($style)"
 
 [git_branch]
 symbol = ""
+style = "#d9ba73" # koda-dark dim yellow (warning/const)
 format = "[$symbol$branch]($style)"
 
 [golang]

@@ -5,4 +5,6 @@
 [flavor]
 # dark = "vscode-dark-modern"    # previous theme
 # kanso flavor (yazi/flavors/kanso.yazi) available too
-dark = "matte-black"
+# dark = "matte-black"    # previous theme
+# koda-dark flavor (yazi/flavors/greyscale.yazi) — syntax = koda-dark, washes = matte-black deep
+dark = "greyscale"

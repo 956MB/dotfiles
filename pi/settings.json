@@ -1,6 +1,6 @@
 {
-  "lastChangelogVersion": "0.84.4",
-  "theme": "matte-black",
+  "lastChangelogVersion": "0.85.1",
+  "theme": "greyscale",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "max",

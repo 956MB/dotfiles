@@ -18,94 +18,90 @@ base = "vesper"
 # accent = "#7ab0a8"
 # panel = "#151515"
 # noteBorder = "#7289b6"
-# matte-black (tahayvr/matte-black-theme) — see KANSO.md
-label = "matte-black"
-accent = "#F59E0B"
-panel = "#121212"
-noteBorder = "#8A8A8D"
+# matte-black previous values:
+# label = "matte-black"
+# accent = "#F59E0B"
+# panel = "#121212"
+# noteBorder = "#8A8A8A"
+# greyscale = koda-dark semantic colors with deep matte-black diff washes
+label = "greyscale"
+accent = "#d9ba73"
+panel = "#101010"
+noteBorder = "#8ebeec"
 
-# [[ Diff colors — washes from pi/themes/matte-black.json (see KANSO.md) ]]
-background = "#121212"       # bg1
-panelAlt = "#262626"         # bg4
-border = "#333333"           # bg2
-accentMuted = "#8A8A8D"      # fg3
-text = "#EAEAEA"             # fg1
-muted = "#8A8A8D"            # fg3
-addedBg = "#0D221B"          # washAdd
-removedBg = "#261010"        # washDel
-movedAddedBg = "#0D221B"     # washAdd
-movedRemovedBg = "#261010"   # washDel
-contextBg = "#212121"        # bg3
-addedContentBg = "#0E402F"   # washAdd lifted (word-level)
-removedContentBg = "#4A1414" # washDel lifted (word-level)
-contextContentBg = "#262626" # bg4
-addedSignColor = "#10B981"   # teal
-removedSignColor = "#DC2626" # crimson
-lineNumberBg = "#121212"     # bg1
-lineNumberFg = "#8A8A8D"     # gray
-selectedHunk = "#F59E0B"     # orange
-badgeAdded = "#10B981"       # teal
-badgeRemoved = "#DC2626"     # crimson
-badgeNeutral = "#8A8A8D"     # fg3
-fileNew = "#10B981"          # teal
-fileDeleted = "#DC2626"      # crimson
-fileRenamed = "#D97706"      # amber
-fileModified = "#F59E0B"     # orange
-fileUntracked = "#8A8A8D"    # fg3
-noteBackground = "#212121"   # bg3
-noteTitleBackground = "#333333"  # bg2
-noteTitleText = "#EAEAEA"    # fg1
+# [[ Diff colors — koda-dark syntax with deep matte-black washes ]]
+background = "#101010"       # koda bg
+panelAlt = "#474747"         # koda dim
+border = "#272727"           # koda line
+accentMuted = "#505050"      # neutral comment gray
+text = "#b0b0b0"             # koda fg
+muted = "#505050"            # neutral comment gray
+addedBg = "#0D221B"          # deep matte-black washAdd
+removedBg = "#261010"        # deep matte-black washDel
+movedAddedBg = "#0D221B"
+movedRemovedBg = "#261010"
+contextBg = "#272727"        # koda line
+addedContentBg = "#0E402F"   # deep matte-black emph add
+removedContentBg = "#4A1414" # deep matte-black emph del
+contextContentBg = "#474747" # koda dim
+addedSignColor = "#86cd82"   # koda success
+removedSignColor = "#ff7676" # koda danger
+lineNumberBg = "#101010"
+lineNumberFg = "#505050"
+selectedHunk = "#d9ba73"
+badgeAdded = "#86cd82"
+badgeRemoved = "#ff7676"
+badgeNeutral = "#505050"
+fileNew = "#86cd82"
+fileDeleted = "#ff7676"
+fileRenamed = "#8ebeec"
+fileModified = "#8ebeec"
+fileUntracked = "#505050"
+noteBackground = "#272727"
+noteTitleBackground = "#474747"
+noteTitleText = "#ffffff"
 
-# kanso (previous theme) — legacy role table, superseded by syntax_scopes below:
-# [custom_theme.syntax]
-# keyword = "#a784ab"
-# string = "#cb7f4f"
-# comment = "#868686"
-# operator = "#a2aaa1"
-# variable = "#CDCDCD"
-# matte-black legacy role table (hunk <0.20 schema) — commented out:
+# Previous syntax roles retained for rollback:
 # [custom_theme.syntax]
 # keyword = "#059669"
 # string = "#EAEAEA"
-# comment = "#8A8A8D"
+# comment = "#8A8A8A"
 # operator = "#BEBEBE"
 # variable = "#EAEAEA"
 
-# Exact Shiki/TextMate scopes (hunk 0.20.x schema) — ports delta/bat matte-black.tmTheme.
-# Generic role overrides lose to the base theme's specific selectors, so each family lists its
-# common descendants. See docs/themes.md of modem-dev/hunk.
+# Exact Shiki/TextMate scopes (hunk 0.20.x schema), mapped from koda-dark.
 [custom_theme.syntax_scopes]
-"comment" = "#8A8A8D"
-"comment.block" = "#8A8A8D"
-"comment.line" = "#8A8A8D"
-"comment.block.documentation" = "#8A8A8D"
-"punctuation.definition.comment" = "#8A8A8D"
-"string" = "#EAEAEA"
-"string.quoted.double" = "#EAEAEA"
-"string.quoted.single" = "#EAEAEA"
-"string.quoted.triple" = "#EAEAEA"
-"string.template" = "#EAEAEA"
-"constant.numeric" = "#EFBF04"
-"constant.language" = "#10B981"
-"constant.character" = "#D97706"
-"constant.other" = "#D97706"
-"variable" = "#D97706"
-"variable.other" = "#D97706"
-"keyword" = "#059669"
-"keyword.control" = "#059669"
-"storage" = "#059669"
-"storage.modifier" = "#059669"
-"storage.type" = "#FBBF24"
-"entity.name.class" = "#FBBF24"
-"entity.name.type" = "#FBBF24"
-"entity.other.inherited-class" = "#FBBF24"
-"entity.name.function" = "#DC2626"
-"variable.parameter" = "#BEBEBE"
-"entity.name.tag" = "#059669"
-"entity.other.attribute-name" = "#D97706"
-"support.function" = "#D97706"
-"support.constant" = "#EFBF04"
-"support.type" = "#FBBF24"
-"support.class" = "#FBBF24"
-"invalid" = "#DC2626"
-"invalid.deprecated" = "#DC2626"
+"comment" = "#505050"
+"comment.block" = "#505050"
+"comment.line" = "#505050"
+"comment.block.documentation" = "#505050"
+"punctuation.definition.comment" = "#505050"
+"string" = "#ffffff"
+"string.quoted.double" = "#ffffff"
+"string.quoted.single" = "#ffffff"
+"string.quoted.triple" = "#ffffff"
+"string.template" = "#ffffff"
+"constant.numeric" = "#d9ba73"
+"constant.language" = "#d9ba73"
+"constant.character" = "#d9ba73"
+"constant.other" = "#d9ba73"
+"variable" = "#b0b0b0"
+"variable.other" = "#b0b0b0"
+"keyword" = "#777777"
+"keyword.control" = "#777777"
+"storage" = "#777777"
+"storage.modifier" = "#777777"
+"storage.type" = "#777777"
+"entity.name.class" = "#777777"
+"entity.name.type" = "#777777"
+"entity.other.inherited-class" = "#777777"
+"entity.name.function" = "#ffffff"
+"variable.parameter" = "#b0b0b0"
+"entity.name.tag" = "#b0b0b0"
+"entity.other.attribute-name" = "#777777"
+"support.function" = "#ffffff"
+"support.constant" = "#d9ba73"
+"support.type" = "#777777"
+"support.class" = "#777777"
+"invalid" = "#ff7676"
+"invalid.deprecated" = "#ff7676"

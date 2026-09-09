@@ -40,7 +40,9 @@ First, check if the invocation provides a local filesystem path (e.g. `/repo-aud
 
 If a GitHub URL is provided, check for keywords like "save", "hoard", "githubhoard", "save to hoard", or similar variations:
 
-- **If such a keyword is present**: Clone into `~/Dev/GithubHoard` (check for both `.../dev/GithubHoard` and `.../Dev/GithubHoard` case variants). Create the directory if it doesn't exist. The clone will NOT be cleaned up afterward. A visible symlink `~/Dev/GithubHoard/{repo}.audit.md` will later be created pointing to the persistent audit file.
+- **Fork case — the repo is the user's own fork**: if the repo owner is the user's GitHub account (`956MB` / `bays`) or the invocation mentions "fork" / "my fork" / "my changes" — clone into `~/Hoard/Forks` (the user's own changes to repos they forked on GitHub). Create the directory if it doesn't exist. The clone will NOT be cleaned up afterward. A visible symlink `~/Hoard/Forks/{repo}.audit.md` will later be created pointing to the persistent audit file.
+
+- **If a save/hoard keyword is present (default persistent save)**: Clone into `~/Hoard/Saves` — the general-purpose save location. Create the directory if it doesn't exist. The clone will NOT be cleaned up afterward. A visible symlink `~/Hoard/Saves/{repo}.audit.md` will later be created pointing to the persistent audit file.
 
 - **Otherwise**: Clone into `/tmp/` for temporary local analysis. No symlink is created for /tmp clones.
 
@@ -48,11 +50,13 @@ If a GitHub URL is provided, check for keywords like "save", "hoard", "githubhoa
 git clone --depth=1 https://github.com/{owner}/{repo} /tmp/{repo}
 ```
 
-For the persistent (hoard) path:
+For the persistent paths:
 
 ```bash
-mkdir -p ~/Dev/GithubHoard
-git clone --depth=1 https://github.com/{owner}/{repo} ~/Dev/GithubHoard/{repo}
+mkdir -p ~/Hoard/Saves   # general saves
+mkdir -p ~/Hoard/Forks   # user's own fork changes
+git clone --depth=1 https://github.com/{owner}/{repo} ~/Hoard/Saves/{repo}
+git clone --depth=1 https://github.com/{owner}/{repo} ~/Hoard/Forks/{repo}
 ```
 
 If `scc` is installed (`which scc`), run it in the repo root immediately after cloning (using whichever clone path was chosen):
@@ -78,6 +82,11 @@ For each repo, analyze:
 - Testing: are there tests? What coverage looks like? Unit vs integration vs smoke?
 - Error handling, atomicity, concurrent safety
 - Version and release cadence — rapid patch churn often signals LLM-assisted first pass being hardened
+
+**Performance Guesses**
+- Assess likely performance characteristics *grounded in the scanned code* — not language-level claims. Decompose WHY something is fast/slow: architecture, parallelism, caching, skipped steps, incremental vs full work, memory layout, hot paths.
+- When comparing against another program: where should this repo be faster or slower, structurally, and why? (e.g. compiled vs interpreted is rarely the dominant factor; algorithm/data-structure choices and I/O strategy usually are)
+- Name concrete shortcomings visible in the code: unbounded queues/buffers, O(n²) lookups in hot loops, synchronous blocking I/O where async expected, no caching of repeated computation, single-threaded bottlenecks, eager recomputation, memory growth without limits.
 
 **Security Audit** (dedicated section; always perform)
 
@@ -215,6 +224,9 @@ Structure the report as:
 ## Code Quality
 [testing, error handling, safety]
 
+## Performance
+[performance guesses grounded in the scanned code: where it should win/lose versus the alternative (if comparing), and shortcomings spotted — parallelism, caching, hot paths, blocking I/O, unbounded growth]
+
 ## Security Audit
 [findings with severity tags: 🔴 Critical / 🟠 High / 🟡 Medium / 🟢 Info]
 
@@ -250,11 +262,14 @@ After producing the report, write it to a markdown file:
 
 Create `~/.audits/` if it doesn't exist. Write the full structured report (steps 3–7) as a markdown file.
 
-If the repo was cloned to `~/Dev/GithubHoard` (persistent path), also create a visible symlink in GithubHoard root:
+If the repo was cloned to a persistent path (`~/Hoard/Saves` or `~/Hoard/Forks`), also create a visible symlink in that same directory:
 
 ```bash
-ln -sf ~/.audits/{repo}-audit.md ~/Dev/GithubHoard/{repo}.audit.md
+ln -sf ~/.audits/{repo}-audit.md ~/Hoard/Saves/{repo}.audit.md
+ln -sf ~/.audits/{repo}-audit.md ~/Hoard/Forks/{repo}.audit.md
 ```
+
+(use whichever path matches the clone target)
 
 This keeps `~/.audits/` as the single source of truth (browseable, grepable) while the symlinks surface audits alongside their cloned repos. For `/tmp` clones, the audit still persists in `~/.audits/` but no symlink is created.
 

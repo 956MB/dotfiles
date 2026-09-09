@@ -1,0 +1,90 @@
+# Greyscale Koda Dark theme for btop
+# Neutral UI surfaces from the Koda-dark palette with Koda semantic graph colors.
+# Based on btop's built-in greyscale theme.
+
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]="#101010"            # Koda bg
+
+# Main text color
+theme[main_fg]="#b0b0b0"            # Koda fg
+
+# Title color for boxes
+theme[title]="#eaeaea"              # Koda emphasis
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#d9ba73"              # Koda warning/accent
+
+# Background color of selected items
+theme[selected_bg]="#272727"        # Koda line
+
+# Foreground color of selected items
+theme[selected_fg]="#eaeaea"        # Koda emphasis
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#474747"        # Koda dim
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#8a8a8a"          # Koda operator/border
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#8a8a8a"          # Koda border
+
+# Cpu box outline color
+theme[cpu_box]="#8a8a8a"            # Koda border
+
+# Memory/disks box outline color
+theme[mem_box]="#474747"            # Koda dim
+
+# Net up/down box outline color
+theme[net_box]="#474747"             # Koda dim
+
+# Processes box outline color
+theme[proc_box]="#474747"            # Koda dim
+
+# Box divider line and small boxes line color
+theme[div_line]="#272727"           # Koda line
+
+# Temperature graph colors: cool -> warm -> hot
+theme[temp_start]="#86cd82"         # Koda success
+theme[temp_mid]="#d9ba73"           # Koda warning
+theme[temp_end]="#ff7676"           # Koda danger
+
+# CPU graph colors: idle -> load -> saturated
+theme[cpu_start]="#86cd82"          # Koda success
+theme[cpu_mid]="#d9ba73"            # Koda warning
+theme[cpu_end]="#ff7676"            # Koda danger
+
+# Mem/Disk free meter
+theme[free_start]="#474747"         # Koda dim
+theme[free_mid]="#86cd82"           # Koda success
+theme[free_end]="#d9ba73"           # Koda warning
+
+# Mem/Disk cached meter
+theme[cached_start]="#474747"       # Koda dim
+theme[cached_mid]="#8a8a8a"         # Koda border
+theme[cached_end]="#b0b0b0"         # Koda fg
+
+# Mem/Disk available meter
+theme[available_start]="#474747"    # Koda dim
+theme[available_mid]="#8ebeec"      # Koda info
+theme[available_end]="#86cd82"      # Koda success
+
+# Mem/Disk used meter
+theme[used_start]="#474747"         # Koda dim
+theme[used_mid]="#d9ba73"           # Koda warning
+theme[used_end]="#ff7676"           # Koda danger
+
+# Download graph colors
+theme[download_start]="#474747"     # Koda dim
+theme[download_mid]="#86cd82"       # Koda success
+theme[download_end]="#b0b0b0"       # Koda fg
+
+# Upload graph colors
+theme[upload_start]="#474747"       # Koda dim
+theme[upload_mid]="#ff7676"         # Koda danger
+theme[upload_end]="#ff7676"         # Koda danger
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#474747"      # Koda dim
+theme[process_mid]="#86cd82"        # Koda success
+theme[process_end]="#ff7676"        # Koda danger

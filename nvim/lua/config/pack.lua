@@ -10,6 +10,7 @@ local function rtp_add(name)
 end
 
 rtp_add 'kanso.nvim'
+rtp_add 'koda.nvim'
 rtp_add 'matteblack.nvim'
 rtp_add 'oil.nvim'
 rtp_add 'ncks.nvim'
@@ -138,7 +139,7 @@ vim.pack.add {
     'https://github.com/dundalek/bloat.nvim',
     'https://github.com/stevearc/quicker.nvim',
 
-    -- Colorscheme: matteblack (local fork, submodule in custom/). Loaded in plugins/colorscheme.lua.
+    -- Colorscheme: koda-dark (koda.nvim submodule in custom/). Loaded in plugins/colorscheme.lua.
 }
 
 if vim.g.neovide then

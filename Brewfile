@@ -188,8 +188,11 @@ cask "paseo" if OS.mac?
 brew "blackhole-2ch"
 brew "linecast"
 brew "moshi-hook"
+brew "just"
 
 # macOS-specific
+cask "abue-ammar/tinycast/tinycast@beta" if OS.mac?
+cask "tinycast" if OS.mac?
 brew "arm-none-eabi-gcc" if OS.mac?
 brew "blueutil" if OS.mac?
 brew "pinentry-mac" if OS.mac?

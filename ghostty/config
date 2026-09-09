@@ -40,7 +40,7 @@
 # selection-background = #24262D
 # selection-foreground = #c5c9c7
 
-# Matte Black (tahayvr/matte-black-theme) — warm repo palette (active)
+# Matte Black (tahayvr/matte-black-theme) — warm repo palette (previous theme, switch back by uncommenting)
 # Named-color prompt elements (blue/purple/green/yellow) render warm as the theme intends;
 # the git segment keeps red/blue/green via truecolor escapes in starship custom.git_changes
 # (see starship/starship.toml): red #DC2626 deleted, blue #3B82F6 modified,
@@ -54,7 +54,7 @@
 # palette = 5=#F87171
 # palette = 6=#10B981
 # palette = 7=#EAEAEA
-# palette = 8=#8A8A8D
+# palette = 8=#8A8A8A
 # palette = 9=#F87171
 # palette = 10=#10B981
 # palette = 11=#FBBF24
@@ -62,28 +62,54 @@
 # palette = 13=#8D20B2
 # palette = 14=#1EA7A0
 # palette = 15=#FFFFFF
-palette = 0=#333333
-palette = 1=#D35F5F
-palette = 2=#FFC107
-palette = 3=#B91C1C
-palette = 4=#E68E0D
-palette = 5=#D35F5F
-palette = 6=#BEBEBE
-palette = 7=#BEBEBE
-palette = 8=#8A8A8D
-palette = 9=#B91C1C
-palette = 10=#FFC107
-palette = 11=#B90A0A
-palette = 12=#F59E0B
-palette = 13=#B91C1C
-palette = 14=#EAEAEA
+# palette = 0=#333333
+# palette = 1=#D35F5F
+# palette = 2=#FFC107
+# palette = 3=#B91C1C
+# palette = 4=#E68E0D
+# palette = 5=#D35F5F
+# palette = 6=#BEBEBE
+# palette = 7=#BEBEBE
+# palette = 8=#8A8A8A
+# palette = 9=#B91C1C
+# palette = 10=#FFC107
+# palette = 11=#B90A0A
+# palette = 12=#F59E0B
+# palette = 13=#B91C1C
+# palette = 14=#EAEAEA
+# palette = 15=#FFFFFF
+# background = #121212
+# foreground = #bebebe
+# cursor-color = #eaeaea
+# cursor-text = #121212
+# selection-background = #333333
+# selection-foreground = #eaeaea
+# Greyscale (btop "grayscale" ramp ANSI + koda-dark surfaces) — see themes/GREYSCALE.md
+# ANSI 16 = btop ramp stretched (normals 00→ff, brights shifted one step); lazygit commit
+# statuses use ANSI slots, so pushed/yellow now renders gray #737373. Surfaces from koda-dark
+# (koda.nvim extras/ghostty/koda-dark.conf surfaces; ANSI kept ramp-gray, not koda's chromatic).
+palette = 0=#000000
+palette = 1=#303030
+palette = 2=#505050
+palette = 3=#737373
+palette = 4=#909090
+palette = 5=#BBBBBB
+palette = 6=#CCCCCC
+palette = 7=#FFFFFF
+palette = 8=#303030
+palette = 9=#505050
+palette = 10=#737373
+palette = 11=#909090
+palette = 12=#BBBBBB
+palette = 13=#CCCCCC
+palette = 14=#FFFFFF
 palette = 15=#FFFFFF
-background = #121212
-foreground = #bebebe
-cursor-color = #eaeaea
-cursor-text = #121212
-selection-background = #333333
-selection-foreground = #eaeaea
+background = #101010
+foreground = #bbbbbb
+cursor-color = #b0b0b0
+cursor-text = #101010
+selection-background = #272727
+selection-foreground = #b0b0b0
 
 # neutral:
 # background = #181818
