@@ -7,7 +7,6 @@
   "packages": [
     "npm:@kungfusaini/pi-plan-mode",
     "npm:@tmustier/pi-session-hud",
-    "npm:pi-session-todo",
     "npm:pi-system-prompt",
     "npm:pi-web-access",
     "npm:pi-hermes-memory",
@@ -23,7 +22,9 @@
     "npm:@rolemodel/pi-omlx",
     "git:github.com/956MB/pi-token-speed@feat/label-unit-text",
     "npm:pi-rewind",
-    "npm:@howaboua/pi-codex-conversion"
+    "npm:@howaboua/pi-codex-conversion",
+    "npm:deepseek-peak-pricing-hours",
+    "npm:@juicesharp/rpiv-todo"
   ],
   "hideThinkingBlock": false,
   "enableInstallTelemetry": false,

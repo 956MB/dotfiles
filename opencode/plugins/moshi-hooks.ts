@@ -9,7 +9,7 @@ import type { Plugin } from "@opencode-ai/plugin"
 
 // Kept for debug / manual invocation. Routine events go straight to the
 // daemon's Unix socket (see resolveSocketPath) — no subprocess spawn.
-const helperBinary = "/opt/homebrew/bin/moshi-hook"
+const helperBinary = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
 
 // Mirrors internal/config.SocketPath. The MOSHI_SOCKET_PATH override wins
 // over the per-platform default so tests and dev daemons can point us at a

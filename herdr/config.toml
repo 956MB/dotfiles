@@ -64,13 +64,15 @@ workspace_picker = "prefix+w"
 goto = "prefix+g"
 rename_workspace = "prefix+shift+w"
 close_workspace = "prefix+shift+d"
-previous_workspace = "prefix+shift+up"
-next_workspace = "prefix+shift+down"
+previous_workspace = ["prefix+shift+up", "ctrl+shift+up"]
+next_workspace = ["prefix+shift+down", "ctrl+shift+down"]
 
 new_tab = "prefix+c"
-rename_tab = "prefix+shift+t"
+rename_tab = ["prefix+shift+t", "ctrl+shift+alt+r"]
 switch_tab = "prefix+1..9"
 close_tab = "prefix+shift+x"
+previous_tab = ["prefix+p", "ctrl+left"]
+next_tab = ["prefix+n", "ctrl+right"]
 
 rename_pane = "prefix+shift+p"
 edit_scrollback = "prefix+e"

@@ -89,14 +89,14 @@
 # statuses use ANSI slots, so pushed/yellow now renders gray #737373. Surfaces from koda-dark
 # (koda.nvim extras/ghostty/koda-dark.conf surfaces; ANSI kept ramp-gray, not koda's chromatic).
 palette = 0=#000000
-palette = 1=#303030
+palette = 1=#404040
 palette = 2=#505050
 palette = 3=#737373
 palette = 4=#909090
 palette = 5=#BBBBBB
 palette = 6=#CCCCCC
 palette = 7=#FFFFFF
-palette = 8=#303030
+palette = 8=#404040
 palette = 9=#505050
 palette = 10=#737373
 palette = 11=#909090
