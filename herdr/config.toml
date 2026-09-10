@@ -77,10 +77,10 @@ next_tab = ["prefix+n", "ctrl+right"]
 rename_pane = "prefix+shift+p"
 edit_scrollback = "prefix+e"
 copy_mode = "prefix+["
-focus_pane_left   = ["prefix+h", "alt+h"]
-focus_pane_down   = ["prefix+j", "alt+j"]
-focus_pane_up     = ["prefix+k", "alt+k"]
-focus_pane_right  = ["prefix+l", "alt+l"]
+focus_pane_left   = ["prefix+h", "alt+h", "ctrl+shift+left"]
+focus_pane_down   = ["prefix+j", "alt+j", "ctrl+shift+alt+down"]
+focus_pane_up     = ["prefix+k", "alt+k", "ctrl+shift+alt+up"]
+focus_pane_right  = ["prefix+l", "alt+l", "ctrl+shift+right"]
 swap_pane_left  = "prefix+shift+h"
 swap_pane_down  = "prefix+shift+j"
 swap_pane_up    = "prefix+shift+k"
@@ -93,7 +93,7 @@ split_horizontal = "prefix+minus"
 close_pane = "prefix+x"
 zoom = "prefix+z"
 resize_mode = "prefix+r"
-toggle_sidebar = "prefix+b"
+toggle_sidebar = ["prefix+b", "ctrl+shift+b"]
 
 switch_workspace = "prefix+shift+1..9"
 remote_image_paste = "ctrl+v"
@@ -148,7 +148,7 @@ command = "lazydocker"
 description = "open lazydocker"
 
 [[keys.command]]
-key = "prefix+t"
+key = ["prefix+t", "ctrl+shift+t"]
 type = "plugin_action"
 command = "herdr-navigator.open"
 description = "jump to anything"
