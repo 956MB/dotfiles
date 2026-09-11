@@ -86,24 +86,69 @@
 # selection-foreground = #eaeaea
 # Greyscale (btop "grayscale" ramp ANSI + koda-dark surfaces) — see themes/GREYSCALE.md
 # ANSI 16 = btop ramp stretched (normals 00→ff, brights shifted one step); lazygit commit
-# statuses use ANSI slots, so pushed/yellow now renders gray #737373. Surfaces from koda-dark
-# (koda.nvim extras/ghostty/koda-dark.conf surfaces; ANSI kept ramp-gray, not koda's chromatic).
-palette = 0=#000000
-palette = 1=#404040
-palette = 2=#505050
-palette = 3=#737373
-palette = 4=#909090
-palette = 5=#BBBBBB
-palette = 6=#CCCCCC
-palette = 7=#FFFFFF
-palette = 8=#404040
-palette = 9=#505050
-palette = 10=#737373
-palette = 11=#909090
-palette = 12=#BBBBBB
-palette = 13=#CCCCCC
-palette = 14=#FFFFFF
-palette = 15=#FFFFFF
+# statuses use ANSI slots. Surfaces from koda-dark (koda.nvim extras/ghostty/koda-dark.conf).
+# (previous all-grey version — switch back by swapping the comment blocks below)
+# palette = 0=#000000
+# palette = 1=#404040
+# palette = 2=#505050
+# palette = 3=#737373
+# palette = 4=#909090
+# palette = 5=#BBBBBB
+# palette = 6=#CCCCCC
+# palette = 7=#FFFFFF
+# palette = 8=#404040
+# palette = 9=#505050
+# palette = 10=#737373
+# palette = 11=#909090
+# palette = 12=#BBBBBB
+# palette = 13=#CCCCCC
+# palette = 14=#FFFFFF
+# palette = 15=#FFFFFF
+
+# Greyscale Tinted (Koda Dark accents) — slightly less greyscale: same btop ramp for
+# blacks/whites/magenta/cyan slots, but the four semantic slots (red/green/yellow/blue)
+# now use koda-dark light accents (danger #ff7676, green #a3d6a3, const/warning #d9ba73,
+# info #8ebeec). Bright 9/10 get koda's orange #ff5733 and success green #86cd82.
+# Brights 11-14 and slots 0/5/6/7/8 stay ramp-grey so the theme still reads greyscale.
+# Surfaces unchanged from the all-grey version. Switch back via the commented block above.
+# palette = 0=#000000
+# palette = 1=#ff7676
+# palette = 2=#a3d6a3
+# palette = 3=#d9ba73
+# palette = 4=#8ebeec
+# palette = 5=#BBBBBB
+# palette = 6=#CCCCCC
+# palette = 7=#FFFFFF
+# palette = 8=#404040
+# palette = 9=#ff5733
+# palette = 10=#86cd82
+# palette = 11=#909090
+# palette = 12=#BBBBBB
+# palette = 13=#CCCCCC
+# palette = 14=#FFFFFF
+# palette = 15=#FFFFFF
+
+# Greyscale Moshi (full koda-dark ANSI table) — verbatim ANSI from moshi/greyscale-theme.json
+# ("Greyscale (Koda Dark)", koda-dark terminal mapping per themes/GREYSCALE.md): yellow/blue/cyan
+# slots are white/greys, red/green/magenta carry koda accents, brights full koda chromatic set.
+# Surfaces match moshi: bg #101010, fg #b0b0b0, selection #272727. Switch back by uncommenting
+# the Greyscale Tinted block above.
+palette = 0=#101010
+palette = 1=#ff7676
+palette = 2=#a3d6a3
+palette = 3=#ffffff
+palette = 4=#b3b3b3
+palette = 5=#f4b8e4
+palette = 6=#fafafa
+palette = 7=#a5a5a5
+palette = 8=#505050
+palette = 9=#ff5733
+palette = 10=#86cd82
+palette = 11=#d9ba73
+palette = 12=#ffffff
+palette = 13=#f2a4db
+palette = 14=#5abfb5
+palette = 15=#b5b5b5
 background = #101010
 foreground = #bbbbbb
 cursor-color = #b0b0b0
@@ -182,7 +227,7 @@ palette = 235=#17351E
 
 # Keybindings
 # NOTE: Re bind goto_split so we can use left/right arrows
-keybind = ctrl+shift+p=toggle_command_palette
+keybind = super+shift+p=toggle_command_palette
 keybind = super+alt+l=goto_split:right
 keybind = super+alt+h=goto_split:left
 keybind = super+alt+right=next_tab

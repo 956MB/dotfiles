@@ -90,55 +90,100 @@ function brew --description "brew wrapper that mirrors installs/uninstalls into 
         set new_pkgs $new_pkgs $pkg
     end
 
-    if test (count $new_pkgs) -eq 0; and test (count $new_taps) -eq 0
+    # an old `# >>> brew auto-tracked` block still needs one pass to be folded
+    # into its section, even when there is nothing new to add
+    set -l has_marker false
+    if command grep -qF '# >>> brew auto-tracked' $brewfile
+        set has_marker true
+    end
+
+    if test (count $new_pkgs) -eq 0; and test (count $new_taps) -eq 0; and test $has_marker = false
         return $brew_status
     end
 
-    set -l marker "# >>> brew auto-tracked (review and reorder) <<<"
-    if not grep -qF "$marker" $brewfile
-        # insert the marker block right before the macOS-specific section
-        set -l line_num (grep -n '^# macOS-specific' $brewfile | head -1 | cut -d: -f1)
-        if test -n "$line_num"
-            set -l tmp (mktemp)
-            set -l n (math $line_num - 1)
-            head -n $n $brewfile >$tmp
-            echo $marker >>$tmp
-            tail -n +$line_num $brewfile >>$tmp
-            mv $tmp $brewfile
-        else
-            echo "" >>$brewfile
-            echo $marker >>$brewfile
-        end
-    end
-
-    set -l tmp (mktemp)
+    set -l taps_file (mktemp)
+    set -l pkgs_file (mktemp)
     set -l cross_platform_casks zen
     for tap in $new_taps
-        echo "tap \"$tap\""
+        echo "tap \"$tap\"" >>$taps_file
     end
     for pkg in $new_pkgs
         if test "$is_cask" = true
             if contains -- $pkg $cross_platform_casks
-                echo "cask \"$pkg\""
+                echo "cask \"$pkg\"" >>$pkgs_file
             else
-                echo "cask \"$pkg\" if OS.mac?"
+                echo "cask \"$pkg\" if OS.mac?" >>$pkgs_file
             end
         else
-            echo "brew \"$pkg\""
+            echo "brew \"$pkg\"" >>$pkgs_file
         end
-    end | sort -u >>$tmp
+    end
+    sort -u -o $taps_file $taps_file
+    sort -u -o $pkgs_file $pkgs_file
 
-    awk -v insert_file="$tmp" '
-        /^# >>> brew auto-tracked/ {
-            print
-            while ((getline line < insert_file) > 0) print line
-            close(insert_file)
-            next
+    # formulas append to the cross-platform section that precedes `# macOS-specific`;
+    # casks append to the end of the `# macOS-specific` section itself
+    set -l pkg_before 1
+    if test "$is_cask" = true
+        set pkg_before 0
+    end
+
+    set -l tmp (mktemp)
+    command awk -v taps="$taps_file" -v pkgs="$pkgs_file" -v pkg_anchor='^# macOS-specific' -v pkg_before=$pkg_before '
+        # append `add` to the end of one section, dropping blank lines inside it
+        function splice(anchor, add, cnt, before,    a, b, last, i, j, m, out) {
+            a = 0
+            for (i = 1; i <= n; i++) if (line[i] ~ anchor) { a = i; break }
+            if (a == 0) {
+                for (j = 1; j <= cnt; j++) line[++n] = add[j]
+                return
+            }
+            if (before == 1) {
+                b = a
+                a = 0
+                for (i = b - 1; i >= 1; i--) if (line[i] ~ /^# /) { a = i; break }
+            } else {
+                b = n + 1
+                for (i = a + 1; i <= n; i++) if (line[i] ~ /^# /) { b = i; break }
+            }
+            last = a
+            for (i = a + 1; i < b; i++) if (line[i] !~ /^[[:space:]]*$/) last = i
+            m = 0
+            for (i = 1; i <= n; i++) {
+                if (i > a && i < b && line[i] ~ /^[[:space:]]*$/) continue
+                if (i == b && b <= n) out[++m] = ""
+                out[++m] = line[i]
+                if (i == last) for (j = 1; j <= cnt; j++) out[++m] = add[j]
+            }
+            n = m
+            for (i = 1; i <= n; i++) line[i] = out[i]
+            delete out
         }
-        { print }
-    ' $brewfile >$tmp.move
-    mv $tmp.move $brewfile
-    rm -f $tmp
+        BEGIN {
+            ntap = 0
+            while ((getline l < taps) > 0) if (l !~ /^[[:space:]]*$/) tap[++ntap] = l
+            close(taps)
+            npkg = 0
+            while ((getline l < pkgs) > 0) if (l !~ /^[[:space:]]*$/) pkg[++npkg] = l
+            close(pkgs)
+        }
+        { line[++n] = $0 }
+        END {
+            # retire the legacy marker block
+            m = 0
+            for (i = 1; i <= n; i++) if (line[i] !~ /^# >>> brew auto-tracked/) keep[++m] = line[i]
+            n = m
+            for (i = 1; i <= n; i++) line[i] = keep[i]
+            delete keep
+
+            splice("^# Cross-platform packages", tap, ntap, 1)
+            splice(pkg_anchor, pkg, npkg, pkg_before + 0)
+
+            for (i = 1; i <= n; i++) print line[i]
+        }
+    ' $brewfile >$tmp
+    mv $tmp $brewfile
+    rm -f $taps_file $pkgs_file
 
     if test (count $new_taps) -gt 0
         echo ""
