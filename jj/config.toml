@@ -1,0 +1,63 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "956MB"
+email = "bays@956mb.com"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/id_githubmacos2025.pub"
+
+[ui]
+default-command = "log"
+
+# Log-line colors for greyscale-koda. jjui's theme file only covers jjui chrome
+# (status bar, menus, panes) — the log/commit lines are rendered by jj itself,
+# so they're colored here. Greyscale base, accents concentrated on commit info:
+# change_id yellow #d9ba73, bookmarks pink #f4b8e4 (the koda magenta the
+# Moshi palette renders), conflicts/divergent red #ff7676. Hex pins exact
+# colors so base16 names (which route through the Ghostty Moshi palette)
+# don't vary.
+[colors]
+"change_id" = "#d9ba73"
+"commit_id" = "#f4b8e4"
+"author" = "#86cd82"
+"committer" = "#86cd82"
+"timestamp" = "#505050"
+"bookmarks" = "#ff7676"
+"bookmark" = "#ff7676"
+"local_bookmarks" = "#ff7676"
+"remote_bookmarks" = "#ff7676"
+"tag" = "#f4b8e4"
+"tags" = "#f4b8e4"
+"working_copies" = { fg = "#d9ba73", bold = true }
+"empty" = "#505050"
+"separator" = "#505050"
+"elided" = "#505050"
+"description placeholder" = { fg = "#505050", italic = true }
+"empty description placeholder" = { fg = "#505050", italic = true }
+"conflict" = "#ff7676"
+"mutable divergent" = "#ff7676"
+
+[colors.working_copy]
+"change_id" = { fg = "#fafafa", bold = true }
+"commit_id" = { fg = "#f4b8e4", bold = true }
+"author" = { fg = "#86cd82", bold = true }
+"committer" = { fg = "#86cd82", bold = true }
+"timestamp" = "#505050"
+"bookmarks" = { fg = "#f4b8e4", bold = true }
+"local_bookmarks" = { fg = "#f4b8e4", bold = true }
+"remote_bookmarks" = { fg = "#f4b8e4", bold = true }
+"working_copies" = { fg = "#d9ba73", bold = true }
+"empty" = "#505050"
+"description placeholder" = { fg = "#505050", italic = true }
+"empty description placeholder" = { fg = "#505050", italic = true }
+
+# Delta diff rendering inside jjui only — mirrors lazygit's
+# `delta --syntax-theme "greyscale" --paging=never` (lazygit/config.yml).
+# Shell `jj` keeps the default :color-words formatter.
+[[--scope]]
+--when.environments = ["JJUI"]
+[--scope.ui]
+diff-formatter = ["delta", "--syntax-theme", "greyscale", "--paging=never", "$left", "$right"]

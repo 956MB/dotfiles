@@ -12,6 +12,7 @@ tap "modem-dev/tap"
 tap "tw93/tap"
 tap "AlexsJones/llmfit"
 tap "xcodesorg/made"
+tap "dmmulroy"
 
 # Cross-platform packages (work on both macOS and Linux)
 brew "rtk"
@@ -178,7 +179,6 @@ brew "pypy3"
 brew "pv"
 brew "tree-sitter"
 brew "wkhtmltopdf"
-
 cask "steipete/tap/trimmy" if OS.mac?
 cask "bloom" if OS.mac?
 brew "watch"
@@ -189,6 +189,9 @@ brew "blackhole-2ch"
 brew "linecast"
 brew "moshi-hook"
 brew "just"
+brew "jj"
+brew "jjui"
+brew "dmmulroy/tap/jj-starship"
 
 # macOS-specific
 cask "abue-ammar/tinycast/tinycast@beta" if OS.mac?

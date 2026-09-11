@@ -1,0 +1,68 @@
+# greyscale-koda — jjui theme for the Ghostty "Greyscale Moshi" palette
+# (ghostty/config). Greyscale base from the Moshi ANSI table, with small
+# accents pulled from the same palette: yellow #d9ba73 (slot 11), pink
+# #f4b8e4 (slot 5), light blue #8ebeec (koda info blue), red #ff7676
+# (slot 1), green #86cd82 (slot 10).
+# Structure mirrors jjui's built-in default theme (self-contained).
+
+[colors]
+dimmed = "#505050"
+title = { fg = "#f4b8e4", bold = true }
+# help-menu keybind hints + search matches: light blue (koda info)
+shortcut = "#8ebeec"
+matched = "#8ebeec"
+target_marker = { fg = "#101010", bg = "#ff7676", bold = true }
+source_marker = { fg = "#101010", bg = "#f4b8e4" }
+success = "#86cd82"
+error = "#ff7676"
+"flash:selected" = "#f4b8e4"
+"confirmation text" = { fg = "#d9ba73", bold = true }
+"confirmation:selected" = { fg = "#ffffff", bg = "#505050", bold = true }
+"confirmation dimmed" = "#a5a5a5"
+"help title" = { fg = "#86cd82", bold = true }
+"revisions details:selected" = { bg = "#505050", bold = true }
+"revisions details dimmed:selected" = { fg = "#b5b5b5" }
+"revisions matched" = { underline = false, reverse = true }
+"oplog matched" = { underline = false, reverse = true }
+"revset title" = "#f4b8e4"
+"revset text" = { fg = "#86cd82", bold = true }
+"revset completion" = { bg = "#101010" }
+"revset completion dimmed" = { fg = "#505050" }
+"revset completion text" = { fg = "#86cd82" }
+"revset completion matched" = { fg = "#86cd82", underline = true, bold = true }
+"revset completion:selected" = { bg = "#505050", bold = true }
+"revset completion dimmed:selected" = { fg = "#b5b5b5" }
+"revset completion text:selected" = { fg = "#fafafa" }
+"revset completion matched:selected" = { underline = true, bold = true }
+"status title" = { fg = "#101010", bg = "#d9ba73", bold = true }
+"git matched" = { fg = "#d9ba73", bold = true }
+"bookmarks matched" = { fg = "#d9ba73", bold = true }
+"git remote title" = { fg = "#d9ba73", bg = "default", bold = true }
+"bookmarks remote title" = { fg = "#d9ba73", bg = "default", bold = true }
+"git:selected" = { fg = "#f4b8e4", bg = "default", bold = true, underline = false }
+"bookmarks:selected" = { fg = "#f4b8e4", bg = "default", bold = true, underline = false }
+"picker dimmed" = { fg = "#505050" }
+"picker matched" = { underline = true }
+"picker:selected" = { fg = "#f4b8e4", bg = "#505050", bold = true, underline = false }
+"picker dimmed:selected" = {}
+"picker text:selected" = {}
+"picker matched:selected" = {}
+"annotation header" = { fg = "#d9ba73", bold = true }
+"annotation dimmed" = "#505050"
+"annotation error" = "#ff7676"
+
+[light]
+background_blend = 0.4
+
+[light.colors]
+":selected" = { bg = "#b5b5b5" }
+"git title" = { fg = "#101010", bg = "#d9ba73", bold = true }
+"bookmarks title" = { fg = "#101010", bg = "#d9ba73", bold = true }
+
+[dark]
+background_blend = 0.4
+
+[dark.colors]
+":selected" = { bg = "#505050" }
+"git title" = { fg = "#101010", bg = "#d9ba73", bold = true }
+"bookmarks title" = { fg = "#101010", bg = "#d9ba73", bold = true }
