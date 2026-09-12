@@ -64,3 +64,8 @@ fish/conf.d/env.fish
 !/opencode/skills/never-say-actually/**
 !/opencode/skills/repo-audit/
 !/opencode/skills/repo-audit/**
+
+# Linux GTK themes (machine-local, not tracked)
+themes/adw-gtk3-neutral-dark/
+themes/gtk3-neutral-overrides.css
+themes/gtk4-neutral-overrides.css
