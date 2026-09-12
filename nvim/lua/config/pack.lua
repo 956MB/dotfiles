@@ -101,7 +101,6 @@ vim.pack.add {
     { src = 'https://github.com/jake-stewart/multicursor.nvim', version = '1.0' },
     { src = 'https://github.com/Vonr/align.nvim', version = 'v2' },
     'https://github.com/folke/trouble.nvim',
-    'https://github.com/NickvanDyke/opencode.nvim',
     'https://github.com/kevinhwang91/nvim-ufo',
     'https://github.com/nvim-neotest/neotest',
     'https://github.com/stevearc/conform.nvim',

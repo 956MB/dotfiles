@@ -152,31 +152,3 @@ vim.api.nvim_create_autocmd('InsertEnter', {
     end,
 })
 
--- [[ opencode.nvim ]]
-vim.o.autoread = true
-local function set_opencode_keymaps()
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if bufname:match 'opencode' then
-        local opts = { buffer = true, silent = true }
-        vim.keymap.set('t', '<C-j>', function()
-            vim.cmd 'stopinsert'
-            require('smart-splits').move_cursor_left()
-        end, opts)
-        vim.keymap.set('t', '<C-k>', function()
-            vim.cmd 'stopinsert'
-            require('smart-splits').move_cursor_right()
-        end, opts)
-        vim.keymap.set('t', '<C-S-k>', function()
-            vim.cmd 'stopinsert'
-            require('smart-splits').move_cursor_down()
-        end, opts)
-        vim.keymap.set('t', '<C-S-j>', function()
-            vim.cmd 'stopinsert'
-            require('smart-splits').move_cursor_up()
-        end, opts)
-    end
-end
-vim.api.nvim_create_autocmd({ 'TermOpen', 'BufEnter' }, {
-    pattern = '*',
-    callback = set_opencode_keymaps,
-})
