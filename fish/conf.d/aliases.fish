@@ -120,6 +120,25 @@ alias gpsh='git push'                   # Update remote refs along with associat
 alias gss='git status'                  # Show the working tree status
 alias gwho='git shortlog -s -n | head'  # Show top contributors
 alias gcnt='git ls-files | wc -l'       # Count number of files in the repository
-alias lg='lazygit'                      # Open Lazygit interface
+alias lg='lazygit'                      # Open Lazygit interface (previous VCS TUI)
 alias grl='gh repo ls 956MB'            # List my repos on GitHub
 alias grlf='gh repo ls 956MB --fork'    # List my forked repos on GitHub
+
+# jj aliases (day-to-day VCS; TUI is jjui)
+alias jc='jj commit'                    # Move working-copy changes into a new commit, start a fresh one
+alias jcm='jj commit -m'                # Commit working-copy changes with a message
+alias jdesc='jj describe'               # Edit the description of a change
+alias je='jj edit'                      # Edit the contents of a change
+alias jn='jj new'                       # Start a new change on top of the working copy
+alias jbr='jj bookmark set'             # Create or update a bookmark (jj's branch)
+alias jd='jj diff'                      # Show changes in a revision
+alias jds='jj diff --stat'              # Show diff stats (files changed, insertions, deletions)
+alias ji='jj git init --colocate'       # Initialize a colocated jj + git repository
+alias jl='jj log'                       # Show the change graph
+alias jpl='jj git fetch'                # Fetch from remotes and rebase local changes
+alias jpush='jj git push'               # Push bookmarked commits to the remote
+alias jpushc='jj git push --change @'   # Push the working-copy change (creates a remote bookmark)
+alias jss='jj st'                       # Show the working-copy status
+alias jwho="jj log -r 'latest(::, 20)' --no-graph -T 'author.name() ++ \"\\n\"' | sort | uniq -c | sort -rn | head"  # Show top contributors
+alias jcnt='jj file list | wc -l'       # Count number of files tracked in the repository
+alias jui='jjui'                        # Open jjui interface (go-to VCS TUI)

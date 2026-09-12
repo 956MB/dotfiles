@@ -6,28 +6,61 @@
 
 ![Screenshot](./.github/Screenshot_2024-12-08_at_6.27.59_AM.png)
 
-### `install.sh` script (for me)
+### Repository layout
 
-I made this script for myself to make it easier starting on different systems, so the stuff inside is focused on my personal preferences and keeping my configs exactly the same. **Run at your own risk.**
-
-```ruby
-curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/install.sh | sh
+```
+dotfiles/
+├── dot                    # Setup + management script (init, update, doctor, packages, ...)
+├── nvim/                  # Neovim: Lazy.nvim config, 200+ lua files, 11 custom plugins
+├── fish/                  # Fish shell: config.fish, conf.d/ (aliases, env), functions/
+├── scripts/               # Standalone tools: aliaz (Zig), Python + shell helpers
+├── themes/                # Theme registry and notes (kanso, matteblack, greyscale)
+├── ghostty/  zellij/  yazi/  lazygit/    # Terminal tool configs
+├── bat/  btop/  delta/  starship/        # CLI appearance configs
+├── zed/  opencode/  pi/                  # Editor and AI agent tool configs
+├── herdr/  hunk/  jj/                    # Multiplexer, diff-review pager, jj UI
+├── ssh/  utils/  misc/  backup/  moshi/  # Keys, helpers, one-off files
+├── Brewfile                              # Homebrew packages (brew bundle input)
+└── .gitconfig                            # Git config: SSH signing, aliases, rewrites
 ```
 
-The script will:
+Everything under a config dir gets symlinked into `~/.config/<dir>` by [dot](#dot-script-for-me) — edit files here, never in the live `~/.config` paths.
 
--   **Backup** existing configs (bat, btop, delta, fish, ghostty, herdr, nvim, yazi, zellij, starship.toml, .gitconfig)
+---
+
+### `dot` script (for me)
+
+Setup and management script for this dotfiles repo: installs everything on a fresh machine and keeps the configs linked and healthy on machines already running them. **Run at your own risk.**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/956MB/dotfiles/main/dot | bash
+```
+
+A full run (`dot init`) will:
+
+-   **Backup** existing configs (bat, btop, delta, fish, ghostty, herdr, nvim, yazi, zed, zellij, starship.toml, .gitconfig) to `~/.config-backup-*`
 -   **Install** Homebrew, Fish shell, and Fish tooling (eza, starship, zoxide, zellij, herdr)
 -   **Clone** the repo and create symlinks for the same set of configs
 -   **Install** packages from the [Brewfile](./Brewfile) (optional, with GUI/non-GUI prompts)
 -   **Set** Fish as the default shell
+-   **Generate** an SSH key for GitHub remotes and commit signing (optional, skippable)
 
 It runs on macOS (Intel + Apple Silicon) and Linux, with an interactive menu on first launch.
 
 ```bash
-./install.sh
-./install.sh {-p, --packages-only}  # Packages only (no symlinks/shell changes)
-./install.sh {-r, --revert}         # Revert to previous configuration (restores from backup)
+dot                            # Interactive menu (same as dot init)
+dot init [--skip-ssh]          # Full setup: backup, brew, clone, symlinks, packages, fish shell
+dot symlinks                   # Link/relink configs only
+dot packages                   # Install Brewfile packages only
+dot update                     # Pull latest dotfiles, re-link, brew update/upgrade + bundle sync
+dot check-packages             # Report installed vs missing Brewfile packages
+dot doctor                     # Health check: tools, config symlinks, shell
+dot gen-ssh-key [email]        # Generate an ed25519 key, copies the pub key to clipboard
+dot completions [dir]          # Generate Fish completions (default: fish/completions in the repo)
+dot link                       # Install dot on PATH (symlink into ~/.local/bin or /usr/local/bin)
+dot unlink                     # Remove the dot symlink from PATH
+dot revert                     # Restore from the most recent ~/.config-backup-*
+dot help                       # All commands + legacy flags (-p, -s, -r still work)
 ```
 
 ---
@@ -153,7 +186,41 @@ alias hst='herdr status'                    # Show herdr status
 alias ftl='find . -type f -name "*.*" -exec basename {} \; | sed "s/.*\.//" | sort -u'  # List unique file extensions in current directory
 ```
 
-##### Version control (`git`)
+##### Version control (`jj` + `git`)
+
+<sup>Day-to-day version control runs through [jjui](./jj/jjui/) — previously [Lazygit](https://github.com/jesseduffield/lazygit) — rather than the terminal aliases below. The aliases cover quick one-off cases; git still works everywhere since the repo is jj + git colocated.</sup>
+
+<details>
+<summary>jj aliases</summary>
+
+[jj aliases](./fish/conf.d/aliases.fish)
+
+```bash
+alias jc='jj commit'                    # Move working-copy changes into a new commit, start a fresh one
+alias jcm='jj commit -m'                # Commit working-copy changes with a message
+alias jdesc='jj describe'               # Edit the description of a change
+alias je='jj edit'                      # Edit the contents of a change
+alias jn='jj new'                       # Start a new change on top of the working copy
+alias jbr='jj bookmark set'             # Create or update a bookmark (jj's branch)
+alias jd='jj diff'                      # Show changes in a revision
+alias jds='jj diff --stat'              # Show diff stats (files changed, insertions, deletions)
+alias ji='jj git init --colocate'       # Initialize a colocated jj + git repository
+alias jl='jj log'                       # Show the change graph
+alias jpl='jj git fetch'                # Fetch from remotes and rebase local changes
+alias jpush='jj git push'               # Push bookmarked commits to the remote
+alias jpushc='jj git push --change @'   # Push the working-copy change (creates a remote bookmark)
+alias jss='jj st'                       # Show the working-copy status
+alias jwho="jj log -r 'latest(::, 20)' --no-graph -T 'author.name() ++ \"\\n\"' | sort | uniq -c | sort -rn | head"  # Show top contributors
+alias jcnt='jj file list | wc -l'       # Count number of files tracked in the repository
+alias jui='jjui'                        # Open jjui interface (go-to VCS TUI)
+```
+
+</details>
+
+<details>
+<summary>git aliases</summary>
+
+[git aliases](./fish/conf.d/aliases.fish)
 
 ```bash
 alias ga='git add'                      # Stage changes
@@ -172,7 +239,7 @@ alias gpsh='git push'                   # Update remote refs along with associat
 alias gss='git status'                  # Show the working tree status
 alias gwho='git shortlog -s -n | head'  # Show top contributors
 alias gcnt='git ls-files | wc -l'       # Count number of files in the repository
-alias lg='lazygit'                      # Open Lazygit interface
+alias lg='lazygit'                      # Open Lazygit interface (previous VCS TUI)
 alias grl='gh repo ls 956MB'            # List my repos on GitHub
 alias grlf='gh repo ls 956MB --fork'    # List my forked repos on GitHub
 
@@ -184,6 +251,8 @@ sug() {
     gh copilot suggest "$*"
 }
 ```
+
+</details>
 
 ---
 
@@ -313,3 +382,9 @@ zsde dotfiles|Momentum-Firmware.wiki # -> zellij ls -n | grep EXITED | grep -v "
 ```
 
 [MIT license](./LICENSE)
+
+## Acknowledgements
+
+- [Homebrew](https://brew.sh/) and [Fish](https://fishshell.com/) as the base the install script builds on
+- [dmmulrow](https://github.com/dmmulroy) and his [dotfiles](https://github.com/dmmulroy/.dotfiles) — his `dot` script was better than mine
+- [pi](https://github.com/badlogic/pi-mono) — for AI assistance

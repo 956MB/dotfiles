@@ -1,7 +1,11 @@
 #!/bin/bash
+# dot - personal dotfiles manager for macOS and Linux.
+# Full setup, package checks, health diagnostics, and updates.
+# Run with no arguments for the interactive menu, or `dot help` for usage.
 
 set -e
 
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CHAR_INDEX=0
 
 get_next_char() {
@@ -468,6 +472,366 @@ set_fish_shell() {
 	log_success "Fish installed"
 }
 
+# --- Reporting and maintenance commands --------------------------------------
+
+check_packages() {
+	local brewfile="$HOME/dotfiles/Brewfile"
+
+	if [[ ! -f "$brewfile" ]]; then
+		log_error "Brewfile not found at $brewfile"
+		return 1
+	fi
+
+	if ! exists brew; then
+		log_error "Homebrew is not installed"
+		return 1
+	fi
+
+	log "Checking Brewfile packages..."
+
+	local formula_list cask_list
+	formula_list=$(brew list --formula 2>/dev/null || true)
+	cask_list=$(brew list --cask 2>/dev/null || true)
+
+	local installed=0 missing=0 package kind
+	local missing_list=()
+
+	while IFS= read -r line; do
+		[[ -z "$line" || "$line" == \#* ]] && continue
+		case "$line" in
+		"tap "* | "mas "*) continue ;; # taps and App Store apps are not checked
+		"brew "*) kind="brew" ;;
+		"cask "*) kind="cask" ;;
+		*) continue ;;
+		esac
+
+		package=$(echo "$line" | awk '{print $2}' | tr -d '"')
+		[[ -z "$package" ]] && continue
+
+		if [[ "$kind" == "brew" ]]; then
+			if grep -qx "$package" <<<"$formula_list"; then
+				installed=$((installed + 1))
+			else
+				missing=$((missing + 1))
+				missing_list+=("$package")
+			fi
+		else
+			if grep -qx "$package" <<<"$cask_list"; then
+				installed=$((installed + 1))
+			else
+				missing=$((missing + 1))
+				missing_list+=("$package (cask)")
+			fi
+		fi
+	done <"$brewfile"
+
+	log_success "$installed installed, $missing missing"
+
+	if [[ $missing -gt 0 ]]; then
+		log_warning "Missing packages:"
+		printf "    %s\n" "${missing_list[@]}"
+		log "    Install them with: dot packages"
+		return 1
+	fi
+}
+
+cmd_update() {
+	log_start "Updating dotfiles..."
+	detect_system
+
+	if [[ -d "$HOME/dotfiles" ]]; then
+		cd "$HOME/dotfiles" && git pull --ff-only origin main || {
+			log_warning "    Pull failed, continuing with local copy"
+		}
+	else
+		clone_dotfiles
+	fi
+
+	ensure_completions
+	create_symlinks
+
+	if exists brew; then
+		log "Updating Homebrew..."
+		brew update || log_warning "    brew update failed"
+
+		if ask_confirmation "Upgrade installed packages? (brew upgrade)"; then
+			brew upgrade || log_warning "    brew upgrade had failures, continuing"
+		fi
+
+		log "Syncing Brewfile (installs anything new)..."
+		brew bundle --file="$HOME/dotfiles/Brewfile" || {
+			log_warning "    Some packages failed to install"
+		}
+	else
+		log_warning "Homebrew not available, skipping package updates"
+	fi
+
+	log_end "Update complete"
+}
+
+cmd_doctor() {
+	detect_system
+
+	local issues=0
+
+	log "Checking core tools..."
+	local tools=(git brew fish nvim zellij herdr starship zoxide eza yazi lazygit)
+	for tool in "${tools[@]}"; do
+		if exists "$tool"; then
+			log_success "$tool found"
+		else
+			log_warning "$tool missing"
+			issues=$((issues + 1))
+		fi
+	done
+
+	log "Checking config symlinks..."
+	local configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "opencode")
+	for config in "${configs[@]}"; do
+		local dest="$HOME/.config/$config"
+		if [[ -L "$dest" && "$(readlink "$dest")" == "$HOME/dotfiles"* ]]; then
+			log_success "~/.config/$config -> dotfiles"
+		elif [[ -e "$dest" ]]; then
+			log_warning "~/.config/$config exists but is not linked to dotfiles"
+			issues=$((issues + 1))
+		else
+			log_warning "~/.config/$config missing (run: dot symlinks)"
+			issues=$((issues + 1))
+		fi
+	done
+
+	local special=("$HOME/.config/starship.toml" "$HOME/.gitconfig" "$HOME/.agents/skills")
+	for dest in "${special[@]}"; do
+		if [[ -L "$dest" && "$(readlink "$dest")" == "$HOME/dotfiles"* ]]; then
+			log_success "$dest -> dotfiles"
+		else
+			log_warning "$dest is not linked to dotfiles"
+			issues=$((issues + 1))
+		fi
+	done
+
+	log "Checking shell..."
+	if [[ "$SHELL" == *fish ]]; then
+		log_success "Fish is the default shell"
+	else
+		log_warning "Default shell is $SHELL, not fish"
+		issues=$((issues + 1))
+	fi
+
+	if [[ $issues -eq 0 ]]; then
+		log_end "All checks passed"
+	else
+		log_end "$issues issue(s) found"
+		return 1
+	fi
+}
+
+cmd_gen_ssh_key() {
+	local email="$1"
+
+	if [[ -z "$email" ]]; then
+		read -r -p "Email for the SSH key (used as the key comment): " email
+	fi
+
+	if [[ -z "$email" ]]; then
+		log_error "No email provided"
+		return 1
+	fi
+
+	local key_path="$HOME/.ssh/id_ed25519"
+	mkdir -p "$HOME/.ssh"
+	chmod 700 "$HOME/.ssh"
+
+	if [[ -f "$key_path" ]]; then
+		log_warning "A key already exists at $key_path"
+		if ! ask_confirmation "Generate a new key anyway? (this overwrites it)"; then
+			log "    Keeping the existing key"
+			return 0
+		fi
+	fi
+
+	if ! ssh-keygen -t ed25519 -C "$email" -f "$key_path" -N ""; then
+		log_error "Failed to generate SSH key"
+		return 1
+	fi
+
+	log_success "SSH key ready at $key_path.pub"
+	log "    Add it to GitHub: Settings > SSH and GPG keys > New SSH key"
+
+	if exists pbcopy; then
+		pbcopy <"$key_path.pub" && log "    Public key copied to clipboard"
+	elif exists wl-copy; then
+		wl-copy <"$key_path.pub" && log "    Public key copied to clipboard"
+	else
+		log "    Public key:"
+		cat "$key_path.pub"
+	fi
+}
+
+# --- Fish completions --------------------------------------------------------
+
+# --- Global link -------------------------------------------------------------
+
+cmd_link() {
+	local bin_dir=""
+
+	# Prefer user-writable dirs that are already on PATH.
+	for candidate in "$HOME/.local/bin" "/usr/local/bin"; do
+		if [[ -d "$candidate" && -w "$candidate" ]] && echo "$PATH" | tr ':' '\n' | grep -qx "$candidate"; then
+			bin_dir="$candidate"
+			break
+		fi
+	done
+
+	if [[ -z "$bin_dir" ]]; then
+		bin_dir="/usr/local/bin"
+		log "    $bin_dir will need sudo"
+		sudo ln -sf "$DOTFILES_DIR/dot" "$bin_dir/dot" || {
+			log_error "Failed to link dot into $bin_dir"
+			return 1
+		}
+	else
+		ln -sf "$DOTFILES_DIR/dot" "$bin_dir/dot" || {
+			log_error "Failed to link dot into $bin_dir"
+			return 1
+		}
+	fi
+
+	log_success "dot linked: $bin_dir/dot -> $DOTFILES_DIR/dot"
+	log "    Fish completions will now autoload for dot in new shells"
+}
+
+cmd_unlink() {
+	local target=""
+	for candidate in "$HOME/.local/bin/dot" "$HOMEBREW_PREFIX/bin/dot" "/usr/local/bin/dot"; do
+		if [[ -L "$candidate" ]]; then
+			target="$candidate"
+			break
+		fi
+	done
+
+	if [[ -z "$target" ]]; then
+		log_warning "No dot symlink found in ~/.local/bin, \$HOMEBREW_PREFIX/bin, or /usr/local/bin"
+		return 1
+	fi
+
+	if [[ "$(readlink "$target")" == "$DOTFILES_DIR"* ]]; then
+		rm "$target"
+		log_success "Removed $target"
+	else
+		log_error "$target is not a symlink into $DOTFILES_DIR, not removing it"
+		return 1
+	fi
+}
+
+cmd_completions() {
+	local completions_dir="${1:-$DOTFILES_DIR/fish/completions}"
+	local completions_file="$completions_dir/dot.fish"
+
+	if ! exists fish; then
+		log_error "Fish shell is not installed"
+		log "    Install Fish shell first: brew install fish"
+		return 1
+	fi
+
+	mkdir -p "$completions_dir"
+
+	log "Generating Fish completions at $completions_file..."
+
+	cat >"$completions_file" <<'EOF'
+# Fish shell completions for dot
+# Generated by: dot completions
+
+complete -c dot -f
+
+complete -c dot -n "__fish_use_subcommand" -a "init" -d "Full setup: backup, Homebrew, clone, symlinks, packages, fish shell"
+complete -c dot -n "__fish_use_subcommand" -a "symlinks" -d "Link/relink configs only"
+complete -c dot -n "__fish_use_subcommand" -a "packages" -d "Install Brewfile packages only"
+complete -c dot -n "__fish_use_subcommand" -a "update" -d "Pull dotfiles, re-link, brew update/upgrade + bundle"
+complete -c dot -n "__fish_use_subcommand" -a "check-packages" -d "Installed vs missing Brewfile packages"
+complete -c dot -n "__fish_use_subcommand" -a "doctor" -d "Health check: tools, symlinks, shell"
+complete -c dot -n "__fish_use_subcommand" -a "gen-ssh-key" -d "Generate an ed25519 SSH key"
+complete -c dot -n "__fish_use_subcommand" -a "revert" -d "Restore from the most recent backup"
+complete -c dot -n "__fish_use_subcommand" -a "completions" -d "Generate Fish completions"
+complete -c dot -n "__fish_use_subcommand" -a "help" -d "Show help"
+
+complete -c dot -n "__fish_seen_subcommand_from init" -l skip-ssh -d "Skip SSH key generation"
+complete -c dot -n "__fish_seen_subcommand_from init" -l help -d "Show help"
+EOF
+
+	log_success "Completions generated (reload fish or start a new shell to pick them up)"
+}
+
+# Regenerate completions when the script runs and the repo is already cloned.
+# On a fresh curl|bash install the repo does not exist yet, so this is a no-op;
+# clone_dotfiles + the next run will pick it up.
+ensure_completions() {
+	[[ -d "$HOME/dotfiles/.git" ]] || return 0
+	cmd_completions "$HOME/dotfiles/fish/completions"
+}
+
+setup_ssh_key() {
+	if [[ "$SKIP_SSH" == "true" ]]; then
+		log "Skipping SSH key setup (--skip-ssh)"
+		return
+	fi
+
+	if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
+		log_success "SSH key already exists"
+		return
+	fi
+
+	if ask_confirmation "Generate an SSH key for this machine? (used for GitHub remotes and SSH commit signing)"; then
+		cmd_gen_ssh_key
+	fi
+}
+
+full_install() {
+	log_start "Starting dotfiles installation..."
+	detect_system
+	ensure_completions
+	backup_configs
+	install_homebrew
+	clone_dotfiles
+	create_symlinks
+	install_packages
+	install_fish_tools
+	set_fish_shell
+	setup_ssh_key
+	log_success "Dotfiles installation completed!"
+	log_end "Initializing Fish shell ($FISH_PATH)..."
+
+	exec "$FISH_PATH"
+}
+
+show_help() {
+	echo -e "${BOLD:-}dot${RESET:-} - personal dotfiles manager (macOS + Linux)"
+	echo
+	echo "USAGE"
+	echo "    dot [COMMAND]"
+	echo
+	echo "COMMANDS"
+	echo "    init [--skip-ssh]     Full setup: backup, Homebrew, clone, symlinks, packages, fish shell"
+	echo "    symlinks              Link/relink configs only"
+	echo "    packages              Install Brewfile packages only"
+	echo "    update                Pull dotfiles, re-link, brew update/upgrade + bundle"
+	echo "    check-packages        Report installed vs missing Brewfile packages"
+	echo "    doctor                Health check for tools, symlinks, and shell"
+	echo "    gen-ssh-key [email]   Generate an ed25519 key for GitHub/GitLab"
+	echo "    completions [dir]     Generate Fish completions (default: fish/completions in this repo)"
+	echo "    link                  Install the dot command on PATH (symlink into a bin dir)"
+	echo "    unlink                Remove the dot symlink from PATH"
+	echo "    revert                Restore the most recent backup and remove symlinks"
+	echo "    help                  Show this help"
+	echo
+	echo "LEGACY FLAGS"
+	echo "    -p, --packages-only   Same as: dot packages"
+	echo "    -s, --symlinks-only   Same as: dot symlinks"
+	echo "    -r, --revert          Same as: dot revert"
+	echo
+	echo "Run dot with no arguments for the interactive menu."
+}
+
 show_logo() {
 	clear
 	echo -e "
@@ -492,9 +856,8 @@ show_logo() {
 |
 /  This script will install and configure development tools and dotfiles"
 	echo -e "\033[1;33m-\033[0m  It will backup existing configs and install: Homebrew, Fish shell, and more"
-	echo -e "\\  Usage: install.sh [--packages-only | -p] for packages only"
-	echo -e "|         install.sh [--symlinks-only | -s] to link/relink dotfiles only"
-	echo -e "|         install.sh [--revert | -r] to revert to previous configuration"
+	echo -e "\\  Usage: dot init [--skip-ssh] for the full setup"
+	echo -e "|         dot help lists everything else (update, doctor, check-packages, ...)"
 	echo -e "/  "
 
 	while true; do
@@ -654,35 +1017,68 @@ revert_installation() {
 }
 
 main() {
-	if [[ "$1" == "--packages-only" || "$1" == "-p" ]]; then
-		packages_only
-		return
-	fi
-
-	if [[ "$1" == "--symlinks-only" || "$1" == "-s" ]]; then
+	case "${1:-}" in
+	"")
+		show_logo
+		full_install
+		;;
+	init)
+		shift
+		SKIP_SSH=false
+		for arg in "$@"; do
+			case "$arg" in
+			--skip-ssh) SKIP_SSH=true ;;
+			-h | --help) show_help; return ;;
+			*)
+				log_error "Unknown option for init: $arg"
+				show_help
+				exit 1
+				;;
+			esac
+		done
+		full_install
+		;;
+	-s | --symlinks-only | symlinks)
 		symlinks_only
-		return
-	fi
-
-	if [[ "$1" == "--revert" || "$1" == "-r" ]]; then
+		;;
+	-p | --packages-only | packages)
+		packages_only
+		;;
+	-r | --revert | revert)
 		revert_installation
-		return
-	fi
-
-	show_logo
-	log_start "Starting dotfiles installation..."
-	detect_system
-	backup_configs
-	install_homebrew
-	clone_dotfiles
-	create_symlinks
-	install_packages
-	install_fish_tools
-	set_fish_shell
-	log_success "Dotfiles installation completed!"
-	log_end "Initializing Fish shell ($FISH_PATH)..."
-
-	exec "$FISH_PATH"
+		;;
+	update)
+		cmd_update
+		;;
+	check-packages)
+		check_packages
+		;;
+	doctor)
+		cmd_doctor
+		;;
+	gen-ssh-key)
+		shift
+		cmd_gen_ssh_key "$@"
+		;;
+	completions)
+		shift
+		cmd_completions "$@"
+		;;
+	link)
+		cmd_link
+		;;
+	unlink)
+		cmd_unlink
+		;;
+	-h | --help | help)
+		show_help
+		;;
+	*)
+		log_error "Unknown command: $1"
+		show_help
+		exit 1
+		;;
+	esac
 }
 
 main "$@"

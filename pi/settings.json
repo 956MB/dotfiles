@@ -23,8 +23,8 @@
     "git:github.com/956MB/pi-token-speed@feat/label-unit-text",
     "npm:pi-rewind",
     "npm:@howaboua/pi-codex-conversion",
-    "npm:deepseek-peak-pricing-hours",
-    "npm:@juicesharp/rpiv-todo"
+    "npm:@juicesharp/rpiv-todo",
+    "git:github.com/earendil-works/pi-review"
   ],
   "hideThinkingBlock": false,
   "enableInstallTelemetry": false,
