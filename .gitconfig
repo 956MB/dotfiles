@@ -35,11 +35,17 @@
 [gpg "ssh"]
 	allowedSignersFile = ~/.config/git/allowed_signers
 
-# Delta diff pager syntax theme (greyscale = koda-dark colors, see themes/GREYSCALE.md).
-# Diff background washes: DEEP matte-black green/red (user preference — deeper than koda blends).
+# Delta diff pager syntax theme — appearance driven since 2026-09 (see themes/GREYSCALE.md).
+# [delta] activates the dark half ("greyscale" feature); fish/functions/appearance_sync.fish exports
+# DELTA_FEATURES=greyscale-light in light mode, and delta applies environment features AFTER the
+# configured ones, so the light half wins. Each half owns its syntax theme AND its diff washes,
+# because the washes are per-appearance (dark: deep matte-black, light: pale tints).
 # NOTE: delta 0.18.x reads config ONLY from git config, not ~/.config/delta/delta.toml.
-# koda-blend washes (replaced 2026-09-08): plus "#283627"/emph "#3f5c3e", minus "#402424"/emph "#703939"
+# (koda-blend washes replaced 2026-09-08: plus "#283627"/emph "#3f5c3e", minus "#402424"/emph "#703939")
 [delta]
+	features = greyscale
+[delta "greyscale"]
+	# dark half — koda-dark syntax (delta/themes/greyscale.tmTheme), deep matte-black washes
 	syntax-theme = greyscale
 	plus-style = syntax "#0D221B"
 	plus-non-emph-style = syntax "#0D221B"
@@ -47,3 +53,15 @@
 	minus-style = normal "#261010"
 	minus-non-emph-style = normal "#261010"
 	minus-emph-style = normal "#4A1414"
+[delta "greyscale-light"]
+	# light half — koda-light syntax (delta/themes/greyscale-light.tmTheme) on white, pale washes.
+	# "light" is also inferred from the theme name; setting it keeps delta's own chrome (file/hunk
+	# headers, line numbers) on its light defaults.
+	light = true
+	syntax-theme = greyscale-light
+	plus-style = syntax "#DCF0D9"
+	plus-non-emph-style = syntax "#DCF0D9"
+	plus-emph-style = syntax "#B4E3AC"
+	minus-style = normal "#FFE4E0"
+	minus-non-emph-style = normal "#FFE4E0"
+	minus-emph-style = normal "#FFC9C2"

@@ -128,33 +128,11 @@
 # palette = 14=#FFFFFF
 # palette = 15=#FFFFFF
 
-# Greyscale Moshi (full koda-dark ANSI table) — verbatim ANSI from moshi/greyscale-theme.json
-# ("Greyscale (Koda Dark)", koda-dark terminal mapping per themes/GREYSCALE.md): yellow/blue/cyan
-# slots are white/greys, red/green/magenta carry koda accents, brights full koda chromatic set.
-# Surfaces match moshi: bg #101010, fg #b0b0b0, selection #272727. Switch back by uncommenting
-# the Greyscale Tinted block above.
-palette = 0=#101010
-palette = 1=#ff7676
-palette = 2=#a3d6a3
-palette = 3=#ffffff
-palette = 4=#b3b3b3
-palette = 5=#f4b8e4
-palette = 6=#fafafa
-palette = 7=#a5a5a5
-palette = 8=#505050
-palette = 9=#ff5733
-palette = 10=#86cd82
-palette = 11=#d9ba73
-palette = 12=#ffffff
-palette = 13=#f2a4db
-palette = 14=#5abfb5
-palette = 15=#b5b5b5
-background = #101010
-foreground = #bbbbbb
-cursor-color = #b0b0b0
-cursor-text = #101010
-selection-background = #272727
-selection-foreground = #b0b0b0
+# Theme (greyscale moshi, light + dark) — colors live in themes/greyscale-moshi-{dark,light}
+# so ghostty can follow the OS appearance. Both halves must be set for the pair to work;
+# see themes/GREYSCALE.md. Any palette/background/foreground line in THIS file overrides the
+# theme, so keep colors in the theme files only.
+theme = dark:greyscale-moshi-dark,light:greyscale-moshi-light
 
 # neutral:
 # background = #181818
@@ -167,7 +145,7 @@ background-opacity = 0.965
 background-blur-radius = 50
 cursor-style = block
 unfocused-split-opacity = 1
-split-divider-color = #252525
+# split-divider-color is per appearance — see ghostty/themes/greyscale-moshi-*
 # Icon
 macos-icon = custom
 macos-custom-icon = ~/dotfiles/.github/ghostty-icon-2.png
@@ -215,15 +193,11 @@ font-family = Menlo Bold
 # custom-shader = ./shaders/bloom.glsl
 # custom-shader = ./shaders/glitchy.glsl
 
-#  delta git diff pager in lazygit  uses these palette colors for it's
-#  add/remove background color, and for some reason the 'palette = 235'
-#  by default is gray. so I changed it to green to fix it.
-#  (not exactly the VSCode green but I think it's better.)
-palette = 52=#411F1D
-palette = 235=#17351E
-# Other greens I don't want to use but would work
-# palette = 235=#1E3319
-# palette = 235=#47552A
+#  delta git diff pager in lazygit uses 256-color slots 52/235 for its add/remove
+#  background color, and the 'palette = 235' default is gray. Set to green in the
+#  theme files (per appearance), since colors here would override the theme:
+#   dark  → ghostty/themes/greyscale-moshi-dark   (52=#411F1D, 235=#17351E)
+#   light → ghostty/themes/greyscale-moshi-light  (52=#ffe4e0, 235=#dcf0d9)
 
 # Keybindings
 # NOTE: Re bind goto_split so we can use left/right arrows

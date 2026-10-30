@@ -13,6 +13,7 @@ tap "tw93/tap"
 tap "AlexsJones/llmfit"
 tap "xcodesorg/made"
 tap "dmmulroy"
+tap "anomalyco"
 
 # Cross-platform packages (work on both macOS and Linux)
 brew "rtk"
@@ -192,6 +193,8 @@ brew "just"
 brew "jj"
 brew "jjui"
 brew "dmmulroy/tap/jj-starship"
+brew "libheif"
+brew "anomalyco/tap/opencode-v2"
 
 # macOS-specific
 cask "abue-ammar/tinycast/tinycast@beta" if OS.mac?

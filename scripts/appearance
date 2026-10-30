@@ -1,0 +1,32 @@
+#!/bin/sh
+# Prints the OS light/dark appearance: "light" or "dark".
+#
+# macOS:  the AppleInterfaceStyle global default is absent in light mode, so `defaults` exits
+#         non-zero there and "dark" is the only value it ever prints.
+# Linux:  GNOME/GTK color-scheme is prefer-dark | prefer-light | default; anything other than an
+#         explicit prefer-light (or an unavailable gsettings) reports dark, matching the repo's
+#         dark-first default.
+#
+# Used by fish/functions/appearance_sync.fish to keep BAT_THEME, DELTA_FEATURES and
+# LG_CONFIG_FILE in sync with the OS appearance. Costs one short subprocess (~6ms), so callers
+# are expected to cache the result.
+
+main() {
+    case "$(uname -s)" in
+        Darwin)
+            if defaults read -g AppleInterfaceStyle 2>/dev/null | grep -qi dark; then
+                echo dark
+            else
+                echo light
+            fi
+            ;;
+        *)
+            case "$(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)" in
+                *prefer-light*) echo light ;;
+                *) echo dark ;;
+            esac
+            ;;
+    esac
+}
+
+main "$@"

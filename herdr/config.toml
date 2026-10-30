@@ -7,9 +7,16 @@ allow_nested = true
 kitty_graphics = true
 
 [theme]
-auto_switch = false
+# Follow the host terminal's light/dark appearance (ghostty reports it). The base names
+# supply the tokens not overridden below; the dark half keeps the previous catppuccin base
+# so its look is unchanged. See themes/GREYSCALE.md → "herdr light block".
+auto_switch = true
+dark_name = "catppuccin"
+light_name = "catppuccin-latte"
 
 [theme.custom]
+# Shared values — applied in BOTH appearances, so anything appearance-specific belongs in
+# [theme.custom.light] / [theme.custom.dark] (those win over this block).
 # kanso (previous theme — commented out, switch back by uncommenting):
 panel_bg    = "#111111"
 surface0    = "#151515"
@@ -46,6 +53,31 @@ red         = "#DC2626"      # crimson
 blue        = "#3B82F6"      # blue
 teal        = "#86cd82"      # teal
 peach       = "#D97706"      # amber
+
+[theme.custom.light]
+# Light half — every MAIN background is pure white (repo rule: only diff boxes and selection
+# highlights get a tint), accents are the koda-light family, all label colors ≥ 4.5:1 on white
+# (contrast numbers in themes/GREYSCALE.md). Dark keeps the base values for
+# sidebar_bg/selection_bg, which is why they only appear here.
+panel_bg      = "#ffffff"
+sidebar_bg    = "#ffffff"      # main background — white, not recessed chrome
+surface0      = "#ffffff"      # panes / tab bar
+surface1      = "#ffffff"
+surface_dim   = "#ffffff"
+active_row_bg = "#ebebeb"      # selected tab/workspace — the one tinted surface (koda-light line)
+selection_bg  = "#e4e3de"      # navigate-mode cursor row — selection, not background
+overlay0      = "#727272"      # 4.8:1
+overlay1      = "#5c5c5c"      # 6.7:1
+text          = "#151515"      # 18.3:1
+subtext0      = "#727272"
+accent        = "#151515"      # mirrors dark accent = text
+mauve         = "#ca0043"      # 5.9:1 (koda-light danger)
+green         = "#407f00"      # 4.9:1 (koda-light success)
+yellow        = "#8a5f00"      # 5.7:1 (koda-light const darkened to stay readable)
+red           = "#b91c1c"      # 6.5:1 (matte-black crimson)
+blue          = "#0253be"      # 7.0:1 (koda-light info)
+teal          = "#007d7d"      # 5.0:1 (koda-light cyan)
+peach         = "#c2410c"      # 5.2:1 (koda-light orange darkened)
 
 [terminal]
 default_shell = "fish"
@@ -180,3 +212,7 @@ type = "plugin_action"
 command = "herdr-floax.toggle"
 description = "Toggle floating pane"
 
+[[keys.command]]
+key = "cmd+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"   # <plugin_id>.<action_id> — note the id, not the name

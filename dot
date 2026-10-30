@@ -157,7 +157,7 @@ backup_configs() {
 	BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 	mkdir -p "$BACKUP_DIR"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "rex" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -e "$HOME/.config/$config" ]]; then
@@ -298,7 +298,7 @@ create_symlinks() {
 	log "Creating symlinks..."
 	mkdir -p "$HOME/.config"
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "rex" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ ! -d "$HOME/dotfiles/$config" ]]; then
@@ -586,7 +586,7 @@ cmd_doctor() {
 	done
 
 	log "Checking config symlinks..."
-	local configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "opencode")
+	local configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "rex" "yazi" "zed" "zellij" "opencode")
 	for config in "${configs[@]}"; do
 		local dest="$HOME/.config/$config"
 		if [[ -L "$dest" && "$(readlink "$dest")" == "$HOME/dotfiles"* ]]; then
@@ -941,7 +941,7 @@ revert_installation() {
 
 	log "Removing dotfile symlinks..."
 
-	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "yazi" "zed" "zellij" "starship.toml" "opencode")
+	configs=("bat" "btop" "delta" "fish" "ghostty" "herdr" "nvim" "rex" "yazi" "zed" "zellij" "starship.toml" "opencode")
 
 	for config in "${configs[@]}"; do
 		if [[ -L "$HOME/.config/$config" ]]; then

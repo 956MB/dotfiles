@@ -4,75 +4,6 @@ experimental_log_batching_enabled = false
 [bookmark]
 interactive_bookmark_pane = true
 
-[keys]
-  up = ["up", "k"]
-  down = ["down", "j"]
-  jump_to_parent = ["J"]
-  jump_to_working_copy = ["@"]
-  apply = ["enter"]
-  cancel = ["esc"]
-  toggle_select = [" "]
-  new = ["n"]
-  commit = ["c"]
-  refresh = ["ctrl+r"]
-  abandon = ["a"]
-  diff = ["d"]
-  quit = ["q"]
-  help = ["?"]
-  describe = ["D"]
-  edit = ["e"]
-  diffedit = ["E"]
-  absorb = ["A"]
-  split = ["s"]
-  squash = ["S"]
-  undo = ["u"]
-  evolog = ["v"]
-  revset = ["L"]
-  quick_search = ["/"]
-  quick_search_cycle = ["'"]
-  custom_commands = ["x"]
-  suspend = ["ctrl+z"]
-  [keys.rebase]
-    mode = ["r"]
-    revision = ["r"]
-    source = ["s"]
-    branch = ["B"]
-    after = ["a"]
-    before = ["b"]
-    onto = ["d"]
-    insert = ["i"]
-  [keys.details]
-    mode = ["l"]
-    close = ["h"]
-    split = ["s"]
-    restore = ["r"]
-    diff = ["d"]
-    select = ["m", " "]
-    revisions_changing_file = ["*"]
-  [keys.preview]
-    mode = ["p"]
-    scroll_up = ["ctrl+p"]
-    scroll_down = ["ctrl+d"]
-    half_page_down = ["ctrl+pgdown"]
-    half_page_up = ["ctrl+pgup"]
-    expand = ["ctrl+j"]
-    shrink = ["ctrl+k"]
-  [keys.bookmark]
-    mode = ["b"]
-    set = ["B"]
-    delete = ["d"]
-    move = ["m"]
-    forget = ["f"]
-    track = ["t"]
-    untrack = ["u"]
-  [keys.git]
-    mode = ["g"]
-    push = ["p"]
-    fetch = ["f"]
-  [keys.oplog]
-    mode = ["o"]
-    restore = ["r"]
-
 [ui]
   theme = "greyscale-koda"
   highlight_dark = "#272727" # koda-dark selection surface (ghostty selection-background)
@@ -91,7 +22,47 @@ interactive_bookmark_pane = true
 [revisions]
   revset = "all()"
 
-[custom_commands]
+# Key bindings — migrated from the legacy [keys] section (jjui v0.10).
+# Everything that matched v0.10 defaults was dropped; only these differ:
+#   rebase "onto" = d      (default moved onto to "o")
+#   preview scroll/half-page/expand/shrink keys (v0.10 changed them to
+#   ctrl+n / ctrl+d / ctrl+u / ctrl+h / ctrl+l — the old keys are re-bound below)
+[[bindings]]
+action = "revisions.rebase.set_target"
+key = "d"
+scope = "revisions.rebase"
+args.target = "onto"
+desc = "rebase onto selected"
+
+[[bindings]]
+action = "ui.preview_scroll_down"
+key = "ctrl+d"
+scope = "ui.preview"
+desc = "preview scroll down"
+
+[[bindings]]
+action = "ui.preview_half_page_down"
+key = "ctrl+pgdown"
+scope = "ui.preview"
+desc = "preview half page down"
+
+[[bindings]]
+action = "ui.preview_half_page_up"
+key = "ctrl+pgup"
+scope = "ui.preview"
+desc = "preview half page up"
+
+[[bindings]]
+action = "ui.preview_expand"
+key = "ctrl+j"
+scope = "ui.preview"
+desc = "preview expand"
+
+[[bindings]]
+action = "ui.preview_shrink"
+key = "ctrl+k"
+scope = "ui.preview"
+desc = "preview shrink"
 
 # Push to every remote the current repo has (github, codeberg, gitlab,
 # sourcehut, tangled here) — replaces lazygit's <c-p> `_all_` custom command.

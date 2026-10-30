@@ -165,7 +165,7 @@ map('n', '<leader>ff', function() Snacks.picker.files({ hidden = true }) end, { 
 map('n', '<leader>fw', function() Snacks.picker.grep({ hidden = true }) end, { desc = 'live grep' })
 map('x', '<leader>fw', function() Snacks.picker.grep_word() end, { desc = 'grep selection' })
 map('n', '<leader>fi', function() Snacks.picker.icons() end, { desc = 'icons' })
-map('n', '<leader>hl', '<cmd>Telescope highlights<CR>', { desc = 'show highlights' })
+map('n', '<leader>hl', function() Snacks.picker.highlights() end, { desc = 'show highlights' })
 -- stylua: ignore end
 
 -- VeryLazy: setup debug globals and toggles after startup

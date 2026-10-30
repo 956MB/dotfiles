@@ -23,7 +23,7 @@ local opt = vim.opt
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
-opt.background = 'dark'
+opt.background = 'dark' -- startup default; config/appearance.lua corrects it to match the OS
 opt.termguicolors = true
 vim.wo.spell = false
 

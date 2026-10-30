@@ -7,6 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+    "diff_view_style": "unified",
     "cli_default_open_behavior": "existing_window",
     "edit_predictions": {
         "allow_data_collection": "no"
@@ -94,7 +95,7 @@
     "theme": {
         "mode": "system",
         "light": "VSCode Light+",
-        "dark": "Greyscale (Koda Dark)",
+        "dark": "Kanso Ink (neutral+saturate) v3",
     },
     "buffer_font_size": 13,
     // "ui_font_family": "Menlo",

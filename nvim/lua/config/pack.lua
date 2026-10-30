@@ -34,10 +34,16 @@ vim.api.nvim_create_autocmd('PackChanged', {
             ensure_loaded()
             vim.cmd 'TSUpdate'
         end
-        if name == 'telescope-fzf-native.nvim' then
+        -- if name == 'telescope-fzf-native.nvim' then
+        --     ensure_loaded()
+        --     local path = vim.fn.stdpath 'data' .. '/site/pack/core/opt/telescope-fzf-native.nvim'
+        --     vim.fn.system { 'make', '-C', path }
+        -- end
+        -- fff ships a Rust binary: download the prebuilt one, or build from source.
+        -- Mirrors the install hook from the fff README's vim.pack recipe.
+        if name == 'fff' and (ev.data.kind == 'install' or ev.data.kind == 'update') then
             ensure_loaded()
-            local path = vim.fn.stdpath 'data' .. '/site/pack/core/opt/telescope-fzf-native.nvim'
-            vim.fn.system { 'make', '-C', path }
+            require('fff.download').download_or_build_binary()
         end
         if name == 'markdown-preview.nvim' then
             ensure_loaded()
@@ -58,6 +64,9 @@ vim.pack.add {
 
     -- Snacks (early, many things depend on it)
     'https://github.com/folke/snacks.nvim',
+
+    -- Theme picker (no external deps, self-contained floating window)
+    'https://github.com/zaldih/themery.nvim',
 
     -- Completion & LSP deps (listed before dependents)
     'https://github.com/kevinhwang91/promise-async',
@@ -84,10 +93,10 @@ vim.pack.add {
 
     'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 
-    -- Telescope deps
-    'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
-    'https://github.com/nvim-telescope/telescope-ui-select.nvim',
-    'https://github.com/nvim-telescope/telescope-file-browser.nvim',
+    -- Telescope deps (disabled: fff.nvim replaces telescope, see plugins/fff.lua)
+    -- 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
+    -- 'https://github.com/nvim-telescope/telescope-ui-select.nvim',
+    -- 'https://github.com/nvim-telescope/telescope-file-browser.nvim',
 
     -- Plugins
     'https://github.com/tpope/vim-sleuth',
@@ -110,7 +119,9 @@ vim.pack.add {
     'https://github.com/rachartier/tiny-code-action.nvim',
     'https://github.com/cameron-wags/rainbow_csv.nvim',
     'https://github.com/nvim-treesitter/nvim-treesitter',
-    'https://github.com/nvim-telescope/telescope.nvim',
+    -- File finder (replaces telescope.nvim, see plugins/fff.lua)
+    'https://github.com/dmtrKovalenko/fff',
+    -- 'https://github.com/nvim-telescope/telescope.nvim',
     'https://github.com/rcarriga/nvim-notify',
     'https://github.com/MunifTanjim/nui.nvim',
     'https://github.com/folke/noice.nvim',
@@ -138,7 +149,7 @@ vim.pack.add {
     'https://github.com/dundalek/bloat.nvim',
     'https://github.com/stevearc/quicker.nvim',
 
-    -- Colorscheme: koda-dark (koda.nvim submodule in custom/). Loaded in plugins/colorscheme.lua.
+    -- Colorscheme: kanso (kanso.nvim submodule in custom/). Loaded in plugins/colorscheme.lua.
 }
 
 if vim.g.neovide then
@@ -151,7 +162,8 @@ require 'plugins.snacks'
 require 'plugins.coding'
 require 'plugins.editor'
 require 'plugins.lsp'
-require 'plugins.telescope'
+-- require 'plugins.telescope' -- disabled: fff.nvim replaces it (see plugins/fff.lua)
+require 'plugins.fff'
 require 'plugins.ui'
 require 'plugins.tree'
 require 'plugins.custom'

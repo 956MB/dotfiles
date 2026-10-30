@@ -48,7 +48,9 @@ named-color prompt element (username/golang "blue", directory "purple", characte
 blue/red. Reverted to the authentic warm repo palette. The git segment keeps red/blue/green
 via **truecolor escapes** in `starship/starship.toml` `[custom.git_changes]`
 (`\033[1;38;2;r;g;bm` — palette-independent): red `#DC2626` deleted, blue `#3B82F6` modified,
-green `#059669` added/untracked, yellow `#FBBF24` staged.
+green `#059669` added/untracked, yellow `#FBBF24` staged. **Superseded 2026-09:** starship now uses
+ANSI slot names so the prompt follows light/dark (see [GREYSCALE.md](GREYSCALE.md#lightdark-wiring));
+the matte-black escapes are history, not the active config.
 
 `0=#333333 1=#D35F5F 2=#FFC107 3=#B91C1C 4=#E68E0D 5=#D35F5F 6=#BEBEBE 7=#BEBEBE`
 `8=#8A8A8D 9=#B91C1C 10=#FFC107 11=#B90A0A 12=#F59E0B 13=#B91C1C 14=#EAEAEA 15=#FFFFFF`
@@ -60,8 +62,8 @@ herdr-derived slots (v2, commented in `ghostty/config` for reference):
 ## Semantic mapping (matte-black)
 
 The matteblack.nvim treesitter mapping is canonical. Ghostty, zellij kdl and zed `terminal.ansi`
-all use the warm repo slots above; the git segment's red/blue/green is truecolor (starship
-`custom.git_changes`), independent of the terminal palette. Editors/UI tools use the nvim mapping.
+all use the warm repo slots above; the git segment's red/blue/green was truecolor (starship
+`custom.git_changes`) — superseded 2026-09 by ANSI slots, so starship is no longer palette-independent. Editors/UI tools use the nvim mapping.
 
 | Role | Color | Notes |
 |---|---|---|
@@ -98,30 +100,32 @@ all use the warm repo slots above; the git segment's red/blue/green is truecolor
 
 | Tool | File(s) | Active switch |
 |---|---|---|
-| nvim | `tahayvr/matteblack.nvim` via `vim.pack` (spec in `nvim/lua/config/pack.lua`; lockfile `nvim/nvim-pack-lock.json`) | `nvim/lua/plugins/colorscheme.lua`: `colorscheme matteblack` |
-| ghostty | palette block in `ghostty/config` (ANSI = warm repo palette, git colors via starship truecolor escapes) | `background = #121212`, fg `#bebebe`, cursor `#eaeaea`, selection `#333333` |
+| nvim | `tahayvr/matteblack.nvim` via `vim.pack` (spec in `nvim/lua/config/pack.lua`; lockfile `nvim/nvim-pack-lock.json`) | picked through themery (`:Themery` → matteblack); the repo default is the appearance pair in `nvim/lua/config/appearance.lua` (dark `kanso` / light `koda-light`) |
+| ghostty | `ghostty/config` (ANSI = warm repo palette, git colors via starship truecolor escapes) | `background = #121212`, fg `#bebebe`, cursor `#eaeaea`, selection `#333333` — these lines are now commented history; the active colors live in `ghostty/themes/greyscale-moshi-{dark,light}` |
 | btop | `btop/themes/matte-black.theme` | `btop.conf`: `color_theme = "…/matte-black.theme"` |
-| pi | `pi/themes/matte-black.json` (live dir `~/.pi/agent/themes` → `dotfiles/pi/themes`) | `pi/settings.json`: `"theme": "matte-black"` |
+| pi | `pi/themes/matte-black.json` (live dir `~/.pi/agent/themes` → `dotfiles/pi/themes`) | `pi/settings.json`: `"theme": "matte-black"` — single theme, pins both appearances (the active setting is the pair `greyscale-light/greyscale`) |
 | opencode | `opencode/themes/matte-black.json` | `opencode/tui.json`: `"theme": "matte-black"` |
 | zed | `zed/themes/matte-black.json` | pick **Matte Black** in Theme selector |
 | zellij | `zellij/themes/matte-black.kdl` | `zellij/config.kdl`: `theme "matte-black"` |
-| delta | `delta/themes/matte-black.tmTheme` (syntax + markup washes) + `[delta]` section in `.gitconfig` — **delta 0.18.x reads config only from git config**; `delta/delta.toml` kept as reference but ignored | `syntax-theme = matte-black`; `plus-style`/`minus-style` wash colors (`#0D221B`/`#261010`, emph `#0E402F`/`#4A1414`) |
-| bat | `bat/themes/matte-black/matte-black.tmTheme` + `bat/config` `--theme="matte-black"` | ⚠️ run `bat cache --build` after adding/editing any tmTheme — **delta reads the same bat cache** (`~/Library/Caches/bat` / `~/.cache/bat/themes.bin`), so a stale cache hides new themes from both |
-| lazygit | `lazygit/MatteBlack.tmTheme` + `gui.theme` colors in `lazygit/config.yml` | matte-black values active; delta cmd `--syntax-theme "matte-black"` |
+| delta | `delta/themes/matte-black.tmTheme` (syntax + markup washes) + `[delta]` section in `.gitconfig` — **delta 0.18.x reads config only from git config**; `delta/delta.toml` kept as reference but ignored | `syntax-theme = matte-black` inside a `[delta "matte-black"]` feature — since 2026-09 `[delta]` only sets `features = …`, and fish `appearance_sync` can override the active feature with `DELTA_FEATURES`; see [GREYSCALE.md](GREYSCALE.md) → "delta light half" |
+| bat | `bat/themes/matte-black/matte-black.tmTheme` + `bat/config` `--theme="matte-black"` (only a fallback: fish `appearance_sync` exports `BAT_THEME`, which wins) | ⚠️ run `bat cache --build` after adding/editing any tmTheme — **delta reads the same bat cache** (`~/Library/Caches/bat` / `~/.cache/bat/themes.bin`), so a stale cache hides new themes from both |
+| lazygit | `lazygit/MatteBlack.tmTheme` + `gui.theme` colors in `lazygit/config.yml` (+ `lazygit/greyscale-light.yml` for the light half) | matte-black values in the active block; the delta pager deliberately passes no `--syntax-theme` (the inherited `BAT_THEME`/`DELTA_FEATURES` decide), so a matte-black switch sets those theme names in `fish/functions/appearance_sync.fish` |
 | yazi | `yazi/flavors/matte-black.yazi/` (flavor.toml on **yazi 26.x schema**: `[mgr]`/`[cmp]`/`[tabs]`, `url`/`mime` rules; dir icons tinted warm via `[icon] prepend_dirs`, dirs amber `#D97706`; **status bar + mode pill = matteblack.nvim lualine colors** (`overall #EAEAEA/#1A1A1A`, orange `#F59E0B` accent, mode normal orange/visual magenta/command yellow); tmtheme.xml synced to bat/delta incl. markup washes) | `yazi/theme.toml`: `dark = "matte-black"` |
 | hunk | `hunk/config.toml` (`[custom_theme]` matte-black base colors + full diff-color set: `addedBg`/`removedBg` washes, signs, badges, file states, notes; syntax via `[custom_theme.syntax_scopes]` — exact Shiki scopes ported from the bat/delta tmTheme, hunk 0.20.x schema) | `theme = "custom"` with matte-black values |
-| herdr | `herdr/config.toml` (`[theme.custom]` + `[ui] accent`): panel `#121212`, surfaces `#212121`/`#262626`, text `#EAEAEA`, accent `#F59E0B` | `[theme]` custom block |
-| starship | `starship/starship.toml` `[custom.git_changes]` truecolor escapes (palette-independent) | red `#DC2626` deleted, blue `#3B82F6` modified, green `#059669` added/untracked, yellow `#FBBF24` staged |
+| herdr | `herdr/config.toml` (`[theme.custom]` + `[ui] accent`): panel `#121212`, surfaces `#212121`/`#262626`, text `#EAEAEA`, accent `#F59E0B` | `[theme.custom]` (values commented in place); since 2026-09 `[theme] auto_switch = true` with `[theme.custom.light]` overrides — matte-black has no light half yet |
+| starship | `starship/starship.toml` — **not matte-black specific any more** | ANSI slots since 2026-09 (red 1 / bright-cyan 14 / purple 5 / bright-yellow 11 / white 7), so it follows the terminal palette; matte-black's truecolor escapes (red `#DC2626`, blue `#3B82F6`, green `#059669`, yellow `#FBBF24`) are replaced |
 | moshi | `moshi/matteblack-theme.json` | Moshi (iOS terminal) v1 custom theme: warm-repo ANSI on `#121212`, fg `#BEBEBE`, cursor `#EAEAEA`, selection `#333333` — Settings → Theme → Import theme → paste (see `moshi/README.md`) |
 
-12 tool ports + the starship truecolor git segment + the Moshi import are covered — nothing was
-skipped (the upstream matte-black-theme repo's unported files are macOS-irrelevant Wayland configs).
+12 tool ports + the Moshi import are covered — nothing was skipped (the upstream matte-black-theme
+repo's unported files are macOS-irrelevant Wayland configs). Starship is ANSI-slot based since
+2026-09, so it needs no per-theme port (its entry above records the retired escapes).
 
 ## Switching back to kanso
 
 Every kanso file and line is preserved (commented out in place, or intact on disk). Per-tool
 switch-back steps live in the kanso inventory table: [KANSO.md — Tool inventory](KANSO.md#tool-inventory).
-Short version: flip the active switch per tool (`colorscheme kanso`, ghostty palette block,
+Short version: flip the active switch per tool (nvim: the appearance pair in
+`nvim/lua/config/appearance.lua`; ghostty: the light/dark pair in `ghostty/themes/`;
 `color_theme = kanso.theme`, `"theme": "kanso"` in pi/opencode, zed selector, `theme "kanso"` in
 zellij, `[delta] syntax-theme = kanso`, bat config, lazygit `gui.theme`, yazi `dark = "kanso"`,
 hunk/herdr custom blocks). For moshi: re-import `moshi/kanso-theme.json` (Settings → Theme → Import theme).

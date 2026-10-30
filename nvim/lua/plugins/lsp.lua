@@ -128,7 +128,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
-        local builtin = require 'telescope.builtin'
+        -- local builtin = require 'telescope.builtin' -- disabled: fff.nvim replaces telescope
+        -- fff has no LSP jump pickers, so these stay on Snacks.picker (already a dependency).
+        local builtin = {
+            lsp_definitions = function()
+                Snacks.picker.lsp_definitions()
+            end,
+            lsp_references = function()
+                Snacks.picker.lsp_references()
+            end,
+            lsp_implementations = function()
+                Snacks.picker.lsp_implementations()
+            end,
+            lsp_type_definitions = function()
+                Snacks.picker.lsp_type_definitions()
+            end,
+            lsp_document_symbols = function()
+                Snacks.picker.lsp_symbols()
+            end,
+            lsp_dynamic_workspace_symbols = function()
+                Snacks.picker.lsp_workspace_symbols()
+            end,
+        }
 
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
         map('gd', builtin.lsp_definitions, '[G]oto [D]efinition')
@@ -340,6 +361,20 @@ require('mason-lspconfig').setup { ---@diagnostic disable-line: missing-fields
         end,
     },
 }
+
+-- [[ Native vim.lsp.config overrides ]]
+-- The `servers` table above goes through require('lspconfig').<name>.setup(), which is
+-- a no-op on Neovim 0.12 + nvim-lspconfig 2.x. Settings declared here merge over the
+-- config nvim-lspconfig ships in lsp/<name>.lua, so they are the ones clients receive.
+vim.lsp.config('lua_ls', {
+    settings = {
+        Lua = {
+            -- 'rex' is the global a Rex config file runs against (~/.config/rex/init.lua)
+            diagnostics = { globals = { 'vim', 'rex' } },
+        },
+    },
+})
+vim.lsp.enable 'lua_ls'
 
 -- [[ rainbow_csv ]]
 -- No setup needed; activates on csv/tsv filetypes automatically.

@@ -323,7 +323,9 @@ map('i', '<C-Z>', '<ESC>:undo<CR>a', 'Undo (Insert)')
 map('n', 'r', ':redo<CR>', 'Redo (Normal)')
 map('n', '<S-C-Z>', ':redo<CR>', 'Redo (Normal)')
 map('i', '<S-C-Z>', '<ESC>:redo<CR>', 'Redo (Insert)')
-map('n', '<leader>u', '<cmd>Telescope undo<cr>', 'Undo (Telescope)')
+-- Telescope removed (fff.nvim). fff and Snacks.picker have no undo picker;
+-- this key was already dead (`Telescope undo` is not a telescope command).
+-- map('n', '<leader>u', '<cmd>Telescope undo<cr>', 'Undo (Telescope)')
 
 -- Diagnostic keymaps
 map('n', '[d', function()

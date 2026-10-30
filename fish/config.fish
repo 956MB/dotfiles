@@ -81,6 +81,7 @@ end
 if test "$IS_MAC" = true
     test -d /usr/local/opt/coreutils/libexec/gnubin && fish_add_path /usr/local/opt/coreutils/libexec/gnubin
     test -d /opt/homebrew/opt/kleopatra/bin && fish_add_path /opt/homebrew/opt/kleopatra/bin
+    test -d "$HOME/Applications/Stars Hue Scheduler.app/Contents/MacOS" && fish_add_path "$HOME/Applications/Stars Hue Scheduler.app/Contents/MacOS"
 end
 
 # Load all aliases
@@ -136,3 +137,7 @@ end
 
 # uv
 fish_add_path "/Users/bays/.local/bin"
+
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<

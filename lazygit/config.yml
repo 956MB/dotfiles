@@ -125,7 +125,10 @@ git:
       # pager: hunk pager
       # previous: command: delta --syntax-theme "kanso"  --paging=never
       # previous (matte-black): command: delta --syntax-theme "matte-black" --paging=never
-      command: delta --syntax-theme "greyscale" --paging=never
+      # No --syntax-theme here on purpose: delta then uses BAT_THEME (which appearance_sync keeps in
+      # sync with the OS light/dark setting) and DELTA_FEATURES for the per-appearance diff washes.
+      # A CLI --syntax-theme would override both.
+      command: delta --paging=never
   commit:
     signOff: false
   merging:

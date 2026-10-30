@@ -1,0 +1,43 @@
+# Greyscale Moshi Light — light half of the Ghostty light/dark pair.
+# Selected by ghostty/config: theme = dark:greyscale-moshi-dark,light:greyscale-moshi-light
+#
+# Mirror of greyscale-moshi-dark: greys are the btop ramp inverted (v → 255-v), so the
+# ramp's "loud" end (white on dark) becomes its dark end (black on light) and the dim
+# slot 8 stays dim. Semantic accents swap to their koda-light counterparts, keeping the
+# same roles: red = danger, green = success, magenta = pink, bright yellow/orange/cyan
+# as in koda-light's own ghostty port (koda.nvim extras/ghostty/koda-light.conf).
+# Every main background is pure white (repo rule: only diff boxes and selection highlights get
+# a tint), including ANSI slot 0 — the background slot, exactly as slot 0 = #101010 is the
+# background in the dark half. Everything else comes from the koda-light family.
+# See themes/GREYSCALE.md → "Greyscale Moshi Light".
+
+palette = 0=#ffffff
+palette = 1=#ca0043
+palette = 2=#407f00
+palette = 3=#101010
+palette = 4=#4c4c4c
+palette = 5=#a200d1
+palette = 6=#050505
+palette = 7=#5a5a5a
+palette = 8=#afafaf
+palette = 9=#f54d27
+palette = 10=#019833
+palette = 11=#b07700
+palette = 12=#000000
+palette = 13=#c301fb
+palette = 14=#007d7d
+palette = 15=#4a4a4a
+
+background = #ffffff
+foreground = #3d3d3d
+cursor-color = #6a6a6a
+cursor-text = #ffffff
+selection-background = #ebebeb
+selection-foreground = #101010
+
+split-divider-color = #dedcd6
+
+# delta diff washes inside lazygit (256-color slots 52 = removed, 235 = added).
+# Light counterparts of the dark theme's #411F1D / #17351E washes.
+palette = 52=#ffe4e0
+palette = 235=#dcf0d9

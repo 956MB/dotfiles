@@ -11,6 +11,10 @@ import type { Plugin } from "@opencode-ai/plugin"
 // daemon's Unix socket (see resolveSocketPath) — no subprocess spawn.
 const helperBinary = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
 
+// Variables the daemon's mux drivers detect panes from; rendered by the
+// installer from internal/mux's registry.
+const muxEnvKeys: string[] = ["REX_BLOCK","REX_SERVER","REX_SESSION","TERN_PANE","TERN_PANE_SOCKET","TERN_WINDOW_KEY","TUIOS_ENV","TUIOS_PANE_ID","TUIOS_SESSION","TUIOS_SOCKET","TUIOS_WINDOW_ID"]
+
 // Mirrors internal/config.SocketPath. The MOSHI_SOCKET_PATH override wins
 // over the per-platform default so tests and dev daemons can point us at a
 // throwaway socket.
@@ -93,8 +97,8 @@ function sendEnvelope(
 
 function projectNameFromCwd(cwd: string | undefined): string {
   if (!cwd) return ""
-  const trimmed = cwd.replace(/\/+$/, "")
-  const idx = trimmed.lastIndexOf("/")
+  const trimmed = cwd.replace(/[\/\\]+$/, "")
+  const idx = Math.max(trimmed.lastIndexOf("/"), trimmed.lastIndexOf("\\"))
   return idx >= 0 ? trimmed.slice(idx + 1) : trimmed
 }
 
@@ -112,6 +116,7 @@ interface TerminalContext {
   herdrWorkspace: string
   herdrTabId: string
   herdrTab: string
+  muxEnv: Record<string, string>
 }
 
 function tmuxSocketFromEnv(value: string | undefined): string {
@@ -154,10 +159,17 @@ function resolveTerminalContext(): TerminalContext {
   if (tmuxSession) terminalKind = "tmux"
   else if (process.env.HERDR_ENV === "1") terminalKind = "herdr"
   else if (process.env.ZELLIJ || zellijSession || zellijPane) terminalKind = "zellij"
-  return { terminalKind, tmuxSession, tmuxWindow, tmuxPane, tmuxSocket, zellijSession, zellijPane, herdrSession, herdrPane, herdrWorkspaceId, herdrWorkspace, herdrTabId, herdrTab }
+  // Mux-driver panes (tern, TUIOS, …) are detected daemon-side from these
+  // variables (internal/mux), so a new driver needs no change here.
+  const muxEnv: Record<string, string> = {}
+  for (const key of muxEnvKeys) {
+    const value = process.env[key]
+    if (value) muxEnv[key] = value
+  }
+  return { terminalKind, tmuxSession, tmuxWindow, tmuxPane, tmuxSocket, zellijSession, zellijPane, herdrSession, herdrPane, herdrWorkspaceId, herdrWorkspace, herdrTabId, herdrTab, muxEnv }
 }
 
-const terminalContext = resolveTerminalContext()
+let terminalContext = resolveTerminalContext()
 
 function projectNameForCwd(cwd: string | undefined): string {
   return terminalContext.tmuxSession || terminalContext.herdrSession || terminalContext.zellijSession || projectNameFromCwd(cwd)
@@ -176,13 +188,18 @@ let modelLimitsReady: Promise<void> = Promise.resolve()
 // loopback relay that forwards the gateway's read-only requests through
 // that fetch. A real bound server (opencode --port / serve / web) reports
 // its actual URL, which we pass through untouched.
+//
+// Any local process can find the relay's port, so its URL carries a random
+// path token only the daemon learns, and every request is pinned to this
+// instance's own directory: OpenCode picks the project from ?directory= or
+// x-opencode-directory and loads that project's plugins.
 let moshiServerUrl = ""
 const OPENCODE_UNBOUND_SERVER_URL = "http://localhost:4096"
 
-function resolveMoshiServerUrl(sdk: unknown, given: unknown): string {
+function resolveMoshiServerUrl(sdk: unknown, given: unknown, directory: string): string {
   const base = (given ? String(given) : "").replace(/\/+$/, "")
   if (base && base !== OPENCODE_UNBOUND_SERVER_URL) return base
-  return startOpenCodeRelay(sdk)
+  return startOpenCodeRelay(sdk, directory)
 }
 
 function relayPathAllowed(pathname: string): boolean {
@@ -204,9 +221,10 @@ function inProcessFetchFromClient(sdk: unknown): ((req: Request) => Promise<Resp
   }
 }
 
-function startOpenCodeRelay(sdk: unknown): string {
+function startOpenCodeRelay(sdk: unknown, directory: string): string {
   const inner = inProcessFetchFromClient(sdk)
-  if (!inner) return ""
+  if (!inner || !directory) return ""
+  const prefix = "/" + crypto.randomUUID().replace(/-/g, "")
   try {
     const bun = (globalThis as Record<string, unknown>).Bun as
       | { serve?: (opts: unknown) => { port: number } }
@@ -219,14 +237,25 @@ function startOpenCodeRelay(sdk: unknown): string {
       idleTimeout: 0,
       fetch(req: Request): Promise<Response> | Response {
         const url = new URL(req.url)
-        if (req.method !== "GET" || !relayPathAllowed(url.pathname)) {
+        if (!url.pathname.startsWith(prefix + "/")) {
           return new Response("forbidden", { status: 403 })
         }
-        const target = new URL(url.pathname + url.search, OPENCODE_UNBOUND_SERVER_URL)
-        return inner(new Request(target.toString(), req))
+        const pathname = url.pathname.slice(prefix.length)
+        if (req.method !== "GET" || !relayPathAllowed(pathname)) {
+          return new Response("forbidden", { status: 403 })
+        }
+        const target = new URL(pathname + url.search, OPENCODE_UNBOUND_SERVER_URL)
+        target.searchParams.delete("directory")
+        target.searchParams.delete("workspace")
+        // OpenCode decodes the directory once more after parsing the query.
+        target.searchParams.set("directory", encodeURIComponent(directory))
+        const headers = new Headers(req.headers)
+        headers.delete("x-opencode-directory")
+        headers.delete("x-opencode-workspace")
+        return inner(new Request(target.toString(), { method: "GET", headers, signal: req.signal }))
       },
     })
-    return "http://127.0.0.1:" + relay.port
+    return "http://127.0.0.1:" + relay.port + prefix
   } catch {
     return ""
   }
@@ -468,6 +497,7 @@ function sendSessionUpdate(
       cwd: directory,
       projectName: projectNameForCwd(directory),
       terminalKind: terminalContext.terminalKind,
+      muxEnv: terminalContext.muxEnv,
       tmuxSession: terminalContext.tmuxSession,
       tmuxWindow: terminalContext.tmuxWindow,
       tmuxPane: terminalContext.tmuxPane,
@@ -503,6 +533,7 @@ function sendSessionClosed(eventName: string, sessionID: string | undefined, dir
         cwd: directory,
         projectName: projectNameForCwd(directory),
         terminalKind: terminalContext.terminalKind,
+        muxEnv: terminalContext.muxEnv,
         tmuxSession: terminalContext.tmuxSession,
         tmuxWindow: terminalContext.tmuxWindow,
         tmuxPane: terminalContext.tmuxPane,
@@ -689,9 +720,23 @@ function summarizeQuestion(props: Record<string, unknown>): string {
 }
 
 function sendTerminalInputRequired(eventName: string, props: Record<string, unknown>, directory: string, title: string, fallbackMessage: string): void {
+  sendAttentionUpdate(eventName, props, directory, "approval_required", title, "Answer in terminal", summarizeQuestion(props) || fallbackMessage)
+}
+
+// OpenCode's session.error carries { sessionID?, error?: { name, data: { message } } }.
+// An abort is the user pressing Esc, not a failure worth a push.
+function sendSessionError(props: Record<string, unknown>, directory: string): void {
+  const error = props.error && typeof props.error === "object" ? props.error as Record<string, unknown> : {}
+  const name = stringProp(error, "name")
+  if (name === "MessageAbortedError") return
+  const data = error.data && typeof error.data === "object" ? error.data as Record<string, unknown> : {}
+  const message = stringProp(data, "message") || stringProp(error, "message") || name || "OpenCode reported an error"
+  sendAttentionUpdate("session.error", props, directory, "error", "OpenCode error", "", message)
+}
+
+function sendAttentionUpdate(eventName: string, props: Record<string, unknown>, directory: string, category: string, title: string, subtitle: string, message: string): void {
   const cwd = directoryFromProperties(props, directory)
   const sessionID = sessionIDFromProperties(props)
-  const message = summarizeQuestion(props) || fallbackMessage
   void modelLimitsReady.finally(() => {
     void sendEnvelope(
       withContextRemaining({
@@ -699,10 +744,11 @@ function sendTerminalInputRequired(eventName: string, props: Record<string, unkn
         source: "opencode",
         sessionId: sessionID || newSessionID(),
         eventName,
-        category: "approval_required",
+        category,
         cwd,
         projectName: projectNameForCwd(cwd),
         terminalKind: terminalContext.terminalKind,
+        muxEnv: terminalContext.muxEnv,
         tmuxSession: terminalContext.tmuxSession,
         tmuxWindow: terminalContext.tmuxWindow,
         tmuxPane: terminalContext.tmuxPane,
@@ -716,7 +762,7 @@ function sendTerminalInputRequired(eventName: string, props: Record<string, unkn
         herdrTabId: terminalContext.herdrTabId,
         herdrTab: terminalContext.herdrTab,
         title,
-        subtitle: "Answer in terminal",
+        subtitle: subtitle || undefined,
         message,
         requestedAt: new Date().toISOString(),
       }, sessionID),
@@ -769,6 +815,7 @@ function requestMoshiApproval(
       cwd: directory,
       projectName: projectNameForCwd(directory),
       terminalKind: terminalContext.terminalKind,
+      muxEnv: terminalContext.muxEnv,
       tmuxSession: terminalContext.tmuxSession,
       tmuxWindow: terminalContext.tmuxWindow,
       tmuxPane: terminalContext.tmuxPane,
@@ -816,7 +863,7 @@ async function replyToOpenCodePermission(
 }
 
 const server: Plugin = async ({ directory, client, serverUrl }) => {
-  moshiServerUrl = resolveMoshiServerUrl(client, serverUrl)
+  moshiServerUrl = resolveMoshiServerUrl(client, serverUrl, directory)
   modelLimitsReady = refreshOpenCodeModelLimits(client as unknown as Record<string, unknown>, directory)
   return ({
   "chat.message": async (input, output) => {
@@ -828,7 +875,7 @@ const server: Plugin = async ({ directory, client, serverUrl }) => {
     const title = titleForPromptStart(input.sessionID, directory) || "OpenCode started"
     sendSessionUpdate("chat.message", input.sessionID, directory, undefined, "session_started", title, formatted)
   },
-  event: async ({ event }) => {
+  event: async ({ event }: { event: { type: string; properties?: unknown } }) => {
     const props = eventRecord(event)
     rememberSessionOrigin(props)
     switch (event.type) {
@@ -909,7 +956,7 @@ const server: Plugin = async ({ directory, client, serverUrl }) => {
         sendSessionUpdate(event.type, sessionIDFromProperties(props), directory)
         break
       case "session.error":
-        sendTerminalInputRequired("session.error", props, directory, "OpenCode blocked", "OpenCode reported an error")
+        sendSessionError(props, directory)
         break
       default:
         break
@@ -938,7 +985,209 @@ const server: Plugin = async ({ directory, client, serverUrl }) => {
   })
 }
 
-export default {
-  id: "moshi-hooks",
-  server,
+
+// OpenCode 2.0.5 uses a separate plugin and event API. Keep the V1 server
+// entrypoint above: both loaders accept this definition and select their API.
+import type { Plugin as PluginV2 } from "@opencode/plugin"
+
+async function setup(ctx: PluginV2.Context) {
+  // V1 also loads definitions in its registration-only V2 host.
+  if (!ctx.session || !ctx.event) return
+  // A serve process (the shared background service, or a server TUIs attach
+  // to) inherits the environment of whichever terminal started it, not of the
+  // TUIs showing its sessions. The TUI half (moshi-hooks-tui) binds panes.
+  if (process.argv.includes("serve")) {
+    terminalContext = { ...terminalContext, terminalKind: "", tmuxSession: "", tmuxWindow: "", tmuxPane: "", tmuxSocket: "", zellijSession: "", zellijPane: "", herdrSession: "", herdrPane: "", herdrWorkspaceId: "", herdrTabId: "", muxEnv: {} }
+  }
+  const directory = ctx.location.directory
+  const controller = new AbortController()
+  const streams = new Set<ReadableStreamDefaultController<Uint8Array>>()
+  const encoder = new TextEncoder()
+  const owned = new Set<string>()
+  const running = new Set<string>()
+  const pendingPermissions = new Map<string, string>()
+  const sequence = new Map<string, number>()
+
+  // Expose the existing Moshi transcript protocol using the public V2 API.
+  // The plugin API exposes session.context, not the client's message/export
+  // APIs. Every request re-reads native state; after compaction this is the
+  // context retained by OpenCode rather than the full archived history.
+  const relay = Bun.serve({
+    hostname: "127.0.0.1",
+    port: 0,
+    idleTimeout: 0,
+    async fetch(req: Request) {
+      const url = new URL(req.url)
+      if (req.method !== "GET") return new Response("forbidden", { status: 403 })
+      if (url.pathname === "/global/health") return Response.json({ healthy: true })
+      if (url.pathname === "/event") {
+        let subscriber: ReadableStreamDefaultController<Uint8Array>
+        return new Response(new ReadableStream<Uint8Array>({
+          start(stream) { subscriber = stream; streams.add(stream); stream.enqueue(encoder.encode(": connected\n\n")) },
+          cancel() { streams.delete(subscriber) },
+        }), { headers: { "Content-Type": "text/event-stream" } })
+      }
+      // Session info carries OpenCode's own generated (or renamed) title,
+      // which the daemon reads for the workspace tree.
+      const info = /^\/session\/([^/]+)$/.exec(url.pathname)
+      if (info) {
+        if (!owned.has(info[1])) return new Response("not found", { status: 404 })
+        const session = await ctx.session.get({ sessionID: info[1] }).catch(() => null)
+        return session ? Response.json({ id: info[1], title: session.title || "" }) : new Response("not found", { status: 404 })
+      }
+      const match = /^\/session\/([^/]+)\/message(?:\/([^/]+))?$/.exec(url.pathname)
+      if (!match || !owned.has(match[1])) return new Response("not found", { status: 404 })
+      try {
+        const messages = await ctx.session.context({ sessionID: match[1] })
+        const rows = messages.map((message) => openCodeV2Message(message, match[1])).filter(Boolean)
+        if (!match[2]) return Response.json(rows)
+        const row = rows.find((row) => row?.info.id === match[2])
+        return row ? Response.json(row) : new Response("not found", { status: 404 })
+      } catch {
+        return new Response("OpenCode transcript unavailable", { status: 502 })
+      }
+    },
+  })
+  moshiServerUrl = "http://127.0.0.1:" + relay.port
+
+  function publishChange(sessionID: string, messageID: string) {
+    if (!messageID) return
+    const data = encoder.encode("data: " + JSON.stringify({ type: "message.updated", properties: { sessionID, messageID } }) + "\n\n")
+    for (const stream of streams) {
+      try { stream.enqueue(data) } catch { streams.delete(stream) }
+    }
+  }
+
+  function finish(sessionID: string, eventName: string, title: string) {
+    for (const [id, owner] of pendingPermissions) {
+      if (owner === sessionID) pendingPermissions.delete(id)
+    }
+    if (!running.delete(sessionID)) return
+    sendSessionUpdate(eventName, sessionID, directory, undefined, "task_complete", title, lastUserPrompts.get(sessionID) || "")
+  }
+
+  async function consume() {
+    for await (const event of ctx.event.subscribe({ signal: controller.signal })) {
+      if (controller.signal.aborted) break
+      const data = event.data as Record<string, any>
+      const sessionID = data.sessionID
+      if (typeof sessionID !== "string") continue
+      // Subscribe is server-wide; a location plugin must not claim another
+      // project's sessions or let child sessions replace the pane owner.
+      if (!owned.has(sessionID)) {
+        const info = await ctx.session.get({ sessionID }).catch(() => null)
+        if (!info || info.parentID || info.location.directory !== directory) continue
+        owned.add(sessionID)
+      }
+      if ("durable" in event && event.durable) {
+        const previous = sequence.get(sessionID) ?? -1
+        if (event.durable.seq <= previous) continue
+        sequence.set(sessionID, event.durable.seq)
+      }
+      switch (event.type) {
+        case "session.created":
+          sendSessionUpdate(event.type, sessionID, directory, undefined, "", "OpenCode started")
+          break
+        // Prompt hooks run BEFORE admission and can fail or run twice. Only
+        // durable inbox admission is evidence that a real prompt was sent.
+        case "session.inbox.enqueued":
+          if (data.item.type === "user") {
+            const prompt = rememberUserPrompt(sessionID, directory, data.item.payload.text || "")
+            running.add(sessionID)
+            sendSessionUpdate("chat.message", sessionID, directory, undefined, "session_started", "OpenCode started", prompt)
+          }
+          break
+        case "session.execution.interrupted":
+          finish(sessionID, event.type, "OpenCode interrupted")
+          break
+        case "session.execution.succeeded":
+          finish(sessionID, event.type, "OpenCode complete")
+          break
+        case "session.execution.failed":
+          finish(sessionID, event.type, "OpenCode failed")
+          break
+        case "permission.asked": {
+          const requestID = data.id as string
+          pendingPermissions.set(requestID, sessionID)
+          // Do not await a human decision in the event reader: cancellation
+          // and terminal-side replies must continue to be processed.
+          void requestMoshiApproval({ ...data, permission: data.action, patterns: data.resources }, directory, event.type)?.then(async (result) => {
+            const reply = openCodeReplyForDecision(result?.decision)
+            if (reply && pendingPermissions.delete(requestID) && !controller.signal.aborted) {
+              await ctx.permission.reply({ sessionID, requestID, decision: reply })
+            }
+          }).catch(() => {})
+          break
+        }
+        // V2 asks questions through forms. The plugin API cannot answer
+        // them, so surface them like V1's question.asked: a terminal-input
+        // notice the phone answers through the pane.
+        case "form.created":
+          sendTerminalInputRequired(event.type, { ...data, question: formQuestionText(data) }, directory, "OpenCode needs input", "Input requested")
+          break
+        case "form.replied":
+        case "form.cancelled":
+          sendSessionUpdate(event.type, sessionID, directory)
+          break
+        case "permission.replied":
+          pendingPermissions.delete(data.requestID)
+          sendSessionUpdate(event.type, sessionID, directory)
+          break
+        case "session.deleted":
+          owned.delete(sessionID)
+          running.delete(sessionID)
+          sendSessionClosed(event.type, sessionID, directory)
+          break
+      }
+      publishChange(sessionID, data.assistantMessageID || data.messageID || data.inboxID || "")
+    }
+  }
+  void consume().catch((error) => {
+    if (!controller.signal.aborted) console.error("moshi-hooks: OpenCode event subscription failed", error)
+  })
+  return () => {
+    controller.abort()
+    for (const stream of streams) { try { stream.close() } catch {} }
+    streams.clear()
+    relay.stop(true)
+  }
 }
+
+// formQuestionText picks the human-facing prompt out of a V2 form: its first
+// field's title or description, else the form title.
+function formQuestionText(form: Record<string, any>): string {
+  const field = Array.isArray(form.fields) ? form.fields[0] : undefined
+  return (field?.title || field?.description || form.title || "").trim()
+}
+
+// Normalize V2 native messages at the plugin boundary so existing Moshi
+// clients retain their OpenCode text, reasoning, tool and attachment renderer.
+function openCodeV2Message(message: any, sessionID: string) {
+  const role = message.type
+  if (role !== "user" && role !== "assistant") return null
+  const parts: any[] = []
+  if (role === "user") {
+    if (message.text) parts.push({ type: "text", text: message.text })
+    for (const file of message.files || []) parts.push({ type: "file", mime: file.mime, filename: file.name, url: "data:" + file.mime + ";base64," + file.data })
+  } else {
+    for (const part of message.content || []) {
+      if (part.type !== "tool") { parts.push(part); continue }
+      const state = part.state
+      parts.push({
+        type: "tool", callID: part.id, tool: part.name,
+        state: { ...state, status: state.status === "streaming" ? "pending" : state.status,
+          output: (state.content || []).filter((item: any) => item.type === "text").map((item: any) => item.text).join("\n"),
+          attachments: (state.content || []).filter((item: any) => item.type === "file").map((item: any) => ({ type: "file", mime: item.mime, filename: item.name, url: item.uri })),
+          error: typeof state.error === "string" ? state.error : state.error ? JSON.stringify(state.error) : undefined,
+          time: part.time,
+        },
+      })
+    }
+  }
+  // Content lives in parts only: duplicating it in info bypasses the client's
+  // normal part redaction and doubles large tool results on the wire.
+  const { content, text, files, ...info } = message
+  return { info: { ...info, role, sessionID, modelID: message.model?.id, providerID: message.model?.providerID }, parts }
+}
+
+export default { id: "moshi-hooks", server, setup }

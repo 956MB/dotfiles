@@ -165,19 +165,19 @@ The table below describes the kanso files themselves (all still present).
 
 | Tool | File(s) | Variant | Wiring |
 |---|---|---|---|
-| nvim | `nvim/lua/plugins/custom/kanso.nvim/` | zen / ink / pearl | `colorscheme kanso` (fork default: ink), lualine theme included |
-| pi | `pi/themes/kanso.json` + `pi/settings.json` | ink | `"theme": "kanso"` |
+| nvim | `nvim/lua/plugins/custom/kanso.nvim/` | zen / ink / pearl | `colorscheme kanso` (fork default: ink), lualine theme included — since 2026-09 the dark slot of `nvim/lua/config/appearance.lua` (light slot is `koda-light`, see [GREYSCALE.md](GREYSCALE.md)) |
+| pi | `pi/themes/kanso.json` + `pi/settings.json` | ink | `"theme": "kanso"` — a single theme, so it pins both appearances. The active setting is a light/dark pair (`greyscale-light/greyscale`, see [GREYSCALE.md](GREYSCALE.md#lightdark-wiring)); kanso has no light half |
 | opencode | `opencode/themes/kanso.json` | ink | — |
 | zed | `zed/themes/kanso-neutral-saturate.json` | ink, neutral+saturate v3 | — |
-| ghostty | `ghostty/config` | ink (active), zenghost (commented) | `palette = 0=#090E13 ...` |
+| ghostty | `ghostty/config` | ink (active), zenghost (commented) | `palette = 0=#090E13 ...`; since 2026-09 the active colors live in `ghostty/themes/greyscale-moshi-{dark,light}`, with the kanso/zenghost palettes kept as commented history in `ghostty/config` |
 | zellij | `zellij/themes/kanso.kdl` (legacy), `zellij/themes/kanso-ink.kdl` | ink | — |
-| delta | `delta/themes/kanso.tmTheme` + `delta/delta.toml` | legacy tmTheme | `syntax-theme = "kanso"` |
-| bat | `bat/themes/kanso/kanso.tmTheme` | legacy tmTheme | — |
-| lazygit | `lazygit/Kanso.tmTheme` | legacy tmTheme (display name "Ink Theme") | — |
+| delta | `delta/themes/kanso.tmTheme` + `delta/delta.toml` | legacy tmTheme | `syntax-theme = "kanso"` — since 2026-09 that line lives in a feature block (`[delta "kanso"]`), because `[delta]` now only selects a feature; see [GREYSCALE.md](GREYSCALE.md) → "delta light half" |
+| bat | `bat/themes/kanso/kanso.tmTheme` | legacy tmTheme | `--theme="kanso"` would be the fallback, but `BAT_THEME` (set by fish `appearance_sync`) overrides it — kanso has no light half, so switching to it also means editing the theme names in `fish/functions/appearance_sync.fish` |
+| lazygit | `lazygit/Kanso.tmTheme` | legacy tmTheme (display name "Ink Theme") | active block in `lazygit/config.yml`; light mode is a second file (`lazygit/greyscale-light.yml`), so a switch must update both |
 | yazi | `yazi/flavors/kanso.yazi/` (flavor.toml + tmtheme.xml) | zenghost accent set on `#14171D` | — |
 | hunk | `hunk/config.toml` | custom: accent `#7ab0a8`, noteBorder `#7289b6`, legacy string color | `label = "kanso"` |
 | btop | `btop/themes/kanso.theme` | ink | — |
-| herdr | `herdr/config.toml` | `[theme.custom]` ink palette: panel `#111111`, surfaces `#151515`/`#1C1C1C`, text `#CDCDCD`, accent `#71a7c1`, mauve `#a784ab`, green `#83a765`, yellow `#d9af54`, red `#e03c30`, blue `#71a7c1`, teal `#7ab0a8`, peach `#cb7f4f`; `[ui] accent` `#71a7c1` | custom block (kanso values commented since 2026-08-30 — matte-black active) |
+| herdr | `herdr/config.toml` | `[theme.custom]` ink palette: panel `#111111`, surfaces `#151515`/`#1C1C1C`, text `#CDCDCD`, accent `#71a7c1`, mauve `#a784ab`, green `#83a765`, yellow `#d9af54`, red `#e03c30`, blue `#71a7c1`, teal `#7ab0a8`, peach `#cb7f4f`; `[ui] accent` `#71a7c1` | custom block (kanso values commented since 2026-08-30 — matte-black active). Since 2026-09 herdr is appearance-driven: `[theme] auto_switch = true` layers `[theme.custom.light]` over the shared block, and the kanso values are still in that shared block |
 | moshi | `moshi/kanso-theme.json` | ink ANSI 16 on zen0 `#111111`, fg `#CDCDCD`, cursor `#F2F2F2`, selection `#262626` | Moshi (iOS terminal) v1 custom theme: Settings → Theme → Import theme → paste (see `moshi/README.md`) |
 
 ## Known drift (read before unifying anything)

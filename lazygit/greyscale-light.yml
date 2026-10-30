@@ -1,0 +1,31 @@
+# Greyscale light — light half for lazygit's OWN UI (panels, borders, selections).
+# Diffs inside lazygit are rendered by delta, which switches through DELTA_FEATURES/BAT_THEME.
+#
+# Loaded as a second config file only in light mode (fish/functions/appearance_sync.fish sets
+# LG_CONFIG_FILE="…/lazygit/config.yml,…/lazygit/greyscale-light.yml"); dark mode uses the values
+# already in config.yml. Values are the koda-light counterparts of config.yml's koda-dark block
+# (see themes/GREYSCALE.md → "lazygit light half").
+gui:
+  theme:
+    activeBorderColor:
+      - '#b07700' # koda-light const (dark: #d9ba73)
+      - bold
+    inactiveBorderColor:
+      - '#666666' # koda-light keyword (dark: #777777)
+    optionsTextColor:
+      - '#0253be' # koda-light info (dark: #8ebeec)
+    selectedLineBgColor:
+      - '#ebebeb' # koda-light line, selection (dark: #272727)
+    cherryPickedCommitBgColor:
+      - '#ebebeb' # selection surface (dark: #272727)
+    cherryPickedCommitFgColor:
+      - '#a200d1' # koda-light pink (dark: #f2a4db)
+    unstagedChangesColor:
+      - '#ca0043' # koda-light danger (dark: #ff7676)
+    defaultFgColor:
+      - '#3d3d3d' # light body text (dark: #b0b0b0)
+    searchingActiveBorderColor:
+      - '#c2410c' # koda-light orange, darkened for white (dark: #ff5733)
+  authorColors:
+    # the base config paints authors #ffffff; on white that is invisible
+    '*': '#000000' # koda-light emphasis (dark: #ffffff)

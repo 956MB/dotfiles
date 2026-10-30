@@ -2,6 +2,10 @@
   "mcpServers": {
     "context-mode": {
       "command": "context-mode"
+    },
+    "superlogical": {
+      "url": "https://www.superlogical.com/rex/community-mcp",
+      "description": "Rex (Superlogical) documentation and Discord community content"
     }
   }
 }

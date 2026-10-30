@@ -1,0 +1,3 @@
+navigator_position = "left"
+toggle_direction = "down"
+editor = "nvim -g {file}:{line}"

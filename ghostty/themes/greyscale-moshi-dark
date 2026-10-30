@@ -1,0 +1,43 @@
+# Greyscale Moshi — dark half of the Ghostty light/dark pair.
+# Selected by ghostty/config: theme = dark:greyscale-moshi-dark,light:greyscale-moshi-light
+#
+# ANSI 16 = full koda-dark terminal mapping (verbatim from moshi/greyscale-theme.json
+# "Greyscale (Koda Dark)"); yellow/blue/cyan slots are white/greys, red/green/magenta
+# carry koda accents, brights the full koda chromatic set.
+# Surfaces match moshi: bg #101010, fg #b0b0b0, selection #272727.
+# See themes/GREYSCALE.md → "Greyscale Moshi" and "Greyscale Moshi Light".
+# (previous all-grey ANSI table: git history of ghostty/config before 2026-09 light/dark split)
+
+palette = 0=#101010
+palette = 1=#ff7676
+palette = 2=#a3d6a3
+palette = 3=#ffffff
+palette = 4=#b3b3b3
+palette = 5=#f4b8e4
+palette = 6=#fafafa
+palette = 7=#a5a5a5
+palette = 8=#505050
+palette = 9=#ff5733
+palette = 10=#86cd82
+palette = 11=#d9ba73
+palette = 12=#ffffff
+palette = 13=#f2a4db
+palette = 14=#5abfb5
+palette = 15=#b5b5b5
+
+background = #101010
+foreground = #bbbbbb
+cursor-color = #b0b0b0
+cursor-text = #101010
+selection-background = #272727
+selection-foreground = #b0b0b0
+
+split-divider-color = #252525
+
+# delta diff washes inside lazygit (256-color slots 52 = removed, 235 = added).
+# The terminal resolves these, so they are per-appearance.
+palette = 52=#411F1D
+palette = 235=#17351E
+# Other greens I don't want to use but would work
+# palette = 235=#1E3319
+# palette = 235=#47552A

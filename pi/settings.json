@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.85.1",
-  "theme": "greyscale",
+  "lastChangelogVersion": "1.4.0",
+  "theme": "greyscale-light/greyscale",
   "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultModel": "deepseek-v4.1-flash",
   "defaultThinkingLevel": "max",
   "packages": [
     "npm:@kungfusaini/pi-plan-mode",
@@ -24,9 +24,18 @@
     "npm:pi-rewind",
     "npm:@howaboua/pi-codex-conversion",
     "npm:@juicesharp/rpiv-todo",
-    "git:github.com/earendil-works/pi-review"
+    "git:github.com/earendil-works/pi-review",
+    "npm:pi-btw",
+    "npm:pi-cursor-sdk"
+  ],
+  "_disabledPackages": [
+    "git:github.com/956MB/pi-jujutsu",
+    "npm:grok-pi"
   ],
   "hideThinkingBlock": false,
+  "piJujutsu": {
+    "showWidgetOnStart": false
+  },
   "enableInstallTelemetry": false,
   "enableAnalytics": false,
   "tokenSpeed": {

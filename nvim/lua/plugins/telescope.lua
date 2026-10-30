@@ -1,3 +1,5 @@
+-- [[ DISABLED: replaced by fff.nvim ]]
+
 local builtin = require 'telescope.builtin'
 
 local ignore_patterns = {

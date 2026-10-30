@@ -19,37 +19,8 @@
   "tools": {
     "nvim": {
       "file": "nvim/lua/plugins/colorscheme.lua",
-      "switch": "block",
-      "active": {
-        "kanso": {
-          "uncomment": [
-            "require('kanso').setup {",
-            "    theme = 'zen',",
-            "    background = {",
-            "        dark = 'zen',",
-            "    },",
-            "}",
-            "vim.cmd 'colorscheme kanso'"
-          ],
-          "comment_out": [
-            "vim.cmd 'colorscheme matteblack'"
-          ]
-        },
-        "matteblack": {
-          "uncomment": [
-            "vim.cmd 'colorscheme matteblack'"
-          ],
-          "comment_out": [
-            "require('kanso').setup {",
-            "    theme = 'zen',",
-            "    background = {",
-            "        dark = 'zen',",
-            "    },",
-            "}",
-            "vim.cmd 'colorscheme kanso'"
-          ]
-        }
-      }
+      "switch": "manual",
+      "note": "Appearance driven since 2026-09: the light/dark pair lives in the AUTO table of nvim/lua/config/appearance.lua (dark -> kanso, light -> koda-glade) and is applied after themery, so a persisted themery pick outside the pair pins the theme (state file: stdpath('data')/themery/state.json). nvim/lua/plugins/colorscheme.lua also overrides koda's light backgrounds to #ffffff via require('koda').setup { colors = { light = ..., glade = ... } } (repo rule: light mode background is pure white), which must stay before themery.setup. To move the repo default, edit the AUTO table."
     },
     "pi": {
       "file": "pi/settings.json",
@@ -57,8 +28,10 @@
       "key": "theme",
       "values": {
         "kanso": "kanso",
-        "matteblack": "matte-black"
-      }
+        "matteblack": "matte-black",
+        "greyscale": "greyscale-light/greyscale"
+      },
+      "note": "Values are pi theme settings. greyscale uses pi's light/dark pair format (light first): greyscale-light for light terminals, greyscale for dark. Pi picks by the terminal's reported background, so it follows ghostty on its own; a single name either side pins that theme for both appearances (kanso/matte-black have no light half yet)."
     },
     "opencode": {
       "file": "opencode/tui.json",
@@ -71,70 +44,8 @@
     },
     "ghostty": {
       "file": "ghostty/config",
-      "switch": "block",
-      "active": {
-        "kanso": {
-          "uncomment_block": {
-            "start_comment": "# Kanso Ink (previous theme — commented out, back up by uncommenting)",
-            "lines": [
-              "# palette = 0=#090E13",
-              "# palette = 1=#d45c55",
-              "# palette = 2=#799c66",
-              "# palette = 3=#d4b473",
-              "# palette = 4=#76abc3",
-              "# palette = 5=#a87ea9",
-              "# palette = 6=#7ab1ae",
-              "# palette = 7=#d6be70",
-              "# palette = 8=#9a9f9a",
-              "# palette = 9=#f05068",
-              "# palette = 10=#73b173",
-              "# palette = 11=#f1c065",
-              "# palette = 12=#69c3e1",
-              "# palette = 13=#a87cc4",
-              "# palette = 14=#65bcb0",
-              "# palette = 15=#c1c6c3",
-              "# background = #111111",
-              "# foreground = #c5c9c7",
-              "# cursor-color = #c5c9c7",
-              "# selection-background = #24262D",
-              "# selection-foreground = #c5c9c7"
-            ]
-          },
-          "comment_out_block": {
-            "start_line": "palette = 0=#333333",
-            "end_line": "selection-foreground = #eaeaea"
-          }
-        },
-        "matteblack": {
-          "uncomment_block": {
-            "start_comment": "# Matte Black (tahayvr/matte-black-theme) — warm repo palette (active)",
-            "lines": [
-              "palette = 0=#333333",
-              "palette = 1=#D35F5F",
-              "palette = 2=#FFC107",
-              "palette = 3=#B91C1C",
-              "palette = 4=#E68E0D",
-              "palette = 5=#D35F5F",
-              "palette = 6=#BEBEBE",
-              "palette = 7=#BEBEBE",
-              "palette = 8=#8A8A8D",
-              "palette = 9=#B91C1C",
-              "palette = 10=#FFC107",
-              "palette = 11=#B90A0A",
-              "palette = 12=#F59E0B",
-              "palette = 13=#B91C1C",
-              "palette = 14=#EAEAEA",
-              "palette = 15=#FFFFFF",
-              "background = #121212",
-              "foreground = #bebebe",
-              "cursor-color = #eaeaea",
-              "cursor-text = #121212",
-              "selection-background = #333333",
-              "selection-foreground = #eaeaea"
-            ]
-          }
-        }
-      }
+      "switch": "manual",
+      "note": "Colors moved out of ghostty/config (inline palette/background/foreground lines there override the theme) into the light/dark pair ghostty/themes/greyscale-moshi-dark and ghostty/themes/greyscale-moshi-light, selected by `theme = dark:greyscale-moshi-dark,light:greyscale-moshi-light` so Ghostty follows the OS appearance. To switch the whole theme, add a <theme>-dark / <theme>-light pair under ghostty/themes/ and point `theme` at it. The previous inline palettes (kanso ink, kanso zenghost, matte black, greyscale ramp variants) remain in ghostty/config as commented history, and 256-color slots 52/235 (delta washes for lazygit) now live in the theme files — per appearance."
     },
     "zellij": {
       "file": "zellij/config.kdl",
@@ -177,95 +88,18 @@
           "replace": "--theme=\"matte-black\""
         }
       },
-      "post_switch": "bat cache --build"
+      "post_switch": "bat cache --build",
+      "note": "Two greyscale themes live in bat's cache: greyscale (dark, koda-dark) and greyscale-light (light, koda-light on white). BAT_THEME wins over the --theme line in bat/config, and fish appearance_sync exports BAT_THEME=greyscale / greyscale-light from the OS appearance, so bat (and delta, which reads the same cache) flip automatically. At least one --theme line must stay uncommented as the fallback for non-fish launches. Run `bat cache --build` after editing any tmTheme."
     },
     "delta": {
       "file": ".gitconfig",
-      "switch": "replace_line",
-      "active": {
-        "kanso": {
-          "find": "syntax-theme = matte-black",
-          "replace": "syntax-theme = kanso"
-        },
-        "matteblack": {
-          "find": "syntax-theme = kanso",
-          "replace": "syntax-theme = matte-black"
-        }
-      }
+      "switch": "manual",
+      "note": "Appearance driven since 2026-09. [delta] activates features = greyscale; the dark half lives in [delta \"greyscale\"] (syntax-theme = greyscale + deep matte-black washes) and the light half in [delta \"greyscale-light\"] (syntax-theme = greyscale-light, pale washes, light = true). fish appearance_sync exports DELTA_FEATURES=greyscale-light in light mode, and delta applies environment features AFTER git-config features, so the light half wins without touching the file. Never pass --syntax-theme on a command line (the lazygit pager was changed to `delta --paging=never` for this reason) - a CLI value overrides both halves. To switch the repo to another theme: create <theme>{,-light}.tmTheme in delta/themes + bat/themes, point the two feature blocks at them, rebuild the bat cache, and give the light feature its own washes."
     },
     "lazygit": {
       "file": "lazygit/config.yml",
-      "switch": "block",
-      "active": {
-        "kanso": {
-          "uncomment_block": {
-            "start_comment": "# previous kanso colors (switch back: uncomment these, comment the matte-black values below)",
-            "lines": [
-              "# activeBorderColor:",
-              "#   - '#7c98c7'",
-              "#   - bold",
-              "# inactiveBorderColor:",
-              "#   - '#868686'",
-              "# optionsTextColor:",
-              "#   - '#cb7f4f'",
-              "# selectedLineBgColor:",
-              "#   - '#52596a'",
-              "# cherryPickedCommitBgColor:",
-              "#   - '#111111' # keeping dark background",
-              "# cherryPickedCommitFgColor:",
-              "#   - '#a784ab'",
-              "# unstagedChangesColor:",
-              "#   - '#e03c30'",
-              "# defaultFgColor:",
-              "#   - '#CDCDCD'",
-              "# searchingActiveBorderColor:",
-              "#   - '#7ab0a8'"
-            ]
-          },
-          "comment_out_block": {
-            "start_line": "    # matte-black (tahayvr/matte-black-theme)",
-            "end_line": "      - '#F59E0B'"
-          },
-          "replace_lines": {
-            "# command: delta --syntax-theme \"kanso\"  --paging=never": "command: delta --syntax-theme \"kanso\" --paging=never",
-            "command: delta --syntax-theme \"matte-black\" --paging=never": "# command: delta --syntax-theme \"matte-black\" --paging=never"
-          }
-        },
-        "matteblack": {
-          "comment_out_block": {
-            "start_line": "    # previous kanso colors (switch back: uncomment these, comment the matte-black values below)",
-            "end_line": "    #   - '#7ab0a8'"
-          },
-          "uncomment_block": {
-            "start_comment": "    # matte-black (tahayvr/matte-black-theme)",
-            "lines": [
-              "    activeBorderColor:",
-              "      - '#F59E0B'",
-              "      - bold",
-              "    inactiveBorderColor:",
-              "      - '#8A8A8D'",
-              "    optionsTextColor:",
-              "      - '#D97706'",
-              "    selectedLineBgColor:",
-              "      - '#333333'",
-              "    cherryPickedCommitBgColor:",
-              "      - '#0D0D0D' # keeping dark background",
-              "    cherryPickedCommitFgColor:",
-              "      - '#10B981'",
-              "    unstagedChangesColor:",
-              "      - '#DC2626'",
-              "    defaultFgColor:",
-              "      - '#EAEAEA'",
-              "    searchingActiveBorderColor:",
-              "      - '#F59E0B'"
-            ]
-          },
-          "replace_lines": {
-            "# command: delta --syntax-theme \"kanso\"  --paging=never": "# command: delta --syntax-theme \"kanso\"  --paging=never",
-            "command: delta --syntax-theme \"matte-black\" --paging=never": "command: delta --syntax-theme \"matte-black\" --paging=never"
-          }
-        }
-      }
+      "switch": "manual",
+      "note": "lazygit 0.64 has no per-appearance theme variants, so light mode is a second config file: lazygit/greyscale-light.yml holds the koda-light gui.theme + authorColors overrides and fish appearance_sync sets LG_CONFIG_FILE=\".../lazygit/config.yml,.../lazygit/greyscale-light.yml\" in light mode (dark mode: LG_CONFIG_FILE=\".../lazygit/config.yml\"). Values for both halves are in themes/GREYSCALE.md -> \"lazygit light half\". The delta pager command carries no --syntax-theme so the inherited BAT_THEME/DELTA_FEATURES decide the diff colors. Non-fish launches fall back to the dark UI."
     },
     "yazi": {
       "file": "yazi/theme.toml",
@@ -289,17 +123,40 @@
     "herdr": {
       "file": "herdr/config.toml",
       "switch": "manual",
-      "note": "herdr has [theme.custom] with ~12 color values and [ui] accent. Kanso values are partially commented (panel/surface lines are uncommented but colors are commented). Matte-black is the reverse. See the file for the exact commented/uncommented state."
+      "note": "Appearance driven since 2026-09. [theme] auto_switch = true with dark_name = \"catppuccin\" and light_name = \"catppuccin-latte\"; herdr swaps the base theme on the host terminal's light/dark notification and layers [theme.custom] (shared values, dark era) plus [theme.custom.light] on top. To switch the repo theme, rewrite the shared [theme.custom] block and give [theme.custom.light] a matching light half (see themes/GREYSCALE.md -> 'herdr light block'); the kanso and matte-black values stay commented in place. Validate with `herdr config check`. Old behaviour: a single hardcoded [theme.custom] block, no appearance switching."
     },
     "starship": {
       "file": "starship/starship.toml",
       "switch": "none",
-      "note": "starship git segment uses truecolor escapes (palette-independent). No changes needed when switching themes."
+      "note": "Colors are ANSI slot names since 2026-09 (red 1 status/error, bright-cyan 14 success/time, purple 5 directory/bun, bright-yellow 11 branch/zig, white 7 neutral wrapper), so the prompt follows the terminal palette and flips with ghostty's light/dark pair — no per-theme edit needed. Fixed hexes and the truecolor escapes in the (disabled) custom.git_changes awk script were removed because they were invisible on light backgrounds (#8ebeec 2.0:1, #ff7676 2.7:1 on white). Switching to a theme with a different ANSI palette needs no change here; only reintroducing a hex would break light/dark following."
     },
     "moshi": {
       "file": null,
       "switch": "manual",
       "note": "Moshi (iOS terminal) requires manual import: Settings → Theme → Import theme → paste contents of moshi/<theme>-theme.json"
     }
+  },
+  "appearance": {
+    "note": "Tools that follow the OS light/dark appearance, and how. bat/delta/lazygit follow only inside fish shells (the env vars come from fish/functions/appearance_sync.fish); elsewhere they fall back to their dark halves. dark_only tools are single-theme until they get a light half. The bat/delta theme names and the lazygit override file are hardcoded in fish/functions/appearance_sync.fish — update them there when switching the repo theme, together with the [delta \"…\"] feature blocks and lazygit's light override file.",
+    "follows": {
+      "ghostty": "theme = dark:greyscale-moshi-dark,light:greyscale-moshi-light (ghostty/themes/)",
+      "nvim": "config/appearance.lua AUTO pair: dark kanso / light koda-glade, polled + FocusGained",
+      "pi": "settings.json theme \"<light>/<dark>\" pair; pi reads the terminal background",
+      "herdr": "[theme] auto_switch + dark_name/light_name + [theme.custom.light]",
+      "zed": "settings.json theme.mode = \"system\" (light slot: VSCode Light+)",
+      "starship": "ANSI slot names only (red/bright-cyan/purple/bright-yellow/white), so the prompt inherits the active ghostty half",
+      "delta": "DELTA_FEATURES=greyscale-light (fish appearance_sync) overrides the [delta \"greyscale\"] feature; no --syntax-theme on any command line",
+      "bat": "BAT_THEME=greyscale-light from fish appearance_sync; bat/config --theme stays as the fallback",
+      "lazygit": "LG_CONFIG_FILE adds lazygit/greyscale-light.yml in light mode (own UI) + inherited delta env"
+    },
+    "dark_only": {
+      "btop": "single color_theme file",
+      "zellij": "single theme kdl",
+      "yazi": "single flavor, dark = \"greyscale\"",
+      "opencode": "single tui.json theme",
+      "hunk": "single [custom_theme] block",
+      "moshi": "iOS import, dark JSON only"
+    },
+    "repo_rule": "Light mode: every main background (panel, sidebar, surfaces, panes, tab bar, terminal) is pure white #ffffff. The only non-white colors are diff boxes (add/remove/change washes) and selection highlights (selected tab/workspace/agent row, cursor row, text selection, borders). Upstream koda light backgrounds (#faf9f5, glade #f7f7f7) are overridden in the ports, never patched in the koda.nvim submodule."
   }
 }

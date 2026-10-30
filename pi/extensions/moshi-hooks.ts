@@ -8,8 +8,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent"
 import { createConnection } from "node:net"
 import { homedir } from "node:os"
-import { join as pathJoin } from "node:path"
-import { closeSync, openSync, readSync } from "node:fs"
+import { isAbsolute, join as pathJoin } from "node:path"
+import { closeSync, openSync, readFileSync, readSync } from "node:fs"
 import { spawnSync } from "node:child_process"
 
 // Kept for debugging / manual replay through the CLI adapter above.
@@ -41,21 +41,68 @@ function resolveSocketPath(): string {
 // (so the daemon does not log broken pipes), close. Every failure resolves
 // silently — hooks must never interrupt the user's Pi turn when
 // Moshi is absent.
+//
+// Envelopes go out one at a time, in order. The daemon handles connections
+// concurrently, so a resolution on its own connection could otherwise land
+// before the prompt it resolves. It writes session state first and acks
+// after its other work, so a connection still unacked after sendTimeoutMs is
+// let go: a stuck daemon cannot hold back the rest, and the few envelopes
+// queued at shutdown still drain within the second OMP waits for them.
+const inFlightSends = new Set<Promise<void>>()
+const sendTimeoutMs = 250
+let sendQueue: Promise<void> = Promise.resolve()
+
 function sendEnvelope(envelope: Record<string, unknown>): void {
-  try {
-    const sock = createConnection({ path: resolveSocketPath() })
-    sock.setNoDelay(true)
-    sock.on("error", () => {
-      try {
-        sock.destroy()
-      } catch {}
+  const done = sendQueue.then(() => deliverEnvelope(envelope))
+  sendQueue = done
+  inFlightSends.add(done)
+  done.then(() => inFlightSends.delete(done))
+}
+
+function deliverEnvelope(envelope: Record<string, unknown>): Promise<void> {
+  return new Promise<void>((resolve) => {
+    try {
+      const sock = createConnection({ path: resolveSocketPath() })
+      const timer = setTimeout(() => {
+        try {
+          sock.destroy()
+        } catch {}
+        resolve()
+      }, sendTimeoutMs)
+      sock.once("close", () => {
+        clearTimeout(timer)
+        resolve()
+      })
+      sock.setNoDelay(true)
+      sock.on("error", () => {
+        try {
+          sock.destroy()
+        } catch {}
+      })
+      sock.once("connect", () => {
+        sock.write(JSON.stringify(envelope) + "\n")
+        sock.end()
+      })
+      sock.on("data", () => {})
+    } catch {
+      resolve()
+    }
+  })
+}
+
+// flushSends resolves once every queued envelope has reached the daemon (or
+// failed), capped at timeoutMs. Returned from session_shutdown, which the host
+// awaits before exiting — without it the process exits before the socket even
+// connects and the session never ends in Moshi.
+function flushSends(timeoutMs: number): Promise<void> {
+  if (inFlightSends.size === 0) return Promise.resolve()
+  return new Promise<void>((resolve) => {
+    const timer = setTimeout(resolve, timeoutMs)
+    Promise.all([...inFlightSends]).then(() => {
+      clearTimeout(timer)
+      resolve()
     })
-    sock.once("connect", () => {
-      sock.write(JSON.stringify(envelope) + "\n")
-      sock.end()
-    })
-    sock.on("data", () => {})
-  } catch {}
+  })
 }
 
 interface TerminalContext {
@@ -72,7 +119,12 @@ interface TerminalContext {
   herdrWorkspace: string
   herdrTabId: string
   herdrTab: string
+  muxEnv: Record<string, string>
 }
+
+// Variables the daemon's mux drivers detect panes from; rendered by the
+// installer from internal/mux's registry.
+const muxEnvKeys: string[] = ["REX_BLOCK","REX_SERVER","REX_SESSION","TERN_PANE","TERN_PANE_SOCKET","TERN_WINDOW_KEY","TUIOS_ENV","TUIOS_PANE_ID","TUIOS_SESSION","TUIOS_SOCKET","TUIOS_WINDOW_ID"]
 
 function runForOutput(command: string, args: string[], timeout: number): string {
   try {
@@ -122,7 +174,15 @@ function resolveTerminalContext(): TerminalContext {
   if (tmuxSession) terminalKind = "tmux"
   else if (process.env.HERDR_ENV === "1") terminalKind = "herdr"
   else if (process.env.ZELLIJ || zellijSession || zellijPane) terminalKind = "zellij"
+  // Mux-driver panes (tern, TUIOS, …) are detected daemon-side from these
+  // variables (internal/mux), so a new driver needs no change here.
+  const muxEnv: Record<string, string> = {}
+  for (const key of muxEnvKeys) {
+    const value = process.env[key]
+    if (value) muxEnv[key] = value
+  }
   return {
+    muxEnv,
     terminalKind,
     tmuxSession,
     tmuxWindow,
@@ -376,15 +436,21 @@ function recordTaskCompletion(state: SessionState, signature: string, now: numbe
   return true
 }
 
-// Pi's versioned SessionHeader writes parentSession(-Id) when a session was
+// Pi's (and OmO's senpi fork's) versioned SessionHeader writes parentSession(-Id) when a session was
 // created by fork/clone/newSession with lineage; child sessions stay out of
 // the inbox. Lineage cannot change for a live transcript, so a successful
 // read is cached per path; an unreadable or half-written header is retried
 // on the next event.
 const transcriptChildCache = new Map<string, boolean>()
 
+//
+// OMP's header is no such signal (its main-session handoffs carry a parent
+// too), but since 18.3.2 ctx.agent.kind names subagent sessions directly.
+// They never fire session_stop, so a forwarded prompt would stay in flight
+// forever.
 function sessionIsChild(state: SessionState, payload: HookPayload): boolean {
-  if (agentSource !== "pi") return false
+  if (agentSource === "omp") return payload.agent_kind === "sub"
+  if (agentSource !== "pi" && agentSource !== "omo") return false
   const path = payload.transcript_path || state.transcriptPath
   if (!path) return false
   const cached = transcriptChildCache.get(path)
@@ -425,6 +491,7 @@ interface HookPayload {
   cwd: string
   model: string
   context_remaining: number | undefined
+  agent_kind: string
   [key: string]: unknown
 }
 
@@ -437,6 +504,7 @@ function baseEnvelope(payload: HookPayload, sessionId: string, eventName: string
     cwd: payload.cwd,
     projectName: projectNameForCwd(payload.cwd),
     terminalKind: terminalContext.terminalKind,
+    muxEnv: terminalContext.muxEnv,
     tmuxSession: terminalContext.tmuxSession,
     tmuxWindow: terminalContext.tmuxWindow,
     tmuxPane: terminalContext.tmuxPane,
@@ -467,6 +535,11 @@ function handleEvent(payload: HookPayload): void {
   const isChild = sessionIsChild(state, payload)
   switch (payload.hook_event_name) {
     case "SessionStart": {
+      // OMP subagents run in the parent process and inherit its pane; their
+      // start would repoint the pane at a session whose transcript the
+      // daemon cannot serve. Pi/OmO lineage children are user-driven forks
+      // that do take over the pane, so they still announce themselves.
+      if (isChild && agentSource === "omp") return
       if (payload.model) state.model = payload.model
       if (payload.transcript_path) state.transcriptPath = payload.transcript_path
       state.sessionStartTime = nowSeconds()
@@ -510,6 +583,9 @@ function handleEvent(payload: HookPayload): void {
       // Pi owns the approval prompt and decision. Moshi mirrors
       // the waiting state; with a verified terminal target the daemon's TUI
       // bridge can send the user's remote decision into the native prompt.
+      // OMP subagents are headless: OMP settles their approvals itself and
+      // nothing is drawn in the inherited parent pane to answer.
+      if (isChild && agentSource === "omp") return
       const toolName = firstString(payload.tool_name)
       state.lastToolName = toolName
       const title = agentDisplayName + " needs approval"
@@ -525,9 +601,73 @@ function handleEvent(payload: HookPayload): void {
       sendEnvelope(envelope)
       return
     }
+    case "PlanReview": {
+      // The native plan review is open. The plan rides along as the Chat
+      // View card; without an action id no approval bar opens.
+      if (isChild) return
+      const plan = firstString(payload.plan)
+      if (!plan) return
+      const title = "Review " + agentDisplayName + "'s plan"
+      const prompt: Record<string, unknown> = { kind: "plan", plan }
+      const toolUseId = firstString(payload.tool_use_id)
+      if (toolUseId) prompt.toolUseId = toolUseId
+      const planFilePath = firstString(payload.plan_file_path)
+      if (planFilePath) prompt.planFilePath = planFilePath
+      const envelope = baseEnvelope(payload, sessionId, "PlanReview")
+      envelope.category = "approval_required"
+      envelope.toolName = "exit_plan_mode"
+      envelope.title = title
+      envelope.subtitle = "Answer in terminal"
+      envelope.message = plainTextClip(planSummary(plan), 256)
+      envelope.interactivePrompt = prompt
+      state.lastToolName = "exit_plan_mode"
+      state.lastEventTitle = title
+      sendEnvelope(envelope)
+      return
+    }
+    case "QuestionAsked": {
+      // The native Ask dialog is open. Its questions ride along as the Chat
+      // View card; without an action id no approval bar opens.
+      if (isChild) return
+      const questions = askQuestions(payload.tool_input)
+      if (questions.length === 0) return
+      const title = agentDisplayName + " has a question"
+      const prompt: Record<string, unknown> = { kind: "question", questions }
+      const toolUseId = firstString(payload.tool_use_id)
+      if (toolUseId) prompt.toolUseId = toolUseId
+      const envelope = baseEnvelope(payload, sessionId, "QuestionAsked")
+      envelope.category = "approval_required"
+      envelope.toolName = "ask"
+      envelope.title = title
+      envelope.subtitle = "Answer in terminal"
+      envelope.message = plainTextClip(firstString(questions[0].question), 256)
+      envelope.interactivePrompt = prompt
+      state.lastToolName = "ask"
+      state.lastEventTitle = title
+      sendEnvelope(envelope)
+      return
+    }
+    case "PlanResolved":
+      // Category-less: the daemon retires the plan card and publishes nothing.
+      sendEnvelope(baseEnvelope(payload, sessionId, "PlanResolved"))
+      return
+    case "QuestionResolved": {
+      // Category-less: the daemon retires this ask's card, and only it, and
+      // publishes nothing. Its toolUseId keeps a resolution handled before
+      // its question from leaving that question pending.
+      const envelope = baseEnvelope(payload, sessionId, "QuestionResolved")
+      const toolUseId = firstString(payload.tool_use_id)
+      if (toolUseId) envelope.interactivePrompt = { kind: "question", toolUseId }
+      sendEnvelope(envelope)
+      return
+    }
     case "PermissionResolved": {
+      if (isChild && agentSource === "omp") return
       const title = agentDisplayName + " resumed"
       const envelope = baseEnvelope(payload, sessionId, "PermissionResolved")
+      // The daemon closes the open approval card by its action id.
+      const actionId = firstString(payload.tool_use_id)
+      if (actionId) envelope.actionId = actionId
       envelope.category = "session_started"
       envelope.title = title
       envelope.message = formatUserPromptDetail(state.lastUserPrompt)
@@ -555,6 +695,82 @@ function handleEvent(payload: HookPayload): void {
   }
 }
 
+// askQuestions is the in-module port of interactivePromptQuestions in
+// internal/cli/hook_interactive_prompt.go, over OMP's ask arguments.
+function askQuestions(input: unknown): Array<Record<string, unknown>> {
+  const record = input && typeof input === "object" ? input as Record<string, unknown> : {}
+  const out: Array<Record<string, unknown>> = []
+  for (const item of Array.isArray(record.questions) ? record.questions : []) {
+    if (!item || typeof item !== "object") continue
+    const q = item as Record<string, unknown>
+    const question = firstString(q.question)
+    if (!question) continue
+    const options: Array<Record<string, unknown>> = []
+    let hasPreview = false
+    for (const option of Array.isArray(q.options) ? q.options : []) {
+      if (!option || typeof option !== "object") continue
+      const o = option as Record<string, unknown>
+      const label = firstString(o.label)
+      if (!label) continue
+      options.push({ label, description: firstString(o.description) })
+      if (firstString(o.preview)) hasPreview = true
+    }
+    const entry: Record<string, unknown> = {
+      header: firstString(q.header),
+      question,
+      multiSelect: q.multiSelect === true || q.multi_select === true || q.multi === true || q.multiple === true,
+      options,
+    }
+    if (hasPreview) entry.hasPreview = true
+    const id = firstString(q.id)
+    if (id) entry.id = id
+    const recommended = q.recommended
+    if (typeof recommended === "number" && Number.isInteger(recommended) && recommended >= 0 && recommended < options.length) {
+      entry.recommendedIndex = recommended
+    }
+    out.push(entry)
+  }
+  return out
+}
+
+// planFileOnDisk resolves OMP's plan path: local:// lives under the session's
+// artifacts directory (the transcript path without .jsonl); anything else is
+// relative to the session cwd.
+function planFileOnDisk(planFilePath: string, ctx: Record<string, unknown>): string {
+  if (!planFilePath) return ""
+  const localPrefix = "local://"
+  if (!planFilePath.startsWith(localPrefix)) {
+    return isAbsolute(planFilePath) ? planFilePath : pathJoin(firstString(ctx.cwd as string, process.cwd()), planFilePath)
+  }
+  const sessionManager = ctx.sessionManager as Record<string, unknown> | undefined
+  let artifactsDir = ""
+  const getArtifactsDir = sessionManager?.getArtifactsDir
+  if (typeof getArtifactsDir === "function") {
+    try {
+      artifactsDir = String(getArtifactsDir.call(sessionManager) ?? "")
+    } catch {}
+  }
+  if (!artifactsDir) {
+    const transcript = transcriptPath(ctx)
+    if (transcript.endsWith(".jsonl")) artifactsDir = transcript.slice(0, -".jsonl".length)
+  }
+  return artifactsDir ? pathJoin(artifactsDir, "local", planFilePath.slice(localPrefix.length)) : ""
+}
+
+// planSummary is the plan's first prose line, for the inbox row.
+function planSummary(plan: string): string {
+  for (const line of plan.split("\n")) {
+    const text = line.replace(/^[#>*\-\s]+/, "").trim()
+    if (text) return text
+  }
+  return ""
+}
+
+function agentKind(ctx: Record<string, unknown>): string {
+  const agent = ctx.agent && typeof ctx.agent === "object" ? ctx.agent as Record<string, unknown> : {}
+  return firstString(agent.kind)
+}
+
 function send(eventName: string, event: unknown, ctx: unknown, extra: Record<string, unknown> = {}) {
   const eventObj = event && typeof event === "object" ? event as Record<string, unknown> : {}
   const ctxObj = ctx && typeof ctx === "object" ? ctx as Record<string, unknown> : {}
@@ -565,6 +781,7 @@ function send(eventName: string, event: unknown, ctx: unknown, extra: Record<str
     cwd: firstString(ctxObj.cwd as string, process.cwd()),
     model: modelLabel(ctxObj.model),
     context_remaining: contextRemaining(ctxObj),
+    agent_kind: agentKind(ctxObj),
     ...extra,
   }
 
@@ -610,7 +827,10 @@ export default function moshiPiHook(pi: ExtensionAPI): void {
 
 
 
+
+
   pi.on("session_shutdown", (event, ctx) => {
     send("SessionEnd", event, ctx)
+    return flushSends(1000)
   })
 }

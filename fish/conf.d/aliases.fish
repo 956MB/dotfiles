@@ -141,4 +141,3 @@ alias jpushc='jj git push --change @'   # Push the working-copy change (creates 
 alias jss='jj st'                       # Show the working-copy status
 alias jwho="jj log -r 'latest(::, 20)' --no-graph -T 'author.name() ++ \"\\n\"' | sort | uniq -c | sort -rn | head"  # Show top contributors
 alias jcnt='jj file list | wc -l'       # Count number of files tracked in the repository
-alias jui='jjui'                        # Open jjui interface (go-to VCS TUI)
