@@ -86,6 +86,7 @@ core.*
 .npmrc
 .pypirc
 auth.json
+opencode/service.json
 known_hosts
 known_hosts.old
 hosts

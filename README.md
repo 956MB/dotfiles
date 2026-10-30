@@ -302,28 +302,6 @@ hj # -> herdr --session <cwd>
 
 <sup>Renames the current directory and stays inside it.</sup>
 
-[ocw.fish](./fish/functions/ocw.fish)
-
-<sup>Manage the persistent opencode web service (launchd + Tailscale).</sup>
-
-```ruby
-ocw        # show status
-ocw start  # kickstart the service
-ocw stop   # SIGTERM the service
-ocw log    # tail both log files
-ocw url    # print Tailscale URL
-ocw install|uninstall|enable|disable|restart
-```
-
-[opc.fish](./fish/functions/opc.fish)
-
-<sup>Attach the opencode TUI to the running web service on `localhost:4096`. Reads password from Keychain. Accepts an optional session name.</sup>
-
-```ruby
-opc          # attach to current dir
-opc my-sess  # attach to a named session
-```
-
 [psd-sizes.fish](./fish/functions/psd-sizes.fish)
 
 <sup>Finds all `.psd` files recursively and prints their sizes in MB/GB with a total.</sup>
