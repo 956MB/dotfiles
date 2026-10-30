@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Launch the Mac coordinator; Fedora commands travel through Rex, not SSH.
+set -euo pipefail
+
+main() {
+    if [ "$(uname -s)" != Darwin ]; then
+        printf 'Run this coordinator on the Mac Studio, not Fedora.\n' >&2
+        exit 1
+    fi
+    local repo skill
+    repo="$HOME/dotfiles"
+    skill="$repo/opencode/skills/rex-sync-dotfiles/SKILL.md"
+    test -f "$skill" || { printf 'Missing skill: %s\n' "$skill" >&2; exit 1; }
+    command -v rex >/dev/null
+    command -v pi >/dev/null
+    cd "$repo"
+    exec pi --skill "$skill" "$@" 'Read and follow the rex-sync-dotfiles skill. Coordinate the Mac-to-Fedora dotfiles sync through Rex now. Inspect first; stop for approval at the documented safety gates. Do not launch another coordinator.'
+}
+
+main "$@"

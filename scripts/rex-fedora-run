@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""Run one Fedora command via Rex; capture its output and close only its tab."""
+
+import json
+import subprocess
+import sys
+
+
+def rex(*args):
+    return subprocess.run(["rex", "-S", "fedora", *args], capture_output=True, text=True, check=False)
+
+
+def windows(session):
+    inspected = rex("session", "inspect", session, "--json")
+    if inspected.returncode:
+        raise RuntimeError(inspected.stderr.strip())
+    return json.loads(inspected.stdout)["windows"]
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python3 scripts/rex-fedora-run COMMAND [ARG ...]", file=sys.stderr)
+        return 2
+
+    listing = rex("ls", "--json")
+    if listing.returncode:
+        print(listing.stderr, file=sys.stderr, end="")
+        return listing.returncode
+    matches = [s for s in json.loads(listing.stdout)["sessions"] if s["label"] == "dotfiles"]
+    if len(matches) != 1:
+        print(f"Expected one Fedora dotfiles session; found {len(matches)}", file=sys.stderr)
+        return 1
+
+    session = matches[0]["session_id"]
+    try:
+        before = {w["window_id"] for w in windows(session)}
+    except (RuntimeError, ValueError, KeyError) as exc:
+        print(f"Cannot inspect Fedora tabs: {exc}", file=sys.stderr)
+        return 1
+    window = None
+    result = 1
+    try:
+        run = rex("run", "-s", session, "--label", "dotfiles-sync-temp", "--keep-open", "--focus=false", "--json", "--wait", "--", *sys.argv[1:])
+        # Rex emits the creation JSON even when the child exits nonzero.
+        try:
+            window = json.loads(run.stdout)["window_id"]
+            block = json.loads(run.stdout)["block_ids"][0]
+        except (ValueError, KeyError, IndexError, TypeError):
+            print("Rex did not return a tab ID; inspect the Fedora dotfiles session before retrying.", file=sys.stderr)
+            print(run.stderr, file=sys.stderr, end="")
+            result = 1
+            return result
+
+        capture = rex("capture", "-s", session, "-b", block, "--trim", "--unwrap")
+        if capture.stdout:
+            print(capture.stdout, end="")
+        if capture.stderr:
+            print(capture.stderr, file=sys.stderr, end="")
+        if run.stderr:
+            print(run.stderr, file=sys.stderr, end="")
+        result = run.returncode if run.returncode else capture.returncode
+    finally:
+        if not window:
+            try:
+                created = [w for w in windows(session) if w["window_id"] not in before
+                           and any(b.get("label") == "dotfiles-sync-temp"
+                                   for layer in w["layers"] for b in layer.get("blocks", []))]
+                if len(created) == 1:
+                    window = created[0]["window_id"]
+                elif created:
+                    print(f"Could not identify a unique sync tab: {[w['window_id'] for w in created]}", file=sys.stderr)
+            except (RuntimeError, ValueError, KeyError) as exc:
+                print(f"Could not check for orphaned sync tabs: {exc}", file=sys.stderr)
+        if window:
+            close = rex("window", "close", "-s", session, window)
+            if close.returncode:
+                print(f"Failed to close Fedora sync tab {window}: {close.stderr.strip()}", file=sys.stderr)
+                result = 1
+    return result
+
+
+if __name__ == "__main__":
+    sys.exit(main())
